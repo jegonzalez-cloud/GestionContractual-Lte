@@ -1,0 +1,30 @@
+#intro {
+    background-image: url('src/assets/img/bgfull.jpg');
+    height: 100vh;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat !important;
+    background-size: cover;
+    min-width: 100%;
+}
+/* Height for devices larger than 576px */
+
+@media (min-width: 992px) {
+    #intro {}
+}
+
+.navbar .nav-link {
+    color: #fff !important;
+}
+
+.modal-login {
+    /* float: center; */
+    position: absolute;
+    left: 32%;
+    right: 32%;
+    top: 30%;
+}
+
+.bg {
+    background-color: beige !important;
+}

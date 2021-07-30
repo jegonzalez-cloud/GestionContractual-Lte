@@ -1,0 +1,20 @@
+#background-home {
+    /* background-image: url('src/assets/img/contracts.jpg'); */
+    background-color: gray;
+    background-size: cover;
+    /* min-width: 90%; */
+}
+
+/* Height for devices larger than 576px */
+
+@media (min-width: 992px) {
+    #intro {}
+}
+
+.colorLabels{
+
+}
+
+.cursor{
+    cursor: pointer;
+}
