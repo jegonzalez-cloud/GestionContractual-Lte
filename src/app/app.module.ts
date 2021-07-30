@@ -13,11 +13,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { EffectsArray } from './store/effects';
 import { AppRoutingModule } from './app-routing.module';
 import { LayoutModule } from './layout/layout/layout.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    SharedModule,
     AppRoutingModule,
     NgbModule,
     FormsModule,

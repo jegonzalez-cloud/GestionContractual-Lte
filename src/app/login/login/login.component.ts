@@ -179,7 +179,7 @@ export class LoginComponent implements OnInit {
     }, 700);
 
     setTimeout(() => {
-      console.log(this.usuarios.values.prototype);
+      //console.log(this.usuarios.values.prototype);
       if (this.usuarios.length === 0) {
         // Swal.fire({
         //   title: 'Warning!',
