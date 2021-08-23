@@ -1,28 +1,39 @@
 import { NgModule } from '@angular/core';
+import { ProcessComponent } from './process/process.component';
+import { PagesComponent } from './pages.component';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { LayoutComponent } from './layout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LayoutRoutingModule } from './layout-routing.module';
+import { PagesRoutingModule } from './pages-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DataTablesModule } from "angular-datatables";
 import { NgxCurrencyModule } from "ngx-currency";
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [LayoutComponent],
+  declarations: [
+    ProcessComponent,
+    PagesComponent
+  ],
   imports: [
     CommonModule,
     NgbModule,
     NgxCurrencyModule,
     NgxPaginationModule,
-    LayoutRoutingModule,
+    PagesRoutingModule,
+//     TranslateModule,
+    TranslateModule.forChild(),
+//     RouterModule.forChild(),
     FormsModule,
+    RouterModule,
     ReactiveFormsModule,
     SharedModule,
     DataTablesModule
   ],
-  exports:[NgbModule],
+  exports:[NgbModule,TranslateModule],
   providers:[CurrencyPipe]
 })
-export class LayoutModule {}
+
+export class PagesModule { }

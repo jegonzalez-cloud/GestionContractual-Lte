@@ -15,4 +15,4 @@ export const cargarUsuariosError = createAction(
     '[Usuarios] Cargar Usuarios Error',
     props<{ payload: any }>()
   );
-  
+

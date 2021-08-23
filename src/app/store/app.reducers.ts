@@ -5,11 +5,13 @@ import * as reducers from './reducers';
 export interface AppState{
     usuarios: reducers.UsuariosState,
     token:reducers.TokenState,
-    entidades:reducers.EntidadesState
+    entidades:reducers.EntidadesState,   
+    idioma: reducers.IdiomaState
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
     usuarios: reducers.UsuarioReducer,
     token: reducers.TokenReducer,
-    entidades: reducers.EntidadesReducer
+    entidades: reducers.EntidadesReducer,    
+    idioma:reducers.IdiomaReducer
 };

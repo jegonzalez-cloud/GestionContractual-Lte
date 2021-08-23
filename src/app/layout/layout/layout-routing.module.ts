@@ -8,6 +8,15 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../../pages/pages.module').then(
+                (m) => m.PagesModule
+              ),
+          },
+        ],
     // children: [
     //   {
     //     path: 'administration-ci',
@@ -18,7 +27,7 @@ const routes: Routes = [
     //   },
     // ]
   },
-  // { path: 'login', component: LoginComponent },
+//   { path: 'login', component: LoginComponent },
 ];
 
 @NgModule({

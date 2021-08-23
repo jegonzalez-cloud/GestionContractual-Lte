@@ -11,7 +11,8 @@ import { Subscription } from 'rxjs';
 import { CredentialsModel } from 'src/app/models/credentials/credentials.model';
 import { Router } from '@angular/router';
 import { EntidadesModel } from 'src/app/models/entidades/entidades.model';
-import { cargarEntidades } from '../../store/actions';
+import { cargarEntidades, cargarIdioma } from '../../store/actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,15 @@ export class LoginComponent implements OnInit {
   usuarios: UserModel[] = [];
   token: TokenModel = { Token: '', Status: '' };
   entidades: EntidadesModel[] = [
-    { usuario: '', documento: '', entidad: '', equipo: '', unidad: '' },
+    {
+      usuario: '',
+      documento: '',
+      entidad: '',
+      equipo: '',
+      unidad: '',
+      tipoEntidad: '',
+      codigoEntidad: '',
+    },
   ];
   //LOADING
   loadingUsuarios: boolean = false;
@@ -40,11 +49,13 @@ export class LoginComponent implements OnInit {
   errorEntidades: any;
 
   tokenSubscription!: Subscription;
+  usuarioSubscription!: Subscription;
+  entidadesSubscription!: Subscription;
 
   constructor(
-    private router:Router,
+    private translate: TranslateService,
+    private router: Router,
     private fb: FormBuilder,
-    private service: ServicesService,
     private store: Store<AppState>
   ) {}
 
@@ -60,45 +71,81 @@ export class LoginComponent implements OnInit {
         this.loadingToken = loading;
         this.errorToken = error;
       });
-    this.store.select('usuarios').subscribe(({ users, loading, error }) => {
-      this.usuarios = users;
-      this.loadingUsuarios = loading;
-      this.errorUsuarios = error;
-    });
-    this.store
+    this.usuarioSubscription = this.store
+      .select('usuarios')
+      .subscribe(({ users, loading, error }) => {
+        // let x = new UserModel(users);
+        console.log(users);
+        // this.usuarios = new UserModel(users);
+        this.usuarios = users;
+        this.loadingUsuarios = loading;
+        this.errorUsuarios = error;
+      });
+    this.entidadesSubscription = this.store
       .select('entidades')
       .subscribe(({ entidades, loading, error }) => {
         this.entidades = entidades;
         this.loadingEntidades = loading;
         this.errorEntidades = error;
       });
-  }
-
-  setEntity(value: any) {
-    this.entityValue = value;
+    this.store.select('idioma').subscribe(({ idioma }) => {
+      this.translate.use(idioma);
+    });
   }
 
   BuscarEntidades() {
     if (this.loginForm.invalid) {
       return;
     }
-    const { usuario } = this.loginForm.value;
-    console.log(this.usuarios.values)
-    this.store.dispatch(cargarEntidades({ data: usuario }));
+    const { usuario, password } = this.loginForm.value;
+
+    this.store.dispatch(cargarEntidades({ username: btoa(usuario), password:btoa(password) }));
 
     setTimeout(() => {
+      //console.log(this.entidades);
+      let jsonString = JSON.stringify(Object.assign({}, this.entidades));
+      let DATA = JSON.parse(jsonString)["DATA"];
+      console.log(DATA)
+
+      if (DATA.length == undefined || DATA.length == null || DATA.length == 0) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          },
+        });
+        Toast.fire({
+          icon: 'error',
+          title: 'No tienes entidades asociadas!',
+        });
+        return;
+      }
+
       Swal.fire({
-        title: 'Seleccione una Entidad',
+        title: 'Seleccione una entidad',
         input: 'select',
         inputOptions: {
-          Entidades: this.entidades[0].entidad,
+          Entidades: DATA.map((datos:any)=> datos.CODIGO_ENTIDAD),
         },
-        inputPlaceholder: 'Seleccione una Entidad',
-        showCancelButton: true,
+        // inputPlaceholder: 'Seleccione una Entidad',
+        allowOutsideClick: false,
+        showCloseButton: true,
+        showCancelButton: false,
+        confirmButtonColor: '#007BFF',
+        confirmButtonText: 'Continue',
         inputValidator: (value) => {
           return new Promise((resolve: any) => {
-            if (value !== '') {                          
-              resolve();              
+            if (value !== '') {
+              resolve();
+              // localStorage.setItem('tipoEntidad', this.entidades[0].tipoEntidad);
+              localStorage.setItem('entidad', DATA[value].CODIGO_ENTIDAD);
+              // localStorage.setItem('equipo', JSON.stringify(this.entidades[0].equipo));
+              localStorage.setItem('unidadContratacion', DATA[value].UNIDAD_CONTRATACION);
               this.goHome();
             } else {
               resolve('Por favor seleccione una Entidad!');
@@ -106,87 +153,36 @@ export class LoginComponent implements OnInit {
           });
         },
       });
-    }, 700);
-    // this.service.showTasks(usuario).subscribe((data: any) => {
-    //   this.validador = data.length === 0 ? false : true;
-    //   if (!this.validador) {
-    //     const Toast = Swal.mixin({
-    //       toast: true,
-    //       position: 'top-end',
-    //       showConfirmButton: false,
-    //       timer: 3000,
-    //       timerProgressBar: true,
-    //       didOpen: (toast) => {
-    //         toast.addEventListener('mouseenter', Swal.stopTimer);
-    //         toast.addEventListener('mouseleave', Swal.resumeTimer);
-    //       },
-    //     });
-    //     Toast.fire({
-    //       icon: 'error',
-    //       title: 'No tienes Entidades Relacionadas!',
-    //     });
-    //     return;
-    //   }
-    //   // console.log("==> "+this.validador)
-    //   this.resultEntity = data;
-    // });
+    }, 500);
   }
-
-  login() {}
-
-  // login() {
-  //   if (this.loginForm.invalid) {
-  //     return;
-  //   }
-  //   const { usuario, password } = this.loginForm.value;
-  //   let dataCredential: CredentialsModel = {
-  //     Username: usuario,
-  //     Password: password,
-  //   };
-  //   this.store.dispatch(acciones.cargarToken({ data: dataCredential }));
-  //   setTimeout(() => {
-  //     const { Token, Status } = this.token;
-  //     if (Token.length == 0 && Status != 'Ok') {
-  //       return;
-  //     }
-  //     // console.log('2 => ' + this.token.Token);
-  //     this.store.dispatch(acciones.cargarUsuarios({ token: this.token.Token }));
-  //   }, 300);
-  //   setTimeout(() => {
-  //     if (this.usuarios != []) {
-  //       this.router.navigate(['home']);
-  //     }
-  //   }, 600);
-  // }
 
   getDocument() {
     if (this.loginForm.invalid) {
       return;
     }
-    const { usuario, password } = this.loginForm.value;
+
+    const { usuario, password, idioma } = this.loginForm.value;
     let dataCredential: CredentialsModel = {
       Username: usuario,
       Password: password,
     };
     this.store.dispatch(acciones.cargarToken({ data: dataCredential }));
-    setTimeout(() => {
-      const { Token, Status } = this.token;
-      if (Token.length == 0 && Status != 'Ok') {
-        return;
-      }
-      console.log('2 => ' + this.token.Token);
-      this.store.dispatch(acciones.cargarUsuarios({ token: this.token.Token }));
-    }, 700);
 
     setTimeout(() => {
-      //console.log(this.usuarios.values.prototype);
-      if (this.usuarios.length === 0) {
-        // Swal.fire({
-        //   title: 'Warning!',
-        //   text: 'Credenciales Incorrectas!',
-        //   icon: 'error',
-        //   confirmButtonText: 'Continuar',
-        // });
+      const { Token, Status } = this.token;
+      if (Token.length === 0 && Status !== 'Ok') {
+        return;
+      }
+      localStorage.setItem('username', usuario);
+      this.store.dispatch(acciones.cargarUsuarios({ token: this.token.Token }));
+      this.getUsuarios();
+    }, 800);
+  }
+
+  getUsuarios() {
+    setTimeout(() => {
+
+      if (this.usuarios === undefined || this.usuarios === null || this.usuarios.length === 0) {
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
@@ -206,10 +202,19 @@ export class LoginComponent implements OnInit {
       } else {
         this.BuscarEntidades();
       }
-    }, 1200);
+    }, 1050);
   }
 
   goHome() {
     this.router.navigate(['home']);
+  }
+
+  setIdioma(idioma: string) {
+    let useIdioma = 'es';
+    if (idioma !== 'Español') {
+      useIdioma = 'en';
+    }
+    localStorage.setItem('lang', useIdioma);
+    this.store.dispatch(cargarIdioma({ idioma: useIdioma }));
   }
 }

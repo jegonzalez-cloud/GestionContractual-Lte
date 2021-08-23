@@ -16,6 +16,9 @@ export class TokenEffects {
       exhaustMap((action) =>
         this.authService.login(action.data).pipe(
           map((data) => acciones.cargarTokenSuccess({ token: data })),
+          tap((data => {
+            localStorage.setItem('token',data.token.Token)
+          })),
           catchError((err) => of(acciones.cargarTokenError({ payload: err })))
         )
       )

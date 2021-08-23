@@ -6,8 +6,9 @@
             <div class=" container ">
                 <div class="card card-default modal-login">
                     <div class="card-header" style="text-align: center;">
-                        <h4 style="text-align: center;color: gray;font-weight: 400;">Bienvenido</h4>                        
-                        <p style="font-size: large;font-weight: 400;">Por favor ingrese sus credenciales para acceder a helppeople</p>
+                        <h4 style="text-align: center;color: gray;font-weight: 400;">{{'login.title' | translate}}</h4>                        
+                        <p style="font-size: large;font-weight: 400;">{{'login.sub-title' | translate}}</p>
+                        <!-- <p style="font-size: large;font-weight: 400;">Por favor ingrese sus credenciales para acceder a helppeople</p> -->
                     </div>
 
                     <form [formGroup]="loginForm" (ngSubmit)="getDocument()">
@@ -20,7 +21,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="far fa-user"></i></span>
                                     </div>
-                                    <input formControlName="usuario" type="text" class="form-control form-control-sm" placeholder="Usuario">
+                                    <input formControlName="usuario" type="text" class="form-control form-control-sm" placeholder="{{'login.labels.username' | translate}}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -29,46 +30,20 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                     </div>
-                                    <input formControlName="password" type="password" class="form-control form-control-sm" placeholder="Password">
+                                    <input formControlName="password" type="password" class="form-control form-control-sm" placeholder="{{'login.labels.password' | translate}}">
                                 </div>
                             </div>
-                            <select class="form-control form-control-sm">
+                            <select #selectIdioma (change)="setIdioma(selectIdioma.value)" class="form-control form-control-sm">                                
                                 <option>Español</option>
                                 <option>Ingles</option>                        
                             </select>
                             <br/>
                             <button [disabled]="loginForm.invalid" type="submit" class="btn btn-primary float-right btn-sm">
-                                <b>Continuar...</b>
+                                <b>{{'login.login' | translate}}</b>
+                                <!-- <b>{{'login.login' | translate}} <i [ngClass]="{'fa fa-sync fa fa-spin': loadingToken}"></i></b> -->
                             </button>
                         </div>
-                        <!-- MODAL ENTIDADES -->
-                        <div *ngIf="validador" class="modal fade" id="modal-default">
-                            <div class="modal-dialog">
-                                <div *ngIf="validador" class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Seleccione una Entidad</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <select #selectEntity class="custom-select" (change)="setEntity(selectEntity.value)">
-                                            <option [value]="item" *ngFor="let item of resultEntity">{{item.entidad}}</option>
-                                            <!-- <option>Seleccione...</option>
-                                            <option *ngFor()>Español</option>
-                                            <option>Ingles</option>                         -->
-                                        </select>
-                                    </div>
-                                    <!-- justify-content-between -->
-                                    <div class="modal-footer">
-                                        <button [disabled]="loginForm.invalid || !validador" type="submit" class="btn btn-primary float-right btn-sm" id="example"><b>Iniciar Sesion</b></button>
-                                    </div>
-                                </div>
-                                <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                        <!-- MODAL ENTIDADES -->
+                        
                     </form>
                 </div>
             </div>

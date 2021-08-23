@@ -1,5 +1,6 @@
 import {CurrencyPipe} from '@angular/common';
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {
   FormBuilder,
   FormControl,
@@ -17,17 +18,16 @@ import Swal from 'sweetalert2';
 import * as utils from '../../utils/functions'
 import {Subject} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import * as $ from 'jquery';
+// import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
 
-
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.css'],
+  selector: 'app-process',
+  templateUrl: './process.component.html',
+  styleUrls: ['./process.component.css']
 })
-export class LayoutComponent implements OnDestroy, OnInit {
+export class ProcessComponent implements OnDestroy, OnInit {
   private idioma!: string;
   createProcessForm!: FormGroup;
   departments: any = [];
@@ -42,9 +42,6 @@ export class LayoutComponent implements OnDestroy, OnInit {
   CodigoUNSPSC: string = '49101601'
   dtOptions: DataTables.Settings = {};
   data:any;
-
-  // We use this trigger because fetching the list of persons can be quite long,
-  // thus we ensure the data is fetched before rendering
   dtTrigger: Subject<any> = new Subject<any>();
 
   constructor(

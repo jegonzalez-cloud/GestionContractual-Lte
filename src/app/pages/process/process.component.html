@@ -1,0 +1,584 @@
+<div class="wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" id="background-home">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid"></div>
+      <!-- /.container-fluid -->
+    </section>
+
+    <section class="content" id="intro">
+      <div class="container-fluid">
+        <div class="card ml-3 mr-3">
+          <div class="card-header" style="background-color: lavender">
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+
+            <h6 class="card-title ml-3" style="color: #545cd8">
+              <b>{{ "procesos.crearProceso" | translate }}</b>
+            </h6>
+          </div>
+          <div class="card-body">
+
+            <form [formGroup]="createProcessForm">
+              <div class="col-12 col-sm-12">
+                <div class="card card-primary card-outline card-outline-tabs">
+                  <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-four-home-tab" href="#custom-tabs-four-home" data-toggle="pill"
+                           role="tab" aria-controls="custom-tabs-four-home"
+                           aria-selected="true">Información General</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-four-profile-tab"  href="#custom-tabs-four-profile"data-toggle="pill"
+                           role="tab" aria-controls="custom-tabs-four-profile"
+                           aria-selected="false">Configuración</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-four-tabContent">
+                      <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel"
+                           aria-labelledby="custom-tabs-four-home-tab">
+                        <!--INGRESAR DATA-->
+                        <div class="row">
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm"> Tipo Proceso </label>
+                              <select
+                                class="custom-select form-control-border"
+                                formControlName="tipoProceso"
+                              >
+                                <option>Seleccione...</option>
+                                <option
+                                  *ngFor="let dep of departments"
+                                  value="{{ dep.Value }}"
+                                >
+                                  {{ dep.Text }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">
+                                Tipo Identificación
+                              </label>
+                              <select
+                                #tipoIdentificacion
+                                (change)="changeTipoIdentificacion(tipoIdentificacion)"
+                                class="custom-select form-control-border"
+                                formControlName="tipoIdentificacion"
+                              >
+                                <option>Seleccione...</option>
+                                <option>Cedula</option>
+                                <option>Nit</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm"> Identificación </label>
+                              <input
+                                formControlName="identificacion"
+                                type="number"
+                                name="Identificacion"
+                                class="form-control"
+                                placeholder="Ingrese Identificacion"
+                                #item_search
+                                (keyup.enter)="onKeydownEvent(item_search)"
+                                required
+                              />
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm"> Proveedor </label>
+                              <input
+                                formControlName="proveedor"
+                                type="text"
+                                name="Proveedor"
+                                class="form-control"
+                                placeholder="Ingrese Proveedor"
+                                required
+                                value="{{ camposSecop[0] }}"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">
+                                Objeto de Contratación
+                              </label>
+                              <input
+                                formControlName="objeto"
+                                type="text"
+                                name="Contratacion"
+                                class="form-control"
+                                placeholder="Ingrese Objeto"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">
+                                Unidad de Contratación</label
+                              >
+                              <input
+                                disabled
+                                type="text"
+                                name="unidad"
+                                class="form-control"
+                                placeholder="Ingrese Unidad"
+                                value="{{ camposEntidad[1] }}"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Ubicación</label>
+                              <input
+                                disabled
+                                type="text"
+                                name="ubicacion"
+                                class="form-control"
+                                placeholder="Ingrese Ubicación"
+                                value="{{ camposSecop[1] }}"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Entidad</label>
+                              <input
+                                disabled
+                                type="text"
+                                name="entidad"
+                                class="form-control"
+                                placeholder="Ingrese Entidad"
+                                value="{{ camposEntidad[0] }}"
+                              />
+                            </div>
+                          </div>
+
+
+                        </div>
+                        <!--TERMINAR INGRESAR DATA-->
+                      </div>
+                      <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel"
+                           aria-labelledby="custom-tabs-four-profile-tab">
+                        <div class="row">
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Documentos Tipo</label>
+                              <select class="custom-select form-control-border">
+                                <option>Seleccione...</option>
+                                <option>SI</option>
+                                <option>NO</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Codigo UNSPSC</label>
+                              <input
+                                disabled
+                                type="text"
+                                name="CodigoUNSPSC"
+                                class="form-control"
+                                placeholder="Ingrese Ubicación"
+                                value="{{ CodigoUNSPSC }}"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Publicación de la invitación</label>
+                              <input
+                                type="datetime-local"
+                                name="PublicacionInvitación"
+                                class="form-control"
+                                placeholder="Ingrese Publicación"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Estudios previos</label>
+                              <input
+                                type="datetime-local"
+                                name="Publicación de estudios previos"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Presentación de Ofertas</label>
+                              <input
+                                type="datetime-local"
+                                name="PresentaciónOfertas"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Apertura de sobres</label>
+                              <input
+                                type="datetime-local"
+                                name="Aperturasobres"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Presentación de ofertas</label>
+                              <input
+                                type="datetime-local"
+                                name="InformePresentaciónOfertas"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Evaluación de las Ofertas</label>
+                              <input
+                                type="datetime-local"
+                                name="EvaluaciónOfertas"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Verificación o evaluación</label>
+                              <input
+                                type="datetime-local"
+                                name="informeVerificaciónEvaluación"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Aceptación de ofertas</label>
+                              <input
+                                type="datetime-local"
+                                name="AceptaciónOfertas"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm"
+                              >Valor de Contrato</label
+                              >
+                              <div class="input-group">
+                                <input
+                                  currencyMask
+                                  formControlName="value"
+                                  name="valorcontrato"
+                                  class="form-control"
+                                  placeholder="Ingrese Valor"
+
+                                />
+                                <div class="input-group-append">
+                                    <span
+                                      (click)="getCdpMount()"
+                                      class="input-group-text cursor"
+                                    ><i class="fas fa-dollar-sign"></i
+                                    ></span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <!-- /.card -->
+                </div>
+              </div>
+
+              <div class="row">
+
+
+                <!--                  <div class="col-12 col-sm-3">-->
+                <!--                    <div class="form-group">-->
+                <!--                      <label class="font-weight-normal">Equipo</label>-->
+                <!--                      <select class="custom-select form-control-border">-->
+                <!--                        <option>Seleccione...</option>-->
+                <!--                        <option-->
+                <!--                          *ngFor="let equipos of camposEntidad[2]"-->
+                <!--                          value="{{ equipos }}"-->
+                <!--                        >-->
+                <!--                          {{ equipos }}-->
+                <!--                        </option>-->
+                <!--                      </select>-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+
+                <!--                  <div class="col-12 col-sm-3">-->
+                <!--                    <div class="form-group">-->
+                <!--                      <label class="font-weight-normal">Tipo de Entidad</label>-->
+                <!--                      <input-->
+                <!--                        disabled-->
+                <!--                        type="text"-->
+                <!--                        name="tipoentidad"-->
+                <!--                        class="form-control"-->
+                <!--                        placeholder="Ingrese Tipo Entidad"-->
+                <!--                        value="{{ camposEntidad[2] }}"-->
+                <!--                      />-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+
+
+                <!--                  <div class="col-12 col-sm-3">-->
+                <!--                    <div class="form-group">-->
+                <!--                      <label class="font-weight-normal" title="escolaridad">-->
+                <!--                        Nivel de Escolaridad-->
+                <!--                      </label>-->
+                <!--                      <select-->
+                <!--                        #escolaridad-->
+                <!--                        (change)="changeEscolaridad()"-->
+                <!--                        formControlName="escolaridad"-->
+                <!--                        class="custom-select form-control-border"-->
+                <!--                      >-->
+                <!--                        <option>Seleccione...</option>-->
+                <!--                        <option>Auxiliar</option>-->
+                <!--                        <option>Tecnico</option>-->
+                <!--                        <option>Tecnologo</option>-->
+                <!--                        <option>Profesional</option>-->
+                <!--                        <option>Profesional Especializado</option>-->
+                <!--                      </select>-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                  <div class="col-12 col-sm-3">-->
+                <!--                    <div class="form-group">-->
+                <!--                      <label class="font-weight-normal" title="profesion">-->
+                <!--                        Profesión-->
+                <!--                      </label>-->
+                <!--                      <select-->
+                <!--                        formControlName="profesion"-->
+                <!--                        class="custom-select form-control-border"-->
+                <!--                      >-->
+                <!--                        <option>Seleccione...</option>-->
+                <!--                      </select>-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+
+
+              </div>
+            </form>
+            <button
+              [disabled]="createProcessForm.invalid"
+              type="submit"
+              class="btn btn-primary float-left btn-sm"
+            >
+              <b>Crear Proceso</b>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <br/>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card ml-3 mr-3">
+          <div class="card-header" style="background-color: lavender">
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+
+            <h6 class="card-title ml-3" style="color: #545cd8">
+              <b>{{ "procesos.procesosSecop" | translate }}</b>
+            </h6>
+          </div>
+          <div class="card-body">
+            <div class="container">
+              <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered  row-border hover">
+                  <thead>
+                  <tr class="tit_table text-sm">
+                    <th scope="col">Id del proceso</th>
+                    <th scope="col">Ref del proceso</th>
+                    <th scope="col">Nombre del contrato</th>
+                    <th scope="col">Entidad estatal</th>
+                    <th scope="col">Tipo de contrato</th>
+                    <!--                    <th scope="col">Fecha firma</th>-->
+                    <!--                    <th scope="col">Fecha finalizaciòn</th>-->
+                    <th scope="col">Tipo de contrato</th>
+                    <th scope="col">Fase</th>
+                    <th scope="col">URL Proceso</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let res of result">
+                    <td row style="font-size: 12px; color: #545cd8; font-weight: bold">{{ res.id_del_proceso}}</td>
+                    <td row style="font-size: 12px">{{ res.referencia_del_proceso | titlecase}}</td>
+                    <td style="font-size: 12px">{{ res.nombre_del_procedimiento | titlecase}}</td>
+                    <td style="font-size: 12px">{{ res.entidad | titlecase}}</td>
+                    <td style="font-size: 12px">{{ res.tipo_de_contrato| titlecase }}</td>
+                    <!--                    <td style="font-size: 12px">{{ res.fecha_de_publicacion_del | titlecase }}</td>-->
+                    <!--                    <td style="font-size: 12px">{{ res.fecha_de_ultima_publicaci | titlecase }}</td>-->
+                    <td style="font-size: 12px">{{ res.tipo_de_contrato | titlecase }}</td>
+                    <td style="font-size: 12px">{{ res.fase | titlecase}}</td>
+                    <td></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <br/>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card ml-3 mr-3">
+          <div class="card-header" style="background-color: lavender">
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+
+            <h6 class="card-title ml-3" style="color: #545cd8">
+              <b>{{ "procesos.misProcesos" | translate }}</b>
+            </h6>
+          </div>
+          <div class="card-body">
+            <div class="container">
+              <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                       class="
+                            align-middle
+                            table table-bordered table-striped table-hover
+                          "
+                >
+                  <thead>
+                  <tr class="tit_table text-sm">
+                    <!--                    <th scope="col">#</th>-->
+                    <th scope="col">Numeración</th>
+                    <th scope="col">ID Secop</th>
+                    <th scope="col">Nombre del contrato</th>
+                    <th scope="col">Entidad estatal</th>
+                    <th scope="col">Tipo de contrato</th>
+                    <th scope="col">Equipo</th>
+                    <!--<th scope="col">Facturación de la entidad</th>-->
+                    <th scope="col">Valor total de la oferta</th>
+                    <th scope="col">Opciones</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let info of info_process">
+                    <!--                    <td class="text-sm" row>{{ i + 1 }}</td>-->
+                    <td row style="font-size: 12px; color: #545cd8; font-weight: bold">{{ info.CONS_PROCESO }}</td>
+                    <td style="font-size: 12px;font-weight: bold">
+                                <span
+                                  style="color: rosybrown"
+                                  *ngIf="!info.SECOP_CODE"
+                                >Pendiente</span
+                                >
+                      <span>{{ info.SECOP_CODE }}</span>
+                    </td>
+                    <td style="font-size: 12px;">{{ info.NOMBRE }}</td>
+                    <td style="font-size: 12px;">{{ info.ENT_ESTATAL }}</td>
+                    <td style="font-size: 12px;">{{ info.TIPO_ENT }}</td>
+                    <td style="font-size: 12px;">{{ info.EQUIPO }}</td>
+                    <!--<td>{{ info.FACT_ENTIDAD }}</td>-->
+                    <!-- <td" *ngIf="info.VAL_OFERTA > 0" >{{ info.VAL_OFERTA | currency }}</td> -->
+                    <td style="font-size: 12px;">{{ info.VAL_OFERTA }}</td>
+                    <td style="font-size: 12px;">
+                      <!--<a href="#" target="_blank" rel="noopener noreferrer">
+                                    Ver detalle
+                                </a>-->
+<!--                      <a-->
+<!--                        routerLink="/home/administration-ci/det_aut/{{-->
+<!--                                    info.CONS_PROCESO-->
+<!--                                  }}"-->
+<!--                        routerLinkActive="active-item"-->
+<!--                        [routerLinkActiveOptions]="{ exact: true }"-->
+<!--                        class="vsm-link"-->
+<!--                      >-->
+<!--                        <span class="vsm-title">Revisar</span>-->
+<!--                      </a>-->
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+
+                <!--                <div class="d-flex justify-content-center">-->
+                <!--                  <pagination-controls-->
+                <!--                    (pageChange)="page = $event"-->
+                <!--                    previousLabel="Anterior"-->
+                <!--                    nextLabel="Siguiente"-->
+                <!--                  ></pagination-controls>-->
+                <!--                </div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <br/>
+
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <!--  <aside class="control-sidebar control-sidebar-light">-->
+  <!-- Control sidebar content goes here -->
+  <!--  </aside>-->
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+

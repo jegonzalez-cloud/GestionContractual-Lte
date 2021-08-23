@@ -12,7 +12,7 @@ export class AuthService {
   data:any;
   constructor(private http:HttpClient) { }
 
-  login(datos:any): Observable<any> {    
+  login(datos:any): Observable<any> {
     this.data = {username: btoa(datos.Username), password: btoa(datos.Password)};
     return this.http
       .post(`${environment.apiTestUrl}security/gettoken`, this.data)
@@ -30,5 +30,9 @@ export class AuthService {
     localStorage.setItem('userStorage', JSON.stringify(user));
     localStorage.setItem('ResumedPermissions', JSON.stringify(ResumedPermissions));
     //this.token = token;
+  }
+
+  public getDept(token: any, username: any){
+    return this.http.get(`${environment.apiTestUrl}users/getusers?token=${token}&username=${username}`);
   }
 }
