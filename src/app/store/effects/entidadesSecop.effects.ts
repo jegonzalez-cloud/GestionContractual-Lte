@@ -22,4 +22,18 @@ export class EntidadesSecopEffects {
       )
     )
   );
+
+//   cargarDataSecop$ = createEffect(() =>
+//      this.actions$.pipe(
+//        ofType(acciones.cargarDataSecop),
+//        exhaustMap((action) =>
+//          this.authService.showTasks(action.username,action.password).pipe(
+//            // tap(entidades=>console.log(entidades)),
+//            map((data:any) => acciones.cargarEntidadesSuccess({ entidades: data })),
+//            tap((data:any) => console.log(data)),
+//            catchError((err) => of(acciones.cargarEntidadesError({ payload: err })))
+//          )
+//        )
+//      )
+//   );
 }

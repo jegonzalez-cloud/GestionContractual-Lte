@@ -12,7 +12,12 @@ export class ServicesService {
 
   showTasks(usuario:string,password:string) {
     //return this.http.get(`${this.apiUrl}/SECOP?usuario=`+usuario);
-    console.log(password)
+//     console.log(password)
+//     return this.http.get(`${environment.apiTestUrl}Users/GetDataSecop?username=`+usuario+`&password=`+password+`&type=`+type);
+    return this.http.get(`${environment.apiTestUrl}Users/GetEntidadesSecop?username=`+usuario+`&password=`+password);
+  }
+
+  getDataSecop(usuario:string,password:string){
     return this.http.get(`${environment.apiTestUrl}Users/GetDataSecop?username=`+usuario+`&password=`+password);
   }
 }

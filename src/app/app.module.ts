@@ -49,7 +49,7 @@ import { NgxCurrencyModule } from "ngx-currency";
       //autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
   ],
-  // exports: [TranslateModule],
+//   exports: [TranslateModule],
   providers: [],
   bootstrap: [AppComponent],
 })

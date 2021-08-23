@@ -16,3 +16,21 @@ export const cargarEntidadesError = createAction(
     '[Entidades] Cargar Entidades Error',
     props<{ payload: any }>()
   );
+
+//******************************************************
+
+export const cargarDataSecop = createAction(
+  '[Entidades] Cargar Data Secop',
+  props<{username: string,password:string}>()
+  );
+
+export const cargarDataSecopSuccess = createAction(
+  '[Entidades] Cargar Data Secop Success',
+  //props<{ entidades: EntidadesModel[] }>()
+  props<{ entidades: [] }>()
+);
+
+export const cargarDataSecopError = createAction(
+    '[Entidades] Cargar Data Secop Error',
+    props<{ payload: any }>()
+  );

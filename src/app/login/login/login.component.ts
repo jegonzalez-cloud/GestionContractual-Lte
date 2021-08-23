@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit {
     }
     const { usuario, password } = this.loginForm.value;
 
-    this.store.dispatch(cargarEntidades({ username: btoa(usuario), password:btoa(password) }));
+    this.store.dispatch(cargarEntidades({ username: btoa(usuario), password:btoa(password)}));
 
     setTimeout(() => {
       //console.log(this.entidades);
@@ -130,7 +130,7 @@ export class LoginComponent implements OnInit {
         title: 'Seleccione una entidad',
         input: 'select',
         inputOptions: {
-          Entidades: DATA.map((datos:any)=> datos.CODIGO_ENTIDAD),
+          Entidades: DATA.map((datos:any)=> datos.UNIDAD_CONTRATACION),
         },
         // inputPlaceholder: 'Seleccione una Entidad',
         allowOutsideClick: false,
@@ -143,9 +143,10 @@ export class LoginComponent implements OnInit {
             if (value !== '') {
               resolve();
               // localStorage.setItem('tipoEntidad', this.entidades[0].tipoEntidad);
-              localStorage.setItem('entidad', DATA[value].CODIGO_ENTIDAD);
+//               localStorage.setItem('entidad', DATA[value].CODIGO_ENTIDAD);
               // localStorage.setItem('equipo', JSON.stringify(this.entidades[0].equipo));
               localStorage.setItem('unidadContratacion', DATA[value].UNIDAD_CONTRATACION);
+              this.store.dispatch(acciones.cargarDataSecop({ username: btoa(usuario), password:btoa(password)}));
               this.goHome();
             } else {
               resolve('Por favor seleccione una Entidad!');

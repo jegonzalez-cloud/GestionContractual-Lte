@@ -1,6 +1,6 @@
 import { Action, createReducer, on, State } from "@ngrx/store"
 import { EntidadesModel } from "src/app/models/entidades/entidades.model";
-import { cargarEntidades,cargarEntidadesError,cargarEntidadesSuccess} from '../actions';
+import { cargarEntidades,cargarEntidadesError,cargarEntidadesSuccess, cargarDataSecop,cargarDataSecopSuccess,cargarDataSecopError} from '../actions';
 
 
 export interface EntidadesState{
@@ -20,19 +20,35 @@ export const EntidadesInitialState: EntidadesState = {
 const _EntidadesReducer = createReducer(EntidadesInitialState,
     on(cargarEntidades,state=>({ ...state, loading: true })),
 
-    on(cargarEntidadesSuccess, (state,{ entidades }) => ({ 
-        ...state, 
+    on(cargarEntidadesSuccess, (state,{ entidades }) => ({
+        ...state,
         loading: false,
         loaded: true,
         entidades: { ...entidades }
     })),
 
-    on(cargarEntidadesError, (state,{ payload }) => ({ 
-        ...state, 
+    on(cargarEntidadesError, (state,{ payload }) => ({
+        ...state,
         loading: false,
         loaded: false,
         error: payload
     })),
+
+    on(cargarDataSecop,state=>({ ...state, loading: true })),
+
+        on(cargarDataSecopSuccess, (state,{ entidades }) => ({
+            ...state,
+            loading: false,
+            loaded: true,
+            entidades: { ...entidades }
+        })),
+
+        on(cargarDataSecopError, (state,{ payload }) => ({
+            ...state,
+            loading: false,
+            loaded: false,
+            error: payload
+        })),
 
 );
 
