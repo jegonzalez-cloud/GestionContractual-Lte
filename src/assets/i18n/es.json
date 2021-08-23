@@ -1,0 +1,59 @@
+{
+    "login": {
+        "title": "Bienvenido",
+        "sub-title": "Por favor ingrese sus credenciales para acceder a helppeople",
+        "login": "Iniciar Sesión",
+        "logout": "Cerrar Sesión",
+        "error": "Usuario o Contraseña Incorrecto",
+        "error-common": "Usuario o Contraseña Incorrecto",
+        "attempts": "Ha exedido los intentos de inicio, por favor refresque y vuelve a intentarlo",
+        "labels": {
+            "username": "Usuario",
+            "password": "Contraseña",
+            "optionSelect": "Seleccione una opciòn"
+        }
+    },
+    "procesos":{
+        "crearProceso":"Crear Proceso",
+        "misProcesos": "Mis Procesos",
+        "procesosSecop": "Procesos en Secop"
+    },
+    "administration-CI": {
+        "titles": {
+            "header": "Gestión Contractual",
+            "panel-titles": {
+                "CI": "Gestión contratos",
+                "printer": "Impresoras",
+                "equipment": "Equipos"
+            }
+        },
+        "panels": {
+            "header": "Contratos y procesos",
+            "menu1": "Procesos",
+            "menu2": "Autorizaciones",
+            "menu3": "Contratos"
+        },
+        "table": {
+            "thead": {
+                "type": "Tipo",
+                "name": "Nombre",
+                "description": "Descripción",
+                "department": "Departamento",
+                "serial": "Serial",
+                "company": "Empresa",
+                "state": "Estado",
+                "IP": "IP",
+                "location": "Ubicación",
+                "assigned": "Asignado",
+                "mark": "Marca",
+                "model": "Modelo",
+                "last-scan": "Último scan",
+                "days-delay": "Días retraso",
+                "Actions": "Acciones"
+            }
+        },
+        "labels": {
+
+        }
+    }
+}

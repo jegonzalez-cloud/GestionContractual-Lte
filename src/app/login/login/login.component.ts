@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
       .select('usuarios')
       .subscribe(({ users, loading, error }) => {
         // let x = new UserModel(users);
-        console.log(users);
+//         console.log(users);
         // this.usuarios = new UserModel(users);
         this.usuarios = users;
         this.loadingUsuarios = loading;
@@ -130,7 +130,7 @@ export class LoginComponent implements OnInit {
         title: 'Seleccione una entidad',
         input: 'select',
         inputOptions: {
-          Entidades: DATA.map((datos:any)=> datos.UNIDAD_CONTRATACION),
+          Entidades: DATA.map((datos:any)=> datos.NOMBRE_DEPENDENCIA),
         },
         // inputPlaceholder: 'Seleccione una Entidad',
         allowOutsideClick: false,
@@ -140,12 +140,13 @@ export class LoginComponent implements OnInit {
         confirmButtonText: 'Continue',
         inputValidator: (value) => {
           return new Promise((resolve: any) => {
-            if (value !== '') {
+            if (value.replace(/\s/g, "") !== '') {
               resolve();
               // localStorage.setItem('tipoEntidad', this.entidades[0].tipoEntidad);
 //               localStorage.setItem('entidad', DATA[value].CODIGO_ENTIDAD);
               // localStorage.setItem('equipo', JSON.stringify(this.entidades[0].equipo));
-              localStorage.setItem('unidadContratacion', DATA[value].UNIDAD_CONTRATACION);
+
+              localStorage.setItem('dependencia', DATA[value].NOMBRE_DEPENDENCIA);
               this.store.dispatch(acciones.cargarDataSecop({ username: btoa(usuario), password:btoa(password)}));
               this.goHome();
             } else {

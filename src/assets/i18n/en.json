@@ -1,0 +1,55 @@
+{
+    "login": {
+        "title": "Welcome",
+        "sub-title": "Please enter your credentials to access helppeople",
+        "login": "Log In",
+        "logout": "Sign Off",
+        "labels": {
+            "username": "Username",
+            "password": "Password",
+            "optionSelect": "Select an option"
+        }
+    },
+    "procesos":{
+        "crearProceso":"Create Process"
+    },
+    "administration-CI": {
+        "titles": {
+            "header": "Asset Management and Configuration",
+            "panel-titles": {
+                "CI": "CI`S Administration",
+                "printer": "Printers",
+                "equipment": "Equipment"
+            }
+        },
+        "table": {
+            "thead": {
+                "type": "Type",
+                "name": "Name",
+                "description": "Description",
+                "department": "Department",
+                "serial": "Serial",
+                "company": "Company",
+                "state": "State",
+                "IP": "IP",
+                "location": "Location",
+                "assigned": "Assigned to",
+                "mark": "Mark",
+                "model": "Model",
+                "last-scan": "Last scan",
+                "days-delay": "Days delay",
+                "Actions": "Actions"
+            }
+        },
+        "panels": {
+            "header": "Contratos y procesos",
+            "menu1": "Processes",
+            "menu2": "Authorizations",
+            "menu3": "Contracts"
+        
+        },
+        "labels": {
+
+        }
+    }
+}
