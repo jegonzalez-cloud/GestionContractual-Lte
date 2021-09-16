@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, HostListener, OnDestroy} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -8,7 +8,14 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
   title = 'gestion-lte';
+
   constructor(private translate: TranslateService) {
     translate.setDefaultLang('es');
+
   }
+
+  // @HostListener('window:beforeunload')
+  // onBeforeUnload() {
+  //   return false;
+  // }
 }

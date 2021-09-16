@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sidebar',
@@ -9,7 +10,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class SidebarComponent implements OnInit {
   nameUser: string = '';
   userImage: string = '';
-  constructor() {}
+  entidad: string = '';
+  constructor(private router:Router) {}
 
   ngOnInit(): void {
     this.getUserData();
@@ -18,6 +20,7 @@ export class SidebarComponent implements OnInit {
   getUserData() {
     this.nameUser = localStorage.getItem('name')!;
     this.userImage = localStorage.getItem('userImage')!;
+    this.entidad = atob(localStorage.getItem('entidad')!);
     this.userImage = "../../../assets/img/avatar.png";
     //console.log(this.userImage)
     this.nameUser = atob(this.nameUser!);

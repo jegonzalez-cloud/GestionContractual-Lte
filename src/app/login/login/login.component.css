@@ -1,4 +1,14 @@
-#intro {
+/*#intro {*/
+/*    background-image: url('src/assets/img/bgfull.jpg');*/
+/*    height: 100vh;*/
+/*    background-attachment: fixed;*/
+/*    background-position: center;*/
+/*    background-repeat: no-repeat !important;*/
+/*    background-size: cover;*/
+/*    min-width: 100%;*/
+/*}*/
+
+.bg-login {
     background-image: url('src/assets/img/bgfull.jpg');
     height: 100vh;
     background-attachment: fixed;
@@ -27,4 +37,26 @@
 
 .bg {
     background-color: beige !important;
+}
+
+.bg-animation {
+  animation: bg-pan-left 8s both;
+}
+
+@-webkit-keyframes bg-pan-left {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes bg-pan-left {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

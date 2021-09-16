@@ -1,0 +1,33 @@
+log-out{
+  color: #828282;
+}
+log-out:hover{
+  color: #A65E2E;
+}
+
+#divNotificaciones{
+  height: 800%;
+  min-height: 75%;
+  overflow-y: scroll;
+}
+
+#notificaciones-sticky-top{
+  position: sticky;
+  top: 0;
+  background: #e6e6e6;
+  font-weight: bold;
+}
+
+
+#notificaciones-sticky-bot{
+  position: sticky;
+  bottom: 0;
+  background: #e6e6e6;
+  cursor: pointer;
+  color: #545cd8;
+}
+
+.hoverOnTable:hover {
+  background: aliceblue;
+}
+

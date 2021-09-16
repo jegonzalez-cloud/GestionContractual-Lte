@@ -1,37 +1,29 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from 'src/app/login/login/login.component';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+import {LoginComponent} from 'src/app/login/login/login.component';
 
-import { LayoutComponent } from './layout.component';
+import {LayoutComponent} from './layout.component';
+import {AuthGuard} from "../../guards/auth.guard";
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
-          {
-            path: '',
-            loadChildren: () =>
-              import('../../pages/pages.module').then(
-                (m) => m.PagesModule
-              ),
-          },
-        ],
-    // children: [
-    //   {
-    //     path: 'administration-ci',
-    //     loadChildren: () =>
-    //       import('../../pages/administration-ci/administration-ci.module').then(
-    //         (m) => m.AdministrationCiModule
-    //       ),
-    //   },
-    // ]
+      {
+        path: '',
+        // canLoad: [AuthGuard],
+        loadChildren: () =>
+          import('../../pages/pages.module').then((m) => m.PagesModule),
+      },
+    ],
   },
-//   { path: 'login', component: LoginComponent },
+  {path: '**', redirectTo: 'login', pathMatch: 'full'},
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LayoutRoutingModule {}
+export class LayoutRoutingModule {
+}

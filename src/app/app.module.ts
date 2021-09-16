@@ -13,22 +13,22 @@ import { EffectsArray } from './store/effects';
 import { AppRoutingModule } from './app-routing.module';
 import { LayoutModule } from './layout/layout/layout.module';
 import { SharedModule } from './shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-import { DataTablesModule } from "angular-datatables";
 import { NgxCurrencyModule } from "ngx-currency";
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    DataTablesModule,
     NgxCurrencyModule,
     BrowserModule,
     SharedModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,

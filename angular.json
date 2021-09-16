@@ -26,43 +26,30 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
+              "src/logo.ico",
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
-              "node_modules/datatables.net-dt/css/jquery.dataTables.css",
               "node_modules/admin-lte/plugins/fontawesome-free/css/all.css",
               "node_modules/admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.css",
-              "node_modules/admin-lte/dist/css/adminlte.css",
-              "node_modules/bs-stepper/dist/css/bs-stepper.min.css",
-              "node_modules/admin-lte/plugins/bs-stepper/css/bs-stepper.min.css",
-              "node_modules/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css",
-              "node_modules/admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
+              "node_modules/admin-lte/dist/css/adminlte.css"
+
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
+
               "node_modules/admin-lte/plugins/jquery/jquery.js",
-              "node_modules/datatables.net/js/jquery.dataTables.js",
               "node_modules/admin-lte/plugins/raphael/raphael.js",
               "node_modules/admin-lte/plugins/jquery-mousewheel/jquery.mousewheel.js",
-              "node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js",
               "node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.js",
               "node_modules/admin-lte/plugins/jquery-mapael/jquery.mapael.js",
               "node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.js",
               "node_modules/admin-lte/dist/js/adminlte.js",
-              "node_modules/admin-lte/plugins/chart.js/Chart.js",
-              "node_modules/bs-stepper/dist/js/bs-stepper.min.js",
-              "node_modules/admin-lte/plugins/bs-stepper/js/bs-stepper.min.js",
-              "node_modules/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js",
-              "node_modules/admin-lte/plugins/datatables-responsive/js/dataTables.responsive.min.js",
-              "node_modules/admin-lte/plugins/datatables-buttons/js/dataTables.buttons.min.js",
-              "node_modules/admin-lte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js",
-              "node_modules/admin-lte/plugins/datatables-buttons/js/buttons.html5.min.js",
-              "node_modules/admin-lte/plugins/datatables-buttons/js/buttons.print.min.js",
-              "node_modules/admin-lte/plugins/datatables-buttons/js/buttons.colVis.min.js",
-              "node_modules/admin-lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"
+              "node_modules/admin-lte/plugins/chart.js/Chart.js"
+
             ]
           },
           "configurations": {
@@ -124,10 +111,11 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/favicon.ico",
+              "src/logo.ico",
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []

@@ -21,54 +21,44 @@
               </button>
             </div>
 
-            <h6 class="card-title ml-3" style="color: #545cd8">
+            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">
               <b>{{ "procesos.crearProceso" | translate }}</b>
             </h6>
           </div>
           <div class="card-body">
 
-            <form [formGroup]="createProcessForm">
+            <form [formGroup]="createProcessForm" (ngSubmit)="createProcess()"
+                  (keydown.enter)="$event.preventDefault()">
               <div class="col-12 col-sm-12">
                 <div class="card card-primary card-outline card-outline-tabs">
                   <div class="card-header p-0 border-bottom-0">
                     <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                       <li class="nav-item">
-                        <a class="nav-link active" id="custom-tabs-four-home-tab" href="#custom-tabs-four-home" data-toggle="pill"
-                           role="tab" aria-controls="custom-tabs-four-home"
-                           aria-selected="true">Información General</a>
+                        <a class="nav-link active" id="datos-personales-tab" href="#datos-personales"
+                           data-toggle="pill"
+                           role="tab" aria-controls="datos-personales"
+                           aria-selected="true" style="font-weight: bold">Datos Personales</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-four-profile-tab"  href="#custom-tabs-four-profile"data-toggle="pill"
+                        <a class="nav-link" id="custom-tabs-four-home-tab" href="#custom-tabs-four-home"
+                           data-toggle="pill"
+                           role="tab" aria-controls="custom-tabs-four-home"
+                           aria-selected="true" style="font-weight: bold">Información General</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-four-profile-tab" href="#custom-tabs-four-profile"
+                           data-toggle="pill"
                            role="tab" aria-controls="custom-tabs-four-profile"
-                           aria-selected="false">Configuración</a>
+                           aria-selected="false" style="font-weight: bold">Configuración</a>
                       </li>
                     </ul>
                   </div>
                   <div class="card-body">
                     <div class="tab-content" id="custom-tabs-four-tabContent">
-                      <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel"
-                           aria-labelledby="custom-tabs-four-home-tab">
+                      <div class="tab-pane fade show active" id="datos-personales" role="tabpanel"
+                           aria-labelledby="datos-personales-tab">
                         <!--INGRESAR DATA-->
                         <div class="row">
-
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm"> Tipo Proceso </label>
-                              <select
-                                class="custom-select form-control-border"
-                                formControlName="tipoProceso"
-                              >
-                                <option>Seleccione...</option>
-                                <option
-                                  *ngFor="let dep of departments"
-                                  value="{{ dep.Value }}"
-                                >
-                                  {{ dep.Text }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">
@@ -80,8 +70,8 @@
                                 class="custom-select form-control-border"
                                 formControlName="tipoIdentificacion"
                               >
-                                <option>Seleccione...</option>
-                                <option>Cedula</option>
+                                <option>Cédula</option>
+                                <option>Cédula de Extranjería</option>
                                 <option>Nit</option>
                               </select>
                             </div>
@@ -95,10 +85,8 @@
                                 type="number"
                                 name="Identificacion"
                                 class="form-control"
-                                placeholder="Ingrese Identificacion"
                                 #item_search
                                 (keyup.enter)="onKeydownEvent(item_search)"
-                                required
                               />
                             </div>
                           </div>
@@ -110,9 +98,211 @@
                                 type="text"
                                 name="Proveedor"
                                 class="form-control"
-                                placeholder="Ingrese Proveedor"
                                 required
-                                value="{{ camposSecop[0] }}"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Ubicación</label>
+                              <input
+                                type="text"
+                                formControlName="ubicacion"
+                                name="ubicacion"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Fecha de Nacimiento</label>
+                              <input
+                                formControlName="fechaNacimiento"
+                                type="datetime-local"
+                                name="fechaNacimiento"
+                                class="form-control text-sm"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Genero</label>
+                              <select
+                                formControlName="genero"
+                                name="genero"
+                                class="form-control text-sm"
+                              >
+                                <option>Femenino</option>
+                                <option>Masculino</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Departamento</label>
+                              <select
+                                (change)="getMunicipios()"
+                                formControlName="departamento"
+                                name="departamento"
+                                class="form-control text-sm"
+                              >
+                                <option
+                                  *ngFor="let dep of departamentos"
+                                  value="{{ dep.DPTO_COD }}"
+                                >
+                                  {{ dep.DPTO_DESCRIPCION }}
+                                </option>
+
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Municipio</label>
+                              <select
+                                formControlName="municipio"
+                                name="municipio"
+                                class="form-control text-sm"
+                              >
+                                <option
+                                  *ngFor="let mun of municipios"
+                                  value="{{ mun.CIU_COD }}"
+                                >
+                                  {{ mun.CIU_DESCRIPCION }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Categoría de Contratación</label>
+                              <select
+                                formControlName="categoríaContratacion"
+                                name="categoríaContratacion"
+                                class="form-control text-sm"
+                              >
+                                <option>Asesor</option>
+                                <option>Asistencial</option>
+                                <option>Profesional</option>
+                                <option>Profesional Especializado</option>
+                                <option>Técnico</option>
+                                <option>Tecnólogo</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Profesión</label>
+                              <input
+                                formControlName="profesion"
+                                type="text"
+                                name="profesion"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Correo</label>
+                              <input
+                                formControlName="correo"
+                                type="email"
+                                name="correo"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Celular</label>
+                              <input
+                                [maxLength]="10"
+                                formControlName="celular"
+                                type="number"
+                                name="celular"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                      <div class="tab-pane fade show" id="custom-tabs-four-home" role="tabpanel"
+                           aria-labelledby="custom-tabs-four-home-tab">
+                        <!--INGRESAR DATA-->
+                        <div class="row">
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm"> Tipo Proceso </label>
+                              <select
+                                (change)="[getTiposContrato(),getEquipoContratacion()]"
+                                class="custom-select form-control-border"
+                                formControlName="tipoProceso"
+                              >
+                                <!--                                <option>Seleccione...</option>-->
+                                <option
+                                  *ngFor="let dep of tiposProceso"
+                                  value="{{ dep.TPP_DESCRIPCION }}"
+                                >
+                                  {{ dep.TPP_NOMBRE }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">
+                                Tipo Contrato
+                              </label>
+                              <select
+                                (change)="getTiposJustificacionContrato()"
+                                class="custom-select form-control-border"
+                                formControlName="tipoContrato"
+                              >
+                                <option
+                                  *ngFor="let dep of tiposContrato"
+                                  value="{{ dep.TPC_DESCRIPCION }}"
+                                >
+                                  {{ dep.TPC_NOMBRE }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">
+                                Justificación Tipo Proceso
+                              </label>
+                              <select
+                                class="custom-select form-control-border"
+                                formControlName="justificacionTipoProceso"
+                              >
+                                <option
+                                  *ngFor="let dep of tiposJustificacionContrato"
+                                  value="{{ dep.TPJ_NOMBRE }}"
+                                >
+                                  {{ dep.TPJ_NOMBRE }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">
+                                Nombre del proceso
+                              </label>
+                              <input
+                                formControlName="nombreProceso"
+                                type="text"
+                                name="nombreProceso"
+                                class="form-control"
                               />
                             </div>
                           </div>
@@ -120,15 +310,15 @@
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">
-                                Objeto de Contratación
+                                Objeto proceso
                               </label>
-                              <input
+                              <textarea
                                 formControlName="objeto"
                                 type="text"
-                                name="Contratacion"
+                                name="objeto"
                                 class="form-control"
-                                placeholder="Ingrese Objeto"
-                              />
+                              >
+                              </textarea>
                             </div>
                           </div>
 
@@ -137,44 +327,76 @@
                               <label class="font-weight-normal text-sm">
                                 Unidad de Contratación</label
                               >
+                              <select
+                                class="custom-select form-control-border"
+                                formControlName="unidad"
+                              >
+                                <option
+                                  *ngFor="let und of unidades"
+                                  value="{{ und.UNI_NUMERO_PROCESO }}"
+                                >
+                                  {{ und.UNI_NUMERO_PROCESO }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <!---->
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">
+                                Equipo de Contratación</label
+                              >
+                              <select
+                                class="custom-select form-control-border"
+                                formControlName="equipo"
+                              >
+                                <option
+                                  *ngFor="let equ of equipoContratacion"
+                                  value="{{ equ.EQC_ID_INTEGRACION }}"
+                                >
+                                  {{ equ.EQC_NOMBRE }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm"> Acuerdos comerciales </label>
                               <input
-                                disabled
+                                formControlName="acuerdos"
                                 type="text"
-                                name="unidad"
+                                name="acuerdos"
                                 class="form-control"
-                                placeholder="Ingrese Unidad"
-                                value="{{ camposEntidad[1] }}"
                               />
                             </div>
                           </div>
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
-                              <label class="font-weight-normal text-sm">Ubicación</label>
+                              <label class="font-weight-normal text-sm">Plan de acuerdo de paz</label>
                               <input
-                                disabled
+                                formControlName="acuerdoPaz"
                                 type="text"
-                                name="ubicacion"
+                                name="acuerdoPaz"
                                 class="form-control"
-                                placeholder="Ingrese Ubicación"
-                                value="{{ camposSecop[1] }}"
                               />
                             </div>
                           </div>
 
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Entidad</label>
-                              <input
-                                disabled
-                                type="text"
-                                name="entidad"
-                                class="form-control"
-                                placeholder="Ingrese Entidad"
-                                value="{{ camposEntidad[0] }}"
-                              />
-                            </div>
-                          </div>
+                          <!--                          <div class="col-12 col-sm-3">-->
+                          <!--                            <div class="form-group">-->
+                          <!--                              <label class="font-weight-normal text-sm">Entidad</label>-->
+                          <!--                              <input-->
+                          <!--                                disabled-->
+                          <!--                                type="text"-->
+                          <!--                                name="entidad"-->
+                          <!--                                class="form-control"-->
+                          <!--                                placeholder="Ingrese Entidad"-->
+                          <!--                                value="{{ camposEntidad[0] }}"-->
+                          <!--                              />-->
+                          <!--                            </div>-->
+                          <!--                          </div>-->
 
 
                         </div>
@@ -184,14 +406,26 @@
                            aria-labelledby="custom-tabs-four-profile-tab">
                         <div class="row">
 
+                          <!--                          <div class="col-12 col-sm-3">-->
+                          <!--                            <div class="form-group">-->
+                          <!--                              <label class="font-weight-normal text-sm">Documentos Tipo</label>-->
+                          <!--                              <select class="custom-select form-control-border">-->
+                          <!--                                <option>Seleccione...</option>-->
+                          <!--                                <option>SI</option>-->
+                          <!--                                <option>NO</option>-->
+                          <!--                              </select>-->
+                          <!--                            </div>-->
+                          <!--                          </div>-->
+
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">Documentos Tipo</label>
-                              <select class="custom-select form-control-border">
-                                <option>Seleccione...</option>
-                                <option>SI</option>
-                                <option>NO</option>
-                              </select>
+                              <input
+                                formControlName="documentosTipo"
+                                type="text"
+                                name="documentosTipo"
+                                class="form-control"
+                              />
                             </div>
                           </div>
 
@@ -199,34 +433,21 @@
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">Codigo UNSPSC</label>
                               <input
-                                disabled
-                                type="text"
+                                formControlName="codigoUNSPSC"
+                                type="number"
                                 name="CodigoUNSPSC"
                                 class="form-control"
-                                placeholder="Ingrese Ubicación"
-                                value="{{ CodigoUNSPSC }}"
                               />
                             </div>
                           </div>
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
-                              <label class="font-weight-normal text-sm">Publicación de la invitación</label>
+                              <label class="font-weight-normal text-sm">Interadministrativos</label>
                               <input
-                                type="datetime-local"
-                                name="PublicacionInvitación"
-                                class="form-control"
-                                placeholder="Ingrese Publicación"
-                              />
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Estudios previos</label>
-                              <input
-                                type="datetime-local"
-                                name="Publicación de estudios previos"
+                                formControlName="interadministrativos"
+                                type="text"
+                                name="interadministrativos"
                                 class="form-control"
                               />
                             </div>
@@ -234,10 +455,11 @@
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
-                              <label class="font-weight-normal text-sm">Presentación de Ofertas</label>
+                              <label class="font-weight-normal text-sm">Definir lotes </label>
                               <input
-                                type="datetime-local"
-                                name="PresentaciónOfertas"
+                                formControlName="definirLotes"
+                                type="text"
+                                name="definirLotes"
                                 class="form-control"
                               />
                             </div>
@@ -245,54 +467,63 @@
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
-                              <label class="font-weight-normal text-sm">Apertura de sobres</label>
+                              <label class="font-weight-normal text-sm">Firma de Contrato</label>
                               <input
+                                min="{{fecha}}"
+                                formControlName="firmaContrato"
                                 type="datetime-local"
-                                name="Aperturasobres"
-                                class="form-control"
+                                name="firmaContrato"
+                                class="form-control text-sm"
                               />
                             </div>
                           </div>
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
-                              <label class="font-weight-normal text-sm">Presentación de ofertas</label>
+                              <label class="font-weight-normal text-sm">Fecha de inicio</label>
                               <input
+                                min="{{fecha}}"
+                                formControlName="fechaInicio"
                                 type="datetime-local"
-                                name="InformePresentaciónOfertas"
-                                class="form-control"
+                                name="fechaInicio"
+                                class="form-control text-sm"
                               />
                             </div>
                           </div>
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
-                              <label class="font-weight-normal text-sm">Evaluación de las Ofertas</label>
+                              <label class="font-weight-normal text-sm">Fecha termino</label>
                               <input
+                                min="{{fecha}}"
+                                formControlName="fechaTermino"
                                 type="datetime-local"
-                                name="EvaluaciónOfertas"
-                                class="form-control"
+                                name="fechaTermino"
+                                class="form-control text-sm"
                               />
                             </div>
                           </div>
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
-                              <label class="font-weight-normal text-sm">Verificación o evaluación</label>
+                              <label class="font-weight-normal text-sm">Plazo de ejecucion</label>
                               <input
+                                min="{{fecha}}"
+                                formControlName="plazoEjecucion"
                                 type="datetime-local"
-                                name="informeVerificaciónEvaluación"
-                                class="form-control"
+                                name="plazoEjecucion"
+                                class="form-control text-sm"
                               />
                             </div>
                           </div>
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
-                              <label class="font-weight-normal text-sm">Aceptación de ofertas</label>
+                              <label class="font-weight-normal text-sm">Definir Plan de Pagos </label>
                               <input
-                                type="datetime-local"
-                                name="AceptaciónOfertas"
+                                formControlName="definirPagos"
+                                type="text"
+                                name="definirPagos"
                                 class="form-control"
                               />
                             </div>
@@ -301,27 +532,80 @@
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm"
-                              >Valor de Contrato</label
+                              >Valor Estimado</label
                               >
                               <div class="input-group">
-                                <input
-                                  currencyMask
-                                  formControlName="valorcontrato"
-                                  name="valorcontrato"
-                                  class="form-control"
-                                  placeholder="Ingrese Valor"
-
+                                <input (change)="getChangeContractValue()"
+                                       (keyup.enter)="getCdpMount()"
+                                       currencyMask
+                                       formControlName="valorContrato"
+                                       name="valorContrato"
+                                       class="form-control"
                                 />
                                 <div class="input-group-append">
-                                    <span
-                                      (click)="getCdpMount()"
-                                      class="input-group-text cursor"
+                                    <span [style]="{'background-color': getColor()}"
+                                          (click)="getCdpMount()"
+                                          class="input-group-text cursor"
                                     ><i class="fas fa-dollar-sign"></i
                                     ></span>
                                 </div>
                               </div>
                             </div>
                           </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">
+                                Duracion Contrato
+                              </label>
+                              <select
+                                (change)="activateTiempo()"
+                                class="custom-select form-control-border"
+                                formControlName="duracionContrato"
+                              >
+                                <option>Años</option>
+                                <option>Dias</option>
+                                <option>Horas</option>
+                                <option>Meses</option>
+                                <option>Semanas</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">
+                                Tiempo contrato
+                                <i class="fa fa-check-circle" [style]="{'color': iconColor}"></i>
+                              </label>
+                              <div class="input-group">
+                                <input (keyup)="changeTiempoDuracion()"
+                                       (keyup.enter)="validateDuracion($event)"
+                                       formControlName="tiempoDuracion"
+                                       type="number"
+                                       name="tiempoDuracion"
+                                       class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          <!--                          <div class="col-12 col-sm-3">-->
+                          <!--                            <div class="form-group">-->
+                          <!--                              <label class="font-weight-normal text-sm">Destinacion del Gasto</label>-->
+                          <!--                              <select-->
+                          <!--                                formControlName="destinacionGasto"-->
+                          <!--                                class="custom-select form-control-border"-->
+                          <!--                              >-->
+                          <!--                                <option-->
+                          <!--                                  *ngFor="let gasto of gastos"-->
+                          <!--                                  value="{{ gasto }}"-->
+                          <!--                                >-->
+                          <!--                                  {{ gasto }}-->
+                          <!--                                </option>-->
+                          <!--                              </select>-->
+                          <!--                            </div>-->
+                          <!--                          </div>-->
 
                         </div>
                       </div>
@@ -331,25 +615,25 @@
                   <!-- /.card -->
                 </div>
               </div>
-
               <div class="row">
-
               </div>
+              <button
+                [hidden]="createProcessForm.invalid || !createProcessForm.valid ||color == false || iconColor == 'lightgray'"
+                type="submit"
+                class="btn btn-primary float-left btn-sm btn-block"
+              >
+                <b>Crear Proceso</b>
+              </button>
             </form>
-            <button
-              [disabled]="createProcessForm.invalid"
-              type="submit"
-              class="btn btn-primary float-left btn-sm"
-            >
-              <b>Crear Proceso</b>
-            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <br/>
+    <!--    <button type="button" (click)="test()">surprise</button>-->
 
+    <br/>
+    <!--  MIS PROCESOS  -->
     <section class="content">
       <div class="container-fluid">
         <div class="card ml-3 mr-3">
@@ -364,130 +648,135 @@
               </button>
             </div>
 
-            <h6 class="card-title ml-3" style="color: #545cd8">
-              <b>{{ "procesos.procesosSecop" | translate }}</b>
-            </h6>
-          </div>
-          <div class="card-body">
-            <div class="container">
-              <div class="table-responsive">
-                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered  row-border hover">
-                  <thead>
-                  <tr class="tit_table text-sm">
-                    <th scope="col">Id del proceso</th>
-                    <th scope="col">Ref del proceso</th>
-                    <th scope="col">Nombre del contrato</th>
-                    <th scope="col">Entidad estatal</th>
-                    <th scope="col">Tipo de contrato</th>
-                    <!--                    <th scope="col">Fecha firma</th>-->
-                    <!--                    <th scope="col">Fecha finalizaciòn</th>-->
-                    <th scope="col">Tipo de contrato</th>
-                    <th scope="col">Fase</th>
-                    <th scope="col">URL Proceso</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let res of result">
-                    <td row style="font-size: 12px; color: #545cd8; font-weight: bold">{{ res.id_del_proceso}}</td>
-                    <td row style="font-size: 12px">{{ res.referencia_del_proceso | titlecase}}</td>
-                    <td style="font-size: 12px">{{ res.nombre_del_procedimiento | titlecase}}</td>
-                    <td style="font-size: 12px">{{ res.entidad | titlecase}}</td>
-                    <td style="font-size: 12px">{{ res.tipo_de_contrato| titlecase }}</td>
-                    <!--                    <td style="font-size: 12px">{{ res.fecha_de_publicacion_del | titlecase }}</td>-->
-                    <!--                    <td style="font-size: 12px">{{ res.fecha_de_ultima_publicaci | titlecase }}</td>-->
-                    <td style="font-size: 12px">{{ res.tipo_de_contrato | titlecase }}</td>
-                    <td style="font-size: 12px">{{ res.fase | titlecase}}</td>
-                    <td></td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <br/>
-
-    <section class="content">
-      <div class="container-fluid">
-        <div class="card ml-3 mr-3">
-          <div class="card-header" style="background-color: lavender">
-            <div class="card-tools">
-              <button
-                type="button"
-                class="btn btn-tool"
-                data-card-widget="collapse"
-              >
-                <i class="fas fa-minus"></i>
-              </button>
-            </div>
-
-            <h6 class="card-title ml-3" style="color: #545cd8">
+            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">
               <b>{{ "procesos.misProcesos" | translate }}</b>
             </h6>
           </div>
           <div class="card-body">
-            <div class="container">
+            <div>
               <div class="table-responsive">
-                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-                       class="
-                            align-middle
-                            table table-bordered table-striped table-hover
-                          "
-                >
-                  <thead>
-                  <tr class="tit_table text-sm">
-                    <!--                    <th scope="col">#</th>-->
-                    <th scope="col">Numeración</th>
-                    <th scope="col">ID Secop</th>
-                    <th scope="col">Nombre del contrato</th>
-                    <th scope="col">Entidad estatal</th>
-                    <th scope="col">Tipo de contrato</th>
-                    <th scope="col">Equipo</th>
-                    <!--<th scope="col">Facturación de la entidad</th>-->
-                    <th scope="col">Valor total de la oferta</th>
-                    <th scope="col">Opciones</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let info of info_process">
-                    <!--                    <td class="text-sm" row>{{ i + 1 }}</td>-->
-                    <td row style="font-size: 12px; color: #545cd8; font-weight: bold">{{ info.CONS_PROCESO }}</td>
-                    <td style="font-size: 12px;font-weight: bold">
-                                <span
-                                  style="color: rosybrown"
-                                  *ngIf="!info.SECOP_CODE"
-                                >Pendiente</span
-                                >
-                      <span>{{ info.SECOP_CODE }}</span>
-                    </td>
-                    <td style="font-size: 12px;">{{ info.NOMBRE }}</td>
-                    <td style="font-size: 12px;">{{ info.ENT_ESTATAL }}</td>
-                    <td style="font-size: 12px;">{{ info.TIPO_ENT }}</td>
-                    <td style="font-size: 12px;">{{ info.EQUIPO }}</td>
-                    <!--<td>{{ info.FACT_ENTIDAD }}</td>-->
-                    <!-- <td" *ngIf="info.VAL_OFERTA > 0" >{{ info.VAL_OFERTA | currency }}</td> -->
-                    <td style="font-size: 12px;">{{ info.VAL_OFERTA }}</td>
-                    <td style="font-size: 12px;">
-                      <!--<a href="#" target="_blank" rel="noopener noreferrer">
-                                    Ver detalle
-                                </a>-->
-<!--                      <a-->
-<!--                        routerLink="/home/administration-ci/det_aut/{{-->
-<!--                                    info.CONS_PROCESO-->
-<!--                                  }}"-->
-<!--                        routerLinkActive="active-item"-->
-<!--                        [routerLinkActiveOptions]="{ exact: true }"-->
-<!--                        class="vsm-link"-->
-<!--                      >-->
-<!--                        <span class="vsm-title">Revisar</span>-->
-<!--                      </a>-->
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
+                <mat-form-field appearance="fill">
+                  <mat-label>Filter</mat-label>
+                  <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+                </mat-form-field>
+                <div class="example-container mat-elevation-z8">
+                  <table mat-table [dataSource]="dataSource" matSort>
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="Num">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: bolder;color: black;"> Numeración
+                      </th>
+                      <td mat-cell *matCellDef="let row"
+                          style="font-size: 11px;color: #545cd8; font-weight: bold"> {{row.CONS_PROCESO}} </td>
+                    </ng-container>
+
+                    <!-- Progress Column -->
+                    <ng-container matColumnDef="Nombre">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: bolder;color: black"> Nombre del proceso
+                      </th>
+                      <td mat-cell *matCellDef="let row" style="font-size: 12px;word-break: break-all"> {{row.NOMBRE_PROCESO}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="Entidad">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: bolder;color: black"> Entidad
+                      </th>
+                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.ENTIDAD_CODE}} </td>
+                    </ng-container>
+
+                    <!-- Fruit Column -->
+                    <ng-container matColumnDef="Unidad">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: bolder;color: black"> Unidad
+                      </th>
+                      <td mat-cell *matCellDef="let row"
+                          style="font-size: 12px;"> {{row.UNI_CONTRATACION | titlecase}} </td>
+                    </ng-container>
+
+                    <!-- Fruit Column -->
+                    <!--                    <ng-container matColumnDef="Equipo">-->
+                    <!--                      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 14px;font-weight: bolder;color: black"> Equipo </th>-->
+                    <!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.EQUIPO_CONTRATACION | titlecase}} </td>-->
+                    <!--                    </ng-container>-->
+
+                    <!-- Fruit Column -->
+                    <ng-container matColumnDef="ValorOferta">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: bolder;color: black"> Valor Oferta
+                      </th>
+                      <td mat-cell *matCellDef="let row"
+                          style="font-size: 11px;color: rosybrown;font-weight: bold;text-align: right;"> {{row.VAL_OFERTA | currency}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                       <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr>
+                  </table>
+
+                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+                </div>
+
+                <!--                <table class="align-middle table table-bordered table-striped table-hover"-->
+                <!--                >-->
+                <!--                  <thead>-->
+                <!--                  <tr class="tit_table text-sm">-->
+                <!--                    &lt;!&ndash;                    <th scope="col">#</th>&ndash;&gt;-->
+                <!--                    <th scope="col">Numeración</th>-->
+                <!--                    <th scope="col">ID Secop</th>-->
+                <!--                    <th scope="col">Nombre del Proceso</th>-->
+                <!--                    <th scope="col">Dependencia</th>-->
+                <!--                    <th scope="col">Unidad</th>-->
+                <!--                    <th scope="col">Equipo</th>-->
+                <!--                    &lt;!&ndash;<th scope="col">Facturación de la entidad</th>&ndash;&gt;-->
+                <!--                    <th scope="col">Valor oferta</th>-->
+                <!--                    <th scope="col">Opciones</th>-->
+                <!--                  </tr>-->
+                <!--                  </thead>-->
+                <!--                  <tbody>-->
+                <!--                  <tr *ngFor="let info of info_process">-->
+                <!--                    &lt;!&ndash;                    <td class="text-sm" row>{{ i + 1 }}</td>&ndash;&gt;-->
+                <!--                    <td row style="font-size: 12px; color: #545cd8; font-weight: bold">{{ info.CONS_PROCESO }}</td>-->
+                <!--                    <td style="font-size: 12px;font-weight: bold">-->
+                <!--                                <span-->
+                <!--                                  style="color: rosybrown"-->
+                <!--                                  *ngIf="!info.SECOP_CODE"-->
+                <!--                                >Pendiente</span-->
+                <!--                                >-->
+                <!--                      <span>{{ info.SECOP_CODE }}</span>-->
+                <!--                    </td>-->
+                <!--                    <td style="font-size: 12px;">{{ info.NOMBRE_PROCESO }}</td>-->
+                <!--                    <td style="font-size: 12px;">{{ info.ENTIDAD_CODE }}</td>-->
+                <!--&lt;!&ndash;                    <td style="font-size: 12px;">{{ info.DEP_CODE }}</td>&ndash;&gt;-->
+                <!--                    <td style="font-size: 12px;">{{ info.UNI_CONTRATACION }}</td>-->
+                <!--                    <td style="font-size: 12px;">{{ info.EQUIPO_CONTRATACION }}</td>-->
+                <!--                    &lt;!&ndash;<td>{{ info.FACT_ENTIDAD }}</td>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                     <td" *ngIf="info.VAL_OFERTA > 0" >{{ info.VAL_OFERTA | currency }}</td>&ndash;&gt;-->
+                <!--                    <td style="font-size: 12px;">{{ info.VAL_OFERTA | currency }}</td>-->
+                <!--                    <td style="font-size: 12px;">-->
+                <!--                      &lt;!&ndash;                      <a href="#" target="_blank" rel="noopener noreferrer">&ndash;&gt;-->
+                <!--                      &lt;!&ndash;                                    Ver detalle&ndash;&gt;-->
+                <!--                      &lt;!&ndash;                      </a>&ndash;&gt;-->
+                <!--                      <a-->
+                <!--                        routerLink="/home/administration-ci/det_aut/{{-->
+                <!--                                    info.CONS_PROCESO-->
+                <!--                                  }}"-->
+                <!--                        routerLinkActive="active-item"-->
+                <!--                        [routerLinkActiveOptions]="{ exact: true }"-->
+                <!--                        class="vsm-link"-->
+                <!--                      >-->
+                <!--                        <span class="vsm-title">Revisar</span>-->
+                <!--                      </a>-->
+                <!--                    </td>-->
+                <!--                  </tr>-->
+                <!--                  </tbody>-->
+                <!--                </table>-->
 
                 <!--                <div class="d-flex justify-content-center">-->
                 <!--                  <pagination-controls-->
@@ -499,6 +788,195 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <br/>
+    <!--  PROCESOS EN SECOP  -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card ml-3 mr-3">
+          <div class="card-header" style="background-color: lavender">
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+
+            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">
+              <b>{{ "procesos.procesosSecop" | translate }}</b>
+            </h6>
+          </div>
+          <div class="card-body">
+            <div>
+              <div class="table-responsive">
+                <mat-form-field appearance="fill">
+                  <mat-label>Filter</mat-label>
+                  <input matInput (keyup)="applyFilterSecop($event)" placeholder="" #inputSecop>
+                </mat-form-field>
+                <div class="example-container mat-elevation-z8">
+                  <table mat-table [dataSource]="dataSourceSecop" #sortSecop matSort>
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="Num">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: bolder;color: black;"> Numeración
+                      </th>
+                      <td mat-cell *matCellDef="let row"
+                          style="font-size: 11px;color: #545cd8; font-weight: bold"> {{row.id_del_proceso}} </td>
+                    </ng-container>
+
+                    <!-- Progress Column -->
+                    <ng-container matColumnDef="Nombre">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: bolder;color: black"> Nombre del proceso
+                      </th>
+                      <td mat-cell *matCellDef="let row" style="font-size: 12px;word-break: break-all"> {{row.nombre_del_procedimiento | titlecase}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="Entidad">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: bolder;color: black"> Entidad
+                      </th>
+                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.entidad | titlecase}} </td>
+                    </ng-container>
+
+                    <!-- Fruit Column -->
+                    <ng-container matColumnDef="Unidad">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: bolder;color: black"> Unidad
+                      </th>
+                      <td mat-cell *matCellDef="let row"
+                          style="font-size: 12px;"> {{row.nombre_de_la_unidad_de | titlecase}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ValorOferta">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: bolder;color: black"> Valor Oferta
+                      </th>
+                      <td mat-cell *matCellDef="let row"
+                          style="font-size: 11px;color: rosybrown;font-weight: bold;text-align: right;"> {{row.precio_base | currency}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                      <td class="mat-cell" colspan="4">No data matching the filter "{{inputSecop.value}}"</td>
+                    </tr>
+                  </table>
+
+                  <mat-paginator #paginatorSecop [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div>
+
+                <!--                <table class="align-middle table table-bordered table-striped table-hover"-->
+                <!--                >-->
+                <!--                  <thead>-->
+                <!--                  <tr class="tit_table text-sm">-->
+                <!--                    &lt;!&ndash;                    <th scope="col">#</th>&ndash;&gt;-->
+                <!--                    <th scope="col">Numeración</th>-->
+                <!--                    <th scope="col">ID Secop</th>-->
+                <!--                    <th scope="col">Nombre del Proceso</th>-->
+                <!--                    <th scope="col">Dependencia</th>-->
+                <!--                    <th scope="col">Unidad</th>-->
+                <!--                    <th scope="col">Equipo</th>-->
+                <!--                    &lt;!&ndash;<th scope="col">Facturación de la entidad</th>&ndash;&gt;-->
+                <!--                    <th scope="col">Valor oferta</th>-->
+                <!--                    <th scope="col">Opciones</th>-->
+                <!--                  </tr>-->
+                <!--                  </thead>-->
+                <!--                  <tbody>-->
+                <!--                  <tr *ngFor="let info of info_process">-->
+                <!--                    &lt;!&ndash;                    <td class="text-sm" row>{{ i + 1 }}</td>&ndash;&gt;-->
+                <!--                    <td row style="font-size: 12px; color: #545cd8; font-weight: bold">{{ info.CONS_PROCESO }}</td>-->
+                <!--                    <td style="font-size: 12px;font-weight: bold">-->
+                <!--                                <span-->
+                <!--                                  style="color: rosybrown"-->
+                <!--                                  *ngIf="!info.SECOP_CODE"-->
+                <!--                                >Pendiente</span-->
+                <!--                                >-->
+                <!--                      <span>{{ info.SECOP_CODE }}</span>-->
+                <!--                    </td>-->
+                <!--                    <td style="font-size: 12px;">{{ info.NOMBRE_PROCESO }}</td>-->
+                <!--                    <td style="font-size: 12px;">{{ info.ENTIDAD_CODE }}</td>-->
+                <!--&lt;!&ndash;                    <td style="font-size: 12px;">{{ info.DEP_CODE }}</td>&ndash;&gt;-->
+                <!--                    <td style="font-size: 12px;">{{ info.UNI_CONTRATACION }}</td>-->
+                <!--                    <td style="font-size: 12px;">{{ info.EQUIPO_CONTRATACION }}</td>-->
+                <!--                    &lt;!&ndash;<td>{{ info.FACT_ENTIDAD }}</td>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                     <td" *ngIf="info.VAL_OFERTA > 0" >{{ info.VAL_OFERTA | currency }}</td>&ndash;&gt;-->
+                <!--                    <td style="font-size: 12px;">{{ info.VAL_OFERTA | currency }}</td>-->
+                <!--                    <td style="font-size: 12px;">-->
+                <!--                      &lt;!&ndash;                      <a href="#" target="_blank" rel="noopener noreferrer">&ndash;&gt;-->
+                <!--                      &lt;!&ndash;                                    Ver detalle&ndash;&gt;-->
+                <!--                      &lt;!&ndash;                      </a>&ndash;&gt;-->
+                <!--                      <a-->
+                <!--                        routerLink="/home/administration-ci/det_aut/{{-->
+                <!--                                    info.CONS_PROCESO-->
+                <!--                                  }}"-->
+                <!--                        routerLinkActive="active-item"-->
+                <!--                        [routerLinkActiveOptions]="{ exact: true }"-->
+                <!--                        class="vsm-link"-->
+                <!--                      >-->
+                <!--                        <span class="vsm-title">Revisar</span>-->
+                <!--                      </a>-->
+                <!--                    </td>-->
+                <!--                  </tr>-->
+                <!--                  </tbody>-->
+                <!--                </table>-->
+
+                <!--                <div class="d-flex justify-content-center">-->
+                <!--                  <pagination-controls-->
+                <!--                    (pageChange)="page = $event"-->
+                <!--                    previousLabel="Anterior"-->
+                <!--                    nextLabel="Siguiente"-->
+                <!--                  ></pagination-controls>-->
+                <!--                </div>-->
+              </div>
+            </div>
+          </div>
+<!--          <div class="card-body">-->
+<!--            <div class="container">-->
+<!--              <div class="table-responsive">-->
+<!--                <table class="table table-bordered table-striped  row-border hover">-->
+<!--                  <thead>-->
+<!--                  <tr class="tit_table text-sm">-->
+<!--                    <th scope="col">Id del proceso</th>-->
+<!--                    <th scope="col">Ref del proceso</th>-->
+<!--                    <th scope="col">Nombre del contrato</th>-->
+<!--                    <th scope="col">Entidad estatal</th>-->
+<!--                    &lt;!&ndash;                    <th scope="col">Tipo de contrato</th>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <th scope="col">Fecha firma</th>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <th scope="col">Fecha finalizaciòn</th>&ndash;&gt;-->
+<!--                    <th scope="col">Tipo de contrato</th>-->
+<!--                    <th scope="col">Fase</th>-->
+<!--                    &lt;!&ndash;                    <th scope="col">URL Proceso</th>&ndash;&gt;-->
+<!--                  </tr>-->
+<!--                  </thead>-->
+<!--                  <tbody>-->
+<!--                  <tr *ngFor="let res of result">-->
+<!--                    <td row style="font-size: 12px; color: #545cd8; font-weight: bold">{{ res.id_del_proceso}}</td>-->
+<!--                    <td row style="font-size: 12px">{{ res.referencia_del_proceso | titlecase}}</td>-->
+<!--                    <td style="font-size: 12px">{{ res.nombre_del_procedimiento | titlecase}}</td>-->
+<!--                    <td style="font-size: 12px">{{ res.entidad | titlecase}}</td>-->
+<!--                    &lt;!&ndash;                    <td style="font-size: 12px">{{ res.tipo_de_contrato| titlecase }}</td>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <td style="font-size: 12px">{{ res.fecha_de_publicacion_del | titlecase }}</td>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <td style="font-size: 12px">{{ res.fecha_de_ultima_publicaci | titlecase }}</td>&ndash;&gt;-->
+<!--                    <td style="font-size: 12px">{{ res.tipo_de_contrato | titlecase }}</td>-->
+<!--                    <td style="font-size: 12px">{{ res.fase | titlecase}}</td>-->
+<!--                    &lt;!&ndash;                    <td></td>&ndash;&gt;-->
+<!--                  </tr>-->
+<!--                  </tbody>-->
+<!--                </table>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
       </div>
     </section>

@@ -1,12 +1,5 @@
-
-/* Height for devices larger than 576px */
-
 @media (min-width: 992px) {
   #intro {}
-}
-
-.colorLabels{
-
 }
 
 .cursor{
@@ -25,56 +18,50 @@ td, th {
 table {
   width: 100%;
 }
-:host {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+
+div_container{
+  overflow: auto;
 }
 
 .mat-column-Num {
-  width: 17%;
+  width: 18%;
   border-right: 1px solid lightgray;
-  /*padding-right: 1%;*/
-  text-align: left;
+  padding-right: 1%;
+  text-align: center;
 }
 .mat-column-Nombre {
   width: 24%;
   border-right: 1px solid lightgray;
   padding-left: 1%;
+  /*text-align: center;*/
+  /*align-content: center;*/
 }
-
 .mat-column-Entidad {
   width: 24%;
   border-right: 1px solid lightgray;
   padding-left: 1%;
+  /*text-align: center;*/
+  /*align-content: center;*/
 }
-
-.mat-column-Unidad {
+.mat-column-TipoContrato {
   width: 17%;
   border-right: 1px solid lightgray;
   padding-left: 1%;
+  /*text-align: center;*/
+  /*align-content: center;*/
 }
-
 .mat-column-ValorOferta {
-  width: 15%;
+  width: 30%;
+  /*border-right: 1px solid lightgray;*/
   padding-left: 1%;
   text-align: right;
+  /*align-content: center;*/
 }
 
-mat-cell{
-  display:flex !important;
-  justify-content:center!important;
-
+tr.hoverOnTable:hover {
+  background: aliceblue;
 }
 
-mat-header-cell {
-  display:flex;
-  justify-content:center;
-}
-
-.example-container {
-  display: flex;
-  flex-direction: column;
-  min-width: 300px;
-}
-
+/*tr.hoverOnTable:not(.hoverOnTable):active {*/
+/*  background: #efefef;*/
+/*}*/

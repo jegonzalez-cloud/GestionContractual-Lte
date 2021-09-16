@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 
 @Component({
@@ -12,5 +12,10 @@ export class PagesComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  // @HostListener('window:beforeunload')
+  // onBeforeUnload() {
+  //   return false;
+  // }
 
 }

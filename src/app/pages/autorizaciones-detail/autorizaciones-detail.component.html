@@ -1,0 +1,87 @@
+<div class="wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" id="background-home">
+    <section class="content-header">
+      <div class="container-fluid"></div>
+      <!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card ml-3 mr-3">
+          <div class="card-header mb-3" style="background-color: lavender">
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+
+            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">
+              <b>{{ "administration-CI.panels.menu2" | translate }}</b>
+            </h6>
+          </div>
+
+          <div class="ml-4">
+            <button type="button" class="btn btn-outline-secondary btn-sm">Rechazar</button>
+            <button type="button" class="btn btn-outline-success btn-sm ml-1">Autorizar</button>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+
+              <!-- ./col -->
+              <div class="col-md-12">
+                <div class="card">
+
+
+                  <div class="card-header">
+                    <h3 class="card-title">
+                      <i class="fas fa-text-width"></i>
+                      {{'autorizaciones.historial' | translate}}
+                    </h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <dl class="row">
+                      <dt class="line col-sm-3"><i style="color: #0052B4" class="fa fa-calendar-day"
+                                                   aria-hidden="true"> </i> <a style="color: black;font-size: 11px;">
+                        11/02/2021
+                        12:19:27</a>
+                      </dt>
+                      <dd class="col-sm-9">El usuario <a class="color">{{username | uppercase}}</a> correspondiente a <a
+                        class="color">{{nombre | uppercase}}</a> autorizó el proceso número
+                        <a class="color">{{numeroProceso}}</a>
+                        relacionado a la <a class="color">{{tipoContrato | uppercase}}</a> con
+                        plazo 2 <a class="color">{{duracion | uppercase}}</a> y valor <a
+                          class="color">{{valor | currency}}</a>
+                      </dd>
+                      <dt class="line col-sm-3"></dt>
+                      <dd class="col-sm-9">Correspondiente a la política Gestión de procesos contratación directa.</dd>
+                      <dt class="line col-sm-3"></dt>
+                      <dd class="col-sm-9">Observación: Sandra aprobó</dd>
+                      <!--                      <dd class="col-sm-10 offset-sm-2">Observación: Sandra aprobó</dd>-->
+                      <!--                      <dt class="col-sm-4">Malesuada porta</dt>-->
+                      <!--                      <dd class="col-sm-8">Etiam porta sem malesuada magna mollis euismod.</dd>-->
+                      <!--                      <dt class="col-sm-4">Felis euismod semper eget lacinia</dt>-->
+                      <!--                      <dd class="col-sm-8">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo-->
+                      <!--                        sit amet risus.-->
+                      <!--                      </dd>-->
+                    </dl>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- ./col -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>

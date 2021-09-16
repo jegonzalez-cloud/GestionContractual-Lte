@@ -31,7 +31,7 @@ export class EntidadesSecopEffects {
            tap((data:any) => {
             let arrayUnidades:any = [];
             let arrayEquipos:any = [];
-//             console.log(data)
+            console.log(data)
             data.entidades.DATA.forEach((value:any)=> {
               if(localStorage.getItem('unidades') != value.UNIDAD_CONTRATACION){
                 arrayUnidades.push(value.UNIDAD_CONTRATACION);

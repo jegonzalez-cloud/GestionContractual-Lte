@@ -13,6 +13,11 @@
     "procesos":{
         "crearProceso":"Create Process"
     },
+    "autorizaciones":{
+      "crearProceso":"Crear Proceso",
+      "misProcesos": "Mis Procesos",
+      "historial": "Authorization history"
+    },
     "administration-CI": {
         "titles": {
             "header": "Asset Management and Configuration",
@@ -46,7 +51,7 @@
             "menu1": "Processes",
             "menu2": "Authorizations",
             "menu3": "Contracts"
-        
+
         },
         "labels": {
 

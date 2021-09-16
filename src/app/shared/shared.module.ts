@@ -16,6 +16,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     SidebarComponent,
     FooterComponent,
     TranslateModule,
+    RouterModule
   ],
 })
 export class SharedModule {}

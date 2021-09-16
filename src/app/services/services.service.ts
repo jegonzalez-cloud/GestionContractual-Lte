@@ -20,4 +20,32 @@ export class ServicesService {
   getDataSecop(usuario:string,password:string){
     return this.http.get(`${environment.apiTestUrl}Users/GetDataSecop?username=`+usuario+`&password=`+password);
   }
+
+  getTipoProceso(){
+    return this.http.get(`${environment.apiTestUrl}Contratos/getTiposProceso`);
+  }
+
+  getTiposContrato(proceso:string){
+    return this.http.get(`${environment.apiTestUrl}Contratos/getTiposContrato?proceso=`+proceso);
+  }
+
+  getTiposJustificacionContrato(contrato:string){
+    return this.http.get(`${environment.apiTestUrl}Contratos/getTiposJustificacionContrato?tipoContrato=`+contrato);
+  }
+
+  getEquipoContratacion(tipoProceso:string){
+    return this.http.get(`${environment.apiTestUrl}Contratos/getEquiposContratacion?tipoProceso=`+tipoProceso);
+  }
+
+  getUnidadesContratacion(username:string,entidad:string){
+    return this.http.get(`${environment.apiTestUrl}Contratos/getUnidadesContratacion?entidad=`+entidad+`&username=`+username);
+  }
+
+  getDepartamentos(codigoPais:string){
+    return this.http.get(`${environment.apiTestUrl}Contratos/getDepartamentos?codigoPais=`+codigoPais);
+  }
+
+  getMunicipios(codigoDpto:string){
+    return this.http.get(`${environment.apiTestUrl}Contratos/getMunicipios?codigoDpto=`+codigoDpto);
+  }
 }

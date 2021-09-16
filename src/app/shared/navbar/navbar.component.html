@@ -3,8 +3,8 @@
   <!-- Left navbar links -->
   <ul class="navbar-nav">
     <li class="nav-item">
-      <a class="nav-link" data-widget="pushmenu" href="#" role="button"
-        ><i class="fas fa-bars"></i
+      <a class="nav-link" data-widget="pushmenu" role="button"
+      ><i class="fas fa-bars"></i
       ></a>
     </li>
   </ul>
@@ -33,12 +33,12 @@
           </div>
         </li> -->
 
-    <li class="nav-item dropdown">
+    <li class="nav-item dropdown " style="cursor: pointer">
       <div *ngIf="lenguaje === 'es'" class="mt-1" (click)="setIdioma()">
         <img
           width="20px"
           src="../../../assets/img/es.png"
-          class="img-circle elevation-2"
+          class="img-circle elevation-2 text-lg"
           alt="User Image"
         />
       </div>
@@ -46,7 +46,7 @@
         <img
           width="20px"
           src="../../../assets/img/en.svg"
-          class="img-circle elevation-2"
+          class="img-circle elevation-2 text-lg"
           alt="User Image"
         />
       </div>
@@ -66,36 +66,49 @@
     <!-- Notifications Dropdown Menu -->
     <li class="nav-item dropdown">
       <a class="nav-link" data-toggle="dropdown" href="#">
-        <i class="far fa-bell"></i>
-        <span class="badge badge-warning navbar-badge">15</span>
+        <i class="far fa-bell text-lg"></i>
+        <span *ngIf="cantidadAutorizaciones>0" class="badge badge-danger navbar-badge">{{cantidadAutorizaciones}}</span>
       </a>
-      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <span class="dropdown-item dropdown-header">15 Notifications</span>
+      <div id="divNotificaciones" class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
+        <div id="notificaciones-sticky-top" class="dropdown-item dropdown-header">{{cantidadAutorizaciones}}
+          Notificaciones
+        </div>
+        <!--        <option
+                                          *ngFor="let dep of departamentos"
+                                          value="{{ dep.DPTO_COD }}"
+                                        >
+                                          {{ dep.DPTO_DESCRIPCION }}
+                                        </option>-->
+        <div *ngFor="let aut of autorizaciones" style="text-align: center">
+          <div class="dropdown-divider"></div>
+          <p class="hoverOnTable" style="cursor: pointer" (click)="goDetail(aut.CONS_PROCESO)">
+            <i class="fas fa-envelope mr-2"></i> <a
+            style="color: black;font-size: small;word-break: break-all;">Se requiere autorizar # </a><a style="font-size: 11px;font-weight: bold;color: #545cd8">{{ aut.CONS_PROCESO}}</a>
+<!--            <a style="color: gray;font-size: small;word-break: break-all">{{aut.NOMBRE_PROCESO}}</a>-->
+            <!--            <span class="float-right text-muted text-sm">3 mins</span>-->
+          </p>
+        </div>
+
+        <!--        <div class="dropdown-divider"></div>-->
+        <!--        <a href="#" class="dropdown-item">-->
+        <!--          <i class="fas fa-users mr-2"></i> 8 friend requests-->
+        <!--          <span class="float-right text-muted text-sm">12 hours</span>-->
+        <!--        </a>-->
+        <!--        <div class="dropdown-divider"></div>-->
+        <!--        <a href="#" class="dropdown-item">-->
+        <!--          <i class="fas fa-file mr-2"></i> 3 new reports-->
+        <!--          <span class="float-right text-muted text-sm">2 days</span>-->
+        <!--        </a>-->
         <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-          <i class="fas fa-envelope mr-2"></i> 4 new messages
-          <span class="float-right text-muted text-sm">3 mins</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-          <i class="fas fa-users mr-2"></i> 8 friend requests
-          <span class="float-right text-muted text-sm">12 hours</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-          <i class="fas fa-file mr-2"></i> 3 new reports
-          <span class="float-right text-muted text-sm">2 days</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item dropdown-footer"
-          >See All Notifications</a
-        >
+        <div id="notificaciones-sticky-bot" [routerLink]="['autorizaciones']" class="dropdown-item dropdown-footer"
+        >Ver todas las notificaciones
+        </div>
       </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" (click)="logOut()" role="button">
-          <i style="color: red;" class="fas fa-sign-out-alt"></i>
-        </a>
+      <a class="nav-link" (click)="logOut()" role="button">
+        <i class="fas fa-sign-out-alt log-out text-lg"></i>
+      </a>
     </li>
     <!-- <li class="nav-item">
           <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">

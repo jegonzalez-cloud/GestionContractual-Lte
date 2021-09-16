@@ -4,7 +4,6 @@ import { LayoutComponent } from './layout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DataTablesModule } from "angular-datatables";
 import { NgxCurrencyModule } from "ngx-currency";
@@ -12,17 +11,16 @@ import { NgxCurrencyModule } from "ngx-currency";
 @NgModule({
   declarations: [LayoutComponent],
   imports: [
-    CommonModule,
+    // CommonModule,
     NgbModule,
-    NgxCurrencyModule,
-    NgxPaginationModule,
+    // NgxCurrencyModule,
     LayoutRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
+    // FormsModule,
+    // ReactiveFormsModule,
     SharedModule,
-    DataTablesModule
+    // DataTablesModule
   ],
-  exports:[NgbModule],
-  providers:[CurrencyPipe]
+  // exports:[NgbModule],
+  // providers:[CurrencyPipe]
 })
 export class LayoutModule {}

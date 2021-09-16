@@ -18,6 +18,11 @@
         "misProcesos": "Mis Procesos",
         "procesosSecop": "Procesos en Secop"
     },
+    "autorizaciones":{
+        "crearProceso":"Crear Proceso",
+        "misProcesos": "Mis Procesos",
+        "historial": "Historial de autorizaciones"
+    },
     "administration-CI": {
         "titles": {
             "header": "Gestión Contractual",

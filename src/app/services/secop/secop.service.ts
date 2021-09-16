@@ -20,17 +20,18 @@ export class SecopService {
   }
 
   public insertProcess(data: any) {
+    console.log(data)
     return this.httpClient.post(`${environment.apiTestUrl}contratos/insertProcess`, data);
   }
 
   // public searchDataSecop(col: any, param: any){
-  //   return this.httpClient.get(`${environment.apiSecopProviders}&${col}=${param}`);    
-  //   // return this.httpClient.get(`${environment.apiSecopProviders}&$where=${col} like '%25${param}%25'`);    
+  //   return this.httpClient.get(`${environment.apiSecopProviders}&${col}=${param}`);
+  //   // return this.httpClient.get(`${environment.apiSecopProviders}&$where=${col} like '%25${param}%25'`);
   // }
 
-  public searchDataSecop(col: any, param: any){    
-      return this.httpClient.get(`${environment.apiSecopProviders}&${col}=${param}`);            
-    // return this.httpClient.get(`${environment.apiSecopProviders}&$where=${col} like '%25${param}%25'`);    
+  public searchDataSecop(col: any, param: any){
+      return this.httpClient.get(`${environment.apiSecopProviders}&${col}=${param}`);
+    // return this.httpClient.get(`${environment.apiSecopProviders}&$where=${col} like '%25${param}%25'`);
   }
 
   public getLastConsecutive(type: any){
@@ -43,5 +44,9 @@ export class SecopService {
 
   public getDepartmentsCont(token: any){
     return this.httpClient.get(`${environment.apiTestUrl}contratos/GetDepartmentsCont?token=${token}`);
+  }
+
+  public getAutorizaciones(username: string, codigoEntidad: string, nombreEntidad:string, proceso:string){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getAutorizaciones?username=${username}&codigoEntidad=${codigoEntidad}&nombreEntidad=${nombreEntidad}&proceso=${proceso}`);
   }
 }
