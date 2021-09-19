@@ -2,28 +2,93 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" id="background-home">
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Launch demo modal
-    </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content" style="width: auto">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h4 class="modal-title"><b style="font-size: larger">Proceso # <a style="color: #545cd8">{{PROCESO}}</a></b>
+            </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-          <div class="modal-body">
-            ...
+          <div class="modal-body modal-dialog-scrollable">
+            <div>
+              <div class="callout callout-danger">
+                <p><b style="color: #545cd8;font-size: 16px">Información General</b></p>
+                <p><b>Tipo Proceso :</b> {{TIPO_PROCESO}}</p>
+                <p><b>Tipo Contrato :</b> {{TIPO_CONTRATO}}</p>
+                <p><b>Justificación Tipo Contrato :</b> {{JUST_TIPO_PROCESO}}</p>
+                <p><b>Nombre Proceso :</b> {{NOMBRE_PROCESO}}</p>
+                <p><b>Unidad Contratación :</b> {{UNI_CONTRATACION}}</p>
+                <p><b>Equipo Contratación :</b> {{EQUIPO_CONTRATACION}}</p>
+                <p style="word-break: break-all"><b>Objeto Proceso :</b> {{DESCRIPCION_PROCESO}}</p>
+              </div>
+
+
+              <div class="callout callout-danger">
+                <p><b style="color: #545cd8;font-size: 16px">Datos Personales</b></p>
+                <p><b>Tipo identificacion Proveedor :</b> {{TIP_IDEN_PROV}}</p>
+                <p><b>Cédula Proveedor :</b> {{COD_PROV}}</p>
+                <p><b>Nombre Proveedor :</b> {{NOM_PROV}}</p>
+                <p><b>Fecha Nacimiento Proveedor :</b> {{NACIMIENTO_PROV | date}}</p>
+                <p><b>Genero Proveedor :</b> {{GENERO_PROV}}</p>
+                <p><b>Email Proveedor :</b> {{CORREO_PROV}}</p>
+                <p><b>Dpto Proveedor :</b> {{DPTO_PROV}}</p>
+                <p><b>Ciudad Proveedor :</b> {{CIUDAD_PROV}}</p>
+                <p><b>Ubicación Proveedor :</b> {{UBICACION_PROV}}</p>
+                <p><b>Categoria Contratación :</b> {{CATE_CONTRATACION}}</p>
+                <p><b>Profesión Proveedor :</b> {{PROFESION_PROV}}</p>
+              </div>
+
+              <div class="callout callout-danger">
+                <p><b style="color: #545cd8;font-size: 16px">Configuración</b></p>
+                <p><b>Documentos Tipo :</b> {{DOCUMENTOS_TIPO}}</p>
+                <p><b>Interadministrativos :</b> {{INTERADMINISTRATIVOS}}</p>
+                <p><b>Definir Lotes :</b> {{DEFINIR_LOTES}}</p>
+                <p><b>Fecha de Inicio :</b> {{FECHA_INICIO | date}}</p>
+                <p><b>Fecha de Termino :</b> {{FECHA_TERMINO | date}}</p>
+                <p><b>Firma de Contrato :</b> {{FIRMA_CONTRATO | date}}</p>
+                <p><b>Plazo de Ejecución :</b> {{PLAZO_EJECUCION | date}}</p>
+                <p><b>Plan de Pagos :</b> {{PLAN_PAGOS}}</p>
+                <p><b>Valor Oferta :</b> {{VAL_OFERTA | currency}}</p>
+                <p><b>Duración Contrato :</b> {{TIEMPO_DURACION_CONTRATO}} {{DURACION_CONTRATO}}</p>
+              </div>
+            </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+          <div class="modal-footer justify-content-between">
+            <!--            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+            <button type="button" class="btn btn-secondary"
+                    data-dismiss="modal"
+                    (click)="rechazarAutorizacion(PROCESO)"
+                    [ngStyle]="{'display': (ROL == 40 && ESTADO != 1) ? 'none' : (ROL == 41 && ESTADO !=2) ? 'none' : (ROL == 42 && ESTADO != 3) ? 'none' : 'block' }">
+              Rechazar
+            </button>
+            <button type="button" class="btn btn-primary"
+                    data-dismiss="modal"
+                    (click)="aprobarAutorizacion(PROCESO)"
+                    [ngStyle]="{'display': (ROL == 40 && ESTADO != 1) ? 'none' : (ROL == 41 && ESTADO !=2) ? 'none' : (ROL == 42 && ESTADO != 3) ? 'none' : 'block' }">
+              Autorizar
+            </button>
+
+
+            <button type="button" class="btn btn-warning"
+                    data-dismiss="modal"
+                    (click)="fillModal(PROCESO)"
+                    [ngStyle]="{'display':
+                    (ROL == 40 && ESTADO == 1) ? 'none' : (ROL == 41 && ESTADO ==2) ? 'none' : (ROL == 42 && ESTADO == 3) ? 'none' : (ROL == 41 && ESTADO == 1) ? 'none' : (ROL == 42 && ESTADO ==1) ? 'none' : 'block' }">
+              Historial
+            </button>
           </div>
         </div>
+        <!-- /.modal-content -->
       </div>
+      <!-- /.modal-dialog -->
     </div>
+    <!-- /.modal -->
+
     <section class="content-header">
       <div class="container-fluid"></div>
       <!-- /.container-fluid -->
@@ -55,63 +120,89 @@
                   <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
                 </mat-form-field>
                 <div id="div_container" class="mat-elevation-z8">
-                  <table mat-table [dataSource]="dataSource" matSort>
+                  <table mat-table [dataSource]="dataSource">
                     <!-- ID Column -->
                     <ng-container matColumnDef="Num">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 14px;font-weight: bolder;color: black;"> Numeración </th>
-                      <td mat-cell *matCellDef="let row" style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.CONS_PROCESO | uppercase}} </td>
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
+                        Numeración
+                      </th>
+                      <td mat-cell *matCellDef="let row"
+                          style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.CONS_PROCESO | uppercase}} </td>
                     </ng-container>
 
                     <!-- Progress Column -->
                     <ng-container matColumnDef="Nombre">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 14px;font-weight: bolder;color: black"> Nombre del proceso </th>
-                      <td mat-cell *matCellDef="let row" style="font-size: 12px;word-break: break-all"> {{row.NOMBRE_PROCESO | titlecase}} </td>
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                        Nombre del proceso
+                      </th>
+                      <td mat-cell *matCellDef="let row"
+                          style="font-size: 12px;word-break: break-all"> {{row.NOMBRE_PROCESO | titlecase}} </td>
                     </ng-container>
 
                     <!-- Name Column -->
-                    <ng-container matColumnDef="Entidad">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 14px;font-weight: bolder;color: black"> Entidad </th>
-                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.ENTIDAD | titlecase}} </td>
+                    <ng-container matColumnDef="Estado">
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                        Estado
+                      </th>
+                      <td mat-cell *matCellDef="let row" style="font-size: 12px;color: rosybrown;font-weight: bold">
+                        Pendiente
+                      </td>
                     </ng-container>
 
                     <!-- Name Column -->
                     <ng-container matColumnDef="TipoContrato">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 14px;font-weight: bolder;color: black"> Tipo Contrato </th>
-                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.TIPO_CONTRATO | titlecase}} </td>
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                        Tipo Contrato
+                      </th>
+                      <td mat-cell *matCellDef="let row"
+                          style="font-size: 12px;"> {{row.TIPO_CONTRATO | titlecase}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="Duracion">
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                        Duración Contrato
+                      </th>
+                      <td mat-cell *matCellDef="let row"
+                          style="font-size: 12px;">{{row.TIEMPO_DURACION_CONTRATO}} {{row.DURACION_CONTRATO | titlecase}} </td>
                     </ng-container>
 
                     <!-- Fruit Column -->
-<!--                    <ng-container matColumnDef="Equipo">-->
-<!--                      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 14px;font-weight: bolder;color: black"> Equipo </th>-->
-<!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.UNI_CONTRATACION | titlecase}} </td>-->
-<!--                    </ng-container>-->
+                    <!--                    <ng-container matColumnDef="Equipo">-->
+                    <!--                      <th mat-header-cell *matHeaderCellDef  style="font-size: 14px;font-weight: bolder;color: black"> Equipo </th>-->
+                    <!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.UNI_CONTRATACION | titlecase}} </td>-->
+                    <!--                    </ng-container>-->
 
                     <!-- Fruit Column -->
                     <!--                    <ng-container matColumnDef="Equipo">-->
-                    <!--                      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 14px;font-weight: bolder;color: black"> Equipo </th>-->
+                    <!--                      <th mat-header-cell *matHeaderCellDef  style="font-size: 14px;font-weight: bolder;color: black"> Equipo </th>-->
                     <!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.EQUIPO_CONTRATACION | titlecase}} </td>-->
                     <!--                    </ng-container>-->
 
                     <!-- Fruit Column -->
                     <ng-container matColumnDef="ValorOferta">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 14px;font-weight: bolder;color: black"> Valor Oferta </th>
-                      <td mat-cell *matCellDef="let row" style="font-size: 12px;color: rosybrown;font-weight: bold"> {{row.VAL_OFERTA | currency}}</td>
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                        Valor Oferta
+                      </th>
+                      <td mat-cell *matCellDef="let row"
+                          style="font-size: 12px;color: rosybrown;font-weight: bold"> {{row.VAL_OFERTA | currency}}</td>
                     </ng-container>
 
-<!--                    <ng-container matColumnDef="opciones">-->
-<!--                      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 14px;font-weight: bolder;color: black"> Opciones </th>-->
-<!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;color: rosybrown;font-weight: bold"> <a routerLink="dashboard">Opciones</a> </td>-->
-<!--                    </ng-container>-->
+                    <!--                    <ng-container matColumnDef="opciones">-->
+                    <!--                      <th mat-header-cell *matHeaderCellDef  style="font-size: 14px;font-weight: bolder;color: black"> Opciones </th>-->
+                    <!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;color: rosybrown;font-weight: bold"> <a routerLink="dashboard">Opciones</a> </td>-->
+                    <!--                    </ng-container>-->
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr class="hoverOnTable" (click)="goDetail(row)" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr class="hoverOnTable" (click)="goDetail(row)" data-toggle="modal" data-target="#modal-default"
+                        mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
                     <!-- Row shown when there is no matching data. -->
                     <tr class="mat-row" *matNoDataRow>
                       <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
                     </tr>
                   </table>
-<!--                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>-->
+                  <!--                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>-->
                 </div>
               </div>
             </div>

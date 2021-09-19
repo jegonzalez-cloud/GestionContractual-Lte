@@ -6,7 +6,7 @@ log-out:hover{
 }
 
 #divNotificaciones{
-  height: 800%;
+  height: auto;
   min-height: 75%;
   overflow-y: scroll;
 }

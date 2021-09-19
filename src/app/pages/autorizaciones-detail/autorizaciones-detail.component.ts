@@ -17,25 +17,14 @@ export class AutorizacionesDetailComponent implements OnInit {
   valor!:string;
   duracion!:string;
   tipoContrato!:string;
+  estado!:string;
+  created!:string;
+  response!:any;
 
   constructor(private route:ActivatedRoute,private secopService:SecopService) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.myParam = params['id'];
-      let username = atob(localStorage.getItem('username')!) ;
-      let codigoEntidad = atob(localStorage.getItem('codigoEntidad')!) ;
-      let entidad = atob(localStorage.getItem('entidad')!) ;
-      this.secopService.getAutorizaciones(username,codigoEntidad,entidad,this.myParam).subscribe((response:any)=>{
-        console.log(response.Values.ResultFields);
-        this.numeroProceso = response.Values.ResultFields[0].CONS_PROCESO;
-        this.username = response.Values.ResultFields[0].USR_LOGIN;
-        this.nombre = response.Values.ResultFields[0].NOMBRE_USUARIO;
-        this.valor = response.Values.ResultFields[0].VAL_OFERTA;
-        this.duracion = response.Values.ResultFields[0].DURACION_CONTRATO;
-        this.tipoContrato = response.Values.ResultFields[0].TIPO_CONTRATO;
-      })
-    });
+    this.getAutorizacionesXProceso();
   }
 
   checkHistoryAuth(){
@@ -43,5 +32,25 @@ export class AutorizacionesDetailComponent implements OnInit {
   }
 
   printAction(something:any){}
+
+  getAutorizacionesXProceso(){
+    this.route.params.subscribe((params: Params) => {
+      this.myParam = params['id'];
+      console.log(this.myParam)
+      let username = atob(localStorage.getItem('username')!);
+      this.secopService.getAutorizacionesXProceso(this.myParam).subscribe((response:any)=>{
+        console.log(response);
+        this.response = response.Values.ResultFields;
+        // this.numeroProceso = response.Values.ResultFields[0].CONS_PROCESO;
+        // this.username = response.Values.ResultFields[0].USR_LOGIN;
+        // this.nombre = response.Values.ResultFields[0].NOMBRE_USUARIO;
+        // this.valor = response.Values.ResultFields[0].VAL_OFERTA;
+        // this.duracion = response.Values.ResultFields[0].DURACION_CONTRATO;
+        // this.tipoContrato = response.Values.ResultFields[0].TIPO_CONTRATO;
+        // this.estado = response.Values.ResultFields[0].ESTADO;
+        // this.created = response.Values.ResultFields[0].CREATED;
+      })
+    });
+  }
 
 }

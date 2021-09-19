@@ -218,6 +218,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               localStorage.setItem('conectPw', btoa(dataEntities[value].USC_PASSWORD));
               localStorage.setItem('usuarioConect', btoa(dataEntities[value].USC_USUARIO));
               localStorage.setItem('centroGestor', btoa(dataEntities[value].USC_GESTOR));
+              localStorage.setItem('rol', btoa(dataEntities[value].ROL_ID));
               this.goHome();
             } else {
               resolve('Por favor seleccione una Entidad!');

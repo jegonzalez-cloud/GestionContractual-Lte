@@ -11,6 +11,7 @@ export class SidebarComponent implements OnInit {
   nameUser: string = '';
   userImage: string = '';
   entidad: string = '';
+  rol:any = atob(localStorage.getItem('rol')!);
   constructor(private router:Router) {}
 
   ngOnInit(): void {

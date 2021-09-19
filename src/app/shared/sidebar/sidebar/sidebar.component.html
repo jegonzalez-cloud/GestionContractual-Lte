@@ -44,7 +44,7 @@
         >
           <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
-          <li class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+          <li *ngIf="rol == 39" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
             <a routerLink ="process" class="nav-link">
               <i class="nav-icon fa fa-edit"></i>
               <p style="color: #545cd8">
@@ -61,7 +61,7 @@
 <!--              </li>-->
 <!--            </ul>-->
           </li>
-          <li class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+          <li class="nav-item" *ngIf="rol != 39" [ngStyle]="{'cursor':'pointer'}">
             <a routerLink ="autorizaciones" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p style="color: #545cd8">

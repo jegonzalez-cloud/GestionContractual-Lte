@@ -1,3 +1,90 @@
+<!-- Modal -->
+<div class="modal fade" id="modal-default1" data-backdrop="static" data-keyboard="false" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content" style="width: auto">
+      <div class="modal-header">
+        <h4 class="modal-title"><b style="font-size: larger">Proceso # <a style="color: #545cd8">{{PROCESO}}</a></b>
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body modal-dialog-scrollable">
+        <div>
+          <div class="callout callout-danger">
+            <p><b style="color: #545cd8;font-size: 16px">Información General</b></p>
+
+<!--            <p style="word-break: break-all"><b>Tipo Proceso :</b> jojojojojooojjojojojojooojjojojojojooojjojojojojooojjojojojojooojjojojojojoooj</p>-->
+
+            <p><b>Tipo Proceso :</b> {{TIPO_PROCESO}}</p>
+            <p><b>Tipo Contrato :</b> {{TIPO_CONTRATO}}</p>
+            <p><b>Justificación Tipo Contrato :</b> {{JUST_TIPO_PROCESO}}</p>
+            <p><b>Nombre Proceso :</b> {{NOMBRE_PROCESO}}</p>
+            <p><b>Unidad Contratación :</b> {{UNI_CONTRATACION}}</p>
+            <p><b>Equipo Contratación :</b> {{EQUIPO_CONTRATACION}}</p>
+            <p style="word-break: break-all"><b>Objeto Proceso :</b> {{DESCRIPCION_PROCESO}}</p>
+          </div>
+
+
+          <div class="callout callout-danger">
+            <p><b style="color: #545cd8;font-size: 16px">Datos Personales</b></p>
+            <p><b>Tipo identificacion Proveedor :</b> {{TIP_IDEN_PROV}}</p>
+            <p><b>Cédula Proveedor :</b> {{COD_PROV}}</p>
+            <p><b>Nombre Proveedor :</b> {{NOM_PROV}}</p>
+            <p><b>Fecha Nacimiento Proveedor :</b> {{NACIMIENTO_PROV | date}}</p>
+            <p><b>Genero Proveedor :</b> {{GENERO_PROV}}</p>
+            <p><b>Email Proveedor :</b> {{CORREO_PROV}}</p>
+            <p><b>Dpto Proveedor :</b> {{DPTO_PROV}}</p>
+            <p><b>Ciudad Proveedor :</b> {{CIUDAD_PROV}}</p>
+            <p><b>Ubicación Proveedor :</b> {{UBICACION_PROV}}</p>
+            <p><b>Categoria Contratación :</b> {{CATE_CONTRATACION}}</p>
+            <p><b>Profesión Proveedor :</b> {{PROFESION_PROV}}</p>
+          </div>
+
+          <div class="callout callout-danger">
+            <p><b style="color: #545cd8;font-size: 16px">Configuración</b></p>
+            <p><b>Documentos Tipo :</b> {{DOCUMENTOS_TIPO}}</p>
+            <p><b>Interadministrativos :</b> {{INTERADMINISTRATIVOS}}</p>
+            <p><b>Definir Lotes :</b> {{DEFINIR_LOTES}}</p>
+            <p><b>Fecha de Inicio :</b> {{FECHA_INICIO | date}}</p>
+            <p><b>Fecha de Termino :</b> {{FECHA_TERMINO | date}}</p>
+            <p><b>Firma de Contrato :</b> {{FIRMA_CONTRATO | date}}</p>
+            <p><b>Plazo de Ejecución :</b> {{PLAZO_EJECUCION | date}}</p>
+            <p><b>Plan de Pagos :</b> {{PLAN_PAGOS}}</p>
+            <p><b>Valor Oferta :</b> {{VAL_OFERTA | currency}}</p>
+            <p><b>Duración Contrato :</b> {{TIEMPO_DURACION_CONTRATO}} {{DURACION_CONTRATO}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <!--            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+        <button type="button" class="btn btn-secondary"
+                data-dismiss="modal"
+                (click)="rechazarAutorizacion(PROCESO)"
+                [ngStyle]="{'display': (ROL == 40 && ESTADO != 1) ? 'none' : (ROL == 41 && ESTADO !=2) ? 'none' : (ROL == 42 && ESTADO != 3) ? 'none' : 'block' }">
+          Rechazar
+        </button>
+        <button type="button" class="btn btn-primary"
+                data-dismiss="modal"
+                (click)="aprobarAutorizacion(PROCESO)"
+                [ngStyle]="{'display': (ROL == 40 && ESTADO != 1) ? 'none' : (ROL == 41 && ESTADO !=2) ? 'none' : (ROL == 42 && ESTADO != 3) ? 'none' : 'block' }">
+          Autorizar
+        </button>
+
+
+        <button type="button" class="btn btn-warning"
+                data-dismiss="modal"
+                (click)="fillModal(PROCESO)"
+                [ngStyle]="{'display':
+                    (ROL == 40 && ESTADO == 1) ? 'none' : (ROL == 41 && ESTADO ==2) ? 'none' : (ROL == 42 && ESTADO == 3) ? 'none' : (ROL == 41 && ESTADO == 1) ? 'none' : (ROL == 42 && ESTADO ==1) ? 'none' : 'block' }">
+          Historial
+        </button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
   <!-- Left navbar links -->
@@ -81,7 +168,7 @@
                                         </option>-->
         <div *ngFor="let aut of autorizaciones" style="text-align: center">
           <div class="dropdown-divider"></div>
-          <p class="hoverOnTable" style="cursor: pointer" (click)="goDetail(aut.CONS_PROCESO)">
+          <p data-toggle="modal" data-target="#modal-default1" class="hoverOnTable" style="cursor: pointer" (click)="goDetail(aut.CONS_PROCESO)">
             <i class="fas fa-envelope mr-2"></i> <a
             style="color: black;font-size: small;word-break: break-all;">Se requiere autorizar # </a><a style="font-size: 11px;font-weight: bold;color: #545cd8">{{ aut.CONS_PROCESO}}</a>
 <!--            <a style="color: gray;font-size: small;word-break: break-all">{{aut.NOMBRE_PROCESO}}</a>-->

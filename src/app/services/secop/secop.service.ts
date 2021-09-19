@@ -49,4 +49,28 @@ export class SecopService {
   public getAutorizaciones(username: string, codigoEntidad: string, nombreEntidad:string, proceso:string){
     return this.httpClient.get(`${environment.apiTestUrl}contratos/getAutorizaciones?username=${username}&codigoEntidad=${codigoEntidad}&nombreEntidad=${nombreEntidad}&proceso=${proceso}`);
   }
+
+  public getSelectedProcess(token:string,proceso:string){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getSelectedProcess?proceso=${proceso}&token=${token}`);
+  }
+
+  public getAutorizacionesXEntidad(codigoEntidad:string){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getAutorizacionesXEntidad?codigoEntidad=${codigoEntidad}`);
+  }
+
+  public getAutorizacionesXProceso(proceso:string){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getAutorizacionesXProceso?proceso=${proceso}`);
+  }
+
+  public updateProcess(proceso:string,rol:any,entidad:string,codigoEntidad:string,username:string,rechazo:string){
+    let data = {
+      "proceso": proceso,
+      "rol": rol,
+      "entidad":entidad,
+      "codigoEntidad":codigoEntidad,
+      "username":username,
+      "rechazo":rechazo
+    }
+    return this.httpClient.post(`${environment.apiTestUrl}contratos/updateProcess`, data);
+  }
 }

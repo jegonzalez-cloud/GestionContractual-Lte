@@ -21,14 +21,15 @@
             </div>
 
             <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">
-              <b>{{ "administration-CI.panels.menu2" | translate }}</b>
+              <i class="fas fa-text-width"></i>
+              <b>  {{'autorizaciones.historial' | translate}}</b>
             </h6>
           </div>
 
-          <div class="ml-4">
-            <button type="button" class="btn btn-outline-secondary btn-sm">Rechazar</button>
-            <button type="button" class="btn btn-outline-success btn-sm ml-1">Autorizar</button>
-          </div>
+<!--          <div class="ml-4">-->
+<!--            <button type="button" class="btn btn-outline-secondary btn-sm">Imprimir</button>-->
+<!--&lt;!&ndash;            <button type="button" class="btn btn-outline-success btn-sm ml-1">Autorizar</button>&ndash;&gt;-->
+<!--          </div>-->
 
           <div class="card-body">
             <div class="row">
@@ -40,29 +41,29 @@
 
                   <div class="card-header">
                     <h3 class="card-title">
-                      <i class="fas fa-text-width"></i>
-                      {{'autorizaciones.historial' | translate}}
+                      <button type="button" class="btn btn-outline-secondary btn-sm">Imprimir</button>
+<!--                      <i class="fas fa-text-width"></i>-->
+<!--                      {{'autorizaciones.historial' | translate}}-->
                     </h3>
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
-                    <dl class="row">
+                    <dl class="row" *ngFor="let det of response">
                       <dt class="line col-sm-3"><i style="color: #0052B4" class="fa fa-calendar-day"
-                                                   aria-hidden="true"> </i> <a style="color: black;font-size: 11px;">
-                        11/02/2021
-                        12:19:27</a>
+                                                   aria-hidden="true"> </i> <a style="color: black;font-size: 13px;">
+                        {{det.CREATED}}</a>
                       </dt>
-                      <dd class="col-sm-9">El usuario <a class="color">{{username | uppercase}}</a> correspondiente a <a
-                        class="color">{{nombre | uppercase}}</a> autorizó el proceso número
-                        <a class="color">{{numeroProceso}}</a>
-                        relacionado a la <a class="color">{{tipoContrato | uppercase}}</a> con
-                        plazo 2 <a class="color">{{duracion | uppercase}}</a> y valor <a
-                          class="color">{{valor | currency}}</a>
+                      <dd class="col-sm-9">El usuario <a class="color">{{det.USR_LOGIN | uppercase}}</a> correspondiente a <a
+                        class="color">{{det.NOMBRE_USUARIO | uppercase}}</a><b> {{(det.AUTORIZACION_ESTADO != 0) ? 'autorizó' : 'rechazó'}}</b>  el proceso número
+                        <a class="color">{{det.CONS_PROCESO}}</a>
+                        relacionado a la <a class="color">{{det.TIPO_CONTRATO | uppercase}}</a> con
+                        plazo <a class="color"> {{det.TIEMPO_DURACION_CONTRATO}} {{det.DURACION_CONTRATO | uppercase}}</a> y valor <a
+                          class="color">{{det.VAL_OFERTA | currency}}</a>
                       </dd>
                       <dt class="line col-sm-3"></dt>
-                      <dd class="col-sm-9">Correspondiente a la política Gestión de procesos contratación directa.</dd>
+                      <dd class="col-sm-9">Correspondiente a la política <a class="color">{{det.TIPO_PROCESO | uppercase}}.</a></dd>
                       <dt class="line col-sm-3"></dt>
-                      <dd class="col-sm-9">Observación: Sandra aprobó</dd>
+                      <dd class="col-sm-9">Observación: {{det.NOMBRE_USUARIO | titlecase}} {{(det.AUTORIZACION_ESTADO != 0) ? 'aprobó' : 'rechazó'}}</dd>
                       <!--                      <dd class="col-sm-10 offset-sm-2">Observación: Sandra aprobó</dd>-->
                       <!--                      <dt class="col-sm-4">Malesuada porta</dt>-->
                       <!--                      <dd class="col-sm-8">Etiam porta sem malesuada magna mollis euismod.</dd>-->

@@ -26,18 +26,24 @@ div_container{
 .mat-column-Num {
   width: 18%;
   border-right: 1px solid lightgray;
-  padding-right: 1%;
-  text-align: center;
+  /*padding-right: 1%;*/
+  text-align: left;
 }
 .mat-column-Nombre {
-  width: 24%;
+  /*white-space: nowrap;*/
+  /*width: 5%;*/
+  /*overflow: hidden;*/
   border-right: 1px solid lightgray;
   padding-left: 1%;
-  /*text-align: center;*/
-  /*align-content: center;*/
+  /*text-overflow: ellipsis;*/
+  width: 20%;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.mat-column-Entidad {
-  width: 24%;
+.mat-column-Estado {
+  width: 8%;
   border-right: 1px solid lightgray;
   padding-left: 1%;
   /*text-align: center;*/
@@ -55,6 +61,13 @@ div_container{
   /*border-right: 1px solid lightgray;*/
   padding-left: 1%;
   text-align: right;
+  /*align-content: center;*/
+}
+.mat-column-Duracion {
+  width: 15%;
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  text-align: center;
   /*align-content: center;*/
 }
 
