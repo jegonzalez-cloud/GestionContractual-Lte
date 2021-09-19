@@ -198,7 +198,8 @@ export class NavbarComponent implements OnInit {
       // console.log(response);
       this.service.sendClickEvent();
       if(response.Status = 'Ok'){
-        utils.showAlert('Se autorizo el proceso #'+proceso+ ' correctamente!','success')
+        utils.showAlert('Se autorizo el proceso #'+proceso+ ' correctamente!','success');
+        //disparar creacion secop segun rol
       }
     });
   }

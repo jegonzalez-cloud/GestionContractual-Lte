@@ -73,4 +73,21 @@ export class SecopService {
     }
     return this.httpClient.post(`${environment.apiTestUrl}contratos/updateProcess`, data);
   }
+
+  public getReferencias(){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getReferencias`);
+  }
+
+  public getAsociacion(){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getAsociacion`);
+  }
+
+  public updateTabla(referencia:string,asociacion:string,proceso:string){
+    let data = {
+      "referencia": referencia,
+      "asociacion": asociacion,
+      "proceso": proceso,
+    };
+    return this.httpClient.post(`${environment.apiTestUrl}contratos/updateTabla`, data);
+  }
 }

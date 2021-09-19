@@ -91,13 +91,6 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   }
 
   goDetail(row: any) {
-    // console.log(row.CONS_PROCESO);
-    // let row = evento.target.closest('tr').childNodes.item(0).innerHTML
-    // alert('elpupy')
-    let navigationExtras: NavigationExtras = {
-      queryParams: {'id': row.CONS_PROCESO}
-    };
-
     this.secopService.getSelectedProcess(this.token,row.CONS_PROCESO).subscribe((response: any) => {
       console.log(response.Values.ResultFields);
       this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
@@ -137,34 +130,25 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
 
       // this.autorizaciones = response.Values.ResultFields;
     });
-    // Swal.fire(
-    //   'Autorización de proceso!',
-    //   'Desea Aurizar el proceso # '+row.CONS_PROCESO+'?',
-    //   'question'
-    // )
-    // this.router.navigate(['home/autorizaciones-det/'+row.CONS_PROCESO]);
-    // this.router.navigate([route], { queryParams: { id: contact.id } });
-    // this.router.navigate(['process']);
   }
 
   fillModal(numProceso:any) {
-    console.log(numProceso)
+    // console.log(numProceso)
     this.router.navigate(['home/autorizaciones-det/'+numProceso]);
   }
 
   aprobarAutorizacion(proceso:string){
     this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'NO').subscribe((response:any)=>{
-      // console.log(response);
       this.service.sendClickEvent();
       if(response.Status = 'Ok'){
-        utils.showAlert('Se autorizo el proceso #'+proceso+ ' correctamente!','success')
+        utils.showAlert('Se autorizo el proceso #'+proceso+ ' correctamente!','success');
+        //disparar creacion secop segun rol
       }
     });
   }
 
   rechazarAutorizacion(proceso:string){
     this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'SI').subscribe((response:any)=>{
-      // console.log(response);
       this.service.sendClickEvent();
       if(response.Status = 'Ok'){
         utils.showAlert('Se rechazo el proceso #'+proceso+ '!','warning')
@@ -174,7 +158,6 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
 
   getAutorizacionesXEntidad(){
     this.secopService.getAutorizacionesXEntidad(this.entidad).subscribe((response:any)=>{
-      console.log(response)
       this.autorizaciones = response.Values.ResultFields;
       this.infoProcess();
     })

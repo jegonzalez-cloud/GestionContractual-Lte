@@ -41,10 +41,66 @@
 
                   <div class="card-header">
                     <h3 class="card-title">
-                      <button type="button" class="btn btn-outline-secondary btn-sm">Imprimir</button>
+<!--                      -->
 <!--                      <i class="fas fa-text-width"></i>-->
 <!--                      {{'autorizaciones.historial' | translate}}-->
                     </h3>
+                    <form [formGroup]="tablaForm" (ngSubmit)="updateTabla()"
+                          (keydown.enter)="$event.preventDefault()">
+                      <div class="col-12 col-sm-2">
+                        <div class="form-group">
+                          <button type="button" class="btn btn-outline-secondary btn-sm mb-3" (click)="generatePdf()">Imprimir</button>
+                        </div>
+                      </div>
+                      <div class="row mb-0 mt-3">
+
+                        <div class="col-12 col-sm-4">
+                          <div class="form-group">
+                            <!--                            <label class="font-weight-normal text-sm">Referencia</label>-->
+                            <select
+                              formControlName="referencia"
+                              class="custom-select form-control-border"
+                            >
+                              <option selected="selected">Referencia</option>
+                              <option *ngFor="let ref of REFERENCIAS">{{ref.REF_DESCRIPCION}}</option>
+                              <!--                              <option>2</option>-->
+                              <!--                            <option-->
+                              <!--                              *ngFor="let gasto of gastos"-->
+                              <!--                              value="{{ gasto }}"-->
+                              <!--                            >-->
+                              <!--                              {{ gasto }}-->
+                              <!--                            </option>-->
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                          <div class="form-group">
+                            <!--                            <label class="font-weight-normal text-sm">Asociación</label>-->
+                            <select
+                              formControlName="asociacion"
+                              class="custom-select form-control-border"
+                            >
+                              <option selected="selected">Asociación</option>
+                              <option *ngFor="let ref of ASOCIACION">{{ref.ASO_DESCRIPCION}}</option>
+                              <!--                            <option-->
+                              <!--                              *ngFor="let gasto of gastos"-->
+                              <!--                              value="{{ gasto }}"-->
+                              <!--                            >-->
+                              <!--                              {{ gasto }}-->
+                              <!--                            </option>-->
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-2">
+                          <div class="form-group">
+                            <button type="submit" [disabled]="prueba" class="btn btn-outline-primary btn-md"><i class="fa fa-edit"></i></button>
+                          </div>
+                        </div>
+                      </div>
+
+                    </form>
+
+
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">

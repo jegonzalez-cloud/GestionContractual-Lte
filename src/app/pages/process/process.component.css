@@ -38,9 +38,17 @@ table {
   text-align: left;
 }
 .mat-column-Nombre {
-  width: 24%;
-  border-right: 1px solid lightgray;
+  /*width: 24%;*/
+  /*border-right: 1px solid lightgray;*/
   padding-left: 1%;
+  border-right: 1px solid lightgray;
+  /*padding-left: 1%;*/
+  /*text-overflow: ellipsis;*/
+  width: 20%;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .mat-column-Entidad {
