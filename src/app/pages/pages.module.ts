@@ -58,6 +58,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AutorizacionesComponent } from './autorizaciones/autorizaciones.component';
 import { AutorizacionesDetailComponent } from './autorizaciones-detail/autorizaciones-detail.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { AutorizacionesDetailComponent } from './autorizaciones-detail/autorizac
     ProcessComponent,
     PagesComponent,
     AutorizacionesComponent,
-    AutorizacionesDetailComponent
+    AutorizacionesDetailComponent,
+    BusquedaComponent
   ],
     imports: [
       CommonModule,

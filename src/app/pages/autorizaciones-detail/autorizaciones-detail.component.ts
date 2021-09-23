@@ -57,10 +57,10 @@ export class AutorizacionesDetailComponent implements OnInit {
   getAutorizacionesXProceso() {
     this.route.params.subscribe((params: Params) => {
       this.myParam = params['id'];
-      console.log(this.myParam)
+      // console.log(this.myParam)
       let username = atob(localStorage.getItem('username')!);
       this.secopService.getAutorizacionesXProceso(this.myParam).subscribe((response: any) => {
-        console.log(response);
+        // console.log(response);
         this.response = response.Values.ResultFields;
       })
     });
@@ -86,9 +86,16 @@ export class AutorizacionesDetailComponent implements OnInit {
 
   generatePdf() {
     let R1 = this.response[0];
-    let R2 = this.response[1];
+    let R2;
+    let estado2;
+    if(this.response.length >1){
+      R2 = this.response[1];
+      console.log(R2);
+      estado2 = (R2.AUTORIZACION_ESTADO != 0) ? 'autorizó' : 'rechazó';
+    }
+
     let estado1 = (R1.AUTORIZACION_ESTADO != 0) ? 'autorizó' : 'rechazó';
-    let estado2 = (R2.AUTORIZACION_ESTADO != 0) ? 'autorizó' : 'rechazó';
+
     let entidad = atob(localStorage.getItem('entidad')!);
     if (this.response.length == 2) {
       let docDefinition = {
@@ -175,7 +182,7 @@ export class AutorizacionesDetailComponent implements OnInit {
           }
         }
       };
-      pdfMake.createPdf(docDefinition).open();
+      pdfMake.createPdf(docDefinition).download('AUTORIZACION_'+R1.CONS_PROCESO+'.pdf');
     }
 
     // pdfMake.createPdf(docDefinition).open();
@@ -186,6 +193,7 @@ export class AutorizacionesDetailComponent implements OnInit {
   updateTabla(){
     let referencia = this.tablaForm.controls['referencia'].value;
     let asociacion = this.tablaForm.controls['asociacion'].value;
+    let username = atob(localStorage.getItem('username')!);
     if(referencia == null || referencia == 'Referencia'){
       utils.showAlert('Por favor seleccione una referencia!','error');
       return;
@@ -195,7 +203,7 @@ export class AutorizacionesDetailComponent implements OnInit {
       return;
     }
     // alert(referencia+'---'+asociacion+'---'+this.myParam);
-    this.secopService.updateTabla(referencia,asociacion,this.myParam).subscribe((response:any)=>{
+    this.secopService.updateTabla(referencia,asociacion,this.myParam,username).subscribe((response:any)=>{
       console.log(response)
       if(response.Status == 'Ok'){
         utils.showAlert('Proceso actualizado correctamente!','success');

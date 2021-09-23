@@ -32,41 +32,65 @@ table {
 }
 
 .mat-column-Num {
-  width: 17%;
+  width: 18%;
   border-right: 1px solid lightgray;
   /*padding-right: 1%;*/
   text-align: left;
 }
 .mat-column-Nombre {
-  /*width: 24%;*/
-  /*border-right: 1px solid lightgray;*/
-  padding-left: 1%;
+  /*white-space: nowrap;*/
+  /*width: 5%;*/
+  /*overflow: hidden;*/
   border-right: 1px solid lightgray;
-  /*padding-left: 1%;*/
+  padding-left: 1%;
   /*text-overflow: ellipsis;*/
-  width: 20%;
+  width: 25%;
   max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+.mat-column-Estado {
+  width: 14%;
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  /*text-align: center;*/
+  /*align-content: center;*/
+}
 .mat-column-Entidad {
-  width: 24%;
+  width: 18%;
   border-right: 1px solid lightgray;
   padding-left: 1%;
+  /*text-align: center;*/
+  /*align-content: center;*/
 }
-
 .mat-column-Unidad {
-  width: 17%;
+  width: 18%;
   border-right: 1px solid lightgray;
   padding-left: 1%;
+  /*text-align: center;*/
+  /*align-content: center;*/
 }
-
+.mat-column-Fecha {
+  width: 9%;
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  /*text-align: center;*/
+  /*align-content: center;*/
+}
 .mat-column-ValorOferta {
-  width: 15%;
+  width: 30%;
+  /*border-right: 1px solid lightgray;*/
   padding-left: 1%;
   text-align: right;
+  /*align-content: center;*/
+}
+.mat-column-Creador {
+  width: 15%;
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  text-align: left;
+  /*align-content: center;*/
 }
 
 mat-cell{
@@ -86,3 +110,28 @@ mat-header-cell {
   min-width: 300px;
 }
 
+tr.hoverOnTable:hover {
+  background: aliceblue;
+  cursor: pointer;
+}
+
+.nav-tabs .nav-link.active{
+  color: #0b9fa5;
+}
+
+a{
+  color: #495057;
+}
+
+.card-header a.active{
+  border-top: 3px solid #0b9fa5;
+}
+
+div.callout{
+  border-left-color: #0b9fa5;
+}
+
+button.btn-primary{
+  background-color: #0b9fa5;
+  border-color: #0b9fa5;
+}

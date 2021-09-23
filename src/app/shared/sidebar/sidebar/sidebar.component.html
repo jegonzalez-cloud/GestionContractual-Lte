@@ -1,13 +1,13 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-light-primary elevation-4">
     <!-- Brand Logo -->
-    <div style="text-align: center" class="mt-2">
+    <div style="text-align: center;padding: 5% 5% 5% 5%" class="mt-2">
       <img
         [ngStyle]="{'cursor':'pointer'}"
         [routerLink]="['dashboard']"
-        src="../../../assets/img/Logo-helppeople-2021.svg"
+        src="../../../assets/img/bloque28.png"
         alt="..."
-        width="40%"
+        width="100%"
       />
       <!-- <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8"> -->
     </div>
@@ -19,8 +19,8 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image mt-1">
+      <div class="user-panel mt-0 pb-3 mb-3 d-flex">
+        <div class="image mt-0">
           <img
             [ngStyle]="{'cursor':'pointer'}"
             src={{userImage}}
@@ -30,7 +30,7 @@
         </div>
         <div class="info">
           <a class="d-block text-sm">{{nameUser | titlecase}}</a>
-          <a class="d-block text-xs" style="color: rosybrown">{{entidad | titlecase}}</a>
+          <a class="d-block text-xs" style="color: #0b9fa5">{{entidad | titlecase}}</a>
         </div>
       </div>
 
@@ -47,7 +47,7 @@
           <li *ngIf="rol == 39" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
             <a routerLink ="process" class="nav-link">
               <i class="nav-icon fa fa-edit"></i>
-              <p style="color: #545cd8">
+              <p style="color: #a8a8a8">
                 {{'administration-CI.panels.menu1' | translate}}
                 <i class="right fas fa-angle-left"></i>
               </p>
@@ -64,8 +64,17 @@
           <li class="nav-item" *ngIf="rol != 39" [ngStyle]="{'cursor':'pointer'}">
             <a routerLink ="autorizaciones" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
-              <p style="color: #545cd8">
+              <p style="color: #a8a8a8">
                 {{'administration-CI.panels.menu2' | translate}}
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+            <a routerLink ="busqueda" class="nav-link">
+              <i class="nav-icon fas fa-search"></i>
+              <p style="color: #a8a8a8">
+                {{'administration-CI.panels.menu4' | translate}}
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>

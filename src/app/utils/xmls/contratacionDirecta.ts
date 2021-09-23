@@ -1,24 +1,35 @@
 export function createXml(
-  username: string, password: string, companyCode: string,
-  userCode: string, objeto: string, unspsc:string,
-  acuerdosComerciales: string, unidadContratacion: string, numeroProceso:string,
-  tipoContrato: string, justificacionTipoContrato: string, fechaterminoContrato:string,
-  duracion: string, tipoProceso: string, fechaFirmaContrato:string,
-  fechaInicioEjecucionContrato: string, plazoEjecucionContrato: string,equipoContratacion: string
+  infoProceso:any
+  // username: string, password: string, companyCode: string,
+  // userCode: string, objeto: string, unspsc:string,
+  // acuerdosComerciales: string, unidadContratacion: string, numeroProceso:string,
+  // tipoContrato: string, justificacionTipoContrato: string, fechaterminoContrato:string,
+  // duracion: string, tipoProceso: string, fechaFirmaContrato:string,
+  // fechaInicioEjecucionContrato: string, plazoEjecucionContrato: string,equipoContratacion: string
 ) {
+    let codigoEntidad = atob(localStorage.getItem('codigoEntidad')!);
+    let usuarioConect = atob(localStorage.getItem('usuarioConect')!);
+    let conectPw = atob(localStorage.getItem('conectPw')!);
+    let userCodeSecop = atob(localStorage.getItem('userCodeSecop')!);
+    let codigoUNSPSC = infoProceso.CODIGO_UNSPSC;
+    let duracion = (infoProceso == 'Años') ? 'Years' :
+      (infoProceso == 'Meses') ? 'Months' :
+        (infoProceso == 'Semanas') ? 'WeekDays' :
+          (infoProceso == 'Dias') ? 'Days' :
+            (infoProceso == 'Horas') ? 'Hours' : '';
   let xmlContratacionDirecta =
     `<?xml version="1.0" encoding="UTF-8"?>
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:con="http://www.nextway.pt/externalintegration/Connect" xmlns:vor="http://schemas.datacontract.org/2004/07/Vortal.CommonLibrary.SOA" xmlns:soa="http://www.nextway.pt/commonLibrary/soa">
           <soapenv:Header>
             <wsse:Security soapenv:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
               <wsse:UsernameToken wsu:Id="UsernameToken-32" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-                <wsse:Username>`+username+`</wsse:Username>
-                <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">`+password+`</wsse:Password>
+                <wsse:Username>`+usuarioConect+`</wsse:Username>
+                <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">`+conectPw+`</wsse:Password>
               </wsse:UsernameToken>
             </wsse:Security>
             <con:Info>
-              <vor:CompanyCode>`+companyCode+`</vor:CompanyCode>
-              <vor:UserCode>`+userCode+`</vor:UserCode>
+              <vor:CompanyCode>`+codigoEntidad+`</vor:CompanyCode>
+              <vor:UserCode>`+userCodeSecop+`</vor:UserCode>
             </con:Info>
           </soapenv:Header>
           <soapenv:Body>
@@ -26,44 +37,45 @@ export function createXml(
               <con:BuyerDossierData>
                 <con:AcquisitionFromAnnualPurchasingPlan>false</con:AcquisitionFromAnnualPurchasingPlan>
                 <con:Category>
-                  <con:Code>`+unspsc+`</con:Code>
+                  <con:Code>`+codigoUNSPSC+`</con:Code>
                   <con:Norm>UNSPSC</con:Norm>
                 </con:Category>
-                <con:ContractEndDate>`+fechaterminoContrato+`</con:ContractEndDate>
-                <con:CommercialAgreement>`+acuerdosComerciales+`</con:CommercialAgreement>
-                <con:Duration>`+duracion+`</con:Duration>
-                <con:DurationType>Months</con:DurationType>
+                <con:ContractEndDate>`+infoProceso.FECHA_TERMINO+`</con:ContractEndDate>
+                <con:CommercialAgreement>`+infoProceso.ACUERDOS_COMERCIALES+`</con:CommercialAgreement>
+                <con:Description>`+infoProceso.DESCRIPCION_PROCESO+`</con:Description>
+                <con:Duration>`+infoProceso.TIEMPO_DURACION_CONTRATO+`</con:Duration>
+                <con:DurationType>`+duracion+`</con:DurationType>
                 <con:IsRelatedToBuyerDossier>false</con:IsRelatedToBuyerDossier>
-                <con:TypeOfContractCode>`+tipoContrato+`</con:TypeOfContractCode>
+                <con:TypeOfContractCode>`+infoProceso.TIPO_CONTRATO+`</con:TypeOfContractCode>
                 <con:JustificationTypeOfContractCode>ManifestUrgency</con:JustificationTypeOfContractCode>
-                <con:Name>`+objeto+`</con:Name>
-                <con:OperationReference>`+unidadContratacion+`</con:OperationReference>
-                <con:Reference>`+numeroProceso+`</con:Reference>
+                <con:Name>`+infoProceso.NOMBRE_PROCESO+`</con:Name>
+                <con:OperationReference>`+infoProceso.UNI_CONTRATACION+`</con:OperationReference>
+                <con:Reference>`+infoProceso.CONS_PROCESO+`</con:Reference>
               </con:BuyerDossierData>
-              <con:EProcurementProfileIdentifier>`+tipoProceso+`</con:EProcurementProfileIdentifier>
+              <con:EProcurementProfileIdentifier>`+infoProceso.TIPO_PROCESO+`</con:EProcurementProfileIdentifier>
               <con:ProcedureRequestData>
                 <con:Dates>
                   <vor:NewEntities>
                     <vor:Items>
                       <con:DateExternalIntegrationCreate>
                         <con:DateUniqueIdentifier>ContractSignatureDate</con:DateUniqueIdentifier>
-                        <con:Value>`+fechaFirmaContrato+`</con:Value>
+                        <con:Value>`+infoProceso.FIRMA_CONTRATO+`</con:Value>
                       </con:DateExternalIntegrationCreate>
                       <con:DateExternalIntegrationCreate>
                         <con:DateUniqueIdentifier>StartDateExecutionOfContract</con:DateUniqueIdentifier>
-                        <con:Value>`+fechaInicioEjecucionContrato+`</con:Value>
+                        <con:Value>`+infoProceso.FECHA_INICIO+`</con:Value>
                       </con:DateExternalIntegrationCreate>
                       <con:DateExternalIntegrationCreate>
                         <con:DateUniqueIdentifier>ExecutionOfContractTerm</con:DateUniqueIdentifier>
-                        <con:Value>`+plazoEjecucionContrato+`</con:Value>
+                        <con:Value>`+infoProceso.PLAZO_EJECUCION+`:00.659Z</con:Value>
                       </con:DateExternalIntegrationCreate>
                     </vor:Items>
                   </vor:NewEntities>
                 </con:Dates>
-                <con:Name>`+objeto+`</con:Name>
+                <con:Name>`+infoProceso.NOMBRE_PROCESO+`:00.659Z</con:Name>
                 <con:DefineLots>false</con:DefineLots>
               </con:ProcedureRequestData>
-              <con:ProcedureTeamIntegrationUniqueIdentifier>`+equipoContratacion+`</con:ProcedureTeamIntegrationUniqueIdentifier>
+              <con:ProcedureTeamIntegrationUniqueIdentifier>`+infoProceso.EQUIPO_CONTRATACION+`</con:ProcedureTeamIntegrationUniqueIdentifier>
             </con:CreateProcedureRequestMessage>
           </soapenv:Body>
         </soapenv:Envelope>`;

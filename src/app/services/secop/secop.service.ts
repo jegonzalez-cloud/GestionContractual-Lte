@@ -82,12 +82,29 @@ export class SecopService {
     return this.httpClient.get(`${environment.apiTestUrl}contratos/getAsociacion`);
   }
 
-  public updateTabla(referencia:string,asociacion:string,proceso:string){
+  public updateTabla(referencia:string,asociacion:string,proceso:string,username:string){
     let data = {
       "referencia": referencia,
       "asociacion": asociacion,
       "proceso": proceso,
+      "username": username,
     };
     return this.httpClient.post(`${environment.apiTestUrl}contratos/updateTabla`, data);
+  }
+
+  public getProveedores(entidad:string,rol:string){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getProveedores?entidad=${entidad}&rol=${rol}`);
+  }
+
+  public getCreadorProceso(entidad:string,rol:string){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getCreadorProceso?entidad=${entidad}&rol=${rol}`);
+  }
+
+  public getDependenciasSecop(entidad:string,rol:string){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getDependenciasSecop?entidad=${entidad}&rol=${rol}`);
+  }
+
+  public getSearchDataTable(identificacion:any,proveedor:any,creador:any,proceso:any,centroGestor:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getSearchDataTable?identificacion=${identificacion}&proveedor=${proveedor}&creador=${creador}&proceso=${proceso}&centroGestor=${centroGestor}`);
   }
 }

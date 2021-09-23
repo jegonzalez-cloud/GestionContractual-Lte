@@ -18,6 +18,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {NavigationExtras} from "@angular/router";
+import * as moment from 'moment';
 
 
 @Component({
@@ -52,13 +53,14 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   public municipios: any;
   // public displayedColumns: string[] = ['Numeración',	'Nombre del proceso',	'Entidad',	'Unidad',	'Equipo',	'Valor Oferta'];
   public displayedColumns: string[] = ['Num', 'Nombre', 'Entidad', 'Unidad', 'ValorOferta'];
+  public displayedColumnsProcess: string[] = ['Num', 'Nombre', 'Estado', 'Fecha', 'Creador', 'ValorOferta'];
   //Numeración	ID Secop	Nombre del Proceso	Dependencia	Unidad	Equipo	Valor oferta
   public dataSource!: MatTableDataSource<any>;
   public dataSourceSecop!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   // @ViewChild(MatPaginator) paginatorSecop!: MatPaginator;
-  @ViewChild('paginatorSecop', { static: true }) paginatorSecop!: MatPaginator;
+  @ViewChild('paginatorSecop', {static: true}) paginatorSecop!: MatPaginator;
   // @ViewChild('sortSecop', { static: true }) sortSecop!: MatSort;
   @ViewChild(MatSort) sortSecop!: MatSort;
   private token: string = localStorage.getItem('token')!;
@@ -95,6 +97,9 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   PROCESO!: any;
   ESTADO!: any;
   ROL: any = atob(localStorage.getItem('rol')!);
+  private entidad: string = atob(localStorage.getItem('entidad')!);
+  private codigoEntidad: string = atob(localStorage.getItem('codigoEntidad')!);
+  private username: string = atob(localStorage.getItem('username')!);
 
   constructor(
     private fb: FormBuilder,
@@ -112,7 +117,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.secopService.sendGetDataSecop().subscribe((data:any) => {
+    this.secopService.sendGetDataSecop().subscribe((data: any) => {
       // console.log(data)
       this.result = data;
       this.dataSourceSecop = new MatTableDataSource(this.result);
@@ -165,8 +170,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       acuerdos: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
       acuerdoPaz: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
       //****************************************************************************************************************
-      documentosTipo: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
-      codigoUNSPSC: new FormControl({value: '49101601', disabled: true}, [Validators.required]),
+      documentosTipo: new FormControl({value: 'NO', disabled: false}),
+      codigoUNSPSC: new FormControl({value: '80101706', disabled: true}, [Validators.required]),
       interadministrativos: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
       definirLotes: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
       firmaContrato: new FormControl({value: null, disabled: false}, [Validators.required]),
@@ -178,6 +183,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       duracionContrato: new FormControl({value: null, disabled: true}, [Validators.required]),
       tiempoDuracion: new FormControl({value: '', disabled: true}, [Validators.required]),
       comite: new FormControl({value: '', disabled: false}, [Validators.required]),
+      cdp: new FormControl({value: '', disabled: true}, [Validators.required]),
     });
 
     //*************** TABLAS PROCESOS ********************
@@ -229,6 +235,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.createProcessForm.controls['valorContrato'].valueChanges.subscribe((data) => {
       this.createProcessForm.controls['duracionContrato'].reset();
       this.createProcessForm.controls['duracionContrato'].disable();
+      this.createProcessForm.controls['tiempoDuracion'].reset();
+      this.createProcessForm.controls['tiempoDuracion'].disable();
       this.iconColor = 'lightgray';
       this.color = false;
       this.getColor();
@@ -334,6 +342,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     }
     let duracion = this.createProcessForm.controls['duracionContrato'].value;
     this.formatDate(this.createProcessForm.controls['fechaNacimiento'].value, 'fechaNacimiento');
+    this.formatDate(this.createProcessForm.controls['fechaTermino'].value, 'fechaTermino');
     this.formatDate(this.createProcessForm.controls['firmaContrato'].value, 'firmaContrato');
     this.formatDate(this.createProcessForm.controls['fechaInicio'].value, 'fechaInicio');
     this.formatDate(this.createProcessForm.controls['plazoEjecucion'].value, 'plazoEjecucion');
@@ -375,6 +384,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.createProcessForm.controls['acuerdos'].disable();
     this.createProcessForm.controls['ubicacion'].disable();
     this.createProcessForm.controls['proveedor'].disable();
+    this.createProcessForm.controls['cdp'].disable();
   }
 
   changeTipoIdentificacion(data: any) {
@@ -391,7 +401,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.createProcessForm.controls['valorContrato'].value != '' &&
       this.createProcessForm.controls['valorContrato'].value >= 1
     ) {
-      const { value: formValues } = await Swal.fire({
+      const {value: formValues} = await Swal.fire({
         title: 'Ingrese el número de CDP',
         showCloseButton: true,
         confirmButtonColor: '#007BFF',
@@ -399,16 +409,16 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         input: 'text',
         inputAttributes: {
           autocapitalize: 'off',
-          maxlength:'10',
-          minlength:'10'
+          maxlength: '10',
+          minlength: '10'
         },
         allowOutsideClick: false,
         focusConfirm: false,
         showLoaderOnConfirm: true,
         // inputLabel: 'Ingrese el número de CDP',
         // inputPlaceholder: 'Enter your email address'
-        inputValidator: (value:any) => {
-          return new Promise((resolve:any) => {
+        inputValidator: (value: any) => {
+          return new Promise((resolve: any) => {
             if (value.length == 10) {
               resolve();
             } else {
@@ -444,6 +454,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
           return;
         } else {
           this.createProcessForm.controls['duracionContrato'].enable();
+          this.createProcessForm.controls['cdp'].setValue(formValues);
           // Swal.fire(JSON.stringify(formValues))
           this.color = true;
         }
@@ -468,13 +479,15 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   formatDate(data: string, campo: string) {
-    let d = new Date(data);
-    let dia = (d.getDate().toString().length == 1) ? '0' + d.getDate().toString() : d.getDate().toString();
-    let mes = ((d.getMonth() + 1).toString().length == 1) ? '0' + (d.getMonth() + 1).toString() : (d.getMonth() + 1).toString();
-    let anio = d.getFullYear();
-    let hora = d.getHours();
-    let minutos = d.getMinutes();
-    return this.createProcessForm.controls[campo].setValue(anio + '-' + mes + '-' + dia + ' ' + hora + ':' + minutos);
+    let result = moment(data).format().slice(0, -6);
+    // let d = new Date(data);
+    // let dia = (d.getDate().toString().length == 1) ? '0' + d.getDate().toString() : d.getDate().toString();
+    // let mes = ((d.getMonth() + 1).toString().length == 1) ? '0' + (d.getMonth() + 1).toString() : (d.getMonth() + 1).toString();
+    // let anio = d.getFullYear();
+    // let hora = d.getHours();
+    // let minutos = (d.getMinutes().toString().length == 1) ? '0' + d.getMinutes() : d.getMinutes();
+    // let segundos = (d.getSeconds().toString().length == 1) ? '0' + d.getSeconds() : d.getSeconds();
+    return this.createProcessForm.controls[campo].setValue(result);
   }
 
   getCurrentDate() {
@@ -566,7 +579,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   test() {
     alert('jojojo')
-    utils.sendSoapData()
+    utils.sendSoapData([]);
   }
 
   applyFilter(event: Event) {
@@ -590,6 +603,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   activateTiempo() {
     this.createProcessForm.controls['tiempoDuracion'].enable();
     this.createProcessForm.controls['tiempoDuracion'].setValue('');
+    this.iconColor = 'lightgray';
   }
 
   validateDuracion(evento: any) {
@@ -653,12 +667,12 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  changeTiempoDuracion(){
+  changeTiempoDuracion() {
     this.iconColor = 'lightgray';
   }
 
   goDetail(row: any) {
-    this.secopService.getSelectedProcess(this.token,row.CONS_PROCESO).subscribe((response: any) => {
+    this.secopService.getSelectedProcess(this.token, row.CONS_PROCESO).subscribe((response: any) => {
       console.log(response.Values.ResultFields);
       this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
       this.TIPO_PROCESO = response.Values.ResultFields[0].TIPO_PROCESO;
@@ -692,8 +706,23 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.PLAZO_EJECUCION = response.Values.ResultFields[0].PLAZO_EJECUCION;
       this.PLAN_PAGOS = response.Values.ResultFields[0].PLAN_PAGOS;
       this.VAL_OFERTA = response.Values.ResultFields[0].VAL_OFERTA;
-      this.TIEMPO_DURACION_CONTRATO  = response.Values.ResultFields[0].TIEMPO_DURACION_CONTRATO ;
+      this.TIEMPO_DURACION_CONTRATO = response.Values.ResultFields[0].TIEMPO_DURACION_CONTRATO;
       this.DURACION_CONTRATO = response.Values.ResultFields[0].DURACION_CONTRATO;
+    });
+  }
+
+  fillNombre() {
+    let justificacion = this.createProcessForm.controls['justificacionTipoProceso'].value
+    this.createProcessForm.controls['nombreProceso'].setValue(justificacion)
+  }
+
+  anularProceso(proceso:string){
+    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'SI').subscribe((response:any)=>{
+      this.service.sendClickEvent();
+      if(response.Status = 'Ok'){
+        utils.showAlert('Se Anulo el proceso #'+proceso+ '!','warning');
+        this.getUserData();
+      }
     });
   }
 

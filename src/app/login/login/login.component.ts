@@ -153,6 +153,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (data.Token != '-1') {
           this.getBasicinformation(dataCredential.Username, dataCredential.Password, data.Token);
         } else {
+          this.loading = false;
           utils.showAlert('Credenciales Incorrectas!', 'error');
         }
       }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
@@ -190,6 +191,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           icon: 'error',
           title: 'No tienes entidades asociadas!',
         });
+        this.loading = false;
         return;
       }
 
@@ -216,6 +218,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               localStorage.setItem('entidad', btoa(dataEntities[value].USC_NOMBRE_ENTIDAD));
               localStorage.setItem('codigoEntidad', btoa(dataEntities[value].USC_CODIGO_ENTIDAD));
               localStorage.setItem('conectPw', btoa(dataEntities[value].USC_PASSWORD));
+              localStorage.setItem('userCodeSecop', btoa(dataEntities[value].USS_CODIGO_USUARIO));
               localStorage.setItem('usuarioConect', btoa(dataEntities[value].USC_USUARIO));
               localStorage.setItem('centroGestor', btoa(dataEntities[value].USC_GESTOR));
               localStorage.setItem('rol', btoa(dataEntities[value].ROL_ID));

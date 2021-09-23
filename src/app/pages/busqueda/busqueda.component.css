@@ -36,7 +36,7 @@ div_container{
   border-right: 1px solid lightgray;
   padding-left: 1%;
   /*text-overflow: ellipsis;*/
-  width: 25%;
+  width: 20%;
   max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -44,20 +44,6 @@ div_container{
 }
 .mat-column-Estado {
   width: 8%;
-  border-right: 1px solid lightgray;
-  padding-left: 1%;
-  /*text-align: center;*/
-  /*align-content: center;*/
-}
-.mat-column-Entidad {
-  width: 18%;
-  border-right: 1px solid lightgray;
-  padding-left: 1%;
-  /*text-align: center;*/
-  /*align-content: center;*/
-}
-.mat-column-Unidad {
-  width: 18%;
   border-right: 1px solid lightgray;
   padding-left: 1%;
   /*text-align: center;*/
@@ -89,6 +75,11 @@ tr.hoverOnTable:hover {
   background: aliceblue;
 }
 
+button.btn-primary{
+  background-color: #0b9fa5;
+  border-color: #0b9fa5;
+}
+
 /*tr.hoverOnTable:not(.hoverOnTable):active {*/
 /*  background: #efefef;*/
 /*}*/
@@ -96,3 +87,4 @@ tr.hoverOnTable:hover {
 div.callout{
   border-left-color: #0b9fa5;
 }
+

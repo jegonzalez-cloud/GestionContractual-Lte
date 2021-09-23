@@ -13,6 +13,9 @@
             "optionSelect": "Seleccione una opciòn"
         }
     },
+    "busqueda":{
+      "busqueda":"Busqueda"
+    },
     "procesos":{
         "crearProceso":"Crear Proceso",
         "misProcesos": "Mis Procesos",
@@ -36,7 +39,8 @@
             "header": "Contratos y procesos",
             "menu1": "Procesos",
             "menu2": "Autorizaciones",
-            "menu3": "Contratos"
+            "menu3": "Contratos",
+            "menu4": "Busqueda"
         },
         "table": {
             "thead": {

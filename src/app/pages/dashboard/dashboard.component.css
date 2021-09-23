@@ -1,0 +1,10 @@
+#background-home {
+  background-image: url('src/assets/img/chartjs.PNG');
+  height: auto;
+  width: auto;
+  /*background-attachment: fixed;*/
+  /*background-position: center;*/
+  background-repeat: no-repeat !important;
+  background-size: cover;
+  /*min-width: 100%;*/
+}

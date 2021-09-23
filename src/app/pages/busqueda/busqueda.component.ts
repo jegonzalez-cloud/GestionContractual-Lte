@@ -1,37 +1,28 @@
-import {AfterContentInit, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {SecopService} from "../../services/secop/secop.service";
 import {MatTableDataSource} from "@angular/material/table";
+import * as utils from "../../utils/functions";
+import {Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import * as utils from "../../utils/functions";
-import {NavigationExtras, Router} from "@angular/router";
-import Swal from "sweetalert2";
-import {SecopService} from "../../services/secop/secop.service";
-import {ServicesService} from "../../services/services.service";
 
 @Component({
-  selector: 'app-autorizaciones',
-  templateUrl: './autorizaciones.component.html',
-  styleUrls: ['./autorizaciones.component.css']
+  selector: 'app-busqueda',
+  templateUrl: './busqueda.component.html',
+  styleUrls: ['./busqueda.component.css']
 })
-export class AutorizacionesComponent implements OnInit, AfterViewInit {
+export class BusquedaComponent implements OnInit {
+  private entidad = atob(localStorage.getItem('entidad')!);
   displayedColumns: string[] = ['Num', 'Nombre', 'Estado', 'Fecha', 'Creador', 'ValorOferta'];
-  //Numeración	ID Secop	Nombre del Proceso	Dependencia	Unidad	Equipo	Valor oferta
-  public dataSource!: MatTableDataSource<any>;
-  public autorizaciones: any;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-  PROCESO_SELECCIONADO!:any;
-  PROCESO!: any;
-  ESTADO!: any;
-  ROL: any = atob(localStorage.getItem('rol')!);
-  TIPO_PROCESO!: any;
-  TIPO_CONTRATO!: any;
-  NOMBRE_PROCESO!: any;
   private token: string = localStorage.getItem('token')!;
-  private entidad: string = atob(localStorage.getItem('entidad')!);
-  private codigoEntidad: string = atob(localStorage.getItem('codigoEntidad')!);
-  private username: string = atob(localStorage.getItem('username')!);
-
+  ROL: any = atob(localStorage.getItem('rol')!);
+  dataSource!: MatTableDataSource<any>;
+  busquedaForm!: FormGroup;
+  proveedores!: any;
+  creador!: any;
+  gestor!: any;
+  busqueda!:any;
   DESCRIPCION_PROCESO: any;
   COD_PROV: any;
   NOM_PROV: any;
@@ -59,17 +50,74 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   VAL_OFERTA: any;
   TIEMPO_DURACION_CONTRATO: any;
   DURACION_CONTRATO: any;
+  TIPO_PROCESO!: any;
+  TIPO_CONTRATO!: any;
+  NOMBRE_PROCESO!: any;
+  PROCESO_SELECCIONADO!:any;
+  PROCESO!: any;
+  ESTADO!: any;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private router: Router,private secopService:SecopService,private service:ServicesService) {
-  }
-
-  ngAfterViewInit(): void {
-
+  constructor(private secopService: SecopService, private fb: FormBuilder,private router:Router) {
   }
 
   ngOnInit(): void {
-    // this.autorizaciones = JSON.parse(localStorage.getItem('autorizaciones')!);
-    this.getAutorizacionesXEntidad();
+    this.getProveedores();
+    this.getCreadorProceso();
+    this.getcentroGestor();
+    this.formulario();
+  }
+
+  searchData() {
+    let identificacion = (this.busquedaForm.controls['identificacion'].value == null) ? '' : this.busquedaForm.controls['identificacion'].value ;
+    let proveedor = this.busquedaForm.controls['proveedor'].value;
+    let creador = this.busquedaForm.controls['creador'].value;
+    let proceso = this.busquedaForm.controls['proceso'].value;
+    let centroGestor = this.busquedaForm.controls['centroGestor'].value;
+
+    this.secopService.getSearchDataTable(identificacion,proveedor,creador,proceso,centroGestor).subscribe((response:any)=>{
+      this.busqueda = response.Values.ResultFields;
+      this.infoProcess();
+    })
+  }
+
+  getProveedores() {
+    this.secopService.getProveedores(this.entidad, this.ROL).subscribe((response: any) => {
+      console.log(response);
+      this.proveedores = response.Values.ResultFields;
+    })
+  }
+
+  getCreadorProceso() {
+    this.secopService.getCreadorProceso(this.entidad, this.ROL).subscribe((response: any) => {
+      console.log(response);
+      this.creador = response.Values.ResultFields;
+    })
+  }
+
+  getcentroGestor() {
+    this.secopService.getDependenciasSecop(this.entidad, this.ROL).subscribe((response: any) => {
+      console.log(response);
+      this.gestor = response.Values.ResultFields;
+    })
+  }
+
+  getTableData() {
+
+  }
+
+  formulario() {
+    this.busquedaForm = this.fb.group({
+      token: new FormControl(atob(localStorage.getItem('token')!)),
+      username: new FormControl(atob(localStorage.getItem('username')!)),
+      codigoEntidad: new FormControl(atob(localStorage.getItem('codigoEntidad')!)),
+      identificacion: new FormControl({value: null, disabled: false}),
+      proveedor: new FormControl({value: '', disabled: false}),
+      creador: new FormControl({value: '', disabled: false}),
+      proceso: new FormControl({value: '', disabled: false}),
+      centroGestor: new FormControl({value:'',disabled:false})
+    });
   }
 
   applyFilter(event: Event) {
@@ -82,10 +130,10 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   }
 
   infoProcess(): void {
-    if (this.autorizaciones.length > 0) {
-      this.dataSource = new MatTableDataSource(this.autorizaciones!);
-      // this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
+    if (this.busqueda.length > 0) {
+      this.dataSource = new MatTableDataSource(this.busqueda!);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     } else {
       utils.showAlert('Error de información', 'error');
     }
@@ -137,37 +185,5 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   fillModal(numProceso:any) {
     // console.log(numProceso)
     this.router.navigate(['home/autorizaciones-det/'+numProceso]);
-  }
-
-  aprobarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'NO').subscribe((response:any)=>{
-      this.service.sendClickEvent();
-      if(response.Status = 'Ok'){
-        utils.showAlert('Se autorizo el proceso #'+proceso+ ' correctamente!','success');
-        //disparar creacion secop segun rol
-        if(this.ROL == 41 || this.ROL == 42){
-          utils.sendSoapData(this.PROCESO_SELECCIONADO);
-        }
-        this.getAutorizacionesXEntidad();
-      }
-    });
-  }
-
-  rechazarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'SI').subscribe((response:any)=>{
-      this.service.sendClickEvent();
-      if(response.Status = 'Ok'){
-        utils.showAlert('Se rechazo el proceso #'+proceso+ '!','warning');
-        this.getAutorizacionesXEntidad();
-      }
-    });
-  }
-
-  getAutorizacionesXEntidad(){
-    this.secopService.getAutorizacionesXEntidad(this.entidad).subscribe((response:any)=>{
-      this.autorizaciones = response.Values.ResultFields;
-      console.log(this.autorizaciones)
-      this.infoProcess();
-    })
   }
 }
