@@ -17,11 +17,11 @@ const routes: Routes = [
       import('./layout/layout/layout.module').then((m) => m.LayoutModule),
 
   },
-  {
-    path: '**',
-    redirectTo: '/login',
-    pathMatch: 'full',
-  },
+  // {
+  //   path: '**',
+  //   redirectTo: '/login',
+  //   pathMatch: 'full',
+  // },
 ];
 // const routes: Routes = [
 //   { path: 'home', component: LayoutComponent },

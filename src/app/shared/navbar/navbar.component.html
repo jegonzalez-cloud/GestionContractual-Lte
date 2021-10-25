@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content" style="width: auto">
       <div class="modal-header">
-        <h4 class="modal-title"><b style="font-size: larger">Proceso # <a style="color: #545cd8">{{PROCESO}}</a></b>
+        <h4 class="modal-title"><b style="font-size: larger">Proceso # <a style="color: #0b9fa5">{{PROCESO}}</a></b>
         </h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -12,7 +12,7 @@
       <div class="modal-body modal-dialog-scrollable">
         <div>
           <div class="callout callout-danger">
-            <p><b style="color: #545cd8;font-size: 16px">Información General</b></p>
+            <p><b style="color: #0b9fa5;font-size: 16px">Información General</b></p>
 
 <!--            <p style="word-break: break-all"><b>Tipo Proceso :</b> jojojojojooojjojojojojooojjojojojojooojjojojojojooojjojojojojooojjojojojojoooj</p>-->
 
@@ -27,7 +27,7 @@
 
 
           <div class="callout callout-danger">
-            <p><b style="color: #545cd8;font-size: 16px">Datos Personales</b></p>
+            <p><b style="color: #0b9fa5;font-size: 16px">Datos Personales</b></p>
             <p><b>Tipo identificacion Proveedor :</b> {{TIP_IDEN_PROV}}</p>
             <p><b>Cédula Proveedor :</b> {{COD_PROV}}</p>
             <p><b>Nombre Proveedor :</b> {{NOM_PROV}}</p>
@@ -42,7 +42,7 @@
           </div>
 
           <div class="callout callout-danger">
-            <p><b style="color: #545cd8;font-size: 16px">Configuración</b></p>
+            <p><b style="color: #0b9fa5;font-size: 16px">Configuración</b></p>
             <p><b>Documentos Tipo :</b> {{DOCUMENTOS_TIPO}}</p>
             <p><b>Interadministrativos :</b> {{INTERADMINISTRATIVOS}}</p>
             <p><b>Definir Lotes :</b> {{DEFINIR_LOTES}}</p>
@@ -61,13 +61,13 @@
         <button type="button" class="btn btn-secondary"
                 data-dismiss="modal"
                 (click)="rechazarAutorizacion(PROCESO)"
-                [ngStyle]="{'display': (ROL == 40 && ESTADO != 1) ? 'none' : (ROL == 41 && ESTADO !=2) ? 'none' : (ROL == 42 && ESTADO != 3) ? 'none' : 'block' }">
+                [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">
           Rechazar
         </button>
         <button type="button" class="btn btn-primary"
                 data-dismiss="modal"
                 (click)="aprobarAutorizacion(PROCESO)"
-                [ngStyle]="{'display': (ROL == 40 && ESTADO != 1) ? 'none' : (ROL == 41 && ESTADO !=2) ? 'none' : (ROL == 42 && ESTADO != 3) ? 'none' : 'block' }">
+                [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">
           Autorizar
         </button>
 
@@ -75,8 +75,7 @@
         <button type="button" class="btn btn-warning"
                 data-dismiss="modal"
                 (click)="fillModal(PROCESO)"
-                [ngStyle]="{'display':
-                    (ROL == 40 && ESTADO == 1) ? 'none' : (ROL == 41 && ESTADO ==2) ? 'none' : (ROL == 42 && ESTADO == 3) ? 'none' : (ROL == 41 && ESTADO == 1) ? 'none' : (ROL == 42 && ESTADO ==1) ? 'none' : 'block' }">
+                [ngStyle]="{'display': (ROL == 40 && ESTADO > 2) ? 'block' : (ROL == 41 && ESTADO >3) ? 'block' : (ROL == 42 && ESTADO > 4) ? 'block' : (ROL == 43 && ESTADO > 5) ? 'block' : (ROL == 44 && ESTADO > 6) ? 'block' : 'none' }">
           Historial
         </button>
       </div>
@@ -120,35 +119,35 @@
           </div>
         </li> -->
 
-    <li class="nav-item dropdown " style="cursor: pointer">
-      <div *ngIf="lenguaje === 'es'" class="mt-1" (click)="setIdioma()">
-        <img
-          width="20px"
-          src="../../../assets/img/es.png"
-          class="img-circle elevation-2 text-lg"
-          alt="User Image"
-        />
-      </div>
-      <div *ngIf="lenguaje === 'en'" class="mt-1" (click)="setIdioma()">
-        <img
-          width="20px"
-          src="../../../assets/img/en.svg"
-          class="img-circle elevation-2 text-lg"
-          alt="User Image"
-        />
-      </div>
-      <!-- <div style="text-align: center" class="mt-2"> -->
-      <!-- <img
-              src="../../../assets/img/en.svg"
-              alt="..."
-              width="20px"
-            /> -->
-      <!-- <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8"> -->
-      <!-- </div> -->
-      <!-- <div class="idiomaEspanol" href="#">
+<!--    <li class="nav-item dropdown " style="cursor: pointer">-->
+<!--      <div *ngIf="lenguaje === 'es'" class="mt-1" (click)="setIdioma()">-->
+<!--        <img-->
+<!--          width="20px"-->
+<!--          src="../../../assets/img/es.png"-->
+<!--          class="img-circle elevation-2 text-lg"-->
+<!--          alt="User Image"-->
+<!--        />-->
+<!--      </div>-->
+<!--      <div *ngIf="lenguaje === 'en'" class="mt-1" (click)="setIdioma()">-->
+<!--        <img-->
+<!--          width="20px"-->
+<!--          src="../../../assets/img/en.svg"-->
+<!--          class="img-circle elevation-2 text-lg"-->
+<!--          alt="User Image"-->
+<!--        />-->
+<!--      </div>-->
+<!--      &lt;!&ndash; <div style="text-align: center" class="mt-2"> &ndash;&gt;-->
+<!--      &lt;!&ndash; <img-->
+<!--              src="../../../assets/img/en.svg"-->
+<!--              alt="..."-->
+<!--              width="20px"-->
+<!--            /> &ndash;&gt;-->
+<!--      &lt;!&ndash; <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8"> &ndash;&gt;-->
+<!--      &lt;!&ndash; </div> &ndash;&gt;-->
+<!--      &lt;!&ndash; <div class="idiomaEspanol" href="#">-->
 
-          </div> -->
-    </li>
+<!--          </div> &ndash;&gt;-->
+<!--    </li>-->
 
     <!-- Notifications Dropdown Menu -->
     <li class="nav-item dropdown">

@@ -1,0 +1,149 @@
+<div class="wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" id="background-home">
+
+    <table id="excel-table" [hidden]="hideTable">
+      <tr>
+        <th>Nombre</th>
+        <th>Número de documento</th>
+        <th>Tipo de documento</th>
+        <th>género</th>
+        <th>edad</th>
+        <th>profesión</th>
+        <th>celular</th>
+        <th>email</th>
+        <th>Pais</th>
+        <th>Departamento</th>
+        <th>Ciudad</th>
+        <th>Dirección</th>
+        <th>valor del contrato</th>
+        <th>plazo del contrato</th>
+        <th>Categoría de Contratación</th>
+        <th>CDP</th>
+        <th>RPC</th>
+        <th>estado de la contratación</th>
+        <th>cuotas canceladas</th>
+      </tr>
+      <tr *ngFor="let R of RESPONSE">
+        // This is the binding part.
+        <td>{{R.NOM_PROV}}</td>
+        <td>{{R.COD_PROV}}</td>
+        <td>{{R.TIP_IDEN_PROV}}</td>
+        <td>{{R.GENERO_PROV}}</td>
+        <td>{{R.FECHA_NACIMIENTO}}</td>
+        <td>{{R.PROFESION_PROV}}</td>
+        <td>{{R.CELULAR_PROV}}</td>
+        <td>{{R.CORREO_PROV}}</td>
+        <td>Colombia</td>
+        <td>{{R.DPTO}}</td>
+        <td>{{R.CIUDAD}}</td>
+        <td>{{R.UBICACION_PROV}}</td>
+        <td>{{R.VAL_OFERTA}}</td>
+        <td>{{R.PLAZO_EJECUCION}}</td>
+        <td>{{R.CATE_CONTRATACION}}</td>
+        <td>{{R.CDP}}</td>
+        <td>{{R.CODIGO_RPC}}</td>
+        <td>{{R.ESTADO1}}</td>
+        <td>Cuotas Canceladas:</td>
+      </tr>
+    </table>
+
+    <section class="content-header">
+      <div class="container-fluid"></div>
+      <!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card ml-3 mr-3">
+          <div class="card-header mb-3" style="background-color: #0b9fa5">
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+
+            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
+              <i class="fas fa-book-open"></i>
+              <b>  {{'reportes.reportes' | translate}}</b>
+            </h6>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+
+              <!-- ./col -->
+              <div class="col-md-12">
+                <div class="card">
+
+                  <div class="card-body">
+<!--                    <form [formGroup]="reportesForm" (ngSubmit)="searchReports()"-->
+                    <form [formGroup]="reportesForm" (ngSubmit)="searchReports()"
+                          (keydown.enter)="$event.preventDefault()">
+                      <div class="row">
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Fecha de inicio</label>
+                            <input
+                              formControlName="fechaInicio"
+                              type="datetime-local"
+                              name="fechaInicio"
+                              class="form-control text-sm"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Fecha termino</label>
+                            <input
+                              formControlName="fechaTermino"
+                              type="datetime-local"
+                              name="fechaTermino"
+                              class="form-control text-sm"
+                            />
+                          </div>
+                        </div>
+                        <div [hidden]="ROL != '42'" class="col-12 col-sm-12">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Centro Gestor</label>
+                            <select
+                              formControlName="centroGestor"
+                              class="form-control text-sm"
+                            >
+                              <option></option>
+                              <option *ngFor="let ges of gestor" value="{{ ges.USC_GESTOR }}">
+                                {{ges.USC_GESTOR}}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <button
+                          [disabled]="reportesForm.invalid"
+                          type="submit"
+                          class="btn btn-primary float-left btn-sm btn-block"
+                        >
+                          <b>Generar <i class="fa fa-book-open"></i></b>
+                        </button>
+                      </div>
+                    </form>
+
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- ./col -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <br>
+
+  </div>
+</div>

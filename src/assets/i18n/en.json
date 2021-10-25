@@ -51,7 +51,8 @@
             "menu1": "Processes",
             "menu2": "Authorizations",
             "menu3": "Contracts",
-            "menu4": "Search"
+            "menu4": "Search",
+            "menu5": "Reports"
 
         },
         "labels": {

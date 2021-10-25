@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -16,10 +17,11 @@ import * as utils from '../../utils/functions'
 import {ServicesService} from "../../services/services.service";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
+import {MatDialog} from '@angular/material/dialog';
 import {MatSort} from "@angular/material/sort";
 import {NavigationExtras} from "@angular/router";
 import * as moment from 'moment';
-
+import * as funciones from "../../utils/functions";
 
 @Component({
   selector: 'app-process',
@@ -53,7 +55,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   public municipios: any;
   // public displayedColumns: string[] = ['Numeración',	'Nombre del proceso',	'Entidad',	'Unidad',	'Equipo',	'Valor Oferta'];
   public displayedColumns: string[] = ['Num', 'Nombre', 'Entidad', 'Unidad', 'ValorOferta'];
-  public displayedColumnsProcess: string[] = ['Num', 'Nombre', 'Estado', 'Fecha', 'Creador', 'ValorOferta'];
+  public displayedColumnsProcess: string[] = ['Num', 'Identificacion', 'Nombre', 'Estado', 'Fecha', 'Creador', 'ValorOferta'];
   //Numeración	ID Secop	Nombre del Proceso	Dependencia	Unidad	Equipo	Valor oferta
   public dataSource!: MatTableDataSource<any>;
   public dataSourceSecop!: MatTableDataSource<any>;
@@ -100,6 +102,18 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   private entidad: string = atob(localStorage.getItem('entidad')!);
   private codigoEntidad: string = atob(localStorage.getItem('codigoEntidad')!);
   private username: string = atob(localStorage.getItem('username')!);
+  private centroGestor: string = atob(localStorage.getItem('centroGestor')!);
+  toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  codigoUNSPSC!: any;
+  myForm!: FormGroup;
+  arr!: FormArray;
+  colorBotonUNSPSC = '#0B9FA5FF';
+  borderBotonUSNPSC = '#0B9FA5FF';
+  fontcolorBotonUNSPSC = '#0B9FA5FF';
+  validateDataUNSPSC: number = 0;
+  UNIDADESUNSPSC!:any;
+  categoriasProfesion!:any;
+  categoriasSubProfesion!:any;
 
   constructor(
     private fb: FormBuilder,
@@ -108,7 +122,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     private sapService: SapService,
     private authService: AuthService,
     private translate: TranslateService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    public dialog: MatDialog
   ) {
     this.store.select('idioma').subscribe(({idioma}) => {
       this.idioma = idioma;
@@ -146,6 +161,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       token: new FormControl(atob(localStorage.getItem('token')!)),
       username: new FormControl(atob(localStorage.getItem('username')!)),
       codigoEntidad: new FormControl(atob(localStorage.getItem('codigoEntidad')!)),
+      centroGestor: new FormControl(atob(localStorage.getItem('centroGestor')!)),
       //*****************************************************************************************************************
       tipoIdentificacion: new FormControl(null, [Validators.required]),
       identificacion: new FormControl({value: '11111', disabled: true}, [Validators.required]),
@@ -155,8 +171,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       genero: new FormControl(null, [Validators.required]),
       departamento: new FormControl(null, [Validators.required]),
       municipio: new FormControl(null, [Validators.required]),
-      categoríaContratacion: new FormControl(null, [Validators.required]),
-      profesion: new FormControl({value: 'ADSI', disabled: false}, [Validators.required]),
+      categoriaContratacion: new FormControl(null, [Validators.required]),
+      profesion: new FormControl({value: null, disabled: true}, [Validators.required]),
       correo: new FormControl('jegc9323@gmail.com', [Validators.required]),
       celular: new FormControl({value: '3134061994', disabled: false}, [Validators.required]),
       //****************************************************************************************************************
@@ -171,7 +187,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       acuerdoPaz: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
       //****************************************************************************************************************
       documentosTipo: new FormControl({value: 'NO', disabled: false}),
-      codigoUNSPSC: new FormControl({value: '80101706', disabled: true}, [Validators.required]),
+      codigoUNSPSC: new FormControl({value: '', disabled: false}),
       interadministrativos: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
       definirLotes: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
       firmaContrato: new FormControl({value: null, disabled: false}, [Validators.required]),
@@ -184,20 +200,21 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       tiempoDuracion: new FormControl({value: '', disabled: true}, [Validators.required]),
       comite: new FormControl({value: '', disabled: false}, [Validators.required]),
       cdp: new FormControl({value: '', disabled: true}, [Validators.required]),
+      categoriaProfesion: new FormControl({value: '', disabled: false}, [Validators.required]),
     });
-
+    this.myForm = this.fb.group({
+      arr: this.fb.array([this.createItem()])
+    })
     //*************** TABLAS PROCESOS ********************
-    this.secopService.getDataProcess('0001', 1).subscribe((data: any) => {
-      this.info_process = data;
-      this.infoProcess();
-    });
-
+    this.getdataProcess();
     //****************************************************
-    this.getChangeContractValue()
+    this.getChangeContractValue();
     this.getTiposProceso();
     this.departmentsCont();
     this.getUserData();
     this.getDepartamentos();
+    this.getUnidadesUnspsc();
+    this.getCategoriaProfesion();
     // this.fillEntidad();
   }
 
@@ -237,6 +254,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.createProcessForm.controls['duracionContrato'].disable();
       this.createProcessForm.controls['tiempoDuracion'].reset();
       this.createProcessForm.controls['tiempoDuracion'].disable();
+      this.createProcessForm.controls['cdp'].reset();
       this.iconColor = 'lightgray';
       this.color = false;
       this.getColor();
@@ -341,6 +359,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       return;
     }
     let duracion = this.createProcessForm.controls['duracionContrato'].value;
+    let tiempo_duracion = this.createProcessForm.controls['tiempoDuracion'].value;
     this.formatDate(this.createProcessForm.controls['fechaNacimiento'].value, 'fechaNacimiento');
     this.formatDate(this.createProcessForm.controls['fechaTermino'].value, 'fechaTermino');
     this.formatDate(this.createProcessForm.controls['firmaContrato'].value, 'firmaContrato');
@@ -348,6 +367,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.formatDate(this.createProcessForm.controls['plazoEjecucion'].value, 'plazoEjecucion');
     this.createProcessForm.enable();
     this.createProcessForm.controls['duracionContrato'].setValue(duracion);
+    this.createProcessForm.controls['tiempoDuracion'].setValue(tiempo_duracion);
     let dataForm = Object.assign(this.createProcessForm.value);
     this.secopService.insertProcess(dataForm).subscribe(
       (data: any) => {
@@ -358,16 +378,27 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
           this.createProcessForm.controls['tiempoDuracion'].disable();
           this.createProcessForm.controls['acuerdos'].setValue('NO');
           this.createProcessForm.controls['documentosTipo'].setValue('NO');
-          this.createProcessForm.controls['codigoUNSPSC'].setValue('49101601');
+          this.createProcessForm.controls['codigoUNSPSC'].reset();
           this.createProcessForm.controls['interadministrativos'].setValue('NO');
           this.createProcessForm.controls['acuerdoPaz'].setValue('NO');
           this.createProcessForm.controls['definirPagos'].setValue('NO');
           this.createProcessForm.controls['definirLotes'].setValue('NO');
           this.color = false;
           utils.showAlert('Proceso creado correctamente!', 'success');
-          this.secopService.getDataProcess('0001', 1).subscribe((data) => {
+          this.secopService.getDataProcess('0001', 1).subscribe((data: any) => {
             this.info_process = data;
             this.infoProcess();
+          });
+          // console.log(this.myForm.controls['arr'].value);
+          // console.log(this.myForm.controls['arr']);
+          // console.log(data.proId);
+          let tamanio = this.myForm.controls['arr'].value.length;
+          for (let i = 0; i < tamanio; i++) {
+            this.myForm.controls['arr'].value[i].proceso = data.proId;
+          }
+          // let unspscForm = Object.assign(this.myForm.controls['arr'].value);
+          this.secopService.insertUNSPSC(this.myForm.controls['arr'].value).subscribe((response:any)=>{
+            console.log(response);
           });
         }
       }, (error: any) => {
@@ -396,6 +427,9 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   async getCdpMount() {
+    this.color = false;
+    this.iconColor = 'lightgray';
+    this.getColor();
     if (
       this.createProcessForm.controls['valorContrato'].value != null &&
       this.createProcessForm.controls['valorContrato'].value != '' &&
@@ -414,7 +448,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         },
         allowOutsideClick: false,
         focusConfirm: false,
-        showLoaderOnConfirm: true,
+        // showLoaderOnConfirm: true,
         // inputLabel: 'Ingrese el número de CDP',
         // inputPlaceholder: 'Enter your email address'
         inputValidator: (value: any) => {
@@ -454,9 +488,27 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
           return;
         } else {
           this.createProcessForm.controls['duracionContrato'].enable();
+          this.centroGestor = '1158';
           this.createProcessForm.controls['cdp'].setValue(formValues);
-          // Swal.fire(JSON.stringify(formValues))
-          this.color = true;
+
+          await utils.getCdpData(this.centroGestor,this.createProcessForm.controls['cdp'].value).then((response:any)=>{
+            let monto = response;
+            // alert(monto)
+            // localStorage.removeItem('prueba');
+            this.createProcessForm.controls['cdp'].setValue('');
+            if(monto != null && monto != '' && monto.length > 0 && parseFloat(monto) >= this.createProcessForm.controls['valorContrato'].value){
+              this.color = true;
+              this.createProcessForm.controls['cdp'].setValue(formValues);
+              utils.showAlert('valor del contrato valido','success');
+            }
+            else if(monto != null && monto != '' && monto.length > 0 && parseFloat(monto) <= this.createProcessForm.controls['valorContrato'].value){
+              this.color = false;
+              utils.showAlert('No hay fondos suficientes!','error');
+              this.createProcessForm.controls['cdp'].setValue('');
+            }
+          });
+
+
         }
       }
     }
@@ -560,6 +612,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       // utils.showAlert('validación! ','success');
     } else {
       this.iconColor = 'lightgray';
+      this.validateDataUNSPSC = 0;
       utils.showAlert('El valor excede los limites establecidos en la tabla de honorarios! ', 'error');
     }
   }
@@ -579,7 +632,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   test() {
     alert('jojojo')
-    utils.sendSoapData([]);
+    utils.sendSoapData([],'');
   }
 
   applyFilter(event: Event) {
@@ -604,6 +657,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.createProcessForm.controls['tiempoDuracion'].enable();
     this.createProcessForm.controls['tiempoDuracion'].setValue('');
     this.iconColor = 'lightgray';
+    this.validateDataUNSPSC = 0;
   }
 
   validateDuracion(evento: any) {
@@ -644,6 +698,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     if (tipoIdentificacion == 'Cédula' || tipoIdentificacion == 'Cédula de Extranjería') {
       if ((valorContrato / tiempoTotal) > 7000000) {
         this.iconColor = 'lightgray';
+        this.validateDataUNSPSC = 0;
         utils.showAlert('El valor excede los limites establecidos en la tabla de honorarios! ', 'error');
       } else {
         this.createProcessForm.controls['comite'].setValue('NO');
@@ -669,6 +724,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   changeTiempoDuracion() {
     this.iconColor = 'lightgray';
+    this.validateDataUNSPSC = 0;
   }
 
   goDetail(row: any) {
@@ -716,14 +772,122 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.createProcessForm.controls['nombreProceso'].setValue(justificacion)
   }
 
-  anularProceso(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'SI').subscribe((response:any)=>{
+  anularProceso(proceso: string) {
+    this.secopService.updateProcess(proceso, this.ROL, this.entidad, this.codigoEntidad, this.username, 'anulado').subscribe((response: any) => {
       this.service.sendClickEvent();
-      if(response.Status = 'Ok'){
-        utils.showAlert('Se Anulo el proceso #'+proceso+ '!','warning');
-        this.getUserData();
+      if (response.Status = 'Ok') {
+        utils.showAlert('Se Anulo el proceso #' + proceso + '!', 'warning');
+        this.getdataProcess();
       }
     });
   }
 
+  getdataProcess() {
+    this.secopService.getDataProcess('0001', 1).subscribe((data: any) => {
+      this.info_process = data;
+      this.infoProcess();
+    });
+  }
+
+  validateData() {
+    Swal.fire({
+      title: 'Esta Seguro?',
+      text: "Esta accion no se podrá revertir!",
+      icon: 'warning',
+      showCancelButton: true,
+      allowOutsideClick: false,
+      confirmButtonColor: '#0b9fa5',
+      cancelButtonColor: '#E9ECEF',
+      confirmButtonText: 'Si, crear proceso!',
+      cancelButtonText: 'No, deseo revisar!',
+      reverseButtons: true
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.createProcess();
+      }
+    })
+  }
+
+  ver() {
+    console.log(this.createProcessForm.controls['codigoUNSPSC'].value);
+    // let longitud = this.createProcessForm.controls['codigoUNSPSC'].value;
+    // let dato = '';
+    // for (let i = 0; i < longitud.length; i++) {
+    //   dato = dato + longitud[i];
+    //   if (i != longitud.length - 1){
+    //     dato = dato + ',';
+    //   }
+    // }
+    // console.log(dato);
+    // this.createProcessForm.controls['codigoUNSPSC'].setValue(dato.toString());
+  }
+
+  createItem() {
+    return this.fb.group({
+      codigoUNSPSC: new FormControl({value: null, disabled: false}, [Validators.required]),
+      proceso: new FormControl({value: '',disabled:false}),
+      descripcion: new FormControl({value: '', disabled: false}, [Validators.required]),
+      unidad: new FormControl({value: null, disabled: false}, [Validators.required]),
+      cantidad: new FormControl({value: null, disabled: false}, [Validators.required]),
+      precioUnitario: new FormControl({value: null, disabled: false}, [Validators.required]),
+    })
+  }
+
+  addItem() {
+    this.arr = this.myForm.get('arr') as FormArray;
+    this.arr.push(this.createItem());
+  }
+
+  onSubmit() {
+    let valor_contrato = this.createProcessForm.controls['valorContrato'].value;
+    let tamanio = this.myForm.controls['arr'].value.length;
+    let precioTotal = 0;
+    let valorTotal = 0;
+    for (let i = 0; i < tamanio; i++) {
+      let cantidad = this.myForm.controls['arr'].value[i].cantidad;
+      let precioUnitario = this.myForm.controls['arr'].value[i].precioUnitario;
+      precioTotal = cantidad * precioUnitario;
+      valorTotal += precioTotal;
+    }
+    if(valorTotal == valor_contrato){
+      this.codigoUNSPSC = this.myForm.value;
+      this.validateDataUNSPSC = 1;
+      utils.showAlert('Codigo(s) UNSPSC asociados correctamente!','success');
+    }
+    else{
+      this.myForm.reset();
+      this.validateDataUNSPSC = 0;
+      utils.showAlert('El valor de los codigos UNSPSC debe ser igual al valor del contrato!','error');
+    }
+
+  }
+
+  trackByFn(index: any, item: any) {
+    return index;
+  }
+
+  deleteItem(index: number) {
+    const add = this.myForm.get('arr') as FormArray;
+    add.removeAt(index)
+  }
+
+  getUnidadesUnspsc(){
+    this.secopService.getUnidadesUnspsc(this.token).subscribe((response:any)=>{
+      this.UNIDADESUNSPSC = response.Values.ResultFields;
+    });
+  }
+
+  getCategoriaProfesion(){
+    this.secopService.getCategoriaProfesion(this.token).subscribe((response:any)=>{
+      this.categoriasProfesion = response.Values.ResultFields;
+    })
+  }
+
+  getProfesionByCategoria(){
+    let categoriaProfesion = this.createProcessForm.controls['categoriaProfesion'].value;
+    this.secopService.getProfesionByCategoria(this.token,categoriaProfesion).subscribe((response:any)=>{
+      this.createProcessForm.controls['profesion'].enable();
+      this.categoriasSubProfesion = response.Values.ResultFields;
+    })
+  }
 }

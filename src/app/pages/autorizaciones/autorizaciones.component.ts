@@ -14,7 +14,7 @@ import {ServicesService} from "../../services/services.service";
   styleUrls: ['./autorizaciones.component.css']
 })
 export class AutorizacionesComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['Num', 'Nombre', 'Estado', 'Fecha', 'Creador', 'ValorOferta'];
+  displayedColumns: string[] = ['Num','Identificacion', 'Nombre', 'Estado', 'Fecha', 'Creador', 'ValorOferta'];
   //Numeración	ID Secop	Nombre del Proceso	Dependencia	Unidad	Equipo	Valor oferta
   public dataSource!: MatTableDataSource<any>;
   public autorizaciones: any;
@@ -140,13 +140,20 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   }
 
   aprobarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'NO').subscribe((response:any)=>{
+    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'aprobado').subscribe((response:any)=>{
       this.service.sendClickEvent();
       if(response.Status = 'Ok'){
         utils.showAlert('Se autorizo el proceso #'+proceso+ ' correctamente!','success');
         //disparar creacion secop segun rol
-        if(this.ROL == 41 || this.ROL == 42){
-          utils.sendSoapData(this.PROCESO_SELECCIONADO);
+        if(this.ROL == 44){
+          console.log('aqui vamos');
+          this.secopService.getUnspscData(this.token,proceso).subscribe((response:any)=>{
+            console.log('aqui estamos');
+            console.log(this.token);
+            console.log(response);
+            utils.sendSoapData(this.PROCESO_SELECCIONADO,response.Values.ResultFields);
+          });
+
         }
         this.getAutorizacionesXEntidad();
       }
@@ -154,7 +161,7 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   }
 
   rechazarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'SI').subscribe((response:any)=>{
+    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'rechazado').subscribe((response:any)=>{
       this.service.sendClickEvent();
       if(response.Status = 'Ok'){
         utils.showAlert('Se rechazo el proceso #'+proceso+ '!','warning');
@@ -166,7 +173,7 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   getAutorizacionesXEntidad(){
     this.secopService.getAutorizacionesXEntidad(this.entidad).subscribe((response:any)=>{
       this.autorizaciones = response.Values.ResultFields;
-      console.log(this.autorizaciones)
+      // console.log(this.autorizaciones);
       this.infoProcess();
     })
   }

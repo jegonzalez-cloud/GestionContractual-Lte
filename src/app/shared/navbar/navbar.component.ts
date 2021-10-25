@@ -101,7 +101,8 @@ export class NavbarComponent implements OnInit {
         showCancelButton: false,
         allowOutsideClick: false,
         showCloseButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#0b9fa5',
+        // cancelButtonColor: '#E9ECEF',
         // cancelButtonColor: '#828282',
         // cancelButtonText: 'Cancelar',
         confirmButtonText: 'ACEPTAR!'
@@ -141,7 +142,7 @@ export class NavbarComponent implements OnInit {
         }
         // localStorage.setItem('autorizaciones', JSON.stringify(response.Values.ResultFields))
       })
-    }, 10000)
+    }, 100000)
   }
 
 
@@ -194,7 +195,7 @@ export class NavbarComponent implements OnInit {
   }
 
   aprobarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'NO').subscribe((response:any)=>{
+    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'aprobado').subscribe((response:any)=>{
       // console.log(response);
       this.service.sendClickEvent();
       if(response.Status = 'Ok'){
@@ -205,7 +206,7 @@ export class NavbarComponent implements OnInit {
   }
 
   rechazarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'SI').subscribe((response:any)=>{
+    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'rechazado').subscribe((response:any)=>{
       // console.log(response);
       this.service.sendClickEvent();
       if(response.Status = 'Ok'){

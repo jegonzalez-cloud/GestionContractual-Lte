@@ -20,16 +20,25 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { NgxCurrencyModule } from "ngx-currency";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     NgxCurrencyModule,
+    NgApexchartsModule,
+    // NgxTreeSelectModule.forRoot({
+    //   idField: 'id',
+    //   textField: 'name',
+    //   expandMode: ExpandMode.Selection
+    // }),
     BrowserModule,
     SharedModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     NgbModule,
+    // NgxChartsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

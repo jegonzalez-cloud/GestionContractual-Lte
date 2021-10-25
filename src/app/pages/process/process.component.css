@@ -44,16 +44,19 @@ table {
   border-right: 1px solid lightgray;
   padding-left: 1%;
   /*text-overflow: ellipsis;*/
-  width: 25%;
+  width: 20%;
   max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .mat-column-Estado {
-  width: 14%;
+  width: 10%;
   border-right: 1px solid lightgray;
   padding-left: 1%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   /*text-align: center;*/
   /*align-content: center;*/
 }
@@ -86,7 +89,14 @@ table {
   /*align-content: center;*/
 }
 .mat-column-Creador {
-  width: 15%;
+  width: 14%;
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  text-align: left;
+  /*align-content: center;*/
+}
+.mat-column-Identificacion {
+  width: 12%;
   border-right: 1px solid lightgray;
   padding-left: 1%;
   text-align: left;
@@ -134,4 +144,8 @@ div.callout{
 button.btn-primary{
   background-color: #0b9fa5;
   border-color: #0b9fa5;
+}
+
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+  z-index: 99999 !important;
 }

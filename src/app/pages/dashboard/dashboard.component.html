@@ -1,0 +1,519 @@
+<div class="wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" id="background-home">
+    <!--    <iframe width="100%" height="545px" style="border:none;" allowfullscreen [src]="urlSafe"></iframe>-->
+    <div style="text-align:center">
+      <!--      <div id="chart1">-->
+      <!--        <apx-chart-->
+      <!--          [series]="chartOptions.series"-->
+      <!--          [chart]="chartOptions.chart"-->
+      <!--          [dataLabels]="chartOptions.dataLabels"-->
+      <!--          [plotOptions]="chartOptions.plotOptions"-->
+      <!--          [xaxis]="chartOptions.xaxis"-->
+      <!--        ></apx-chart>-->
+      <!--      </div>-->
+      <!--      <div id="chart2">-->
+      <!--        <apx-chart-->
+      <!--          [series]="chartOptions.series"-->
+      <!--          [chart]="chartOptions.chart"-->
+      <!--          [dataLabels]="chartOptions.dataLabels"-->
+      <!--          [plotOptions]="chartOptions.plotOptions"-->
+      <!--          [xaxis]="chartOptions.xaxis"-->
+      <!--        ></apx-chart>-->
+      <!--      </div>-->
+      <!--      <div id="chart3">-->
+      <!--        <apx-chart-->
+      <!--          [series]="chartOptions.series"-->
+      <!--          [chart]="chartOptions.chart"-->
+      <!--          [dataLabels]="chartOptions.dataLabels"-->
+      <!--          [plotOptions]="chartOptions.plotOptions"-->
+      <!--          [xaxis]="chartOptions.xaxis"-->
+      <!--        ></apx-chart>-->
+      <!--      </div>-->
+      <!--      <div id="chart">-->
+      <!--        <apx-chart-->
+      <!--          [series]="chartOptions.series"-->
+      <!--          [chart]="chartOptions.chart"-->
+      <!--          [dataLabels]="chartOptions.dataLabels"-->
+      <!--          [plotOptions]="chartOptions.plotOptions"-->
+      <!--          [yaxis]="chartOptions.yaxis"-->
+      <!--          [xaxis]="chartOptions.xaxis"-->
+      <!--          [stroke]="chartOptions.stroke"-->
+      <!--          [grid]="chartOptions.grid"-->
+      <!--          [fill]="chartOptions.fill"-->
+      <!--          [annotations]="chartOptions.annotations"-->
+      <!--        ></apx-chart>-->
+      <!--      </div>-->
+      <!--      <span class="label label-info">Info Label</span>-->
+    </div>
+
+    <section class="content-header">
+      <div class="container-fluid"></div>
+      <!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card ml-3 mr-3">
+          <div class="card-header mb-3" style="background-color: #0b9fa5">
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+
+            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
+              <i class="fas fa-chart-line"></i>
+              <b>  {{'dashboard.dashboard' | translate}}</b>
+            </h6>
+          </div>
+
+          <!--          <div class="ml-4">-->
+          <!--            <button type="button" class="btn btn-outline-secondary btn-sm">Imprimir</button>-->
+          <!--&lt;!&ndash;            <button type="button" class="btn btn-outline-success btn-sm ml-1">Autorizar</button>&ndash;&gt;-->
+          <!--          </div>-->
+
+
+          <div class="card-body">
+            <div class="row">
+
+              <!-- ./col -->
+              <div *ngIf="ROL == 42" class="col-md-12">
+                <div class="card">
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <figure class="text-center">
+                      <blockquote class="blockquote" style="border-left: none;margin-top: auto;">
+                        <p style="font-weight: bold">Cantidad de prestadores por Dependencia</p>
+                      </blockquote>
+                      <!--                      <figcaption class="blockquote-footer">-->
+                      <!--                        Someone famous in <cite title="Source Title">Source Title</cite>-->
+                      <!--                      </figcaption>-->
+                    </figure>
+                    <div>
+                      <form [formGroup]="reporte4Form" (ngSubmit)="getDataDashboard(1)"
+                            (keydown.enter)="$event.preventDefault()">
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Fecha de inicio</label>
+                              <input
+                                formControlName="fechaInicio"
+                                type="datetime-local"
+                                name="fechaInicio"
+                                class="form-control text-sm"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Fecha termino</label>
+                              <input
+                                formControlName="fechaTermino"
+                                type="datetime-local"
+                                name="fechaTermino"
+                                class="form-control text-sm"
+                              />
+                            </div>
+                          </div>
+
+                          <button
+                            [hidden]="reporte4Form.invalid"
+                            [disabled]="reporte4Form.invalid"
+                            type="submit"
+                            class="btn btn-primary float-left btn-sm btn-block"
+                          >
+                            <b>Generar <i class="fa fa-sync"></i></b>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+
+                    <!--GRAFICA-->
+
+                    <div class="table-responsive">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+                      </mat-form-field>
+                      <div class="mat-elevation-z8">
+                        <table mat-table [dataSource]="dataSourceGrafica1" matSort>
+                          <!-- ID Column -->
+                          <ng-container matColumnDef="Dependencia">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="font-size: 14px;font-weight: bolder;color: black;" mat-sort-header>
+                              Dependencia
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.ASOCIACION | uppercase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Cantidad">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="font-size: 14px;font-weight: bolder;color: black">
+                              Cantidad
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.CANTIDAD  | number}} </td>
+                          </ng-container>
+
+                          <!-- Progress Column -->
+                          <ng-container matColumnDef="Valor Total">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="text-align: center; font-size: 14px;font-weight: bolder;color: black" mat-sort-header>
+                              Valor Total
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 11px;color: rosybrown;font-weight: bold;text-align: right;"> {{row.VALOR_TOTAL | currency}} </td>
+                          </ng-container>
+
+                          <tr mat-header-row *matHeaderRowDef="displayedColumnsGrafica1"></tr>
+                          <tr class="hoverOnTable" data-toggle="modal" data-target="#modal-default"
+                              mat-row *matRowDef="let row; columns: displayedColumnsGrafica1;"></tr>
+
+                          <!-- Row shown when there is no matching data. -->
+                          <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                          </tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                                       aria-label="Select page of users"></mat-paginator>
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- ./col -->
+            </div>
+          </div>
+
+          <!--
+          ASOCIACION
+          -->
+          <div class="card-body">
+            <div class="row">
+
+              <!-- ./col -->
+              <div *ngIf="ROL == 42" class="col-md-12">
+                <div class="card">
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <figure class="text-center">
+                      <blockquote class="blockquote" style="border-left: none;margin-top: auto;">
+                        <p id="titulo" style="font-weight: bold">Cantidad de prestadores por Asociacion</p>
+                      </blockquote>
+                      <!--                      <figcaption class="blockquote-footer">-->
+                      <!--                        Someone famous in <cite title="Source Title">Source Title</cite>-->
+                      <!--                      </figcaption>-->
+                    </figure>
+                    <div id="filtros">
+                      <form [formGroup]="reporte4Form" (ngSubmit)="getDataDashboard(4)"
+                            (keydown.enter)="$event.preventDefault()">
+                        <div class="row">
+                          <div class="col-12 col-sm-4">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Fecha de inicio</label>
+                              <input
+                                formControlName="fechaInicio"
+                                type="datetime-local"
+                                name="fechaInicio"
+                                class="form-control text-sm"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-4">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Fecha termino</label>
+                              <input
+                                formControlName="fechaTermino"
+                                type="datetime-local"
+                                name="fechaTermino"
+                                class="form-control text-sm"
+                              />
+                            </div>
+                          </div>
+                          <div [hidden]="ROL != '42'" class="col-12 col-sm-4">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Centro Gestor</label>
+                              <select
+                                formControlName="centroGestor"
+                                class="form-control text-sm"
+                              >
+                                <option *ngFor="let ges of gestor" value="{{ ges.USC_GESTOR }}">
+                                  {{ges.USC_GESTOR}}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <button
+                            [hidden]="reporte4Form.invalid"
+                            [disabled]="reporte4Form.invalid"
+                            type="submit"
+                            class="btn btn-primary float-left btn-sm btn-block"
+                          >
+                            <b>Generar <i class="fa fa-sync"></i></b>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+
+                    <div id="chartPie">
+                      <apx-chart
+                        [series]="chartOptionsPie.seriesPie"
+                        [chart]="chartOptionsPie.chartPie"
+                        [labels]="chartOptionsPie.labelsPie"
+                        [responsive]="chartOptionsPie.responsivePie"
+                      ></apx-chart>
+                    </div>
+
+                    <div class="table-responsive">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+                      </mat-form-field>
+                      <div id="div_container" class="mat-elevation-z8">
+                        <table mat-table [dataSource]="dataSourceGrafica4" matSort>
+                          <!-- ID Column -->
+                          <ng-container matColumnDef="Asociacion">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="font-size: 14px;font-weight: bolder;color: black;" mat-sort-header>
+                              Asociacion
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.ASOCIACION | uppercase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Cantidad">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="font-size: 14px;font-weight: bolder;color: black">
+                              Cantidad
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.CANTIDAD  | number}} </td>
+                          </ng-container>
+
+                          <!-- Progress Column -->
+                          <ng-container matColumnDef="Valor Total">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="text-align: center; font-size: 14px;font-weight: bolder;color: black" mat-sort-header>
+                              Valor Total
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 11px;color: rosybrown;font-weight: bold;text-align: right;"> {{row.VALOR_TOTAL | currency}} </td>
+                          </ng-container>
+
+                          <tr mat-header-row *matHeaderRowDef="displayedColumnsGrafica4"></tr>
+                          <tr class="hoverOnTable" data-toggle="modal" data-target="#modal-default"
+                              mat-row *matRowDef="let row; columns: displayedColumnsGrafica4;"></tr>
+
+                          <!-- Row shown when there is no matching data. -->
+                          <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                          </tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                                       aria-label="Select page of users"></mat-paginator>
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- ./col -->
+            </div>
+          </div>
+
+          <!--
+          REFERENCIA
+          -->
+          <div class="card-body">
+            <div class="row">
+
+              <!-- ./col -->
+              <div *ngIf="ROL == 42" class="col-md-12">
+                <div class="card">
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <figure class="text-center">
+                      <blockquote class="blockquote" style="border-left: none;margin-top: auto;">
+                        <p id="titulo1" style="font-weight: bold">Cantidad de prestadores por Referencia</p>
+                      </blockquote>
+                      <!--                      <figcaption class="blockquote-footer">-->
+                      <!--                        Someone famous in <cite title="Source Title">Source Title</cite>-->
+                      <!--                      </figcaption>-->
+                    </figure>
+                    <div id="filtros1">
+                      <form [formGroup]="reporte4Form" (ngSubmit)="getDataDashboard(3)"
+                            (keydown.enter)="$event.preventDefault()">
+                        <div class="row">
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Fecha de inicio</label>
+                              <input
+                                formControlName="fechaInicio"
+                                type="datetime-local"
+                                name="fechaInicio"
+                                class="form-control text-sm"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-3">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Fecha termino</label>
+                              <input
+                                formControlName="fechaTermino"
+                                type="datetime-local"
+                                name="fechaTermino"
+                                class="form-control text-sm"
+                              />
+                            </div>
+                          </div>
+
+                          <div [hidden]="ROL != '42'" class="col-12 col-sm-2">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Referencia</label>
+                              <select
+                                formControlName="referencia"
+                                class="form-control text-sm"
+                              >
+                                <option *ngFor="let ref of referenciasInProcess" value="{{ ref.REFERENCIA }}">
+                                  {{ref.REFERENCIA}}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div [hidden]="ROL != '42'" class="col-12 col-sm-2">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Asociación</label>
+                              <select
+                                formControlName="asociacion"
+                                class="form-control text-sm"
+                              >
+                                <option *ngFor="let ASO of asociacionInProcess" value="{{ ASO.ASOCIACION }}">
+                                  {{ASO.ASOCIACION}}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div [hidden]="ROL != '42'" class="col-12 col-sm-2">
+                            <div class="form-group">
+                              <label class="font-weight-normal text-sm">Centro Gestor</label>
+                              <select
+                                formControlName="centroGestor"
+                                class="form-control text-sm"
+                              >
+                                <option *ngFor="let ges of gestor" value="{{ ges.USC_GESTOR }}">
+                                  {{ges.USC_GESTOR}}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <button
+                            [hidden]="reporte4Form.invalid"
+                            [disabled]="reporte4Form.invalid"
+                            type="submit"
+                            class="btn btn-primary float-left btn-sm btn-block"
+                          >
+                            <b>Generar <i class="fa fa-sync"></i></b>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+
+                    <div id="chart1">
+                      <apx-chart
+                        [series]="chartOptions.series"
+                        [chart]="chartOptions.chart"
+                        [dataLabels]="chartOptions.dataLabels"
+                        [plotOptions]="chartOptions.plotOptions"
+                        [xaxis]="chartOptions.xaxis"
+                      ></apx-chart>
+                    </div>
+
+                    <div class="table-responsive">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+                      </mat-form-field>
+                      <div id="div_container1" class="mat-elevation-z8">
+                        <table mat-table [dataSource]="dataSourceGrafica3" matSort>
+                          <!-- ID Column -->
+                          <ng-container matColumnDef="Referencia">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="font-size: 14px;font-weight: bolder;color: black;" mat-sort-header>
+                              Referencia
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.REFERENCIA | uppercase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Asociacion">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="font-size: 14px;font-weight: bolder;color: black;" mat-sort-header>
+                              Asociación
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.ASOCIACION | uppercase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Cantidad">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="font-size: 14px;font-weight: bolder;color: black">
+                              Cantidad
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.CANTIDAD  | number}} </td>
+                          </ng-container>
+
+                          <!-- Progress Column -->
+                          <ng-container matColumnDef="Valor Total">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="font-size: 14px;font-weight: bolder;color: black" mat-sort-header>
+                              Valor Total
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.VALOR_TOTAL | currency}} </td>
+                          </ng-container>
+
+                          <tr mat-header-row *matHeaderRowDef="displayedColumnsGrafica3"></tr>
+                          <tr class="hoverOnTable" data-toggle="modal" data-target="#modal-default"
+                              mat-row *matRowDef="let row; columns: displayedColumnsGrafica3;"></tr>
+
+                          <!-- Row shown when there is no matching data. -->
+                          <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                          </tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                                       aria-label="Select page of users"></mat-paginator>
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- ./col -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

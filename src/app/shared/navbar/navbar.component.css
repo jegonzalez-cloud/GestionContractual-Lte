@@ -31,3 +31,6 @@ log-out:hover{
   background: aliceblue;
 }
 
+div.callout{
+  border-left-color: #0b9fa5;
+}

@@ -15,7 +15,7 @@ export class ProcesosGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     let rol:any = atob(localStorage.getItem('rol')!);
     if(rol != 39){
-      this.router.navigate(['home/dashboard']);
+      this.router.navigate(['busqueda']);
       return false;
     }
     else{

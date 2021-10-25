@@ -26,6 +26,15 @@
         "misProcesos": "Mis Procesos",
         "historial": "Historial de autorizaciones"
     },
+    "reportes":{
+        "reportes":"Reportes"
+    },
+    "dashboard":{
+        "dashboard":"Dashboard"
+    },
+    "secop":{
+        "secop":"SecopII"
+    },
     "administration-CI": {
         "titles": {
             "header": "Gestión Contractual",
@@ -40,7 +49,9 @@
             "menu1": "Procesos",
             "menu2": "Autorizaciones",
             "menu3": "Contratos",
-            "menu4": "Busqueda"
+            "menu4": "Busqueda",
+            "menu5": "Reportes",
+            "dashboard": "Dashboard"
         },
         "table": {
             "thead": {

@@ -1,87 +1,134 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-light-primary elevation-4">
-    <!-- Brand Logo -->
-    <div style="text-align: center;padding: 5% 5% 5% 5%" class="mt-2">
-      <img
-        [ngStyle]="{'cursor':'pointer'}"
-        [routerLink]="['dashboard']"
-        src="../../../assets/img/bloque28.png"
-        alt="..."
-        width="100%"
-      />
-      <!-- <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8"> -->
-    </div>
-    <!-- <a href="../../index3.html" class="brand-link">
-        <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8">
-        <span class="brand-text font-weight-normal">helppeople</span>
-      </a> -->
+  <!-- Brand Logo -->
+  <div style="text-align: center;padding: 5% 5% 5% 5%" class="mt-2">
+    <!--      <img-->
+    <!--        [ngStyle]="{'cursor':'pointer'}"-->
+    <!--        [routerLink]="['dashboard']"-->
+    <!--        src="../../../assets/img/bloque28.png"-->
+    <!--        alt="..."-->
+    <!--        width="100%"-->
+    <!--      />-->
+    <img
+      [ngStyle]="{'cursor':'pointer'}"
+            [routerLink]="['sample']"
+      src="../../../assets/img/bloque28.png"
+      alt="..."
+      width="100%"
+    />
+    <!-- <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8"> -->
+  </div>
+  <!-- <a href="../../index3.html" class="brand-link">
+      <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8">
+      <span class="brand-text font-weight-normal">helppeople</span>
+    </a> -->
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user (optional) -->
-      <div class="user-panel mt-0 pb-3 mb-3 d-flex">
-        <div class="image mt-0">
-          <img
-            [ngStyle]="{'cursor':'pointer'}"
-            src={{userImage}}
-            class="img-circle elevation-2"
-            alt="User Image"
-          />
-        </div>
-        <div class="info">
-          <a class="d-block text-sm">{{nameUser | titlecase}}</a>
-          <a class="d-block text-xs" style="color: #0b9fa5">{{entidad | titlecase}}</a>
-        </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user (optional) -->
+    <div class="user-panel mt-0 pb-3 mb-3 d-flex">
+      <div class="image mt-0">
+        <img
+          [ngStyle]="{'cursor':'pointer'}"
+          src={{userImage}}
+          class="img-circle elevation-2"
+          alt="User Image"
+        />
       </div>
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul
-          class="nav nav-pills nav-sidebar nav-child-indent flex-column"
-          data-widget="treeview"
-          role="menu"
-          data-accordion="false"
-        >
-          <!-- Add icons to the links using the .nav-icon class
-                 with font-awesome or any other icon font library -->
-          <li *ngIf="rol == 39" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
-            <a routerLink ="process" class="nav-link">
-              <i class="nav-icon fa fa-edit"></i>
-              <p style="color: #a8a8a8">
-                {{'administration-CI.panels.menu1' | translate}}
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-<!--            <ul class="nav nav-treeview">-->
-<!--              <li class="nav-item">-->
-<!--                <a routerLink ="process" class="nav-link" style="cursor: pointer">-->
-<!--                  <i class="far fa-circle nav-icon"></i>-->
-<!--                  <p class="text-sm">{{'administration-CI.panels.menu1' | translate}}</p>-->
-<!--                </a>-->
-<!--              </li>-->
-<!--            </ul>-->
-          </li>
-          <li class="nav-item" *ngIf="rol != 39" [ngStyle]="{'cursor':'pointer'}">
-            <a routerLink ="autorizaciones" class="nav-link">
-              <i class="nav-icon fas fa-book"></i>
-              <p style="color: #a8a8a8">
-                {{'administration-CI.panels.menu2' | translate}}
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item" [ngStyle]="{'cursor':'pointer'}">
-            <a routerLink ="busqueda" class="nav-link">
-              <i class="nav-icon fas fa-search"></i>
-              <p style="color: #a8a8a8">
-                {{'administration-CI.panels.menu4' | translate}}
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
+      <div class="info">
+        <a class="d-block text-sm">{{nameUser | titlecase}}</a>
+        <a class="d-block text-xs" style="color: #0b9fa5">{{entidad | titlecase}}</a>
+      </div>
     </div>
-    <!-- /.sidebar -->
-  </aside>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul
+        class="nav nav-pills nav-sidebar nav-child-indent flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+        <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+
+        <li *ngIf="rol == 42" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+          <a routerLink="dashboard" class="nav-link">
+            <i class="nav-icon fa fa-chart-line"></i>
+            <p style="color: #a8a8a8">
+              {{'dashboard.dashboard' | translate}}
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <!--            <ul class="nav nav-treeview">-->
+          <!--              <li class="nav-item">-->
+          <!--                <a routerLink ="process" class="nav-link" style="cursor: pointer">-->
+          <!--                  <i class="far fa-circle nav-icon"></i>-->
+          <!--                  <p class="text-sm">{{'administration-CI.panels.menu1' | translate}}</p>-->
+          <!--                </a>-->
+          <!--              </li>-->
+          <!--            </ul>-->
+        </li>
+
+        <li *ngIf="rol == 39" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+          <a routerLink="process" class="nav-link">
+            <i class="nav-icon fa fa-edit"></i>
+            <p style="color: #a8a8a8">
+              {{'administration-CI.panels.menu1' | translate}}
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <!--            <ul class="nav nav-treeview">-->
+          <!--              <li class="nav-item">-->
+          <!--                <a routerLink ="process" class="nav-link" style="cursor: pointer">-->
+          <!--                  <i class="far fa-circle nav-icon"></i>-->
+          <!--                  <p class="text-sm">{{'administration-CI.panels.menu1' | translate}}</p>-->
+          <!--                </a>-->
+          <!--              </li>-->
+          <!--            </ul>-->
+        </li>
+        <li class="nav-item" *ngIf="rol != 39" [ngStyle]="{'cursor':'pointer'}">
+          <a routerLink="autorizaciones" class="nav-link">
+            <i class="nav-icon fas fa-book"></i>
+            <p style="color: #a8a8a8">
+              {{'administration-CI.panels.menu2' | translate}}
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+        </li>
+        <li class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+          <a routerLink="busqueda" class="nav-link">
+            <i class="nav-icon fas fa-search"></i>
+            <p style="color: #a8a8a8">
+              {{'administration-CI.panels.menu4' | translate}}
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+        </li>
+        <li class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+          <a routerLink="reportes" class="nav-link">
+            <i class="nav-icon fas fa-book-open"></i>
+            <p style="color: #a8a8a8">
+              {{'administration-CI.panels.menu5' | translate}}
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+        </li>
+        <li class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+          <!--            <a routerLink ="reportes" class="nav-link">-->
+          <a
+            href="https://formacion.secop.gov.co/STS/Users/Login/Index?SkinName=CCE&ReturnUrl=%2fSTS%2fusers%2fissue.aspx%3fwa%3dwsignin1.0%26wtrealm%3dhttps%253a%252f%252fmarketplace-formacion.secop.gov.co%252fCO1Marketplace%26wctx%3drm%253d0%2526id%253dpassive%2526ru%253d%25252fCO1Marketplace%25252fCompanies%25252fCompanyConfiguration%25252findex%26wct%3d2021-10-11T14%253a05%253a50Z&wa=wsignin1.0&wtrealm=https%3a%2f%2fmarketplace-formacion.secop.gov.co%2fCO1Marketplace&wctx=rm%3d0%26id%3dpassive%26ru%3d%252fCO1Marketplace%252fCompanies%252fCompanyConfiguration%252findex&wct=2021-10-11T14%3a05%3a50Z"
+            target="_blank" class="nav-link">
+            <i class="nav-icon fas fa-link"></i>
+            <p style="color: #a8a8a8">
+              {{'secop.secop' | translate}}
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

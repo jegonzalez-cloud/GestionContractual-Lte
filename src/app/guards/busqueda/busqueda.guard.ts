@@ -5,8 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AutorizacionesGuard implements CanActivate {
-
+export class BusquedaGuard implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate(
@@ -15,8 +14,9 @@ export class AutorizacionesGuard implements CanActivate {
 
     let rol:any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
     console.log(rol);
-    if(rol == '' || rol < 40 && rol > 44){
-      this.router.navigate(['busqueda']);
+    if(rol == ''){
+      localStorage.clear();
+      this.router.navigate(['login']);
       return false;
     }
     else{

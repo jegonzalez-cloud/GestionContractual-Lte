@@ -6,6 +6,7 @@ import * as utils from "../../utils/functions";
 import {Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
+import {AuthService} from "../../services/auth/auth.service";
 
 @Component({
   selector: 'app-busqueda',
@@ -14,7 +15,7 @@ import {MatSort} from "@angular/material/sort";
 })
 export class BusquedaComponent implements OnInit {
   private entidad = atob(localStorage.getItem('entidad')!);
-  displayedColumns: string[] = ['Num', 'Nombre', 'Estado', 'Fecha', 'Creador', 'ValorOferta'];
+  displayedColumns: string[] = ['Num','Identificacion', 'Nombre', 'Estado', 'Fecha', 'Creador', 'ValorOferta'];
   private token: string = localStorage.getItem('token')!;
   ROL: any = atob(localStorage.getItem('rol')!);
   dataSource!: MatTableDataSource<any>;
@@ -59,10 +60,11 @@ export class BusquedaComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private secopService: SecopService, private fb: FormBuilder,private router:Router) {
+  constructor(private secopService: SecopService, private fb: FormBuilder,private router:Router,private authService:AuthService) {
   }
 
   ngOnInit(): void {
+    this.validateToken();
     this.getProveedores();
     this.getCreadorProceso();
     this.getcentroGestor();
@@ -130,12 +132,13 @@ export class BusquedaComponent implements OnInit {
   }
 
   infoProcess(): void {
-    if (this.busqueda.length > 0) {
+    if (this.busqueda != null && this.busqueda.length > 0) {
       this.dataSource = new MatTableDataSource(this.busqueda!);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     } else {
-      utils.showAlert('Error de información', 'error');
+      this.dataSource = new MatTableDataSource();
+       //utils.showAlert('Error de información', 'error');
     }
   }
 
@@ -185,5 +188,14 @@ export class BusquedaComponent implements OnInit {
   fillModal(numProceso:any) {
     // console.log(numProceso)
     this.router.navigate(['home/autorizaciones-det/'+numProceso]);
+  }
+
+  private validateToken() {
+    this.authService.isLogin().subscribe((response:any)=>{
+      console.log(response);
+      if(response.Status == 'Fail' || response.Token == '-1'){
+        this.router.navigate(['login']);
+      }
+    })
   }
 }

@@ -42,6 +42,20 @@ div_container{
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.mat-column-Identificacion {
+  /*white-space: nowrap;*/
+  /*width: 5%;*/
+  /*overflow: hidden;*/
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  /*text-overflow: ellipsis;*/
+  width: 10%;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .mat-column-Estado {
   width: 8%;
   border-right: 1px solid lightgray;

@@ -9,20 +9,25 @@ import {AutorizacionesComponent} from "./autorizaciones/autorizaciones.component
 import {AutorizacionesGuard} from "../guards/autorizaciones/autorizaciones.guard";
 import {ProcesosGuard} from "../guards/procesos/procesos.guard";
 import {BusquedaComponent} from "./busqueda/busqueda.component";
+import {DashboardGuard} from "../guards/dashboard/dashboard.guard";
+import {BusquedaGuard} from "../guards/busqueda/busqueda.guard";
+import {AuthGuard} from "../guards/auth.guard";
+import {ReportesComponent} from "./reportes/reportes.component";
+import {SampleComponent} from "./sample/sample.component";
 
 // ProcessComponent
 const routes: Routes = [
-  { path: '', component: DashboardComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'busqueda', component: BusquedaComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate:[DashboardGuard] },
+  { path: 'busqueda', component: BusquedaComponent, canActivate:[BusquedaGuard] },
   { path: 'process', component: ProcessComponent, canActivate:[ProcesosGuard] },
   { path: 'autorizaciones', component: AutorizacionesComponent, canActivate:[AutorizacionesGuard] },
-  { path: 'autorizaciones-det/:id', component: AutorizacionesDetailComponent},
-
+  { path: 'autorizaciones-det/:id', component: AutorizacionesDetailComponent, canActivate:[AutorizacionesGuard] },
+  { path: 'reportes', component: ReportesComponent,canLoad:[AuthGuard] },
+  { path: 'sample', component: SampleComponent},
 //   { path: 'newRfc', component: NewRFCComponent },
 //   { path: 'detailRfc/:rfcCode', component: DetailRfcComponent },
-  { path: '**', redirectTo: 'process', pathMatch: 'full' },
-//   { path: '', component: PagesComponent },
+  { path: '**', redirectTo: 'busqueda', pathMatch: 'full' },
+  // { path: '', component: PagesComponent,canLoad:[AuthGuard] },
 ];
 
 @NgModule({

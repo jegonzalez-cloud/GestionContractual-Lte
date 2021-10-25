@@ -9,7 +9,7 @@
     <section class="content">
       <div class="container-fluid">
         <div class="card ml-3 mr-3">
-          <div class="card-header mb-3" style="background-color: lavender">
+          <div class="card-header mb-3" style="background-color: #0b9fa5">
             <div class="card-tools">
               <button
                 type="button"
@@ -20,16 +20,16 @@
               </button>
             </div>
 
-            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">
+            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0;">
               <i class="fas fa-text-width"></i>
               <b>  {{'autorizaciones.historial' | translate}}</b>
             </h6>
           </div>
 
-<!--          <div class="ml-4">-->
-<!--            <button type="button" class="btn btn-outline-secondary btn-sm">Imprimir</button>-->
-<!--&lt;!&ndash;            <button type="button" class="btn btn-outline-success btn-sm ml-1">Autorizar</button>&ndash;&gt;-->
-<!--          </div>-->
+          <!--          <div class="ml-4">-->
+          <!--            <button type="button" class="btn btn-outline-secondary btn-sm">Imprimir</button>-->
+          <!--&lt;!&ndash;            <button type="button" class="btn btn-outline-success btn-sm ml-1">Autorizar</button>&ndash;&gt;-->
+          <!--          </div>-->
 
           <div class="card-body">
             <div class="row">
@@ -41,20 +41,36 @@
 
                   <div class="card-header">
                     <h3 class="card-title">
-<!--                      -->
-<!--                      <i class="fas fa-text-width"></i>-->
-<!--                      {{'autorizaciones.historial' | translate}}-->
+                      <!--                      -->
+                      <!--                      <i class="fas fa-text-width"></i>-->
+                      <!--                      {{'autorizaciones.historial' | translate}}-->
                     </h3>
                     <form [formGroup]="tablaForm" (ngSubmit)="updateTabla()"
                           (keydown.enter)="$event.preventDefault()">
-                      <div class="col-12 col-sm-2">
-                        <div class="form-group">
-                          <button type="button" class="btn btn-outline-secondary btn-sm mb-3" (click)="generatePdf()">Imprimir</button>
+                      <div class="row">
+                        <div class="col-12 col-sm-4">
+                          <div class="form-group">
+                            <select
+                              formControlName="archivo"
+                              class="form-control text-sm"
+                            >
+                              <option selected>Autorizaciones</option>
+                              <option *ngIf="estado_proceso >= 6 && estado_proceso <= 7">Informe Secretaría</option>
+                              <option *ngIf="estado_proceso == 7">Informe DADI</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                          <div class="form-group">
+<!--                            <button type="button" class="btn btn-outline-success ml-1">Imprimir</button>-->
+                            <i class="fa fa-print impresion" (click)="generatePdf()"></i>
+<!--                            <i class="fa fa-cloud" style="font-size:60px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>-->
+                          </div>
                         </div>
                       </div>
                       <div class="row mb-0 mt-3">
 
-                        <div [hidden]="ROL != 41" class="col-12 col-sm-4">
+                        <div [hidden]="ROL != 42" class="col-12 col-sm-4">
                           <div class="form-group">
                             <!--                            <label class="font-weight-normal text-sm">Referencia</label>-->
                             <select
@@ -73,7 +89,7 @@
                             </select>
                           </div>
                         </div>
-                        <div [hidden]="ROL != 41" class="col-12 col-sm-4">
+                        <div [hidden]="ROL != 42" class="col-12 col-sm-4">
                           <div class="form-group">
                             <!--                            <label class="font-weight-normal text-sm">Asociación</label>-->
                             <select
@@ -91,9 +107,10 @@
                             </select>
                           </div>
                         </div>
-                        <div [hidden]="ROL != 41" class="col-12 col-sm-2">
+                        <div [hidden]="ROL != 42" class="col-12 col-sm-2">
                           <div class="form-group">
-                            <button type="submit" [disabled]="prueba" class="btn btn-outline-primary btn-md"><i class="fa fa-edit"></i></button>
+                            <button type="submit" [disabled]="prueba" class="btn btn-outline-primary btn-md"><i
+                              class="fa fa-edit"></i></button>
                           </div>
                         </div>
                       </div>
@@ -109,17 +126,23 @@
                                                    aria-hidden="true"> </i> <a style="color: black;font-size: 13px;">
                         {{det.CREATED}}</a>
                       </dt>
-                      <dd class="col-sm-9">El usuario <a class="color">{{det.USR_LOGIN | uppercase}}</a> correspondiente a <a
-                        class="color">{{det.NOMBRE_USUARIO | uppercase}}</a><b> {{(det.AUTORIZACION_ESTADO != 0) ? 'autorizó' : 'rechazó'}}</b>  el proceso número
+                      <dd class="col-sm-9">El usuario <a class="color">{{det.USR_LOGIN | uppercase}}</a> correspondiente
+                        a <a
+                          class="color">{{det.NOMBRE_USUARIO | uppercase}}</a><b> {{(det.AUTORIZACION_ESTADO != 0) ? 'autorizó' : 'rechazó'}}</b>
+                        el proceso número
                         <a class="color">{{det.CONS_PROCESO}}</a>
                         relacionado a la <a class="color">{{det.TIPO_CONTRATO | uppercase}}</a> con
-                        plazo <a class="color"> {{det.TIEMPO_DURACION_CONTRATO}} {{det.DURACION_CONTRATO | uppercase}}</a> y valor <a
+                        plazo <a
+                          class="color"> {{det.TIEMPO_DURACION_CONTRATO}} {{det.DURACION_CONTRATO | uppercase}}</a> y
+                        valor <a
                           class="color">{{det.VAL_OFERTA | currency}}</a>
                       </dd>
                       <dt class="line col-sm-3"></dt>
-                      <dd class="col-sm-9">Correspondiente a la política <a class="color">{{det.TIPO_PROCESO | uppercase}}.</a></dd>
+                      <dd class="col-sm-9">Correspondiente a la política <a
+                        class="color">{{det.TIPO_PROCESO | uppercase}}.</a></dd>
                       <dt class="line col-sm-3"></dt>
-                      <dd class="col-sm-9">Observación: {{det.NOMBRE_USUARIO | titlecase}} {{(det.AUTORIZACION_ESTADO != 0) ? 'aprobó' : 'rechazó'}}</dd>
+                      <dd class="col-sm-9">
+                        Observación: {{det.NOMBRE_USUARIO | titlecase}} {{(det.AUTORIZACION_ESTADO != 0) ? 'aprobó' : 'rechazó'}}</dd>
                       <!--                      <dd class="col-sm-10 offset-sm-2">Observación: Sandra aprobó</dd>-->
                       <!--                      <dt class="col-sm-4">Malesuada porta</dt>-->
                       <!--                      <dd class="col-sm-8">Etiam porta sem malesuada magna mollis euismod.</dd>-->

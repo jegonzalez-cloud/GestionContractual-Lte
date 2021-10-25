@@ -64,7 +64,7 @@ div_container{
   /*align-content: center;*/
 }
 .mat-column-Fecha {
-  width: 17%;
+  width: 10%;
   border-right: 1px solid lightgray;
   padding-left: 1%;
   /*text-align: center;*/
@@ -79,6 +79,14 @@ div_container{
 }
 .mat-column-Creador {
   width: 15%;
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  text-align: left;
+  /*align-content: center;*/
+}
+
+.mat-column-Identificacion {
+  width: 10%;
   border-right: 1px solid lightgray;
   padding-left: 1%;
   text-align: left;
