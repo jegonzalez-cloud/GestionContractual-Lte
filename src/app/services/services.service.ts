@@ -8,6 +8,7 @@ import {Subject,Observable} from "rxjs";
 })
 export class ServicesService {
   private subject = new Subject<any>();
+  private modals: any[] = [];
 
   apiUrl: string = 'http://localhost:3000';
   constructor(private http:HttpClient) { }
@@ -58,4 +59,11 @@ export class ServicesService {
   getMunicipios(codigoDpto:string){
     return this.http.get(`${environment.apiTestUrl}Contratos/getMunicipios?codigoDpto=`+codigoDpto);
   }
+
+  open(id: string) {
+    // open modal specified by id
+    const modal = this.modals.find(x => x.id === id);
+    modal.open();
+  }
+
 }

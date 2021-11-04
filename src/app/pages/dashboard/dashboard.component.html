@@ -2,50 +2,6 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" id="background-home">
     <!--    <iframe width="100%" height="545px" style="border:none;" allowfullscreen [src]="urlSafe"></iframe>-->
-    <div style="text-align:center">
-      <!--      <div id="chart1">-->
-      <!--        <apx-chart-->
-      <!--          [series]="chartOptions.series"-->
-      <!--          [chart]="chartOptions.chart"-->
-      <!--          [dataLabels]="chartOptions.dataLabels"-->
-      <!--          [plotOptions]="chartOptions.plotOptions"-->
-      <!--          [xaxis]="chartOptions.xaxis"-->
-      <!--        ></apx-chart>-->
-      <!--      </div>-->
-      <!--      <div id="chart2">-->
-      <!--        <apx-chart-->
-      <!--          [series]="chartOptions.series"-->
-      <!--          [chart]="chartOptions.chart"-->
-      <!--          [dataLabels]="chartOptions.dataLabels"-->
-      <!--          [plotOptions]="chartOptions.plotOptions"-->
-      <!--          [xaxis]="chartOptions.xaxis"-->
-      <!--        ></apx-chart>-->
-      <!--      </div>-->
-      <!--      <div id="chart3">-->
-      <!--        <apx-chart-->
-      <!--          [series]="chartOptions.series"-->
-      <!--          [chart]="chartOptions.chart"-->
-      <!--          [dataLabels]="chartOptions.dataLabels"-->
-      <!--          [plotOptions]="chartOptions.plotOptions"-->
-      <!--          [xaxis]="chartOptions.xaxis"-->
-      <!--        ></apx-chart>-->
-      <!--      </div>-->
-      <!--      <div id="chart">-->
-      <!--        <apx-chart-->
-      <!--          [series]="chartOptions.series"-->
-      <!--          [chart]="chartOptions.chart"-->
-      <!--          [dataLabels]="chartOptions.dataLabels"-->
-      <!--          [plotOptions]="chartOptions.plotOptions"-->
-      <!--          [yaxis]="chartOptions.yaxis"-->
-      <!--          [xaxis]="chartOptions.xaxis"-->
-      <!--          [stroke]="chartOptions.stroke"-->
-      <!--          [grid]="chartOptions.grid"-->
-      <!--          [fill]="chartOptions.fill"-->
-      <!--          [annotations]="chartOptions.annotations"-->
-      <!--        ></apx-chart>-->
-      <!--      </div>-->
-      <!--      <span class="label label-info">Info Label</span>-->
-    </div>
 
     <section class="content-header">
       <div class="container-fluid"></div>
@@ -95,7 +51,7 @@
                       <!--                      </figcaption>-->
                     </figure>
                     <div>
-                      <form [formGroup]="reporte4Form" (ngSubmit)="getDataDashboard(1)"
+                      <form [formGroup]="dashboardForm" (ngSubmit)="getDataDashboardDepen(1)"
                             (keydown.enter)="$event.preventDefault()">
                         <div class="row">
                           <div class="col-12 col-sm-6">
@@ -123,8 +79,8 @@
                           </div>
 
                           <button
-                            [hidden]="reporte4Form.invalid"
-                            [disabled]="reporte4Form.invalid"
+                            [hidden]="dashboardForm.invalid"
+                            [disabled]="dashboardForm.invalid"
                             type="submit"
                             class="btn btn-primary float-left btn-sm btn-block"
                           >
@@ -135,6 +91,15 @@
                     </div>
 
                     <!--GRAFICA-->
+                    <div id="chart">
+                      <apx-chart
+                        [series]="chartOptionsDepen.seriesDepen"
+                        [chart]="chartOptionsDepen.chart"
+                        [dataLabels]="chartOptionsDepen.dataLabels"
+                        [plotOptions]="chartOptionsDepen.plotOptions"
+                        [xaxis]="chartOptionsDepen.xaxis"
+                      ></apx-chart>
+                    </div>
 
                     <div class="table-responsive">
                       <mat-form-field appearance="fill">
@@ -146,30 +111,39 @@
                           <!-- ID Column -->
                           <ng-container matColumnDef="Dependencia">
                             <th mat-header-cell *matHeaderCellDef
-                                style="font-size: 14px;font-weight: bolder;color: black;" mat-sort-header>
+                                style="font-size: 14px;font-weight: bolder;color: black;text-align: center">
                               Dependencia
                             </th>
                             <td mat-cell *matCellDef="let row"
-                                style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.ASOCIACION | uppercase}} </td>
+                                style="font-size: 12px;color: #545cd8; font-weight: bold;text-align: center"> {{row.CENTRO_GESTOR | uppercase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Estado">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="font-size: 14px;font-weight: bolder;color: black;text-align: center">
+                              Estado
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;color: #545cd8; font-weight: bold;text-align: center;"> {{row.ESTADO | titlecase}} </td>
                           </ng-container>
 
                           <ng-container matColumnDef="Cantidad">
                             <th mat-header-cell *matHeaderCellDef
-                                style="font-size: 14px;font-weight: bolder;color: black">
+                                style="font-size: 14px;font-weight: bolder;color: black;text-align: center">
                               Cantidad
                             </th>
                             <td mat-cell *matCellDef="let row"
-                                style="font-size: 12px;word-break: break-all"> {{row.CANTIDAD  | number}} </td>
+                                style="font-size: 12px;word-break: break-all;text-align: center"> {{row.CANTIDAD  | number}} </td>
                           </ng-container>
 
                           <!-- Progress Column -->
                           <ng-container matColumnDef="Valor Total">
                             <th mat-header-cell *matHeaderCellDef
-                                style="text-align: center; font-size: 14px;font-weight: bolder;color: black" mat-sort-header>
+                                style="text-align: center; font-size: 14px;font-weight: bolder;color: black;text-align: center">
                               Valor Total
                             </th>
                             <td mat-cell *matCellDef="let row"
-                                style="font-size: 11px;color: rosybrown;font-weight: bold;text-align: right;"> {{row.VALOR_TOTAL | currency}} </td>
+                                style="font-size: 11px;color: rosybrown;font-weight: bold;text-align: right;"> {{row.VALOR | currency}} </td>
                           </ng-container>
 
                           <tr mat-header-row *matHeaderRowDef="displayedColumnsGrafica1"></tr>
@@ -266,7 +240,7 @@
                       </form>
                     </div>
 
-                    <div id="chartPie">
+                    <div id="chartPie" style="word-break: break-all;text-overflow: ellipsis">
                       <apx-chart
                         [series]="chartOptionsPie.seriesPie"
                         [chart]="chartOptionsPie.chartPie"
@@ -285,30 +259,30 @@
                           <!-- ID Column -->
                           <ng-container matColumnDef="Asociacion">
                             <th mat-header-cell *matHeaderCellDef
-                                style="font-size: 14px;font-weight: bolder;color: black;" mat-sort-header>
+                                style="font-size: 14px;font-weight: bolder;color: black;text-align: center">
                               Asociacion
                             </th>
                             <td mat-cell *matCellDef="let row"
-                                style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.ASOCIACION | uppercase}} </td>
+                                style="font-size: 12px;color: #545cd8; font-weight: bold;text-align: center"> {{row.ASOCIACION | uppercase}} </td>
                           </ng-container>
 
                           <ng-container matColumnDef="Cantidad">
                             <th mat-header-cell *matHeaderCellDef
-                                style="font-size: 14px;font-weight: bolder;color: black">
+                                style="font-size: 14px;font-weight: bolder;color: black;text-align: center">
                               Cantidad
                             </th>
                             <td mat-cell *matCellDef="let row"
-                                style="font-size: 12px;word-break: break-all"> {{row.CANTIDAD  | number}} </td>
+                                style="font-size: 12px;word-break: break-all;text-align: center"> {{row.CANTIDAD  | number}} </td>
                           </ng-container>
 
                           <!-- Progress Column -->
                           <ng-container matColumnDef="Valor Total">
                             <th mat-header-cell *matHeaderCellDef
-                                style="text-align: center; font-size: 14px;font-weight: bolder;color: black" mat-sort-header>
+                                style="text-align: center; font-size: 14px;font-weight: bolder;color: black;text-align: center;">
                               Valor Total
                             </th>
                             <td mat-cell *matCellDef="let row"
-                                style="font-size: 11px;color: rosybrown;font-weight: bold;text-align: right;"> {{row.VALOR_TOTAL | currency}} </td>
+                                style="font-size: 12px;word-break: break-all;color: rosybrown;font-weight: bold;text-align: right;"> {{row.VALOR_TOTAL | currency}} </td>
                           </ng-container>
 
                           <tr mat-header-row *matHeaderRowDef="displayedColumnsGrafica4"></tr>
@@ -454,39 +428,39 @@
                           <!-- ID Column -->
                           <ng-container matColumnDef="Referencia">
                             <th mat-header-cell *matHeaderCellDef
-                                style="font-size: 14px;font-weight: bolder;color: black;" mat-sort-header>
+                                style="font-size: 14px;font-weight: bolder;color: black;text-align: center;">
                               Referencia
                             </th>
                             <td mat-cell *matCellDef="let row"
-                                style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.REFERENCIA | uppercase}} </td>
+                                style="font-size: 12px;color: #545cd8; font-weight: bold;text-align: center;"> {{row.REFERENCIA | uppercase}} </td>
                           </ng-container>
 
                           <ng-container matColumnDef="Asociacion">
                             <th mat-header-cell *matHeaderCellDef
-                                style="font-size: 14px;font-weight: bolder;color: black;" mat-sort-header>
+                                style="font-size: 14px;font-weight: bolder;color: black;text-align: center;">
                               Asociación
                             </th>
                             <td mat-cell *matCellDef="let row"
-                                style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.ASOCIACION | uppercase}} </td>
+                                style="font-size: 12px;color: #545cd8; font-weight: bold;text-align: center;"> {{row.ASOCIACION | uppercase}} </td>
                           </ng-container>
 
                           <ng-container matColumnDef="Cantidad">
                             <th mat-header-cell *matHeaderCellDef
-                                style="font-size: 14px;font-weight: bolder;color: black">
+                                style="font-size: 14px;font-weight: bolder;color: black;text-align: center;">
                               Cantidad
                             </th>
                             <td mat-cell *matCellDef="let row"
-                                style="font-size: 12px;word-break: break-all"> {{row.CANTIDAD  | number}} </td>
+                                style="font-size: 12px;word-break: break-all;text-align: center;"> {{row.CANTIDAD  | number}} </td>
                           </ng-container>
 
                           <!-- Progress Column -->
                           <ng-container matColumnDef="Valor Total">
                             <th mat-header-cell *matHeaderCellDef
-                                style="font-size: 14px;font-weight: bolder;color: black" mat-sort-header>
+                                style="font-size: 14px;font-weight: bolder;color: black;text-align: center">
                               Valor Total
                             </th>
                             <td mat-cell *matCellDef="let row"
-                                style="font-size: 12px;word-break: break-all"> {{row.VALOR_TOTAL | currency}} </td>
+                                style="font-size: 12px;word-break: break-all;color: rosybrown;font-weight: bold;text-align: right;"> {{row.VALOR_TOTAL | currency}} </td>
                           </ng-container>
 
                           <tr mat-header-row *matHeaderRowDef="displayedColumnsGrafica3"></tr>

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild,Inject,LOCALE_ID} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -22,6 +22,7 @@ import {MatSort} from "@angular/material/sort";
 import {NavigationExtras} from "@angular/router";
 import * as moment from 'moment';
 import * as funciones from "../../utils/functions";
+import * as func from "../../utils/functions";
 
 @Component({
   selector: 'app-process',
@@ -98,6 +99,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   DURACION_CONTRATO: any;
   PROCESO!: any;
   ESTADO!: any;
+  CODIGO_RPC!: any;
+  infoPagos!: any;
   ROL: any = atob(localStorage.getItem('rol')!);
   private entidad: string = atob(localStorage.getItem('entidad')!);
   private codigoEntidad: string = atob(localStorage.getItem('codigoEntidad')!);
@@ -114,6 +117,9 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   UNIDADESUNSPSC!:any;
   categoriasProfesion!:any;
   categoriasSubProfesion!:any;
+  @ViewChild('closebutton') closebutton:any;
+  @ViewChild('openbutton') openbutton:any;
+  CENTRO_GESTOR: any;
 
   constructor(
     private fb: FormBuilder,
@@ -123,7 +129,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     private authService: AuthService,
     private translate: TranslateService,
     private store: Store<AppState>,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    @Inject(LOCALE_ID) public locale: string
   ) {
     this.store.select('idioma').subscribe(({idioma}) => {
       this.idioma = idioma;
@@ -426,7 +433,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.iconColor = 'lightgray';
   }
 
-  async getCdpMount() {
+  async getCdpMountValidate() {
     this.color = false;
     this.iconColor = 'lightgray';
     this.getColor();
@@ -490,40 +497,41 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
           this.createProcessForm.controls['duracionContrato'].enable();
           this.centroGestor = '1158';
           this.createProcessForm.controls['cdp'].setValue(formValues);
-
-          await utils.getCdpData(this.centroGestor,this.createProcessForm.controls['cdp'].value).then((response:any)=>{
-            let monto = response;
-            // alert(monto)
-            // localStorage.removeItem('prueba');
-            this.createProcessForm.controls['cdp'].setValue('');
-            if(monto != null && monto != '' && monto.length > 0 && parseFloat(monto) >= this.createProcessForm.controls['valorContrato'].value){
-              this.color = true;
-              this.createProcessForm.controls['cdp'].setValue(formValues);
-              utils.showAlert('valor del contrato valido','success');
+          this.secopService.getCdpMount(this.token,this.centroGestor,this.createProcessForm.controls['cdp'].value).subscribe((response:any)=>{
+            if(response.Status != 'Ok'){
+                  this.color = false;
+                  utils.showAlert('CDP no encontrado por favor intente de nuevo!','error');
+                  this.createProcessForm.controls['cdp'].setValue('');
             }
-            else if(monto != null && monto != '' && monto.length > 0 && parseFloat(monto) <= this.createProcessForm.controls['valorContrato'].value){
-              this.color = false;
-              utils.showAlert('No hay fondos suficientes!','error');
-              this.createProcessForm.controls['cdp'].setValue('');
+            else{
+              let monto = response.Values.ResultFields;
+              if(monto != null && monto != '' && monto.length > 0 && parseFloat(monto) < this.createProcessForm.controls['valorContrato'].value){
+                this.color = false;
+                utils.showAlert('No hay fondos suficientes!','error');
+                this.createProcessForm.controls['cdp'].setValue('');
+              }
+              else{
+                this.color = true;
+                this.createProcessForm.controls['cdp'].setValue(formValues);
+                utils.showAlert('valor del contrato valido','success');
+              }
             }
           });
-
-
         }
       }
     }
   }
 
-  changeEscolaridad() {
-    if (
-      this.createProcessForm.controls['escolaridad'].value !== 'Selecione...'
-    ) {
-      alert(this.createProcessForm.controls['escolaridad'].value);
-      this.createProcessForm.controls['profesion'].enable();
-    } else {
-      this.createProcessForm.controls['profesion'].disable();
-    }
-  }
+  // changeEscolaridad() {
+  //   if (
+  //     this.createProcessForm.controls['escolaridad'].value !== 'Selecione...'
+  //   ) {
+  //     alert(this.createProcessForm.controls['escolaridad'].value);
+  //     this.createProcessForm.controls['profesion'].enable();
+  //   } else {
+  //     this.createProcessForm.controls['profesion'].disable();
+  //   }
+  // }
 
   getColor() {
     let validColor = (this.color === true) ? 'lightgreen' : 'lightgray';
@@ -555,30 +563,25 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   getTiposProceso() {
     this.createProcessForm.controls['justificacionTipoProceso'].reset('')
     this.service.getTipoProceso().subscribe((data: any) => {
-      // console.log(data.Values.ResultFields)
       this.tiposProceso = data.Values.ResultFields;
     })
   }
 
   getTiposContrato() {
-    // console.log(this.createProcessForm.controls['tipoProceso'].value)
     this.tiposJustificacionContrato = null;
     this.service.getTiposContrato(this.createProcessForm.controls['tipoProceso'].value).subscribe((data: any) => {
-      // console.log(data.Values.ResultFields)
       this.tiposContrato = data.Values.ResultFields;
     })
   }
 
   getTiposJustificacionContrato() {
     this.service.getTiposJustificacionContrato(this.createProcessForm.controls['tipoContrato'].value).subscribe((data: any) => {
-      // console.log(data.Values.ResultFields)
       this.tiposJustificacionContrato = data.Values.ResultFields;
     })
   }
 
   getEquipoContratacion() {
     this.service.getEquipoContratacion(this.createProcessForm.controls['tipoProceso'].value).subscribe((data: any) => {
-      // console.log(data.Values.ResultFields)
       this.equipoContratacion = data.Values.ResultFields;
     });
   }
@@ -647,7 +650,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   applyFilterSecop(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceSecop.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSourceSecop.paginator) {
       this.dataSourceSecop.paginator.firstPage();
     }
@@ -729,8 +731,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   goDetail(row: any) {
     this.secopService.getSelectedProcess(this.token, row.CONS_PROCESO).subscribe((response: any) => {
-      console.log(response.Values.ResultFields);
       this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
+      this.CENTRO_GESTOR = response.Values.ResultFields[0].CENTRO_GESTOR;
       this.TIPO_PROCESO = response.Values.ResultFields[0].TIPO_PROCESO;
       this.TIPO_CONTRATO = response.Values.ResultFields[0].TIPO_CONTRATO;
       this.NOMBRE_PROCESO = response.Values.ResultFields[0].NOMBRE_PROCESO;
@@ -755,7 +757,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.DEFINIR_LOTES = response.Values.ResultFields[0].DEFINIR_LOTES;
       this.ESTADO = response.Values.ResultFields[0].ESTADO;
 
-
+      this.CODIGO_RPC = response.Values.ResultFields[0].CODIGO_RPC;
       this.FECHA_INICIO = response.Values.ResultFields[0].FECHA_INICIO;
       this.FECHA_TERMINO = response.Values.ResultFields[0].FECHA_TERMINO;
       this.FIRMA_CONTRATO = response.Values.ResultFields[0].FIRMA_CONTRATO;
@@ -890,4 +892,33 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.categoriasSubProfesion = response.Values.ResultFields;
     })
   }
+
+  public getPagosXRpc(){
+    let rpc = this.CODIGO_RPC;
+
+    if (rpc && rpc.length == 10 ) {
+      this.secopService.getPagosXRpc(this.token,rpc).subscribe((response:any)=>{
+        if(response.Status != 'Ok'){
+          utils.showAlert('Rpc no encontrado, por favor intente de nuevo!','error');
+        }
+        else{
+          this.infoPagos = response.Values.ResultFields;
+          utils.showAlert('Consulta exitosa!','success');
+          this.onOpen();
+        }
+      });
+    }
+    else{
+      utils.showAlert('No se encontro un codigo Rpc asociado!','error');
+    }
+  }
+
+  public onOpen(){
+    this.openbutton.nativeElement.click();
+  }
+
+  generateReports() {
+    func.generarReporte(this.infoPagos, this.locale,this.CENTRO_GESTOR,this.NOM_PROV,this.COD_PROV);
+  }
+
 }

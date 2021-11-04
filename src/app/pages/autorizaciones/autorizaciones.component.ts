@@ -1,4 +1,4 @@
-import {AfterContentInit, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, OnInit, ViewChild,Inject,LOCALE_ID} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
@@ -7,6 +7,7 @@ import {NavigationExtras, Router} from "@angular/router";
 import Swal from "sweetalert2";
 import {SecopService} from "../../services/secop/secop.service";
 import {ServicesService} from "../../services/services.service";
+import * as func from "../../utils/functions";
 
 @Component({
   selector: 'app-autorizaciones',
@@ -20,6 +21,8 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   public autorizaciones: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('closebutton') closebutton:any;
+  @ViewChild('openbutton') openbutton:any;
   PROCESO_SELECCIONADO!:any;
   PROCESO!: any;
   ESTADO!: any;
@@ -59,8 +62,11 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   VAL_OFERTA: any;
   TIEMPO_DURACION_CONTRATO: any;
   DURACION_CONTRATO: any;
+  CODIGO_RPC: any;
+  CENTRO_GESTOR: any;
+  infoPagos: any;
 
-  constructor(private router: Router,private secopService:SecopService,private service:ServicesService) {
+  constructor(private router: Router,private secopService:SecopService,private service:ServicesService,@Inject(LOCALE_ID) public locale: string) {
   }
 
   ngAfterViewInit(): void {
@@ -84,8 +90,8 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   infoProcess(): void {
     if (this.autorizaciones.length > 0) {
       this.dataSource = new MatTableDataSource(this.autorizaciones!);
-      // this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     } else {
       utils.showAlert('Error de información', 'error');
     }
@@ -94,7 +100,7 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   goDetail(row: any) {
     this.secopService.getSelectedProcess(this.token,row.CONS_PROCESO).subscribe((response: any) => {
       this.PROCESO_SELECCIONADO = response.Values.ResultFields[0];
-      // console.log(response.Values.ResultFields);
+      this.CENTRO_GESTOR = response.Values.ResultFields[0].CENTRO_GESTOR;
       this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
       this.TIPO_PROCESO = response.Values.ResultFields[0].TIPO_PROCESO;
       this.TIPO_CONTRATO = response.Values.ResultFields[0].TIPO_CONTRATO;
@@ -120,7 +126,7 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
       this.DEFINIR_LOTES = response.Values.ResultFields[0].DEFINIR_LOTES;
       this.ESTADO = response.Values.ResultFields[0].ESTADO;
 
-
+      this.CODIGO_RPC = response.Values.ResultFields[0].CODIGO_RPC;
       this.FECHA_INICIO = response.Values.ResultFields[0].FECHA_INICIO;
       this.FECHA_TERMINO = response.Values.ResultFields[0].FECHA_TERMINO;
       this.FIRMA_CONTRATO = response.Values.ResultFields[0].FIRMA_CONTRATO;
@@ -148,9 +154,20 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
         if(this.ROL == 44){
           console.log('aqui vamos');
           this.secopService.getUnspscData(this.token,proceso).subscribe((response:any)=>{
-            console.log('aqui estamos');
-            console.log(this.token);
-            console.log(response);
+            // console.log('aqui estamos');
+            // console.log(this.token);
+            // console.log(response);
+            let usuarioConect = atob(localStorage.getItem('usuarioConect')!);
+            let conectPw = atob(localStorage.getItem('conectPw')!);
+            let arr: Array<any> = [];
+            arr.push(this.PROCESO_SELECCIONADO);
+            arr.push(response.Values.ResultFields);
+            arr.push({"USUARIO_CONNECT":usuarioConect});
+            arr.push({"PASSWORD_CONNECT":conectPw});
+
+            // this.secopService.createSoapProcess(arr).subscribe((response:any)=>{
+            //   console.log(response);
+            // });
             utils.sendSoapData(this.PROCESO_SELECCIONADO,response.Values.ResultFields);
           });
 
@@ -176,5 +193,33 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
       // console.log(this.autorizaciones);
       this.infoProcess();
     })
+  }
+
+  getPagosXRpc(){
+    let rpc = this.CODIGO_RPC;
+
+    if (rpc && rpc.length == 10 ) {
+      this.secopService.getPagosXRpc(this.token,rpc).subscribe((response:any)=>{
+        if(response.Status != 'Ok'){
+          utils.showAlert('Rpc no encontrado, por favor intente de nuevo!','error');
+        }
+        else{
+          this.infoPagos = response.Values.ResultFields;
+          utils.showAlert('Consulta exitosa!','success');
+          this.onOpen();
+        }
+      });
+    }
+    else{
+      utils.showAlert('No se encontro un codigo Rpc asociado!','error');
+    }
+  }
+
+  public onOpen(){
+    this.openbutton.nativeElement.click();
+  }
+
+  generateReports() {
+    func.generarReporte(this.infoPagos, this.locale,this.CENTRO_GESTOR,this.NOM_PROV,this.COD_PROV);
   }
 }

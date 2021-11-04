@@ -2,6 +2,36 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" id="background-home">
 
+    <button type="button" [hidden]="true" #openbutton class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open</button>
+
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog modal-dialog-scrollable">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <span style="font-weight: bold;font-size: larger ;color: #0b9fa5">Listado de Pagos</span>
+            <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+<!--            <h4 class="modal-title">Modal Header</h4>-->
+          </div>
+          <div class="modal-body">
+            <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>
+            <div *ngFor="let d of infoPagos">
+              <ul>
+                <li><b>Numero de Cuota</b> : <span>{{d[0]}}</span></li>
+                <li>Fecha Vencimiento : <span>{{d[1]}}</span></li>
+                <li>Periodo : <span>{{d[2]}}</span></li>
+                <li>Valor Cuota : <span>{{d[3] | currency}}</span></li>
+              </ul>
+            </div>
+          </div>
+<!--          <div class="modal-footer">-->
+<!--            <button type="button" class="btn btn-danger" id="closeModal" (click)="onSave()">Save</button>-->
+<!--          </div>-->
+        </div>
+      </div>
+    </div>
+
     <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" tabindex="-1">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content" style="width: auto">
@@ -78,6 +108,12 @@
                     [ngStyle]="{'display':
                     (ROL == 40 && ESTADO == 1) ? 'none' : (ROL == 41 && ESTADO ==2) ? 'none' : (ROL == 42 && ESTADO == 3) ? 'none' : (ROL == 41 && ESTADO == 1) ? 'none' : (ROL == 42 && ESTADO ==1) ? 'none' : 'block' }">
               Historial
+            </button>
+            <button type="button" class="btn btn-outline-primary"
+                    data-dismiss="modal"
+                    (click)="getPagosXRpc()"
+                    [ngStyle]="{'display': (ESTADO >= 7) ? 'block' :'none'}">
+              Pagos
             </button>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import * as moment from 'moment';
 import {ChartType, LegendItem} from "chart.js";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {
@@ -48,6 +49,19 @@ export type ChartOptions = {
   grid: ApexGrid | any;
 };
 
+export type ChartOptionsDepen = {
+  seriesDepen: ApexAxisChartSeries | any;
+  chart: ApexChart | any;
+  dataLabels: ApexDataLabels | any;
+  plotOptions: ApexPlotOptions | any;
+  yaxis: ApexYAxis | any;
+  xaxis: any; //ApexXAxis;
+  annotations: ApexAnnotations | any;
+  fill: ApexFill | any;
+  stroke: ApexStroke | any;
+  grid: ApexGrid | any;
+};
+
 export type ChartOptionsPie = {
   seriesPie: ApexNonAxisChartSeries | any;
   chartPie: ApexChart | any;
@@ -62,10 +76,11 @@ export type ChartOptionsPie = {
 })
 export class DashboardComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
-  public chartOptions!: Partial<ChartOptions>;
+  public chartOptions!: Partial<ChartOptions> | any;
+  public chartOptionsDepen!: Partial<ChartOptions> | any;
   public chartOptionsPie!: Partial<ChartOptionsPie> | any;
   // url: string = 'https://marketplace-formacion.secop.gov.co/CO1Marketplace/Companies/CompanyConfiguration/index';
-  displayedColumnsGrafica1: string[] = ['Dependencia', 'Cantidad', 'Valor Total'];
+  displayedColumnsGrafica1: string[] = ['Dependencia','Cantidad', 'Estado', 'Valor Total'];
   displayedColumnsGrafica4: string[] = ['Asociacion', 'Cantidad', 'Valor Total'];
   displayedColumnsGrafica3: string[] = ['Referencia','Asociacion', 'Cantidad', 'Valor Total'];
   dataSource!: MatTableDataSource<any>;
@@ -80,9 +95,14 @@ export class DashboardComponent implements OnInit {
   entidad = atob(localStorage.getItem('entidad')!);
   ROL: any = atob(localStorage.getItem('rol')!);
   reporte4Form!: FormGroup;
+  dashboardForm!: FormGroup;
   dataReport: any;
   dataSeries!: any;
+  dataSeriesValor!: any;
   dataAsociacion!: any;
+  dataValorAsociacion!: any;
+  dataSeriesDepen! : any;
+  dataDepen! : any;
   referenciasInProcess!: any;
   asociacionInProcess!: any;
 
@@ -93,45 +113,8 @@ export class DashboardComponent implements OnInit {
     this.createForm();
     this.createFormOpcional();
     this.getcentroGestor();
-    this.chartOptions = {
-      series: [
-        {
-          name: "basic",
-          data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
-        },
-        {
-          name1: "basic1",
-          data2: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
-        }
-      ],
-      chart: {
-        type: "bar",
-        height: 350
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      xaxis: {
-        categories: [
-          "South Korea",
-          "Canada",
-          "United Kingdom",
-          "Netherlands",
-          "Italy",
-          "France",
-          "Japan",
-          "United States",
-          "China",
-          "Germany"
-        ]
-      }
-    };
     this.chartOptions = [];
+    this.chartOptionsDepen = [];
     this.chartOptionsPie = [];
     this.getReferenciasInProcess();
     this.getAsociacionInProcess();
@@ -153,21 +136,22 @@ export class DashboardComponent implements OnInit {
     let referencia = this.reporte4Form.controls['referencia'].value;
     let asociacion = this.reporte4Form.controls['asociacion'].value;
     this.secopService.getDataDashboard(this.TOKEN, centroGestor, fechaInicio, fechaTermino,referencia,asociacion).subscribe((response: any) => {
-      // console.log(response);
-
       if(response.Status != 'Ok'){
         utilidades.showAlert('No se encontraron registros!','error');
       }
       else{
         this.dataReport = response.Values.ResultFields;
         let cantidadXAsociacion = [];
+        let valorTotalXAsociacion = [];
         let labelAsociacion = [];
         for (let i = 0; i < this.dataReport.length; i++) {
           cantidadXAsociacion.push(this.dataReport[i].CANTIDAD);
+          valorTotalXAsociacion.push(this.dataReport[i].VALOR_TOTAL);
           labelAsociacion.push(this.dataReport[i].ASOCIACION);
         }
         this.dataSeries = cantidadXAsociacion;
         this.dataAsociacion = labelAsociacion;
+        this.dataValorAsociacion = valorTotalXAsociacion;
         this.infoProcess(id);
       }
     });
@@ -175,7 +159,6 @@ export class DashboardComponent implements OnInit {
 
   getcentroGestor() {
     this.secopService.getDependenciasSecop(this.entidad, this.ROL).subscribe((response: any) => {
-      console.log(response);
       this.gestor = response.Values.ResultFields;
     })
   }
@@ -192,7 +175,7 @@ export class DashboardComponent implements OnInit {
   }
 
   createFormOpcional() {
-    this.reporte4Form = this.fb.group({
+    this.dashboardForm = this.fb.group({
       token: new FormControl(atob(localStorage.getItem('token')!)),
       centroGestor: new FormControl({value: atob(localStorage.getItem('centroGestor')!), disabled: false}, [Validators.required]),
       fechaInicio: new FormControl({value: null, disabled: false}, [Validators.required]),
@@ -225,22 +208,25 @@ export class DashboardComponent implements OnInit {
       this.reporte4Form.controls['centroGestor'].setValue('');
       this.reporte4Form.controls['fechaInicio'].setValue(null);
       this.reporte4Form.controls['fechaTermino'].setValue(null);
+      this.dashboardForm.controls['fechaInicio'].setValue(null);
+      this.dashboardForm.controls['fechaTermino'].setValue(null);
       this.fillCharts(id);
     } else {
-      this.dataSource = new MatTableDataSource();
+      this.dataSource! = new MatTableDataSource();
     }
   }
 
   fillCharts(id:number) {
-    // let xxx = this.dataSeries;
-    console.log(this.dataSeries)
-    console.log(this.dataAsociacion)
     if(id == 1){
-      this.chartOptions = {
-        series: [
+      this.chartOptionsDepen = {
+        seriesDepen: [
           {
             name: "Cantidad",
-            data: this.dataSeries
+            data: this.dataSeriesDepen
+          },
+          {
+            name: "Valor",
+            data: this.dataSeriesValor
           },
         ],
         annotations: {
@@ -286,13 +272,14 @@ export class DashboardComponent implements OnInit {
           labels: {
             rotate: -45
           },
-          categories: this.dataAsociacion,
+          categories: this.dataDepen,
           tickPlacement: "on"
         },
         yaxis: {
           title: {
             text: "Servings"
-          }
+          },
+
         },
         fill: {
           type: "gradient",
@@ -312,6 +299,10 @@ export class DashboardComponent implements OnInit {
     if(id == 3){
       this.chartOptions = {
         series: [
+          {
+            name: "Valor",
+            data: this.dataValorAsociacion
+          },
           {
             name: "Cantidad",
             data: this.dataSeries
@@ -406,7 +397,7 @@ export class DashboardComponent implements OnInit {
         ]
       };
     }
-    else{
+    /*else{
       this.chartOptionsPie = {
         seriesPie: this.dataSeries,
         chartPie: {
@@ -428,7 +419,7 @@ export class DashboardComponent implements OnInit {
           }
         ]
       };
-    }
+    }*/
   }
 
   getReferenciasInProcess() {
@@ -441,6 +432,35 @@ export class DashboardComponent implements OnInit {
     this.secopService.getAsociacionInProcess(this.tokenEncrypt).subscribe((response: any) => {
       this.asociacionInProcess = response.Values.ResultFields;
     });
+  }
+
+  getDataDashboardDepen(id:any){
+    let centroGestor = this.dashboardForm.controls['centroGestor'].value;
+    let fechaInicio = this.dashboardForm.controls['fechaInicio'].value;
+    let fechaTermino = this.dashboardForm.controls['fechaTermino'].value;
+    fechaInicio = moment(fechaInicio).format('YYYY-MM-DD');
+    fechaTermino = moment(fechaTermino).format('YYYY-MM-DD');
+    this.secopService.getDataDashboardDepen(btoa(this.TOKEN),centroGestor,fechaInicio,fechaTermino).subscribe((response:any)=>{
+      if(response.Status != 'Ok'){
+        utilidades.showAlert('No se encontraron registros!','error');
+      }
+      else{
+        this.dataReport = response.Values.ResultFields;
+        let cantidadXDependencia = [];
+        let valorXDependencia = [];
+        // let cantidadXDependencia = this.dataReport.length;
+        let labelDependencia = [];
+        for (let i = 0; i < this.dataReport.length; i++) {
+          cantidadXDependencia.push(this.dataReport[i].CANTIDAD);
+          valorXDependencia.push(this.dataReport[i].VALOR);
+          labelDependencia.push(this.dataReport[i].ESTADO);
+        }
+        this.dataSeriesValor = valorXDependencia;
+        this.dataSeriesDepen = cantidadXDependencia;
+        this.dataDepen = labelDependencia;
+        this.infoProcess(id);
+      }
+    })
   }
 
 }

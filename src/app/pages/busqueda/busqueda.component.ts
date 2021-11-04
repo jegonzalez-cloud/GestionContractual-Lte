@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild,Inject,LOCALE_ID} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {SecopService} from "../../services/secop/secop.service";
 import {MatTableDataSource} from "@angular/material/table";
@@ -7,6 +7,12 @@ import {Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {AuthService} from "../../services/auth/auth.service";
+import Swal from "sweetalert2";
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from "moment";
+import * as pdfMake from "pdfmake/build/pdfmake";
+import {CurrencyPipe, formatCurrency} from '@angular/common';
+import * as func from "../../utils/functions";
 
 @Component({
   selector: 'app-busqueda',
@@ -57,10 +63,16 @@ export class BusquedaComponent implements OnInit {
   PROCESO_SELECCIONADO!:any;
   PROCESO!: any;
   ESTADO!: any;
+  CENTRO_GESTOR!: any;
+  CODIGO_RPC!: any;
+  infoPagos!: any;
+  ENTIDAD = atob(localStorage.getItem('entidad')!);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('closebutton') closebutton:any;
+  @ViewChild('openbutton') openbutton:any;
 
-  constructor(private secopService: SecopService, private fb: FormBuilder,private router:Router,private authService:AuthService) {
+  constructor(private secopService: SecopService, private fb: FormBuilder,private router:Router,private authService:AuthService,@Inject(LOCALE_ID) public locale: string) {
   }
 
   ngOnInit(): void {
@@ -146,6 +158,7 @@ export class BusquedaComponent implements OnInit {
     this.secopService.getSelectedProcess(this.token,row.CONS_PROCESO).subscribe((response: any) => {
       this.PROCESO_SELECCIONADO = response.Values.ResultFields[0];
       // console.log(response.Values.ResultFields);
+      this.CENTRO_GESTOR = response.Values.ResultFields[0].CENTRO_GESTOR;
       this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
       this.TIPO_PROCESO = response.Values.ResultFields[0].TIPO_PROCESO;
       this.TIPO_CONTRATO = response.Values.ResultFields[0].TIPO_CONTRATO;
@@ -171,7 +184,7 @@ export class BusquedaComponent implements OnInit {
       this.DEFINIR_LOTES = response.Values.ResultFields[0].DEFINIR_LOTES;
       this.ESTADO = response.Values.ResultFields[0].ESTADO;
 
-
+      this.CODIGO_RPC = response.Values.ResultFields[0].CODIGO_RPC;
       this.FECHA_INICIO = response.Values.ResultFields[0].FECHA_INICIO;
       this.FECHA_TERMINO = response.Values.ResultFields[0].FECHA_TERMINO;
       this.FIRMA_CONTRATO = response.Values.ResultFields[0].FIRMA_CONTRATO;
@@ -198,4 +211,60 @@ export class BusquedaComponent implements OnInit {
       }
     })
   }
+
+  public async getPagosXRpc(){
+    // const { value: rpc } = await Swal.fire({
+    //   title: 'Ingrese el RPC',
+    //   input: 'text',
+    //   confirmButtonColor: '#0b9fa5',
+    //   inputAttributes: {
+    //     autocapitalize: 'off',
+    //     maxlength: '10',
+    //     minlength: '10'
+    //   },
+    //   showCloseButton: true,
+    //   allowOutsideClick: false,
+    //   inputLabel: 'La longitud del Rpc debe ser igual a 10 caracteres!',
+    //   inputValidator: (value: any) => {
+    //     return new Promise((resolve: any) => {
+    //       if (value.length == 10) {
+    //         resolve();
+    //       } else {
+    //         resolve('Por favor Ingrese 10 Digitos :)')
+    //       }
+    //     })
+    //   }
+    // });
+    let rpc = this.CODIGO_RPC;
+
+    if (rpc && rpc.length == 10 ) {
+      this.secopService.getPagosXRpc(this.token,rpc).subscribe((response:any)=>{
+        if(response.Status != 'Ok'){
+          utils.showAlert('Rpc no encontrado, por favor intente de nuevo!','error');
+        }
+        else{
+          this.infoPagos = response.Values.ResultFields;
+          utils.showAlert('Consulta exitosa!','success');
+          this.onOpen();
+        }
+      });
+    }
+    else{
+      utils.showAlert('No se encontro un codigo Rpc asociado!','error');
+    }
+  }
+
+  public onSave() {
+    this.closebutton.nativeElement.click();
+  }
+
+  public onOpen(){
+    this.openbutton.nativeElement.click();
+  }
+
+  generateReports() {
+    func.generarReporte(this.infoPagos, this.locale,this.CENTRO_GESTOR,this.NOM_PROV,this.COD_PROV);
+  }
+
+
 }

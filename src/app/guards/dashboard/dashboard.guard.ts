@@ -14,7 +14,7 @@ export class DashboardGuard implements CanActivate {
     state: RouterStateSnapshot): boolean{
 
     let rol:any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
-    console.log(rol);
+    // console.log(rol);
     if(rol == '' || rol != 42){
       this.router.navigate(['busqueda']);
       return false;

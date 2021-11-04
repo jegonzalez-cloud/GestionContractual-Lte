@@ -118,7 +118,6 @@ export class SecopService {
   }
 
   public insertUNSPSC(data: any) {
-    console.log(data)
     return this.httpClient.post(`${environment.apiTestUrl}contratos/insertUNSPSC`, data);
   }
 
@@ -146,4 +145,19 @@ export class SecopService {
     return this.httpClient.get(`${environment.apiTestUrl}contratos/getAsociacionInProcess?token=${token}`);
   }
 
+  public getDataDashboardDepen(token:string,centroGestor:string,fechaInicio: string, fechaTermino: string) {
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getDataDashboardDepen?token=${token}&centroGestor=${centroGestor}&fechaInicio=${fechaInicio}&fechaTermino=${fechaTermino}`);
+  }
+
+  public getCdpMount(token:string,centroGestor:string,cdp:string){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getCdpMount?token=${token}&centroGestor=${centroGestor}&cdp=${cdp}`);
+  }
+
+  public createSoapProcess(data: any) {
+    return this.httpClient.post(`${environment.apiTestUrl}contratos/createSoapProcess`, data);
+  }
+
+  public getPagosXRpc(token:any,rpc:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getPagosXRpc?token=${token}&rpc=${rpc}`);
+  }
 }
