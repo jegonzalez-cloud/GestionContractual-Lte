@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, LOCALE_ID, OnInit, ViewChild} from '@angular/core';
 import {NavigationExtras, Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {cargarIdioma} from 'src/app/store/actions';
@@ -9,6 +9,7 @@ import {SecopService} from "../../services/secop/secop.service";
 import {ServicesService} from "../../services/services.service";
 import {Subscription} from "rxjs";
 import * as utils from "../../utils/functions";
+import * as func from "../../utils/functions";
 
 @Component({
   selector: 'app-navbar',
@@ -57,8 +58,14 @@ export class NavbarComponent implements OnInit {
   VAL_OFERTA: any;
   TIEMPO_DURACION_CONTRATO: any;
   DURACION_CONTRATO: any;
+  CODIGO_RPC: any;
+  CENTRO_GESTOR: any;
+  infoPagos: any;
+  @ViewChild('closebutton') closebutton:any;
+  @ViewChild('openbutton') openbutton:any;
 
   constructor(private router: Router, private store: Store<AppState>, private authService: AuthService, private secopService: SecopService, private service: ServicesService) {
+    this.changeVar();
     this.clickEventSubscription = this.service.getClickEvent().subscribe(() => {
       this.getAutorizaciones();
     })
@@ -101,7 +108,7 @@ export class NavbarComponent implements OnInit {
         showCancelButton: false,
         allowOutsideClick: false,
         showCloseButton: true,
-        confirmButtonColor: '#0b9fa5',
+        confirmButtonColor: 'var(--companyColor)',
         // cancelButtonColor: '#E9ECEF',
         // cancelButtonColor: '#828282',
         // cancelButtonText: 'Cancelar',
@@ -156,6 +163,7 @@ export class NavbarComponent implements OnInit {
     this.secopService.getSelectedProcess(this.token,row).subscribe((response: any) => {
       console.log(response.Values.ResultFields);
       this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
+      this.CENTRO_GESTOR = response.Values.ResultFields[0].CENTRO_GESTOR;
       this.TIPO_PROCESO = response.Values.ResultFields[0].TIPO_PROCESO;
       this.TIPO_CONTRATO = response.Values.ResultFields[0].TIPO_CONTRATO;
       this.NOMBRE_PROCESO = response.Values.ResultFields[0].NOMBRE_PROCESO;
@@ -180,7 +188,7 @@ export class NavbarComponent implements OnInit {
       this.DEFINIR_LOTES = response.Values.ResultFields[0].DEFINIR_LOTES;
       this.ESTADO = response.Values.ResultFields[0].ESTADO;
 
-
+      this.CODIGO_RPC = response.Values.ResultFields[0].CODIGO_RPC;
       this.FECHA_INICIO = response.Values.ResultFields[0].FECHA_INICIO;
       this.FECHA_TERMINO = response.Values.ResultFields[0].FECHA_TERMINO;
       this.FIRMA_CONTRATO = response.Values.ResultFields[0].FIRMA_CONTRATO;
@@ -218,5 +226,11 @@ export class NavbarComponent implements OnInit {
   fillModal(numProceso:any) {
     console.log(numProceso)
     this.router.navigate(['home/autorizaciones-det/'+numProceso]);
+  }
+
+  changeVar(){
+    let color = atob(localStorage.getItem('color')!);
+    let r:any = document.querySelector(':root');
+    r.style.setProperty('--companyColor', color);
   }
 }

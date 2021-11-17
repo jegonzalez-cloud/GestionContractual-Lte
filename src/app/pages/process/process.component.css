@@ -126,7 +126,7 @@ tr.hoverOnTable:hover {
 }
 
 .nav-tabs .nav-link.active{
-  color: #0b9fa5;
+  color: var(--companyColor);
 }
 
 a{
@@ -134,16 +134,16 @@ a{
 }
 
 .card-header a.active{
-  border-top: 3px solid #0b9fa5;
+  border-top: 3px solid var(--companyColor);
 }
 
 div.callout{
-  border-left-color: #0b9fa5;
+  border-left-color: var(--companyColor);
 }
 
 button.btn-primary{
-  background-color: #0b9fa5;
-  border-color: #0b9fa5;
+  background-color: var(--companyColor);
+  border-color: var(--companyColor);
 }
 
 .cdk-global-overlay-wrapper, .cdk-overlay-container {

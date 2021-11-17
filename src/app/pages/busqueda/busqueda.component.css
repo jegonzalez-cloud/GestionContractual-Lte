@@ -90,8 +90,8 @@ tr.hoverOnTable:hover {
 }
 
 button.btn-primary{
-  background-color: #0b9fa5;
-  border-color: #0b9fa5;
+  background-color: var(--companyColor);
+  border-color: var(--companyColor);
 }
 
 /*tr.hoverOnTable:not(.hoverOnTable):active {*/
@@ -99,6 +99,6 @@ button.btn-primary{
 /*}*/
 
 div.callout{
-  border-left-color: #0b9fa5;
+  border-left-color: var(--companyColor);
 }
 

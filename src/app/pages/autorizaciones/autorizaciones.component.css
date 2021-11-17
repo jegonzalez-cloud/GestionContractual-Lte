@@ -102,5 +102,6 @@ tr.hoverOnTable:hover {
 /*}*/
 
 div.callout{
-  border-left-color: #0b9fa5;
+  /*border-left-color: #0b9fa5;*/
+  border-left-color: var(--companyColor);
 }

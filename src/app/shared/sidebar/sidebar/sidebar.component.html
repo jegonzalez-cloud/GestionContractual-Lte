@@ -37,7 +37,7 @@
       </div>
       <div class="info">
         <a class="d-block text-sm">{{nameUser | titlecase}}</a>
-        <a class="d-block text-xs" style="color: #0b9fa5">{{entidad | titlecase}}</a>
+        <a class="d-block text-xs" style="color: var(--companyColor)">{{entidad | titlecase}}</a>
       </div>
     </div>
 
@@ -52,7 +52,7 @@
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-        <li *ngIf="rol == 42" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+        <li *ngIf="rol == 42 || rol == 41" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
           <a routerLink="dashboard" class="nav-link">
             <i class="nav-icon fa fa-chart-line"></i>
             <p style="color: #a8a8a8">
@@ -122,6 +122,15 @@
             <i class="nav-icon fas fa-link"></i>
             <p style="color: #a8a8a8">
               {{'secop.secop' | translate}}
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+        </li>
+        <li class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+          <a routerLink="configuracion" class="nav-link">
+            <i class="nav-icon fa fa-cog"></i>
+            <p style="color: #a8a8a8">
+              {{'config.config' | translate}}
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>

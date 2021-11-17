@@ -1,0 +1,118 @@
+<div class="wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" id="background-home">
+    <section class="content-header">
+      <div class="container-fluid"></div>
+      <!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card ml-3 mr-3">
+          <div class="card-header mb-3" style="background-color: var(--companyColor)">
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+
+            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
+              <i class="fa fa-cog"></i>
+              <b>  {{'config.config' | translate}}</b>
+            </h6>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+
+              <!-- ./col -->
+              <div class="col-md-12">
+                <div class="card">
+
+                  <div class="card-body">
+                    <!--                    <form [formGroup]="reportesForm" (ngSubmit)="searchReports()"-->
+                    <form [formGroup]="configForm" (ngSubmit)="saveColor()"
+                          (keydown.enter)="$event.preventDefault()">
+                      <div class="row">
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Color</label>
+                            <input
+                              formControlName="color"
+                              type="text"
+                              class="form-control text-sm"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Link Consultar CDP</label>
+                            <input
+                              formControlName="cdp"
+                              type="text"
+                              class="form-control text-sm"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Link Consultar Pagos</label>
+                            <input
+                              formControlName="pagos"
+                              type="text"
+                              class="form-control text-sm"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Link Crear Proceso</label>
+                            <input
+                              formControlName="consultarProceso"
+                              type="text"
+                              class="form-control text-sm"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Link Consultar Estados Contrato</label>
+                            <input
+                              formControlName="estadoContrato"
+                              type="text"
+                              class="form-control text-sm"
+                            />
+                          </div>
+                        </div>
+
+                        <button
+                          [disabled]="configForm.invalid"
+                          type="submit"
+                          class="btn btn-primary float-left btn-sm btn-block"
+                        >
+                          <b>Guardar <i class="fa fa-cog"></i></b>
+                        </button>
+                      </div>
+                    </form>
+
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- ./col -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

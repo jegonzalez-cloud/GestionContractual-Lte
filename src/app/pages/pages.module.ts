@@ -65,6 +65,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { SampleComponent } from './sample/sample.component';
 // import {NzTreeSelectModule} from "ng-zorro-antd/tree-select";
 import {TreeSelectModule} from "primeng/treeselect";
+import { ConfiguracionComponent } from './configuracion/configuracion.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import {TreeSelectModule} from "primeng/treeselect";
     AutorizacionesDetailComponent,
     BusquedaComponent,
     ReportesComponent,
-    SampleComponent
+    SampleComponent,
+    ConfiguracionComponent
   ],
   imports: [
     CommonModule,

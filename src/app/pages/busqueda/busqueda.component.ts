@@ -98,21 +98,18 @@ export class BusquedaComponent implements OnInit {
 
   getProveedores() {
     this.secopService.getProveedores(this.entidad, this.ROL).subscribe((response: any) => {
-      console.log(response);
       this.proveedores = response.Values.ResultFields;
     })
   }
 
   getCreadorProceso() {
     this.secopService.getCreadorProceso(this.entidad, this.ROL).subscribe((response: any) => {
-      console.log(response);
       this.creador = response.Values.ResultFields;
     })
   }
 
   getcentroGestor() {
     this.secopService.getDependenciasSecop(this.entidad, this.ROL).subscribe((response: any) => {
-      console.log(response);
       this.gestor = response.Values.ResultFields;
     })
   }

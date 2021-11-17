@@ -5,9 +5,13 @@ import {callback, resolve} from "chart.js/helpers";
 import {delay} from "rxjs/operators";
 import {ProcessComponent} from "../pages/process/process.component";
 import {FormBuilder} from "@angular/forms";
+import {HttpClient} from '@angular/common/http';
 import {formatCurrency} from "@angular/common";
 import * as moment from "moment";
 import * as pdfMake from "pdfmake/build/pdfmake";
+import * as XLSX from 'xlsx';
+import {SecopService} from "../services/secop/secop.service";
+
 
 export function showAlert(msj: string, type: any) {
   const Toast = Swal.mixin({
@@ -424,3 +428,40 @@ export function generarReporte(response: any,locale:any,centroGestor:any,nomProv
   }
   pdfMake.createPdf(report).open();
 }
+
+export function onFileChange(ev:any) {
+  let ExcelToJSON = function() {
+    let workBook:any = null;
+    let jsonData:any = null;
+    const reader = new FileReader();
+    const file = ev.target.files[0];
+
+    reader.onload = (event) => {
+      const data = reader.result;
+      workBook = XLSX.read(data, { type: 'binary' });
+      jsonData = workBook.SheetNames.reduce((initial:any, name:any) => {
+        const sheet = workBook.Sheets[name];
+        initial[name] = XLSX.utils.sheet_to_json(sheet);
+        return initial;
+      }, {});
+      //const dataString = JSON.stringify(jsonData);
+      console.log(jsonData);
+      //setDownload(dataString);
+    };
+    reader.readAsBinaryString(file);
+  }
+  console.log(ExcelToJSON);
+}
+
+// function setDownload(data:any) {
+//   this.willDownload = true;
+//   setTimeout(() => {
+//     const el = document.querySelector('#download');
+//     el.setAttribute(
+//       'href',
+//       `data:text/json;charset=utf-8,${encodeURIComponent(data)}`
+//     );
+//     el.setAttribute('download', 'xlsxtojson.json');
+//   }, 1000);
+// }
+

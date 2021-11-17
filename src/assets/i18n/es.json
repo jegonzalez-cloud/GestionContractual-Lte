@@ -35,6 +35,9 @@
     "secop":{
         "secop":"SecopII"
     },
+    "config":{
+      "config":"Configuración"
+    },
     "administration-CI": {
         "titles": {
             "header": "Gestión Contractual",

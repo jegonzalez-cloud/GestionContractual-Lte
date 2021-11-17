@@ -74,4 +74,8 @@ export class AuthService {
   getEntidades(user:string){
     return this.http.get(`${environment.apiTestUrl}contratos/getEntidadesEstatales?username=${user}`);
   }
+
+  public getConfigApp(token:any){
+    return this.http.get(`${environment.apiTestUrl}contratos/getConfigApp?token=${token}`);
+  }
 }

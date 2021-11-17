@@ -3,7 +3,7 @@
 }
 
 .color{
-  color: #0b9fa5;
+  color: var(--companyColor);
   font-size: 11px;
   font-weight: bold;
 }
@@ -15,6 +15,6 @@
 }
 
 .impresion:hover{
-  color: #0b9fa5;
+  color: var(--companyColor);
   cursor: pointer;
 }

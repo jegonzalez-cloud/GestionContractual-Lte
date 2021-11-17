@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 
@@ -149,8 +149,8 @@ export class SecopService {
     return this.httpClient.get(`${environment.apiTestUrl}contratos/getDataDashboardDepen?token=${token}&centroGestor=${centroGestor}&fechaInicio=${fechaInicio}&fechaTermino=${fechaTermino}`);
   }
 
-  public getCdpMount(token:string,centroGestor:string,cdp:string){
-    return this.httpClient.get(`${environment.apiTestUrl}contratos/getCdpMount?token=${token}&centroGestor=${centroGestor}&cdp=${cdp}`);
+  public getCdpMount(token:string,centroGestor:string,cdp:string,valor:string,vigencia:string){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getCdpMount?token=${token}&centroGestor=${centroGestor}&cdp=${cdp}&valor=${valor}&vigencia=${vigencia}`);
   }
 
   public createSoapProcess(data: any) {
@@ -159,5 +159,41 @@ export class SecopService {
 
   public getPagosXRpc(token:any,rpc:any){
     return this.httpClient.get(`${environment.apiTestUrl}contratos/getPagosXRpc?token=${token}&rpc=${rpc}`);
+  }
+
+  public updateConfigApp(datos:any){
+    return this.httpClient.post(`${environment.apiTestUrl}contratos/updateConfigApp`,datos);
+  }
+
+  public getDepartamento(codigo:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getDepartamento?codigo=${codigo}`);
+  }
+
+  public getMunicipio(codigo:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getMunicipio?codigo=${codigo}`);
+  }
+
+  public getCatProfesion(codigo:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getCatProfesion?codigo=${codigo}`);
+  }
+
+  public getProfesion(codigo:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getProfesion?codigo=${codigo}`);
+  }
+
+  public getTipoProceso(codigo:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getTipoProceso?codigo=${codigo}`);
+  }
+
+  public getTipoContrato(codigo:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getTipoContrato?codigo=${codigo}`);
+  }
+
+  public getJustificacionTipoProceso(codigo:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getJustificacionTipoProceso?codigo=${codigo}`);
+  }
+
+  public insertProcessMassive(datos:any){
+    return this.httpClient.post(`${environment.apiTestUrl}contratos/insertProcessMassive`,datos);
   }
 }

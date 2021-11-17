@@ -1,6 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+:root {
+  --red: #f00;
+  /*--companyColor: #f00;*/
+  --companyColor: #0b9fa5;
+}
+
+html, body { height: 100%;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .cdk-global-overlay-wrapper, .cdk-overlay-container {
   z-index: 99999 !important;

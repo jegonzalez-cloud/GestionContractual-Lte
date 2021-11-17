@@ -222,7 +222,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               localStorage.setItem('usuarioConect', btoa(dataEntities[value].USC_USUARIO));
               localStorage.setItem('centroGestor', btoa(dataEntities[value].USC_GESTOR));
               localStorage.setItem('rol', btoa(dataEntities[value].ROL_ID));
-              this.goHome();
+              this.goHome(btoa(token));
             } else {
               resolve('Por favor seleccione una Entidad!');
             }
@@ -341,8 +341,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  goHome() {
-    this.router.navigate(['home']);
+  goHome(token:any) {
+    this.authService.getConfigApp(token).subscribe((response:any)=>{
+      console.log(response);
+      localStorage.setItem("color", btoa(response.Values.ResultFields[0].CON_COLOR));
+      localStorage.setItem("linkCdp", btoa(response.Values.ResultFields[0].CON_LINK_CDP));
+      localStorage.setItem("linkPagos", btoa(response.Values.ResultFields[0].CON_LINK_PAGOS));
+      localStorage.setItem("linkProceso", btoa(response.Values.ResultFields[0].CON_LINK_CREARPROCESO));
+      localStorage.setItem("estadoProceso", btoa(response.Values.ResultFields[0].CON_LINK_CONSULTARESTADOPROCESO));
+      this.router.navigate(['home']);
+    });
   }
 
   setIdioma(idioma: string) {
