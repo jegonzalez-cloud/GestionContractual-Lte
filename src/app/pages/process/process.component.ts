@@ -25,6 +25,7 @@ import * as funciones from "../../utils/functions";
 import * as func from "../../utils/functions";
 import * as XLSX from "xlsx";
 import {concatMap, delay, map, switchMap} from "rxjs/operators";
+import {formatPercent} from "@angular/common";
 
 @Component({
   selector: 'app-process',
@@ -122,6 +123,15 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('closebutton') closebutton: any;
   @ViewChild('openbutton') openbutton: any;
   CENTRO_GESTOR: any;
+  progressValue: number = 0;
+  progressValueTotal: number = 0;
+  procesosError: any = [];
+  cantidadError: any;
+  verErrores: any;
+  filename: any = 'Seleccione un archivo';
+  minSalary:any;
+  maxSalary:any;
+  cantidadMaximaSalarios:any;
 
   constructor(
     private fb: FormBuilder,
@@ -160,6 +170,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngOnInit(): void {
     let username = atob(localStorage.getItem('username')!);
+    this.minSalary = atob(localStorage.getItem('salarioMinimo')!);//985000; // traer salario minimo de la base de datos
+    this.maxSalary = atob(localStorage.getItem('topeMaximo')!);//985000; // traer salario minimo de la base de datos
     // let token = atob(localStorage.getItem('token')!);
     let codigoEntidad = atob(localStorage.getItem('codigoEntidad')!);
     this.service.getUnidadesContratacion(username, codigoEntidad).subscribe((data: any) => {
@@ -173,22 +185,22 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       centroGestor: new FormControl(atob(localStorage.getItem('centroGestor')!)),
       //*****************************************************************************************************************
       tipoIdentificacion: new FormControl(null, [Validators.required]),
-      identificacion: new FormControl({value: '11111', disabled: true}, [Validators.required]),
-      proveedor: new FormControl({value: '11111', disabled: true}, [Validators.required]),
-      ubicacion: new FormControl({value: '11111', disabled: true}, [Validators.required]),
+      identificacion: new FormControl({value: '', disabled: true}, [Validators.required]),
+      proveedor: new FormControl({value: '', disabled: true}, [Validators.required]),
+      ubicacion: new FormControl({value: '', disabled: true}, [Validators.required]),
       fechaNacimiento: new FormControl({value: '', disabled: false}, [Validators.required]),
       genero: new FormControl(null, [Validators.required]),
       departamento: new FormControl(null, [Validators.required]),
       municipio: new FormControl(null, [Validators.required]),
       categoriaContratacion: new FormControl(null, [Validators.required]),
       profesion: new FormControl({value: null, disabled: true}, [Validators.required]),
-      correo: new FormControl('jegc9323@gmail.com', [Validators.required]),
-      celular: new FormControl({value: '3134061994', disabled: false}, [Validators.required]),
+      correo: new FormControl('', [Validators.required]),
+      celular: new FormControl({value: '', disabled: false}, [Validators.required]),
       //****************************************************************************************************************
       tipoProceso: new FormControl(null, [Validators.required]),
       tipoContrato: new FormControl(null, [Validators.required]),
       justificacionTipoProceso: new FormControl(null, [Validators.required]),
-      nombreProceso: new FormControl('new process', [Validators.required]),
+      nombreProceso: new FormControl('', [Validators.required]),
       objeto: new FormControl('', [Validators.required]),
       unidad: new FormControl(null, [Validators.required]),
       equipo: new FormControl(null, [Validators.required]),
@@ -622,17 +634,17 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     let valorContrato = this.createProcessForm.controls['valorContrato'].value;
     let tipoIdentificacion = this.createProcessForm.controls['tipoIdentificacion'].value;
     let duracionContrato = this.createProcessForm.controls['duracionContrato'].value;
-    let minSalary = 985000; // traer salario minimo de la base de datos
+
     let validate;
     switch (tipoIdentificacion) {
       case 'Cédula':
-        validate = (valorContrato / duracionContrato < 7000000) ? true : false;
+        validate = (valorContrato / duracionContrato < this.maxSalary) ? true : false;
         break;
       case 'Cédula de Extranjería':
-        validate = (valorContrato / duracionContrato < 7000000) ? true : false;
+        validate = (valorContrato / duracionContrato < this.maxSalary) ? true : false;
         break;
       case 'Nit':
-        validate = (valorContrato > (minSalary * 100)) ? false : true;
+        validate = (valorContrato > (this.minSalary * this.cantidadMaximaSalarios)) ? false : true;
         break;
       default:
         validate = false;
@@ -724,12 +736,12 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   validateMoney(tiempoTotal: any) {
-    let salarioMinimo = 980000;
+    //let salarioMinimo = 980000;
     let tipoIdentificacion = this.createProcessForm.controls['tipoIdentificacion'].value;
     let valorContrato = this.createProcessForm.controls['valorContrato'].value;
 
     if (tipoIdentificacion == 'Cédula' || tipoIdentificacion == 'Cédula de Extranjería') {
-      if ((valorContrato / tiempoTotal) > 7000000) {
+      if ((valorContrato / tiempoTotal) > this.maxSalary) {
         this.iconColor = 'lightgray';
         this.validateDataUNSPSC = 0;
         utils.showAlert('El valor excede los limites establecidos en la tabla de honorarios! ', 'error');
@@ -740,7 +752,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       }
     } else if (tipoIdentificacion == 'Nit') {
       // if ((valorContrato / tiempoTotal) > (salarioMinimo * 100)) {
-      if (valorContrato > (salarioMinimo * 100)) {
+      if (valorContrato > (this.minSalary * this.cantidadMaximaSalarios)) {
         // this.iconColor = 'lightgray';
         // console.log(salarioMinimo*100)
         this.iconColor = 'lightgreen';
@@ -986,7 +998,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     // let valorContrato = this.createProcessForm.controls['valorContrato'].value;
 
     if (tipoIdentificacion == 'Cédula' || tipoIdentificacion == 'Cédula de Extranjería') {
-      if ((valorContrato / tiempoTotal) > 7000000) {
+      if ((valorContrato / tiempoTotal) > this.maxSalary) {
         utils.showAlert('El valor excede los limites establecidos en la tabla de honorarios! ', 'error');
         return 0;
       } else {
@@ -995,7 +1007,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       }
     } else if (tipoIdentificacion == 'Nit') {
       // if ((valorContrato / tiempoTotal) > (salarioMinimo * 100)) {
-      if (valorContrato > (salarioMinimo * 100)) {
+      if (valorContrato > (salarioMinimo * this.cantidadMaximaSalarios)) {
         //comite: si
         return 2;
         console.log('nit comite');
@@ -1010,9 +1022,10 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   async readExcell(ev: any) {
     let workBook: any = null;
     let jsonData: any = null;
-    let procesosError: any = [];
     const reader = new FileReader();
     const file = ev.target!.files[0];
+    this.filename = file.name;
+    this.procesosError = [];
 
     reader.onload = async (event) => {
       const data = reader.result;
@@ -1023,16 +1036,25 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         return initial;
       }, {});
 
+      this.progressValueTotal = jsonData.Hoja1.length;
       for (let i = 0; i < jsonData.Hoja1.length; i++) {
+        this.progressValue = Math.round((((i + 1) / this.progressValueTotal) * 100));
         let keyCount = Object.keys(jsonData.Hoja1[i]).length;
         let dataFormulario: any = [];
-        await this.hello(jsonData, keyCount, dataFormulario, i).then(console.log);
+        await this.validateDataExcel(jsonData, keyCount, dataFormulario, i);//.then(console.log);
       }
+      this.progressValue = 0;
+      console.log(this.procesosError);
+      this.cantidadError = this.procesosError.length;
+      ev.target.value = '';
+      this.filename = 'Seleccione un archivo';
+      utils.showAlert('Proceso Terminado!', 'success');
     }
     reader.readAsBinaryString(file);
   }
 
-  async hello(jsonData: any, keyCount: number, dataFormulario: any, i: number) {
+  async validateDataExcel(jsonData: any, keyCount: number, dataFormulario: any, i: number) {
+    console.log(i)
     this.centroGestor = '1158';
     //let sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
     return await new Promise((resolve, reject) => {
@@ -1048,109 +1070,171 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
           dataFormulario.push(dataExcel.CENTROGESTOR);
           dataExcel.TIPOIDENTIFICACION = (dataExcel.TIPOIDENTIFICACION == 1) ? 'Cédula' :
             (dataExcel.TIPOIDENTIFICACION == 2) ? 'Cédula Extranjería' : 'Nit';
-          dataFormulario.push(dataExcel.TIPOIDENTIFICACION);
-          dataFormulario.push(dataExcel.IDENTIFICACION);
-          dataFormulario.push(dataExcel.PROVEEDOR);
-          dataFormulario.push(dataExcel.UBICACION);
-          dataFormulario.push(moment(dataExcel.FECHANACIMIENTO, "YYYYMMDD").format().slice(0, -6));
+          if (dataExcel.IDENTIFICACION.toString().length <= 4) {
+            this.procesosError.push('Proceso N°' + (i + 1) + ' - Identificación');
+            resolve('error Identificación no existe ' + (i + 1));
+          } else {
+            this.secopService.searchDataSecop('nit', dataExcel.IDENTIFICACION).subscribe((response: any) => {
+              console.log(response[0].toString().length);
+              if (response[0].toString().length != 0) {
+                dataFormulario.push(dataExcel.TIPOIDENTIFICACION);
+                dataFormulario.push(dataExcel.IDENTIFICACION);
+                dataFormulario.push(dataExcel.PROVEEDOR);
+                dataFormulario.push(dataExcel.UBICACION);
+                dataFormulario.push(moment(dataExcel.FECHANACIMIENTO, "YYYYMMDD").format().slice(0, -6));
 
-          dataExcel.GENERO = (dataExcel.GENERO == 1) ? 'Masculino' : 'Femenino';
-          dataFormulario.push(dataExcel.GENERO);
-          dataFormulario.push(dataExcel.DEPARTAMENTO);
-          dataFormulario.push(dataExcel.MUNICIPIO);
-          dataFormulario.push(dataExcel.CELULAR);
-          dataFormulario.push(dataExcel.CORREO);
-          dataExcel.CATCONTRATACION = (dataExcel.CATCONTRATACION == 1) ? 'Asesor' :
-            (dataExcel.CATCONTRATACION == 2) ? 'Asistencial' :
-              (dataExcel.CATCONTRATACION == 3) ? 'Profesional' :
-                (dataExcel.CATCONTRATACION == 4) ? 'Profesional Especializado' :
-                  (dataExcel.CATCONTRATACION == 5) ? 'Tecnico' : 'Tecnologo';
-          dataFormulario.push(dataExcel.CATCONTRATACION);
+                dataExcel.GENERO = (dataExcel.GENERO == 1) ? 'Masculino' : 'Femenino';
+                dataFormulario.push(dataExcel.GENERO);
+                dataFormulario.push(dataExcel.DEPARTAMENTO);
+                dataFormulario.push(dataExcel.MUNICIPIO);
+                dataFormulario.push(dataExcel.CELULAR);
+                dataFormulario.push(dataExcel.CORREO);
+                dataExcel.CATCONTRATACION = (dataExcel.CATCONTRATACION == 1) ? 'Asesor' :
+                  (dataExcel.CATCONTRATACION == 2) ? 'Asistencial' :
+                    (dataExcel.CATCONTRATACION == 3) ? 'Profesional' :
+                      (dataExcel.CATCONTRATACION == 4) ? 'Profesional Especializado' :
+                        (dataExcel.CATCONTRATACION == 5) ? 'Tecnico' : 'Tecnologo';
+                dataFormulario.push(dataExcel.CATCONTRATACION);
 
-          this.secopService.getCatProfesion(dataExcel.CATPROFESION).subscribe((response: any) => {
-              dataFormulario.push(response.Values.ResultFields);
-              this.secopService.getProfesion(dataExcel.PROFESION).subscribe((response: any) => {
-                dataFormulario.push(response.Values.ResultFields);
-                this.secopService.getTipoProceso(dataExcel.TIPOPROCESO).subscribe((response: any) => {
-                  dataFormulario.push(response.Values.ResultFields);
-                  this.secopService.getTipoContrato(dataExcel.TIPOCONTRATO).subscribe((response: any) => {
-                    dataFormulario.push(response.Values.ResultFields);
-                    this.secopService.getJustificacionTipoProceso(dataExcel.JUSTIFICACIONTIPOPROCESO).subscribe((response: any) => {
+                this.secopService.getCatProfesion(dataExcel.CATPROFESION).subscribe((response: any) => {
+                    if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
                       dataFormulario.push(response.Values.ResultFields);
-                      dataFormulario.push(dataExcel.NOMBREPROCESO);
-                      dataFormulario.push(dataExcel.UNIDADCONTRATACION);
-                      dataFormulario.push(dataExcel.EQUIPOCONTRATACION);
-                      dataFormulario.push(dataExcel.OBJETOPROCESO);
-                      dataFormulario.push(moment(dataExcel.FIRMACONTRATO, "YYYYMMDD").format().slice(0, -6));
-                      dataFormulario.push(moment(dataExcel.FECHAINICIO, "YYYYMMDD").format().slice(0, -6));
-                      dataFormulario.push(moment(dataExcel.FECHATERMINO, "YYYYMMDD").format().slice(0, -6));
-                      dataFormulario.push(moment(dataExcel.PLAZOEJECUCION, "YYYYMMDD").format().slice(0, -6));
-                      dataFormulario.push(dataExcel.VALORESTIMADO);
-                      dataFormulario.push(dataExcel.CDP);
-                      dataFormulario.push(dataExcel.VIGENCIA);
-                      this.secopService.getCdpMount(this.token, dataExcel.CENTROGESTOR, dataExcel.CDP, dataExcel.VALORESTIMADO, dataExcel.VIGENCIA).subscribe(async (response: any) => {
-                        let valorCdp = response.Values.ResultFields;
-                        if (valorCdp < dataExcel.VALORESTIMADO) {
-                          utils.showAlert('No hay Presupuesto sufiente para este contrato!', 'error');
-                          return;
-                        }
-                        dataExcel.DURACIONCONTRATO = (dataExcel.DURACIONCONTRATO == 1) ? 'Años' :
-                          (dataExcel.DURACIONCONTRATO == 2) ? 'Dias' :
-                            (dataExcel.DURACIONCONTRATO == 3) ? 'Horas' :
-                              (dataExcel.DURACIONCONTRATO == 4) ? 'Meses' :
-                                (dataExcel.DURACIONCONTRATO == 5) ? 'Semanas' : '';
+                      this.secopService.getProfesion(dataExcel.PROFESION).subscribe((response: any) => {
+                        if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                          dataFormulario.push(response.Values.ResultFields);
+                          this.secopService.getTipoProceso(dataExcel.TIPOPROCESO).subscribe((response: any) => {
+                            if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                              dataFormulario.push(response.Values.ResultFields);
+                              this.secopService.getTipoContrato(dataExcel.TIPOCONTRATO).subscribe((response: any) => {
+                                if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                                  dataFormulario.push(response.Values.ResultFields);
+                                  this.secopService.getJustificacionTipoProceso(dataExcel.JUSTIFICACIONTIPOPROCESO).subscribe((response: any) => {
+                                    if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                                      dataFormulario.push(response.Values.ResultFields);
+                                      dataFormulario.push(dataExcel.NOMBREPROCESO);
+                                      dataFormulario.push(dataExcel.UNIDADCONTRATACION);
+                                      dataFormulario.push(dataExcel.EQUIPOCONTRATACION);
+                                      dataFormulario.push(dataExcel.OBJETOPROCESO);
+                                      dataFormulario.push(moment(dataExcel.FIRMACONTRATO, "YYYYMMDD").format().slice(0, -6));
+                                      dataFormulario.push(moment(dataExcel.FECHAINICIO, "YYYYMMDD").format().slice(0, -6));
+                                      dataFormulario.push(moment(dataExcel.FECHATERMINO, "YYYYMMDD").format().slice(0, -6));
+                                      dataFormulario.push(moment(dataExcel.PLAZOEJECUCION, "YYYYMMDD").format().slice(0, -6));
+                                      dataFormulario.push(dataExcel.VALORESTIMADO);
+                                      dataFormulario.push(dataExcel.CDP);
+                                      dataFormulario.push(dataExcel.VIGENCIA);
+                                      this.secopService.getCdpMount(this.token, dataExcel.CENTROGESTOR, dataExcel.CDP, dataExcel.VALORESTIMADO, dataExcel.VIGENCIA).subscribe(async (response: any) => {
+                                        if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                                          let valorCdp = response.Values.ResultFields;
+                                          if (valorCdp < dataExcel.VALORESTIMADO) {
+                                            this.procesosError.push('Proceso N°' + (i + 1) + ' - No hay Presupuesto sufiente para este contrato');
+                                            resolve('error cdp ' + (i + 1));
+                                          } else {
+                                            dataExcel.DURACIONCONTRATO = (dataExcel.DURACIONCONTRATO == 1) ? 'Años' :
+                                              (dataExcel.DURACIONCONTRATO == 2) ? 'Dias' :
+                                                (dataExcel.DURACIONCONTRATO == 3) ? 'Horas' :
+                                                  (dataExcel.DURACIONCONTRATO == 4) ? 'Meses' :
+                                                    (dataExcel.DURACIONCONTRATO == 5) ? 'Semanas' : '';
 
-                        let responseDuracion = this.validateDuracionMasivo(dataExcel.DURACIONCONTRATO, dataExcel.TIEMPOCONTRATO, dataExcel.TIPOIDENTIFICACION, dataExcel.VALORESTIMADO);
-                        let comite;
-                        if (responseDuracion == 0) {
-                          return;
-                        } else if (responseDuracion == 1) {
-                          //no comite
-                          comite = 'NO';
-                        } else if (responseDuracion == 2) {
-                          //comite
-                          comite = 'SI';
+                                            let responseDuracion = this.validateDuracionMasivo(dataExcel.DURACIONCONTRATO, dataExcel.TIEMPOCONTRATO, dataExcel.TIPOIDENTIFICACION, dataExcel.VALORESTIMADO);
+                                            let comite;
+                                            if (responseDuracion == 0) {
+                                              return;
+                                            } else if (responseDuracion == 1) {
+                                              //no comite
+                                              comite = 'NO';
+                                            } else if (responseDuracion == 2) {
+                                              //comite
+                                              comite = 'SI';
+                                            }
+                                            dataFormulario.push(dataExcel.DURACIONCONTRATO);
+                                            dataFormulario.push(dataExcel.TIEMPOCONTRATO);
+                                            dataFormulario.push(this.username);
+                                            dataFormulario.push(comite);
+                                            this.secopService.insertProcessMassive(dataFormulario).toPromise().then(async (response: any) => {
+                                              if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                                                let r = await response.Values.ResultFields;
+                                                if (r != null) {
+                                                  for (let i = 0; i < dataExcelCodigo.length; i++) {
+                                                    if (dataExcelCodigo[i].IDREGISTRO == dataExcel.IDREGISTRO) {
+                                                      dataExcelCodigo[i].PROCESO = (response.Values.ResultFields);
+                                                      codigoUNSPSC.push(dataExcelCodigo[i]);
+                                                      valorAcomparar += dataExcelCodigo[i].PRECIOUNITARIO;
+                                                    }
+                                                  }
+                                                  if (valorAcomparar != dataExcel.VALORESTIMADO) {
+                                                    this.procesosError.push('Proceso N°' + (i + 1) + ' - Los valores del codigo UNSPSC no coinciden');
+                                                    resolve('error Los valores del codigo UNSPSC no coinciden ' + (i + 1));
+                                                  }
+                                                  this.secopService.insertUNSPSC(codigoUNSPSC).toPromise().then((response: any) => {
+                                                    if (response.proId != null) {
+                                                      resolve(response.proId);
+                                                    } else {
+                                                      this.procesosError.push('Proceso N°' + (i + 1) + ' - insert unspsc');
+                                                      resolve('error insert unspsc ' + (i + 1));
+                                                    }
+                                                  });
+                                                } else {
+                                                  this.procesosError.push('Proceso N°' + (i + 1) + ' - insert process');
+                                                  resolve('error insert process ' + (i + 1));
+                                                }
+                                              } else {
+                                                this.procesosError.push('Proceso N°' + (i + 1) + ' - insert process');
+                                                resolve('error insert process ' + (i + 1));
+                                              }
+                                            });
+                                          }
+                                        } else {
+                                          this.procesosError.push('Proceso N°' + (i + 1) + ' - cdp');
+                                          resolve('error cdp ' + (i + 1));
+                                        }
+                                      });
+                                    } else {
+                                      this.procesosError.push('Proceso N°' + (i + 1) + ' - justificacionProceso');
+                                      resolve('error justificacionProceso ' + (i + 1));
+                                    }
+                                  });
+                                } else {
+                                  this.procesosError.push('Proceso N°' + (i + 1) + ' - tipoContrato');
+                                  resolve('error tipoContrato ' + (i + 1));
+                                }
+                              });
+                            } else {
+                              this.procesosError.push('Proceso N°' + (i + 1) + ' - tipoProceso');
+                              resolve('error tipoProceso ' + (i + 1));
+                            }
+                          });
+                        } else {
+                          this.procesosError.push('Proceso N°' + (i + 1) + ' - profesion');
+                          resolve('error profesion ' + (i + 1));
                         }
-                        dataFormulario.push(dataExcel.DURACIONCONTRATO);
-                        dataFormulario.push(dataExcel.TIEMPOCONTRATO);
-                        dataFormulario.push(this.username);
-                        dataFormulario.push(comite);
-                        this.secopService.insertProcessMassive(dataFormulario).toPromise().then(async (response: any) => {
-                          let r = await response.Values.ResultFields;
-                          if (r != null) {
-                            for (let i = 0; i < dataExcelCodigo.length; i++) {
-                              if (dataExcelCodigo[i].IDREGISTRO == dataExcel.IDREGISTRO) {
-                                dataExcelCodigo[i].PROCESO = (response.Values.ResultFields);
-                                codigoUNSPSC.push(dataExcelCodigo[i]);
-                                valorAcomparar += dataExcelCodigo[i].PRECIOUNITARIO;
-                              }
-                            }
-                            if (valorAcomparar != dataExcel.VALORESTIMADO) {
-                              utils.showAlert('Los valores del codigo UNSPSC no coincide!', 'error');
-                              return;
-                            }
-                            this.secopService.insertUNSPSC(codigoUNSPSC).toPromise().then((response:any) => {
-                              if (response.proId != null) {
-                                resolve(response.proId);
-                              }
-                            });
-                          } else {
-                            reject();
-                          }
-                        });
                       });
-                    });
-                  });
-                });
-              });
-            }
-          )
-          ;
+                    } else {
+                      this.procesosError.push('Proceso N°' + (i + 1) + ' - catProfesion');
+                      resolve('error catProfesion ' + (i + 1));
+                    }
+                  }
+                );
+              } else {
+                this.procesosError.push('Proceso N°' + (i + 1) + ' - Identificación');
+                resolve('error no hay datos de Identificación ' + (i + 1));
+              }
+
+            });
+          }
         }
       } else {
         utils.showAlert('El centro gestor no coincide!', 'error');
       }
-      utils.showAlert('Proceso Terminado!', 'success');
     });
   }
+
+  WatchError() {
+    if (this.verErrores) {
+      this.verErrores = false;
+    } else {
+      this.verErrores = true;
+    }
+
+  }
+
 }

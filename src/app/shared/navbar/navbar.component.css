@@ -6,10 +6,11 @@ log-out:hover{
 }
 
 #divNotificaciones{
-  height: auto;
+  height: 1000%;
   min-height: 75%;
   overflow-y: scroll;
 }
+
 
 #notificaciones-sticky-top{
   position: sticky;

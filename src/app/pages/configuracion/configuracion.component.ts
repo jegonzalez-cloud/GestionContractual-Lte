@@ -20,12 +20,18 @@ export class ConfiguracionComponent implements OnInit {
   createForm() {
     this.configForm = this.fb.group({
       token: new FormControl(localStorage.getItem('token')!),
-      color: new FormControl(atob(localStorage.getItem('color')!)),
+      color: new FormControl(atob(localStorage.getItem( 'color')!)),
       cdp: new FormControl(atob(localStorage.getItem('linkCdp')!)),
       pagos: new FormControl(atob(localStorage.getItem('linkPagos')!)),
       consultarProceso: new FormControl(atob(localStorage.getItem('linkProceso')!)),
       estadoContrato: new FormControl(atob(localStorage.getItem('estadoProceso')!)),
+      identificacionSecop: new FormControl(atob(localStorage.getItem('identificacionSecop')!)),
+      dataSecop: new FormControl(atob(localStorage.getItem('dataSecop')!)),
+      salarioMinimo: new FormControl(atob(localStorage.getItem('salarioMinimo')!)),
+      topeMaximo: new FormControl(atob(localStorage.getItem('topeMaximo')!)),
+      cantidadSalarios: new FormControl(atob(localStorage.getItem('cantidadSalarios')!)),
     });
+    console.log(this.configForm.controls['color'].value);
   }
 
   saveColor(){

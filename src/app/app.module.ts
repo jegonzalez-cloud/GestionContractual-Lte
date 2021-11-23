@@ -28,17 +28,11 @@ import { NgApexchartsModule } from "ng-apexcharts";
   imports: [
     NgxCurrencyModule,
     NgApexchartsModule,
-    // NgxTreeSelectModule.forRoot({
-    //   idField: 'id',
-    //   textField: 'name',
-    //   expandMode: ExpandMode.Selection
-    // }),
     BrowserModule,
     SharedModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     NgbModule,
-    // NgxChartsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -58,12 +52,11 @@ import { NgApexchartsModule } from "ng-apexcharts";
       //autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
   ],
-//   exports: [TranslateModule],
   providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

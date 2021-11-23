@@ -343,12 +343,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   goHome(token:any) {
     this.authService.getConfigApp(token).subscribe((response:any)=>{
-      console.log(response);
       localStorage.setItem("color", btoa(response.Values.ResultFields[0].CON_COLOR));
       localStorage.setItem("linkCdp", btoa(response.Values.ResultFields[0].CON_LINK_CDP));
       localStorage.setItem("linkPagos", btoa(response.Values.ResultFields[0].CON_LINK_PAGOS));
       localStorage.setItem("linkProceso", btoa(response.Values.ResultFields[0].CON_LINK_CREARPROCESO));
       localStorage.setItem("estadoProceso", btoa(response.Values.ResultFields[0].CON_LINK_CONSULTARESTADOPROCESO));
+      localStorage.setItem("salarioMinimo", btoa(response.Values.ResultFields[0].CON_SALARIO_MINIMO));
+      localStorage.setItem("topeMaximo", btoa(response.Values.ResultFields[0].CON_TOPE_MAXIMO));
+      localStorage.setItem("cantidadSalarios", btoa(response.Values.ResultFields[0].CON_CANTIDAD_SALARIOS));
+      localStorage.setItem("identificacionSecop", btoa(response.Values.ResultFields[0].CON_LINK_IDENTIFICACIONSECOP));
+      localStorage.setItem("dataSecop", btoa(response.Values.ResultFields[0].CON_LINK_SECOP));
       this.router.navigate(['home']);
     });
   }

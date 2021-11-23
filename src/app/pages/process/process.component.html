@@ -2,7 +2,56 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" id="background-home">
 
-    <button type="button" [hidden]="true" #openbuttonAutorizaciones class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open</button>
+    <button type="button" [hidden]="true" #openbuttonAutorizaciones class="btn btn-info btn-lg" data-toggle="modal"
+            data-target="#myModal">Open
+    </button>
+
+    <div class="modal fade" id="carga" role="dialog">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <!--          <div class="modal-header">-->
+          <!--            -->
+          <!--            &lt;!&ndash;            <h4 class="modal-title">Modal Header</h4>&ndash;&gt;-->
+          <!--          </div>-->
+          <div class="modal-body">
+            <div class="card">
+              <div class="card-header" style="background-color: var(--companyColor)">
+                <span style="font-weight: bold;font-size: larger ;color: white">Carga Masiva de Contratos</span>
+                <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="card-body">
+                <div class="col-12 col-sm-12 mt-1 mb-1">
+                  <div class="custom-file">
+                    <input type="file" style="cursor:pointer" (change)="readExcell($event)" class="custom-file-input"
+                           id="validatedFile" required="true"/>
+                    <label class="custom-file-label" for="validatedFile">{{filename}}</label>
+                    <div class="invalid-feedback">Error</div>
+                    <div class="progress mt-1">
+                      <div class="progress-bar" role="progressbar" [style.width.%]="progressValue">{{progressValue}}%
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="cantidadError" class="mt-3 mb-1">
+                    <a style="color: var(--companyColor)" (click)="WatchError()">
+                      <u>Ver Errores</u>
+                    </a>
+                    <div *ngIf="verErrores" class="mt-2">
+                      <ol class="list-group list-group-numbered">
+                        <li class="list-group-item" *ngFor="let i of procesosError">{{i}}</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!--          <div class="modal-footer">-->
+          <!--            <button type="button" class="btn btn-danger" id="closeModal" (click)="onSave()">Save</button>-->
+          <!--          </div>-->
+        </div>
+      </div>
+    </div>
 
     <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog modal-dialog-scrollable">
@@ -37,7 +86,8 @@
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content" style="width: auto">
           <div class="modal-header">
-            <h4 class="modal-title"><b style="font-size: larger">Proceso # <a style="color: var(--companyColor)">{{PROCESO}}</a></b>
+            <h4 class="modal-title"><b style="font-size: larger">Proceso # <a
+              style="color: var(--companyColor)">{{PROCESO}}</a></b>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -163,7 +213,8 @@
                           <label class="font-weight-normal text-sm"> unidad </label>
                           <mat-form-field appearance="fill">
                             <mat-select formControlName="unidad">
-                              <mat-option *ngFor="let UN of UNIDADESUNSPSC" value="{{ UN.UNI_IDENTIFICADOR }}">{{ UN.UNI_SIMBOLO }}</mat-option>
+                              <mat-option *ngFor="let UN of UNIDADESUNSPSC"
+                                          value="{{ UN.UNI_IDENTIFICADOR }}">{{ UN.UNI_SIMBOLO }}</mat-option>
                             </mat-select>
                           </mat-form-field>
                         </div>
@@ -183,8 +234,8 @@
                         <div class="form-group">
                           <label class="font-weight-normal text-sm"> Valor </label>
                           <input
+                            currencyMask
                             formControlName="precioUnitario"
-                            type="number"
                             class="form-control"
                             required
                           />
@@ -204,7 +255,7 @@
                 </div>
                 <button type="button" class="btn btn-secondary mb-5" (click)="addItem()">Agregar
                 </button>
-                <button *ngIf="myForm.valid" type="submit" class="btn btn-primary ml-2 mb-5" data-dismiss="modal"
+                <button *ngIf="myForm.valid" type="button" class="btn btn-primary ml-2 mb-5" data-dismiss="modal"
                         (click)="onSubmit()">Guardar
                 </button>
                 <!--                <br>-->
@@ -251,17 +302,14 @@
             </h6>
           </div>
           <div class="card-body">
-<!--            <div class="col-12 col-sm-12">-->
-<!--              <div class="form-group">-->
-<!--&lt;!&ndash;                <label class="font-weight-normal text-sm"> Identificación </label>&ndash;&gt;-->
-<!--                <input class="form-control" type="file" (change)="readExcell($event)" />-->
-<!--              </div>-->
-<!--            </div>-->
-            <div class="mb-3">
-              <label class="form-label">Small file input example</label>
-              <input class="form-control" type="file" (change)="readExcell($event)">
-            </div>
-<!--            <button class="btn btn-primary btn-sm mb-3 ml-1">Carga Masiva</button>-->
+            <!--            <div class="col-12 col-sm-12">-->
+            <!--              <div class="form-group">-->
+            <!--&lt;!&ndash;                <label class="font-weight-normal text-sm"> Identificación </label>&ndash;&gt;-->
+            <!--                <input class="form-control" type="file" (change)="readExcell($event)" />-->
+            <!--              </div>-->
+            <!--            </div>-->
+
+            <!--            <button class="btn btn-primary btn-sm mb-3 ml-1">Carga Masiva</button>-->
             <form [formGroup]="createProcessForm" (ngSubmit)="validateData()"
                   (keydown.enter)="$event.preventDefault()">
               <div class="col-12 col-sm-12">
@@ -272,19 +320,29 @@
                         <a class="nav-link active" id="datos-personales-tab" href="#datos-personales"
                            data-toggle="pill"
                            role="tab" aria-controls="datos-personales"
-                           aria-selected="true" style="font-weight: bold">Datos Personales</a>
+                           aria-selected="false" style="font-weight: bold">Datos Personales</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" id="custom-tabs-four-home-tab" href="#custom-tabs-four-home"
                            data-toggle="pill"
                            role="tab" aria-controls="custom-tabs-four-home"
-                           aria-selected="true" style="font-weight: bold">Información General</a>
+                           aria-selected="false" style="font-weight: bold">Información General</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" id="custom-tabs-four-profile-tab" href="#custom-tabs-four-profile"
                            data-toggle="pill"
                            role="tab" aria-controls="custom-tabs-four-profile"
                            aria-selected="false" style="font-weight: bold">Configuración</a>
+                      </li>
+                      <li class="nav-item">
+                        <span class="nav-link hoverCarga" data-toggle="modal" role="tab"
+                              aria-controls="custom-tabs-four-profile"
+                              aria-selected="false" data-target="#carga" aria-selected="true"
+                              style="margin-top: 1.2px; font-weight: bold;cursor:pointer">Carga Masiva</span>
+                        <!--                        <a class="nav-link active" id="custom-tabs-four-carga-tab" href="#custom-tabs-four-carga"-->
+                        <!--                           data-toggle="pill"-->
+                        <!--                           role="tab" aria-controls="custom-tabs-four-carga"-->
+                        <!--                           aria-selected="true" style="font-weight: bold">Carga Masiva</a>-->
                       </li>
                     </ul>
                   </div>
@@ -299,12 +357,13 @@
                               <label class="font-weight-normal text-sm">
                                 Tipo Identificación
                               </label>
-                                <select class="form-control text-sm" #tipoIdentificacion
-                                            (change)="changeTipoIdentificacion(tipoIdentificacion)" formControlName="tipoIdentificacion">
-                                  <option value="Cédula">Cédula</option>
-                                  <option>Cédula de Extranjería</option>
-                                  <option>Nit</option>
-                                </select>
+                              <select class="form-control text-sm" #tipoIdentificacion
+                                      (change)="changeTipoIdentificacion(tipoIdentificacion)"
+                                      formControlName="tipoIdentificacion">
+                                <option value="Cédula">Cédula</option>
+                                <option>Cédula de Extranjería</option>
+                                <option>Nit</option>
+                              </select>
                             </div>
                           </div>
 
@@ -451,10 +510,11 @@
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">Categoría de Profesión</label>
                               <select (change)="getProfesionByCategoria()"
-                                formControlName="categoriaProfesion"
-                                class="form-control text-sm"
+                                      formControlName="categoriaProfesion"
+                                      class="form-control text-sm"
                               >
-                                <option *ngFor="let cat of categoriasProfesion" value="{{cat.PROF_CODIGO}}">{{cat.PROF_DESCRIPCION}}</option>
+                                <option *ngFor="let cat of categoriasProfesion"
+                                        value="{{cat.PROF_CODIGO}}">{{cat.PROF_DESCRIPCION}}</option>
                               </select>
                             </div>
                           </div>
@@ -466,17 +526,15 @@
                                 formControlName="profesion"
                                 class="form-control text-sm"
                               >
-                                <option *ngFor="let cat of categoriasSubProfesion" value="{{cat.SUB_DESCRIPCION_SUBPROFESION}}">{{cat.SUB_DESCRIPCION_SUBPROFESION}}</option>
+                                <option *ngFor="let cat of categoriasSubProfesion"
+                                        value="{{cat.SUB_DESCRIPCION_SUBPROFESION}}">{{cat.SUB_DESCRIPCION_SUBPROFESION}}</option>
                               </select>
                             </div>
                           </div>
 
 
-
                         </div>
                       </div>
-
-
                       <div class="tab-pane fade show" id="custom-tabs-four-home" role="tabpanel"
                            aria-labelledby="custom-tabs-four-home-tab">
                         <!--INGRESAR DATA-->
@@ -652,7 +710,7 @@
                         </div>
                         <!--TERMINAR INGRESAR DATA-->
                       </div>
-                      <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel"
+                      <div class="tab-pane fade show" id="custom-tabs-four-profile" role="tabpanel"
                            aria-labelledby="custom-tabs-four-profile-tab">
                         <div class="row">
 
@@ -861,7 +919,8 @@
                             <label class="font-weight-normal text-sm">
                               Codigo UNSPSC
                             </label>
-                            <button [disabled]="iconColor == 'lightgray'" type="button" class="form-control btn btn-primary btn-md"
+                            <button [disabled]="iconColor == 'lightgray'" type="button"
+                                    class="form-control btn btn-primary btn-md"
                                     data-target="#modal-default-1" data-toggle="modal">Codigo UNSPSC
                             </button>
                             <!--                            <mat-form-field appearance="fill">-->
@@ -917,21 +976,42 @@
 
                         </div>
                       </div>
+                      <!--                      <div class="tab-pane fade show active" id="custom-tabs-four-carga" role="tabpanel"-->
+                      <!--                           aria-labelledby="custom-tabs-four-carga-tab">-->
+                      <!--                        <div class="row">-->
 
+                      <!--                          &lt;!&ndash;                          <div class="col-12 col-sm-3">&ndash;&gt;-->
+                      <!--                          &lt;!&ndash;                            <div class="form-group">&ndash;&gt;-->
+                      <!--                          &lt;!&ndash;                              <label class="font-weight-normal text-sm">Documentos Tipo</label>&ndash;&gt;-->
+                      <!--                          &lt;!&ndash;                              <select class="custom-select form-control-border">&ndash;&gt;-->
+                      <!--                          &lt;!&ndash;                                <option>Seleccione...</option>&ndash;&gt;-->
+                      <!--                          &lt;!&ndash;                                <option>SI</option>&ndash;&gt;-->
+                      <!--                          &lt;!&ndash;                                <option>NO</option>&ndash;&gt;-->
+                      <!--                          &lt;!&ndash;                              </select>&ndash;&gt;-->
+                      <!--                          &lt;!&ndash;                            </div>&ndash;&gt;-->
+                      <!--                          &lt;!&ndash;                          </div>&ndash;&gt;-->
+
+                      <!--                          &lt;!&ndash;                          <div class="col-12 col-sm-3">&ndash;&gt;-->
+                      <!--                          &lt;!&ndash;                            <div class="form-group">&ndash;&gt;-->
+                      <!--                          &lt;!&ndash;                              <label class="font-weight-normal text-sm">Documentos Tipo</label>&ndash;&gt;-->
+                      <!--                          <div class="col-12 col-sm-12">-->
+                      <!--                            <div class="custom-file">-->
+                      <!--                              <input type="file" (change)="readExcell($event)" class="custom-file-input" id="validatedFile" required="true"/>-->
+                      <!--                              <label class="custom-file-label" for="validatedFile">{{filename}}</label>-->
+                      <!--                              <div class="invalid-feedback">Error</div>-->
+                      <!--                              <div class="progress mt-1">-->
+                      <!--                                <div class="progress-bar" role="progressbar" [style.width.%]="progressValue">{{progressValue}}%</div>-->
+                      <!--                              </div>-->
+                      <!--                            </div>-->
+                      <!--                          </div>-->
+                      <!--                        </div>-->
+                      <!--                      </div>-->
                     </div>
                   </div>
                   <!-- /.card -->
                 </div>
               </div>
-              <div class="row">
-              </div>
-              <button
-                [hidden]="createProcessForm.invalid || !createProcessForm.valid ||color == false || iconColor == 'lightgray' || validateDataUNSPSC != 1"
-                type="submit"
-                class="btn btn-primary float-left btn-sm btn-block"
-              >
-                <b>Crear Proceso </b> <i class="fa fa-plus-circle"></i>
-              </button>
+              <button [hidden]="createProcessForm.invalid || myForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray'" class="btn btn-primary btn-sm btn-block" type="submit">Crear Proceso</button>
             </form>
           </div>
         </div>

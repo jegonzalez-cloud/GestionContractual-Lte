@@ -2,7 +2,8 @@
 /* Height for devices larger than 576px */
 
 @media (min-width: 992px) {
-  #intro {}
+  #intro {
+  }
 }
 
 .colorLabels{
@@ -148,4 +149,12 @@ button.btn-primary{
 
 .cdk-global-overlay-wrapper, .cdk-overlay-container {
   z-index: 99999 !important;
+}
+
+.hoverCarga{
+  color: #495057
+}
+
+.hoverCarga:hover{
+  color: var(--companyColor);
 }

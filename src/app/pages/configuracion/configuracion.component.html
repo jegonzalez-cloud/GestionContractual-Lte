@@ -38,16 +38,6 @@
                     <form [formGroup]="configForm" (ngSubmit)="saveColor()"
                           (keydown.enter)="$event.preventDefault()">
                       <div class="row">
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label class="font-weight-normal text-sm">Color</label>
-                            <input
-                              formControlName="color"
-                              type="text"
-                              class="form-control text-sm"
-                            />
-                          </div>
-                        </div>
 
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
@@ -84,12 +74,64 @@
 
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
-                            <label class="font-weight-normal text-sm">Link Consultar Estados Contrato</label>
+                            <label class="font-weight-normal text-sm">Link Consultar Identicación Secop</label>
                             <input
-                              formControlName="estadoContrato"
+                              formControlName="identificacionSecop"
                               type="text"
                               class="form-control text-sm"
                             />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Link Consultar Secop</label>
+                            <input
+                              formControlName="dataSecop"
+                              type="text"
+                              class="form-control text-sm"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Salario Minimo</label>
+                            <input
+                              formControlName="salarioMinimo"
+                              currencyMask
+                              class="form-control text-sm"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Cantidad Salarios</label>
+                            <input
+                              formControlName="cantidadSalarios"
+                              type="number"
+                              class="form-control text-sm"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Tope maximo salario</label>
+                            <input
+                              formControlName="topeMaximo"
+                              currencyMask
+                              class="form-control text-sm"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label class="font-weight-normal text-sm">Color</label>
+                            <input style="width:10%" type="color" formControlName="color" class="form-control form-control-color"
+                                   id="exampleColorInput" value="#563d7c" title="Escoge tu color">
                           </div>
                         </div>
 
