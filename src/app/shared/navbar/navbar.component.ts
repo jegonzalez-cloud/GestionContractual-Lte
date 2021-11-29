@@ -61,8 +61,8 @@ export class NavbarComponent implements OnInit {
   CODIGO_RPC: any;
   CENTRO_GESTOR: any;
   infoPagos: any;
-  @ViewChild('closebutton') closebutton:any;
-  @ViewChild('openbutton') openbutton:any;
+  @ViewChild('closebutton') closebutton: any;
+  @ViewChild('openbutton') openbutton: any;
 
   constructor(private router: Router, private store: Store<AppState>, private authService: AuthService, private secopService: SecopService, private service: ServicesService) {
     this.changeVar();
@@ -128,9 +128,8 @@ export class NavbarComponent implements OnInit {
       if (response.Values.ResultFields != null && response.Values.ResultFields.length > 0) {
         this.cantidadAutorizaciones = response.Values.ResultFields.length;
         this.autorizaciones = response.Values.ResultFields;
-        console.log(this.autorizaciones)
-      }
-      else{
+        //console.log(this.autorizaciones)
+      } else {
         this.cantidadAutorizaciones = 0;
         this.autorizaciones = null;
       }
@@ -142,8 +141,7 @@ export class NavbarComponent implements OnInit {
         if (response.Values.ResultFields != null && response.Values.ResultFields.length > 0) {
           this.cantidadAutorizaciones = response.Values.ResultFields.length
           this.autorizaciones = response.Values.ResultFields;
-        }
-        else{
+        } else {
           this.cantidadAutorizaciones = 0;
           this.autorizaciones = null;
         }
@@ -154,14 +152,14 @@ export class NavbarComponent implements OnInit {
 
 
   goDetail(row: any) {
-    console.log(row);
+    //console.log(row);
     // let row = evento.target.closest('tr').childNodes.item(0).innerHTML
     // alert('elpupy')
     // let navigationExtras: NavigationExtras = {
     //   queryParams: {'id': row.CONS_PROCESO}
     // };
-    this.secopService.getSelectedProcess(this.token,row).subscribe((response: any) => {
-      console.log(response.Values.ResultFields);
+    this.secopService.getSelectedProcess(this.token, row).subscribe((response: any) => {
+      //console.log(response.Values.ResultFields);
       this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
       this.CENTRO_GESTOR = response.Values.ResultFields[0].CENTRO_GESTOR;
       this.TIPO_PROCESO = response.Values.ResultFields[0].TIPO_PROCESO;
@@ -195,42 +193,70 @@ export class NavbarComponent implements OnInit {
       this.PLAZO_EJECUCION = response.Values.ResultFields[0].PLAZO_EJECUCION;
       this.PLAN_PAGOS = response.Values.ResultFields[0].PLAN_PAGOS;
       this.VAL_OFERTA = response.Values.ResultFields[0].VAL_OFERTA;
-      this.TIEMPO_DURACION_CONTRATO  = response.Values.ResultFields[0].TIEMPO_DURACION_CONTRATO ;
+      this.TIEMPO_DURACION_CONTRATO = response.Values.ResultFields[0].TIEMPO_DURACION_CONTRATO;
       this.DURACION_CONTRATO = response.Values.ResultFields[0].DURACION_CONTRATO;
-    //
-    //   // this.autorizaciones = response.Values.ResultFields;
+      //
+      //   // this.autorizaciones = response.Values.ResultFields;
     });
   }
 
-  aprobarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'aprobado').subscribe((response:any)=>{
-      // console.log(response);
+  aprobarAutorizacion(proceso: string) {
+    this.secopService.updateProcess(proceso, this.ROL, this.entidad, this.codigoEntidad, this.username, 'aprobado').subscribe((response: any) => {
       this.service.sendClickEvent();
-      if(response.Status = 'Ok'){
-        utils.showAlert('Se autorizo el proceso #'+proceso+ ' correctamente!','success');
-        //disparar creacion secop segun rol
+      if (response.Status = 'Ok') {
+        utils.showAlert('Se autorizo el proceso #' + proceso + ' correctamente!', 'success');
+        if (this.ROL == 44) {
+          this.secopService.getSelectedProcess(this.token, proceso).subscribe((response: any) => {
+            let PROCESO_SELECCIONADO = response.Values.ResultFields[0];
+            this.secopService.getUnspscData(this.token, proceso).subscribe((response: any) => {
+              let usuarioConect = atob(localStorage.getItem('usuarioConect')!);
+              let conectPw = atob(localStorage.getItem('conectPw')!);
+              let arr: Array<any> = [];
+              arr.push(PROCESO_SELECCIONADO);
+              arr.push(response.Values.ResultFields);
+              arr.push({"USUARIO_CONNECT": usuarioConect});
+              arr.push({"PASSWORD_CONNECT": conectPw});
+              arr.push({"USC_CODIGO_ENTIDAD": this.codigoEntidad});
+              arr.push({"TOKEN": this.token});
+
+              this.secopService.createSoapProcess(arr).subscribe((response: any) => {
+                console.log(response);
+              });
+              //utils.sendSoapData(this.PROCESO_SELECCIONADO,response.Values.ResultFields);
+            });
+          });
+        }
+        this.getAutorizacionesXEntidad();
       }
     });
   }
 
-  rechazarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'rechazado').subscribe((response:any)=>{
-      // console.log(response);
+  rechazarAutorizacion(proceso: string) {
+    this.secopService.updateProcess(proceso, this.ROL, this.entidad, this.codigoEntidad, this.username, 'rechazado').subscribe((response: any) => {
       this.service.sendClickEvent();
-      if(response.Status = 'Ok'){
-        utils.showAlert('Se rechazo el proceso #'+proceso+ '!','warning')
+      if (response.Status = 'Ok') {
+        utils.showAlert('Se rechazo el proceso #' + proceso + '!', 'warning');
+        this.getAutorizacionesXEntidad();
       }
     });
   }
 
-  fillModal(numProceso:any) {
+  getAutorizacionesXEntidad() {
+    this.secopService.getAutorizacionesXEntidad(this.entidad).subscribe((response: any) => {
+      this.autorizaciones = response.Values.ResultFields;
+      // console.log(this.autorizaciones);
+      //this.infoProcess();
+    })
+  }
+
+  fillModal(numProceso: any) {
     console.log(numProceso)
-    this.router.navigate(['home/autorizaciones-det/'+numProceso]);
+    this.router.navigate(['home/autorizaciones-det/' + numProceso]);
   }
 
-  changeVar(){
+  changeVar() {
     let color = atob(localStorage.getItem('color')!);
-    let r:any = document.querySelector(':root');
+    let r: any = document.querySelector(':root');
     r.style.setProperty('--companyColor', color);
   }
 }

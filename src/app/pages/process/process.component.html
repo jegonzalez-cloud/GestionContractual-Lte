@@ -6,7 +6,7 @@
             data-target="#myModal">Open
     </button>
 
-    <div class="modal fade" id="carga" role="dialog">
+    <div class="modal fade" id="carga" role="dialog" data-backdrop="static">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <!--          <div class="modal-header">-->
@@ -23,7 +23,7 @@
                 <div class="col-12 col-sm-12 mt-1 mb-1">
                   <div class="custom-file">
                     <input type="file" style="cursor:pointer" (change)="readExcell($event)" class="custom-file-input"
-                           id="validatedFile" required="true"/>
+                           id="validatedFile" accept=".xlsx, .xls" required="true"/>
                     <label class="custom-file-label" for="validatedFile">{{filename}}</label>
                     <div class="invalid-feedback">Error</div>
                     <div class="progress mt-1">
@@ -298,7 +298,7 @@
 
             <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
             <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
-              <b>{{ "procesos.crearProceso" | translate }}</b>
+              <span>{{ "procesos.crearProceso" | translate }}</span>
             </h6>
           </div>
           <div class="card-body">
@@ -466,25 +466,39 @@
 
                           <div class="col-12 col-sm-2">
                             <div class="form-group">
-                              <label class="font-weight-normal text-sm">Celular</label>
+                              <label class="font-weight-normal text-sm">Celular
+                                <span *ngIf="validacionCelular == true" class="badge badge-danger" style="cursor: pointer;" matTooltip="Introduzca un numero de 10 digitos" matTooltipPosition="above">
+                                  * Invalido
+                                </span>
+                              </label>
                               <input
+                                matTooltip="Introduzca un numero de 10 digitos" matTooltipPosition="above"
+                                #celular
                                 [maxLength]="10"
                                 formControlName="celular"
-                                type="number"
+                                type="tel"
                                 name="celular"
                                 class="form-control"
+                                (keypress)="$event.keyCode === 8 || $event.charCode >= 48 && $event.charCode <= 57"
+                                (keyup)="validarCelular($event)"
                               />
                             </div>
                           </div>
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
-                              <label class="font-weight-normal text-sm">Correo</label>
+                              <label class="font-weight-normal text-sm">Correo
+                                <span *ngIf="validacionCorreo == true" class="badge badge-danger" style="cursor: pointer;" matTooltip="Formato invalido" matTooltipPosition="above">
+                                  * Invalido
+                                </span>
+                              </label>
                               <input
+                                matTooltip="ejemplo@ejemplo.ejemplo" matTooltipPosition="above"
                                 formControlName="correo"
                                 type="email"
-                                name="correo"
+                                required
                                 class="form-control"
+                                (keyup)="validarCorreo()"
                               />
                             </div>
                           </div>
@@ -773,6 +787,8 @@
                             </div>
                           </div>
 
+                          <button (click)="calcularEdad()">fecha</button>
+
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">Firma de Contrato</label>
@@ -1011,7 +1027,7 @@
                   <!-- /.card -->
                 </div>
               </div>
-              <button [hidden]="createProcessForm.invalid || myForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray'" class="btn btn-primary btn-sm btn-block" type="submit">Crear Proceso</button>
+              <button [hidden]="createProcessForm.invalid || myForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray' || validacionCelular == true || validacionCorreo == true" class="btn btn-primary btn-sm btn-block" type="submit">Crear Proceso</button>
             </form>
           </div>
         </div>
@@ -1039,7 +1055,7 @@
 
             <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
             <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
-              <b>{{ "procesos.misProcesos" | translate }}</b>
+              <span>{{ "procesos.misProcesos" | translate }}</span>
             </h6>
           </div>
           <div class="card-body">
@@ -1222,7 +1238,7 @@
 
             <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
             <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
-              <b>{{ "procesos.procesosSecop" | translate }}</b>
+              <span>{{ "procesos.procesosSecop" | translate }}</span>
             </h6>
           </div>
           <div class="card-body">

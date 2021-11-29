@@ -65,6 +65,7 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   CODIGO_RPC: any;
   CENTRO_GESTOR: any;
   infoPagos: any;
+  verDescuentos: any = [];
 
   constructor(private router: Router,private secopService:SecopService,private service:ServicesService,@Inject(LOCALE_ID) public locale: string) {
   }
@@ -152,7 +153,7 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
         utils.showAlert('Se autorizo el proceso #'+proceso+ ' correctamente!','success');
         //disparar creacion secop segun rol
         if(this.ROL == 44){
-          console.log('aqui vamos');
+          //console.log('aqui vamos');
           this.secopService.getUnspscData(this.token,proceso).subscribe((response:any)=>{
             // console.log('aqui estamos');
             // console.log(this.token);
@@ -164,11 +165,13 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
             arr.push(response.Values.ResultFields);
             arr.push({"USUARIO_CONNECT":usuarioConect});
             arr.push({"PASSWORD_CONNECT":conectPw});
+            arr.push({"USC_CODIGO_ENTIDAD":this.codigoEntidad});
+            arr.push({"TOKEN":this.token});
 
-            // this.secopService.createSoapProcess(arr).subscribe((response:any)=>{
-            //   console.log(response);
-            // });
-            utils.sendSoapData(this.PROCESO_SELECCIONADO,response.Values.ResultFields);
+            this.secopService.createSoapProcess(arr).subscribe((response:any)=>{
+              console.log(response);
+            });
+            //utils.sendSoapData(this.PROCESO_SELECCIONADO,response.Values.ResultFields);
           });
 
         }
@@ -197,7 +200,7 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
 
   getPagosXRpc(){
     let rpc = this.CODIGO_RPC;
-
+    rpc = '5600015821'; // FIXME: corregir envio de codigo RPC
     if (rpc && rpc.length == 10 ) {
       this.secopService.getPagosXRpc(this.token,rpc).subscribe((response:any)=>{
         if(response.Status != 'Ok'){
@@ -221,5 +224,13 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
 
   generateReports() {
     func.generarReporte(this.infoPagos, this.locale,this.CENTRO_GESTOR,this.NOM_PROV,this.COD_PROV);
+  }
+
+  WatchDescuento(infopago:any) {
+    if (this.verDescuentos[infopago[0]]) {
+      this.verDescuentos[infopago[0]] = false;
+    } else {
+      this.verDescuentos[infopago[0]] = true;
+    }
   }
 }

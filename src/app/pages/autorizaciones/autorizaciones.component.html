@@ -5,7 +5,7 @@
 
     <button type="button" [hidden]="true" #openbutton class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open</button>
 
-    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal fade" id="myModal" role="dialog" data-backdrop="static">
       <div class="modal-dialog modal-dialog-scrollable">
 
         <!-- Modal content-->
@@ -23,6 +23,21 @@
                 <li>Fecha Vencimiento : <span>{{d[1]}}</span></li>
                 <li>Periodo : <span>{{d[2]}}</span></li>
                 <li>Valor Cuota : <span>{{d[3] | currency}}</span></li>
+                <li>Documento Causación : <span>{{d[4]}}</span></li>
+                <li>Documento Compensa : <span>{{d[5]}}</span></li>
+                <li>Fecha Compensa : <span>{{d[6]}}</span></li>
+                <li>Valor Bruto : <span>{{d[7] | currency}}</span></li>
+                <li>Valor Neto : <span>{{d[8] | currency}}</span></li>
+                <div *ngIf="d[9] != null" class="mt-3 mb-1">
+                  <a style="color: var(--companyColor)" (click)="WatchDescuento(d)">
+                    <u>Ver Descuentos</u>
+                  </a>
+                  <div *ngIf="verDescuentos[d[0]]" class="mt-2">
+                    <ol class="list-group list-group-numbered">
+                      <li class="list-group-item" *ngFor="let i of d[9]">{{i | currency}}</li>
+                    </ol>
+                  </div>
+                </div>
               </ul>
             </div>
           </div>
@@ -145,7 +160,7 @@
 
             <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
               <i class="fas fa-book"></i>
-              <b>  {{ "administration-CI.panels.menu2" | translate }}</b>
+              <span>  {{ "administration-CI.panels.menu2" | translate }}</span>
             </h6>
           </div>
           <div class="card-body">

@@ -24,6 +24,7 @@ import * as moment from 'moment';
 import * as funciones from "../../utils/functions";
 import * as func from "../../utils/functions";
 import * as XLSX from "xlsx";
+import {TooltipPosition} from '@angular/material/tooltip';
 import {concatMap, delay, map, switchMap} from "rxjs/operators";
 import {formatPercent} from "@angular/common";
 
@@ -129,9 +130,13 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   cantidadError: any;
   verErrores: any;
   filename: any = 'Seleccione un archivo';
-  minSalary:any;
-  maxSalary:any;
-  cantidadMaximaSalarios:any;
+  minSalary: any;
+  maxSalary: any;
+  cantidadMaximaSalarios: any;
+
+  // TODO: validaciones:
+  validacionCelular: boolean = false;
+  validacionCorreo: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -194,8 +199,11 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       municipio: new FormControl(null, [Validators.required]),
       categoriaContratacion: new FormControl(null, [Validators.required]),
       profesion: new FormControl({value: null, disabled: true}, [Validators.required]),
-      correo: new FormControl('', [Validators.required]),
-      celular: new FormControl({value: '', disabled: false}, [Validators.required]),
+      correo: new FormControl('', [Validators.required, Validators.email]),
+      celular: new FormControl({
+        value: '',
+        disabled: false
+      }, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
       //****************************************************************************************************************
       tipoProceso: new FormControl(null, [Validators.required]),
       tipoContrato: new FormControl(null, [Validators.required]),
@@ -1167,7 +1175,26 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                                                   }
                                                   this.secopService.insertUNSPSC(codigoUNSPSC).toPromise().then((response: any) => {
                                                     if (response.proId != null) {
-                                                      resolve(response.proId);
+                                                      let proId = response.proId;
+                                                      this.secopService.getSelectedProcess(this.token, proId).subscribe((response: any) => {
+                                                        let PROCESO_SELECCIONADO = response.Values.ResultFields[0];
+                                                        this.secopService.getUnspscData(this.token, proId).subscribe((response: any) => {
+                                                          let arr: Array<any> = [];
+                                                          let usuarioConect = atob(localStorage.getItem('usuarioConect')!);
+                                                          let conectPw = atob(localStorage.getItem('conectPw')!);
+                                                          arr.push(PROCESO_SELECCIONADO);
+                                                          arr.push(response.Values.ResultFields);
+                                                          arr.push({"USUARIO_CONNECT": usuarioConect});
+                                                          arr.push({"PASSWORD_CONNECT": conectPw});
+                                                          arr.push({"USC_CODIGO_ENTIDAD": this.codigoEntidad});
+                                                          arr.push({"TOKEN": this.token});
+                                                          this.secopService.createSoapProcess(arr).subscribe((response: any) => {
+                                                            console.log(response);
+                                                            resolve(response.proId);
+                                                          });
+                                                        });
+
+                                                      });
                                                     } else {
                                                       this.procesosError.push('Proceso N°' + (i + 1) + ' - insert unspsc');
                                                       resolve('error insert unspsc ' + (i + 1));
@@ -1236,5 +1263,57 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
   }
+
+  validarCelular(evento: any) {
+    if (evento.target.value.length != 10) {
+      this.validacionCelular = true;
+    } else {
+      this.validacionCelular = false;
+    }
+
+  }
+  validarCorreo() {
+    console.log(this.createProcessForm.controls['correo'].invalid)
+    if(this.createProcessForm.controls['correo'].invalid){
+      this.validacionCorreo = true;
+    }
+    else{
+      this.validacionCorreo = false;
+    }
+  }
+
+  fnc(){
+    console.log(this.createProcessForm)
+    console.log(this.myForm)
+    console.log(this.validateDataUNSPSC)
+    console.log(this.iconColor)
+    console.log(this.validacionCorreo)
+    console.log(this.validacionCelular)
+  }
+
+  calcularEdad() {
+    let currentDate = moment().toDate();
+    console.log(currentDate)
+    let Fechanacimiento = this.createProcessForm.controls['fechaNacimiento'].value;
+    // var cumpleanos = new Date(fecha_nacimiento);
+    let edad = currentDate.getFullYear() - 18;
+    console.log(currentDate.getMonth());
+    console.log(currentDate.getDate());
+    console.log(edad)
+    let mayoriaEdad = currentDate.getDate()+currentDate.getMonth();
+    // var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+    // var m = hoy.getMonth() - cumpleanos.getMonth();
+    // if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+    //   edad--;
+    // }
+    // return edad;
+  }
+
+//   var edad = calcularEdad("2000/08/10");
+//   if(edad >= 18){
+//   alert("Eres mayor de edad :D ");
+// }else{
+//   alert("Eres menor de edad :( ");
+// }
 
 }

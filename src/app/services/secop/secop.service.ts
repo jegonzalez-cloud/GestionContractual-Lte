@@ -154,6 +154,7 @@ export class SecopService {
   }
 
   public createSoapProcess(data: any) {
+    console.log(data)
     return this.httpClient.post(`${environment.apiTestUrl}contratos/createSoapProcess`, data);
   }
 

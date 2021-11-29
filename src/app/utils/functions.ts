@@ -31,7 +31,7 @@ export function showAlert(msj: string, type: any) {
   });
 }
 
-export async function getCdpData(centroGestor:string,cdp:string) {
+export async function getCdpData(centroGestor: string, cdp: string) {
   let xmlhttp = new XMLHttpRequest();
   let monto = '';
   // xmlhttp.open('POST', 'http://sapqa-ci.valledelcauca.gov.co:8000/sap/bc/srt/wsdl/flv_10002A111AD1/bndg_url/sap/bc/srt/rfc/sap/zws_dispo_presupuestal/710/zws_dispopresupuestal/zbind_dispopresupuestal?sap-client=710', true);
@@ -50,8 +50,8 @@ export async function getCdpData(centroGestor:string,cdp:string) {
    <soapenv:Header/>
    <soapenv:Body>
       <urn:ZmfWsDispoPresupuestal>
-         <ImCentroges>`+centroGestor+`</ImCentroges>
-         <ImNumeroCpd>`+cdp+`</ImNumeroCpd>
+         <ImCentroges>` + centroGestor + `</ImCentroges>
+         <ImNumeroCpd>` + cdp + `</ImNumeroCpd>
       </urn:ZmfWsDispoPresupuestal>
    </soapenv:Body>
 </soapenv:Envelope>`;
@@ -59,11 +59,11 @@ export async function getCdpData(centroGestor:string,cdp:string) {
   xmlhttp.send(datos);
 
   // @ts-ignore
-  xmlhttp.onreadystatechange = async function() {
+  xmlhttp.onreadystatechange = async function () {
     if (xmlhttp.readyState == 4) {
       let parser = new DOMParser();
       let XMLString = parser.parseFromString(xmlhttp.responseText, "text/xml");
-      monto = (XMLString.getElementsByTagName("soap-env:Body")[0].getElementsByTagName("n0:ZmfWsDispoPresupuestalResponse")[0].getElementsByTagName("ExDisponibilidad")[0].innerHTML == null) ? '' : XMLString.getElementsByTagName("soap-env:Body")[0].getElementsByTagName("n0:ZmfWsDispoPresupuestalResponse")[0].getElementsByTagName("ExDisponibilidad")[0].innerHTML ;
+      monto = (XMLString.getElementsByTagName("soap-env:Body")[0].getElementsByTagName("n0:ZmfWsDispoPresupuestalResponse")[0].getElementsByTagName("ExDisponibilidad")[0].innerHTML == null) ? '' : XMLString.getElementsByTagName("soap-env:Body")[0].getElementsByTagName("n0:ZmfWsDispoPresupuestalResponse")[0].getElementsByTagName("ExDisponibilidad")[0].innerHTML;
       if (monto != null && monto.length > 0) {
       } else {
         showAlert('No se logro consultar el CDP!', 'error');
@@ -277,7 +277,7 @@ export function sendSoapData(infoProceso: any, unspsc: any) {
   // xmlhttp.send(data);
 }
 
-function fillContentReport(response: any,locale:any,centroGestor:any,nomProv:any,codProv:any) {
+function fillContentReport(response: any, locale: any, centroGestor: any, nomProv: any, codProv: any) {
   let body = [];
   let header = {
     text: 'Listado de Pagos' +
@@ -286,12 +286,12 @@ function fillContentReport(response: any,locale:any,centroGestor:any,nomProv:any
   };
   let estado;
   let cabecera = {
-    text:[
+    text: [
       {
-        text: 'Centro gestor:  ' + centroGestor+'\n'
+        text: 'Centro gestor:  ' + centroGestor + '\n'
       },
       {
-        text: 'Nombre Contratista:  '+ nomProv+'\n'
+        text: 'Nombre Contratista:  ' + nomProv + '\n'
       },
       {
         text: 'Identificacion Contratista: ' + codProv
@@ -308,7 +308,7 @@ function fillContentReport(response: any,locale:any,centroGestor:any,nomProv:any
           widths: [150, 350],
           heights: 20,
           body: [
-            [{text: 'Número de cuota:', fillColor: '#eeeeee'}, {
+            [{text: 'Número de cuota:', fillColor: '#a8a8a8'}, {
               text: [{text: response[i][0] + ' '},
               ],
             }],
@@ -321,25 +321,63 @@ function fillContentReport(response: any,locale:any,centroGestor:any,nomProv:any
               ],
             }],
             [{text: 'Valor cuota:', fillColor: '#eeeeee'}, {
-              text: [{text: formatCurrency(response[i][3],locale,'$') + ' '},
+              text: [{text: formatCurrency(response[i][3], locale, '$') + ' '},
               ],
-            }]
+            }],
+            [{text: 'Documento causación:', fillColor: '#eeeeee'}, {
+              text: [{text: (response[i][4]) + ' '},
+              ],
+            }],
+            [{text: 'Documento Compensa:', fillColor: '#eeeeee'}, {
+              text: [{text: (response[i][5]) + ' '},
+              ],
+            }],
+            [{text: 'Fecha Compensa:', fillColor: '#eeeeee'}, {
+              text: [{text: (response[i][6]) + ' '},
+              ],
+            }],
+            [{text: 'Valor Bruto:', fillColor: '#eeeeee'}, {
+              text: [{text: formatCurrency(response[i][7], locale, '$') + ' '},
+              ],
+            }],
+            [{text: 'Valor Neto:', fillColor: '#eeeeee'}, {
+              text: [{text: formatCurrency(response[i][8], locale, '$') + ' '},
+              ],
+            }],
           ]
         },
-        //text: '', pageBreak: (i == response.length - 1) ? '' : 'after',
       },
     ];
+    let textDscto:any = [];
+    for (let j = 0; j < response[i][9].length; j++) {
+      let textDescuento = [
+        {
+          style: 'table',
+          table: {
+            widths: [150, 350],
+            heights: 12,
+            body: [
+              [{text: 'Descuento N° '+j, fillColor: '#eeeeee'}, {
+                text: [{text: response[i][9][j] + ' '},
+                ],
+              }],
+            ]
+          }
+        }];
+      textDscto.push(textDescuento);
+    }
+    text.push(textDscto);
     body.push(text);
   }
   return body;
 }
 
-export function generarReporte(response: any,locale:any,centroGestor:any,nomProv:any,codProv:any) {
+export function generarReporte(response: any, locale: any, centroGestor: any, nomProv: any, codProv: any) {
   if (response == null || response.length <= 0) {
     showAlert('No se encontraron datos para la busqueda!', 'error');
     return;
   }
-  let data = fillContentReport(response, locale,centroGestor,nomProv,codProv);
+  let data = fillContentReport(response, locale, centroGestor, nomProv, codProv);
   let report: any = {
     pageMargins: [40, 120, 40, 40],
     footer: function (currentPage: any, pageCount: any) {
@@ -412,7 +450,7 @@ export function generarReporte(response: any,locale:any,centroGestor:any,nomProv
       },
       table: {
         fontSize: 10,
-        margin:[0,20,0,0],
+        margin: [0, 20, 0, 0],
       },
       tableHeader: {
         fontSize: 10,
@@ -429,17 +467,17 @@ export function generarReporte(response: any,locale:any,centroGestor:any,nomProv
   pdfMake.createPdf(report).open();
 }
 
-export function onFileChange(ev:any) {
-  let ExcelToJSON = function() {
-    let workBook:any = null;
-    let jsonData:any = null;
+export function onFileChange(ev: any) {
+  let ExcelToJSON = function () {
+    let workBook: any = null;
+    let jsonData: any = null;
     const reader = new FileReader();
     const file = ev.target.files[0];
 
     reader.onload = (event) => {
       const data = reader.result;
-      workBook = XLSX.read(data, { type: 'binary' });
-      jsonData = workBook.SheetNames.reduce((initial:any, name:any) => {
+      workBook = XLSX.read(data, {type: 'binary'});
+      jsonData = workBook.SheetNames.reduce((initial: any, name: any) => {
         const sheet = workBook.Sheets[name];
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         return initial;
