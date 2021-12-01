@@ -2,7 +2,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" id="background-home">
 
-    <button type="button" [hidden]="true" #openbuttonAutorizaciones class="btn btn-info btn-lg" data-toggle="modal"
+    <button type="button" [hidden]="true" #openbutton  class="btn btn-info btn-lg" data-toggle="modal"
             data-target="#myModal">Open
     </button>
 
@@ -17,7 +17,7 @@
             <div class="card">
               <div class="card-header" style="background-color: var(--companyColor)">
                 <span style="font-weight: bold;font-size: larger ;color: white">Carga Masiva de Contratos</span>
-                <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+                <button type="button" #closebutton class="close" data-dismiss="modal" (click)="cerrarCargaMasivaContratos()">&times;</button>
               </div>
               <div class="card-body">
                 <div class="col-12 col-sm-12 mt-1 mb-1">
@@ -32,7 +32,7 @@
                     </div>
                   </div>
                   <div *ngIf="cantidadError" class="mt-3 mb-1">
-                    <a style="color: var(--companyColor)" (click)="WatchError()">
+                    <a style="color: var(--companyColor); cursor: pointer" (click)="WatchError()">
                       <u>Ver Errores</u>
                     </a>
                     <div *ngIf="verErrores" class="mt-2">
@@ -65,12 +65,30 @@
           </div>
           <div class="modal-body">
             <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>
-            <div *ngFor="let d of infoPagos">
+            <div class="callout callout-danger" *ngFor="let d of infoPagos">
               <ul>
                 <li><b>Numero de Cuota</b> : <span>{{d[0]}}</span></li>
                 <li>Fecha Vencimiento : <span>{{d[1]}}</span></li>
                 <li>Periodo : <span>{{d[2]}}</span></li>
                 <li>Valor Cuota : <span>{{d[3] | currency}}</span></li>
+                <li>Documento Causación : <span>{{d[4]}}</span></li>
+                <li>Documento Compensa : <span>{{d[5]}}</span></li>
+                <li>Fecha Compensa : <span>{{d[6]}}</span></li>
+                <li>Valor Bruto : <span>{{d[7] | currency}}</span></li>
+                <li>Valor Neto : <span>{{d[8] | currency}}</span></li>
+                <div *ngIf="d[9] != null" class="mt-3 mb-1">
+                  <a style="color: var(--companyColor)" (click)="WatchDescuento(d)">
+                    <u>Ver Descuentos</u>
+                  </a>
+                  <div *ngIf="verDescuentos[d[0]]" class="mt-2">
+                    <div class="list-group" *ngFor="let i of d[9]">
+                      <span class="list-group-item list-group-item-action" aria-current="true">
+                        <p class="mb-1">{{i.concepto}}</p>
+                        <small class="text-muted">{{i.valor | currency}}</small>
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </ul>
             </div>
           </div>
@@ -147,7 +165,7 @@
             </button>
             <button type="button" class="btn btn-outline-primary"
                     data-dismiss="modal"
-                    (click)="getPagosXRpc()"
+                    (click)="getPagosXRpc(PROCESO)"
                     [ngStyle]="{'display': (ESTADO >= 7) ? 'block' :'none'}">
               Pagos
             </button>
@@ -407,6 +425,7 @@
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">Fecha de Nacimiento</label>
                               <input
+                                max="{{fechaMinimaNacimiento}}"
                                 formControlName="fechaNacimiento"
                                 type="datetime-local"
                                 name="fechaNacimiento"
@@ -422,8 +441,9 @@
                                 name="genero"
                                 class="form-control text-sm"
                               >
-                                <option>Femenino</option>
-                                <option>Masculino</option>
+                                <option *ngIf="isJuridico == true">Indefinido</option>
+                                <option *ngIf="isJuridico == false">Femenino</option>
+                                <option *ngIf="isJuridico == false">Masculino</option>
                               </select>
                             </div>
                           </div>
@@ -787,8 +807,6 @@
                             </div>
                           </div>
 
-                          <button (click)="calcularEdad()">fecha</button>
-
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">Firma de Contrato</label>
@@ -796,6 +814,7 @@
                                 min="{{fecha}}"
                                 formControlName="firmaContrato"
                                 type="datetime-local"
+                                name="firmaContrato"
                                 name="firmaContrato"
                                 class="form-control text-sm"
                               />

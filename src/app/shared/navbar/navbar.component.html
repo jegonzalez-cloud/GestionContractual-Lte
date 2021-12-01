@@ -156,7 +156,7 @@
         <i class="far fa-bell text-lg"></i>
         <span *ngIf="cantidadAutorizaciones>0" class="badge badge-danger navbar-badge">{{cantidadAutorizaciones}}</span>
       </a>
-      <div id="divNotificaciones" class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
+      <div id="divNotificaciones" [style]="{'height':(cantidadAutorizaciones >= 14) ? '975%' : 'auto' }"  class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
         <div id="notificaciones-sticky-top" class="dropdown-item dropdown-header">{{cantidadAutorizaciones}}
           Notificaciones
         </div>

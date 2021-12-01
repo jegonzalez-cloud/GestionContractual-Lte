@@ -33,9 +33,12 @@
                     <u>Ver Descuentos</u>
                   </a>
                   <div *ngIf="verDescuentos[d[0]]" class="mt-2">
-                    <ol class="list-group list-group-numbered">
-                      <li class="list-group-item" *ngFor="let i of d[9]">{{i | currency}}</li>
-                    </ol>
+                    <div class="list-group" *ngFor="let i of d[9]">
+                      <span class="list-group-item list-group-item-action" aria-current="true">
+                        <p class="mb-1">{{i.concepto}}</p>
+                        <small class="text-muted">{{i.valor | currency}}</small>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </ul>

@@ -71,6 +71,7 @@ export class BusquedaComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('closebutton') closebutton:any;
   @ViewChild('openbutton') openbutton:any;
+  verDescuentos: any = [];
 
   constructor(private secopService: SecopService, private fb: FormBuilder,private router:Router,private authService:AuthService,@Inject(LOCALE_ID) public locale: string) {
   }
@@ -261,6 +262,14 @@ export class BusquedaComponent implements OnInit {
 
   generateReports() {
     func.generarReporte(this.infoPagos, this.locale,this.CENTRO_GESTOR,this.NOM_PROV,this.COD_PROV);
+  }
+
+  WatchDescuento(infopago:any) {
+    if (this.verDescuentos[infopago[0]]) {
+      this.verDescuentos[infopago[0]] = false;
+    } else {
+      this.verDescuentos[infopago[0]] = true;
+    }
   }
 
 

@@ -197,4 +197,16 @@ export class SecopService {
   public insertProcessMassive(datos:any){
     return this.httpClient.post(`${environment.apiTestUrl}contratos/insertProcessMassive`,datos);
   }
+
+  public getRpcFromProcess(proceso:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getRpcFromProcess?proceso=${proceso}`);
+  }
+
+  public validateUnidadContratacion(unidad:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/validateUnidadContratacion?unidad=${unidad}`);
+  }
+
+  public validateEquipoContratacion(equipo:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/validateEquipoContratacion?equipo=${equipo}`);
+  }
 }

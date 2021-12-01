@@ -208,6 +208,7 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
         }
         else{
           this.infoPagos = response.Values.ResultFields;
+          console.log(this.infoPagos);
           utils.showAlert('Consulta exitosa!','success');
           this.onOpen();
         }

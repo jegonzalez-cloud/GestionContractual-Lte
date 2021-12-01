@@ -16,12 +16,30 @@
           </div>
           <div class="modal-body">
             <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>
-            <div *ngFor="let d of infoPagos">
+            <div class="callout callout-danger" *ngFor="let d of infoPagos">
               <ul>
                 <li><b>Numero de Cuota</b> : <span>{{d[0]}}</span></li>
                 <li>Fecha Vencimiento : <span>{{d[1]}}</span></li>
                 <li>Periodo : <span>{{d[2]}}</span></li>
                 <li>Valor Cuota : <span>{{d[3] | currency}}</span></li>
+                <li>Documento Causación : <span>{{d[4]}}</span></li>
+                <li>Documento Compensa : <span>{{d[5]}}</span></li>
+                <li>Fecha Compensa : <span>{{d[6]}}</span></li>
+                <li>Valor Bruto : <span>{{d[7] | currency}}</span></li>
+                <li>Valor Neto : <span>{{d[8] | currency}}</span></li>
+                <div *ngIf="d[9] != null" class="mt-3 mb-1">
+                  <a style="color: var(--companyColor)" (click)="WatchDescuento(d)">
+                    <u>Ver Descuentos</u>
+                  </a>
+                  <div *ngIf="verDescuentos[d[0]]" class="mt-2">
+                    <div class="list-group" *ngFor="let i of d[9]">
+                      <span class="list-group-item list-group-item-action" aria-current="true">
+                        <p class="mb-1">{{i.concepto}}</p>
+                        <small class="text-muted">{{i.valor | currency}}</small>
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </ul>
             </div>
           </div>

@@ -61,6 +61,7 @@ export class NavbarComponent implements OnInit {
   CODIGO_RPC: any;
   CENTRO_GESTOR: any;
   infoPagos: any;
+  bbb:boolean=true;
   @ViewChild('closebutton') closebutton: any;
   @ViewChild('openbutton') openbutton: any;
 

@@ -357,8 +357,8 @@ function fillContentReport(response: any, locale: any, centroGestor: any, nomPro
             widths: [150, 350],
             heights: 12,
             body: [
-              [{text: 'Descuento N° '+j, fillColor: '#eeeeee'}, {
-                text: [{text: response[i][9][j] + ' '},
+              [{text: response[i][9][j].concepto, fillColor: '#eeeeee'}, {
+                text: [{text: response[i][9][j].valor + ' '},
                 ],
               }],
             ]

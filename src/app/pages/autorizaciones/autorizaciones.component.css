@@ -95,6 +95,7 @@ div_container{
 
 tr.hoverOnTable:hover {
   background: aliceblue;
+  cursor: pointer;
 }
 
 /*tr.hoverOnTable:not(.hoverOnTable):active {*/
