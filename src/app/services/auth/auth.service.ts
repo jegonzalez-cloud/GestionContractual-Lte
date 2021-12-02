@@ -78,4 +78,74 @@ export class AuthService {
   public getConfigApp(token:any){
     return this.http.get(`${environment.apiTestUrl}contratos/getConfigApp?token=${token}`);
   }
+  public getRolxId(token:any,rol_order:number){
+    return this.http.get(`${environment.apiTestUrl}Contratos/GetRolesXId?token=${token}&rol_order=${rol_order}`);
+  }
+
+  public GetUsersLB(token: any) {
+    return this.http.get(`${environment.apiTestUrl}Contratos/GetUsersLB?token=${token}`);
+  }
+
+  public GetUsersConnect(token: any) {
+    return this.http.get(`${environment.apiTestUrl}Contratos/GetUsersConnect?token=${token}`);
+  }
+
+  public GetUsersConnection(token: any,idUser: number) {
+    return this.http.get(`${environment.apiTestUrl}Contratos/GetUsersConnection?token=${token}&idUser=${idUser}`);
+  }
+
+  public GetHiringTeams(token: any,eqcCod: number) {
+    return this.http.get(`${environment.apiTestUrl}Contratos/GetHiringTeams?token=${token}&eqcCod=${eqcCod}`);
+  }
+
+  public GetHiringUnit(token: any,uni_cod: number) {
+    return this.http.get(`${environment.apiTestUrl}Contratos/GetHiringUnit?token=${token}&uni_cod=${uni_cod}`);
+  }
+
+  public getUserConectxId(token: any, usc_cod: number) {
+    return this.http.get(`${environment.apiTestUrl}Contratos/getUserConectxId?token=${token}&usc_cod=${usc_cod}`);
+  }
+
+  public insertUserRol(datos: any) {
+    
+    return this.http
+      .post(`${environment.apiTestUrl}Contratos/insertUserRol`, datos)
+  }
+
+  public insertUserConnect(datos: any) {
+    
+    return this.http
+      .post(`${environment.apiTestUrl}Contratos/insertUserConnect`, datos)
+  }
+
+  public updateUserConnect(datos: any) {
+    
+    return this.http
+      .post(`${environment.apiTestUrl}Contratos/updateUserConnect`, datos)
+  }
+
+  public insertHiringTeams(datos: any) {
+    
+    return this.http
+      .post(`${environment.apiTestUrl}Contratos/insertHiringTeams`, datos)
+  }
+
+  public updateHiringTeams(datos: any) {
+    
+    return this.http
+      .post(`${environment.apiTestUrl}Contratos/updateHiringTeams`, datos)
+  }
+
+  public insertHiringUnit(datos: any) {
+    
+    return this.http
+      .post(`${environment.apiTestUrl}Contratos/insertHiringUnit`, datos)
+  }
+
+  public updateHiringUnit(datos: any) {
+    
+    return this.http
+      .post(`${environment.apiTestUrl}Contratos/updateHiringUnit`, datos)
+  }
+
 }
