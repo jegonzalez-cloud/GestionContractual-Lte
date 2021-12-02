@@ -46,7 +46,7 @@ export class ConfiguracionComponent implements OnInit {
   public dataHiringTeams!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginatorHiringTeams!: MatPaginator;
   @ViewChild(MatSort) sortHiringTeams!: MatSort;
-  displayedColumnsHiringTeams: string[] = ['Nombre EQ','Id Integración EQ','Nombre Tipo Proceso','Estado','Acciones'];
+  displayedColumnsHiringTeams: string[] = ['Nombre equipo de contratación','Id Integración equipo de contratación','Nombre Tipo Proceso','Estado','Acciones'];
 
   public dataHiringUnit!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginatorHiringUnit!: MatPaginator;
