@@ -2,34 +2,3 @@ button.btn-primary{
   background-color: var(--companyColor);
   border-color: var(--companyColor);
 }
-
-@media (min-width: 992px) {
-  #intro {}
-}
-
-.cursor{
-  cursor: pointer;
-}
-
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
-}
-
-table {
-  width: 100%;
-}
-
-div_container{
-  overflow: auto;
-}
-
-tr.hoverOnTable:hover {
-  background: aliceblue;
-}
-
-div.callout{
-  /*border-left-color: #0b9fa5;*/
-  border-left-color: var(--companyColor);
-}
-

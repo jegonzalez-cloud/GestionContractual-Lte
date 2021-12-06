@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-//import { DataTablesModule } from "angular-datatables";
+import { DataTablesModule } from "angular-datatables";
 import { NgxCurrencyModule } from "ngx-currency";
 
 @NgModule({
