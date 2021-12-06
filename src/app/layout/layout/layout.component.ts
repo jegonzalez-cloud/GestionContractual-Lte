@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-//import 'datatables.net';
-//import 'datatables.net-bs4';
+import 'datatables.net';
+import 'datatables.net-bs4';
 
 @Component({
   selector: 'app-layout',

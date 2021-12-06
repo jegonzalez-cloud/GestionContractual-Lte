@@ -5,7 +5,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
 
-import { NgxLoadingModule } from 'ngx-loading';
 
 
 @NgModule({
@@ -15,8 +14,7 @@ import { NgxLoadingModule } from 'ngx-loading';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule,
-    NgxLoadingModule.forRoot({})
+    TranslateModule
   ]
 })
 export class LoginModule { }

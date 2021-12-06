@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesRoutingModule } from './pages-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-//import { DataTablesModule } from "angular-datatables";
+import { DataTablesModule } from "angular-datatables";
 import { NgxCurrencyModule } from "ngx-currency";
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
@@ -66,8 +66,6 @@ import { SampleComponent } from './sample/sample.component';
 // import {NzTreeSelectModule} from "ng-zorro-antd/tree-select";
 import {TreeSelectModule} from "primeng/treeselect";
 import { ConfiguracionComponent } from './configuracion/configuracion.component';
-import { NgxLoadingModule } from 'ngx-loading';
-import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 @NgModule({
   declarations: [
@@ -83,7 +81,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
   ],
   imports: [
     CommonModule,
-    //DataTablesModule,
+    DataTablesModule,
     NgbModule,
     NgxChartsModule,
     NgxCurrencyModule,
@@ -143,9 +141,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     PortalModule,
     ScrollingModule,
     NgApexchartsModule,
-    TreeSelectModule,
-    NgxLoadingModule.forRoot({}),
-    AutocompleteLibModule
+    TreeSelectModule
   ],
   // exports:[NgbModule,TranslateModule],
   // providers:[CurrencyPipe]
