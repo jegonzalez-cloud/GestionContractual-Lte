@@ -20,7 +20,7 @@ export class ReportesComponent implements OnInit {
   RESPONSE: any = null;
   gestor: any;
   hideTable: boolean = true;
-  fileName = 'Reporte' + moment().format().slice(0, -6) + '.xlsx';
+  fileName = 'Reporte_'+ moment().format().slice(0, -6) + '.xlsx';
 
   constructor(private fb: FormBuilder, private secopService: SecopService) {
   }
@@ -50,7 +50,7 @@ export class ReportesComponent implements OnInit {
     let fechaTermino = (this.reportesForm.controls['fechaTermino'].value == null) ? result : moment(this.reportesForm.controls['fechaTermino'].value).format().slice(0, -15);
     this.secopService.getReportsData(fechaInicio, fechaTermino, this.ROL, centroGestor, username).subscribe((response: any) => {
       this.RESPONSE = response.Values.ResultFields;
-      this.fileName = 'Reporte' + moment().format().slice(0, -6) + '.xlsx';
+      this.fileName = 'Reporte_'+this.CENTROGESTOR+'_' + moment().format().slice(0, -6) + '.xlsx';
       this.validateData();
     })
   }
@@ -59,6 +59,7 @@ export class ReportesComponent implements OnInit {
     let fecha_generacion = 'Fecha Generación';
     let fecha_generacion_sin_acentos = fecha_generacion.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     let entidad = this.ENTIDAD;
+    let CENTROGESTOR = this.CENTROGESTOR;
     if (this.RESPONSE == null || this.RESPONSE.length <= 0) {
       utils.showAlert('No se encontraron datos para la busqueda!', 'error');
       return;
@@ -86,7 +87,7 @@ export class ReportesComponent implements OnInit {
                 margin: [30, 40],
               },
               {
-                qr: ' Fecha de generacion: ' + moment().format().slice(0, -6) + '\nEntidad: ' + entidad.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+                qr: ' Fecha de generacion: ' + moment().format().slice(0, -6) + '\nCentro Gestor: ' +CENTROGESTOR,
                 fit: '67',
                 margin: [160, 30, 0, 50]
               },
@@ -161,7 +162,7 @@ export class ReportesComponent implements OnInit {
   fillContentReport(response: any) {
     let body = [];
     let header = {
-      text: 'Reporte Estandar' +
+      text: 'Reporte Estandar '+
         '\n' +
         '\n', alignment: 'center', bold: true, fontSize: 16
     };
@@ -175,6 +176,10 @@ export class ReportesComponent implements OnInit {
             widths: [150, 350],
             heights: 20,
             body: [
+              [{text: 'Centro gestor:', fillColor: '#eeeeee'}, {
+                text: [{text: response[i].CENTRO_GESTOR + ' '},
+                ],
+              }],
               [{text: 'Nombre:', fillColor: '#eeeeee'}, {
                 text: [{text: response[i].NOM_PROV + ' '},
                 ],

@@ -152,7 +152,8 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
       if(response.Status = 'Ok'){
         utils.showAlert('Se autorizo el proceso #'+proceso+ ' correctamente!','success');
         //disparar creacion secop segun rol
-        if(this.ROL == 44){
+        // if(this.ROL == 44){
+        if(this.ROL == 6){
           //console.log('aqui vamos');
           this.secopService.getUnspscData(this.token,proceso).subscribe((response:any)=>{
             // console.log('aqui estamos');

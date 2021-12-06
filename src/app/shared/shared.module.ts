@@ -7,10 +7,11 @@ import { FooterComponent } from './footer/footer/footer.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [NavbarComponent, SidebarComponent, FooterComponent],
-  imports: [CommonModule, TranslateModule,RouterModule],
+    imports: [CommonModule, TranslateModule, RouterModule, MatTooltipModule],
   exports: [
     NavbarComponent,
     SidebarComponent,

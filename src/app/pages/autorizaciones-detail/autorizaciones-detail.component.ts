@@ -78,7 +78,8 @@ export class AutorizacionesDetailComponent implements OnInit {
   }
 
   getReferencias() {
-    if (this.ROL == 42) {
+    // if (this.ROL == 42) {
+    if (this.ROL == 4) {
       this.secopService.getReferencias().subscribe((response: any) => {
         console.log(response);
         this.REFERENCIAS = response.Values.ResultFields;
@@ -87,7 +88,8 @@ export class AutorizacionesDetailComponent implements OnInit {
   }
 
   getAsociacion() {
-    if (this.ROL == 42) {
+    // if (this.ROL == 42) {
+    if (this.ROL == 4) {
       this.secopService.getAsociacion().subscribe((response: any) => {
         console.log(response);
         this.ASOCIACION = response.Values.ResultFields;
@@ -97,10 +99,10 @@ export class AutorizacionesDetailComponent implements OnInit {
 
   generatePdf() {
     let archivo = (this.tablaForm.controls['archivo'].value != null) ? this.tablaForm.controls['archivo'].value : 'Autorizaciones';
+    alert(archivo)
     if (archivo == '') {
       return;
     }
-    console.log(archivo);
     // let R1 = this.response[0];
     // let R2;
     // let estado2;
@@ -207,7 +209,9 @@ export class AutorizacionesDetailComponent implements OnInit {
     let tipo_identificacion = (this.response[0].TIP_IDEN_PROV == 'Cédula') ? 'cédula de ciudadanía' : this.response[0].TIP_IDEN_PROV;
     if (archivo == 'Autorizaciones') {
       let data = this.fillContent(this.response);
+      let centroGestor = atob(localStorage.getItem('centroGestor')!);
       let response = this.response[0];
+      console.log(response)
       let entidad = this.ENTIDAD.replaceAll('á','a').replaceAll('é','e').replaceAll('í','i').replaceAll('ó','o').replaceAll('ú','u');
       let autorizaciones: any = {
         pageMargins: [40, 120, 40, 40],
@@ -230,7 +234,7 @@ export class AutorizacionesDetailComponent implements OnInit {
                   height: 55,
                   margin: [30, 40],
                 },
-                {qr: 'Proceso # '+response.CONS_PROCESO+'\n Entidad - '+entidad, fit: '67', margin: [160, 30, 0, 50]},
+                {qr: 'Proceso # '+response.CONS_PROCESO+'\n Centro Gestor - '+centroGestor, fit: '67', margin: [160, 30, 0, 50]},
               ],
             }
           ]
@@ -402,6 +406,7 @@ export class AutorizacionesDetailComponent implements OnInit {
       }
       pdfMake.createPdf(autorizacionSecretaria).open();
     } else if (archivo == 'Informe DADI') {
+      alert('aqui')
       let autorizacionDadi: any = {
         pageMargins: [20, 150, 20, 30],
         footer: function (currentPage: any, pageCount: any) {
@@ -540,6 +545,7 @@ export class AutorizacionesDetailComponent implements OnInit {
           },
         },
       }
+      alert('aqui2')
       pdfMake.createPdf(autorizacionDadi).open();
     }
   }
@@ -558,7 +564,6 @@ export class AutorizacionesDetailComponent implements OnInit {
     }
     // alert(referencia+'---'+asociacion+'---'+this.myParam);
     this.secopService.updateTabla(referencia, asociacion, this.myParam, username).subscribe((response: any) => {
-      console.log(response)
       if (response.Status == 'Ok') {
         utils.showAlert('Proceso actualizado correctamente!', 'success');
       }
@@ -617,6 +622,7 @@ export class AutorizacionesDetailComponent implements OnInit {
   }
 
   getFirmaDate(fecha: any) {
+    alert(fecha)
     let d = new Date(fecha);
     let dia = (d.getDate().toString().length == 1) ? '0' + d.getDate().toString() : d.getDate().toString();
     let mes = ((d.getMonth() + 1).toString().length == 1) ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1);

@@ -16,6 +16,9 @@
           </div>
           <div class="modal-body">
             <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>
+            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;"disabled>
+              N° Cuotas <span class="badge rounded-pill bg-secondary">{{cantidadCuotas}}</span>
+            </button>
             <div class="callout callout-danger" *ngFor="let d of infoPagos">
               <ul>
                 <li><b>Numero de Cuota</b> : <span>{{d[0]}}</span></li>
@@ -124,15 +127,28 @@
                     data-dismiss="modal"
                     (click)="fillModal(PROCESO)"
                     [ngStyle]="{'display':
-                    (ROL == 40 && ESTADO == 1) ? 'none' : (ROL == 41 && ESTADO ==2) ? 'none' : (ROL == 42 && ESTADO == 3) ? 'none' : (ROL == 41 && ESTADO == 1) ? 'none' : (ROL == 42 && ESTADO ==1) ? 'none' : 'block' }">
+                    (ROL == 2 && ESTADO == 1) ? 'none' : (ROL == 3 && ESTADO ==2) ? 'none' : (ROL == 4 && ESTADO == 3) ? 'none' : (ROL == 3 && ESTADO == 1) ? 'none' : (ROL == 4 && ESTADO ==1) ? 'none' : 'block' }">
               Historial
             </button>
             <button type="button" class="btn btn-outline-primary"
                     data-dismiss="modal"
-                    (click)="getPagosXRpc()"
+                    (click)="getPagosXRpc(PROCESO)"
                     [ngStyle]="{'display': (ESTADO >= 7) ? 'block' :'none'}">
               Pagos
             </button>
+<!--            <button type="button" class="btn btn-warning"-->
+<!--                    data-dismiss="modal"-->
+<!--                    (click)="fillModal(PROCESO)"-->
+<!--                    [ngStyle]="{'display':-->
+<!--                    (ROL == 40 && ESTADO == 1) ? 'none' : (ROL == 41 && ESTADO ==2) ? 'none' : (ROL == 42 && ESTADO == 3) ? 'none' : (ROL == 41 && ESTADO == 1) ? 'none' : (ROL == 42 && ESTADO ==1) ? 'none' : 'block' }">-->
+<!--              Historial-->
+<!--            </button>-->
+<!--            <button type="button" class="btn btn-outline-primary"-->
+<!--                    data-dismiss="modal"-->
+<!--                    (click)="getPagosXRpc(PROCESO)"-->
+<!--                    [ngStyle]="{'display': (ESTADO >= 7) ? 'block' :'none'}">-->
+<!--              Pagos-->
+<!--            </button>-->
           </div>
         </div>
         <!-- /.modal-content -->
@@ -230,7 +246,7 @@
                           </div>
                         </div>
 
-                        <div [hidden]="ROL != 42" class="col-12 col-sm-12">
+                        <div [hidden]="ROL != 4" class="col-12 col-sm-12">
                           <div class="form-group">
                             <label class="font-weight-normal text-sm">Centro Gestor</label>
                             <select

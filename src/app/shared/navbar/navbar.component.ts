@@ -206,7 +206,7 @@ export class NavbarComponent implements OnInit {
       this.service.sendClickEvent();
       if (response.Status = 'Ok') {
         utils.showAlert('Se autorizo el proceso #' + proceso + ' correctamente!', 'success');
-        if (this.ROL == 44) {
+        if (this.ROL == 6) {
           this.secopService.getSelectedProcess(this.token, proceso).subscribe((response: any) => {
             let PROCESO_SELECCIONADO = response.Values.ResultFields[0];
             this.secopService.getUnspscData(this.token, proceso).subscribe((response: any) => {

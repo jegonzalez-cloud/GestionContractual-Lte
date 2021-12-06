@@ -66,6 +66,7 @@ export class BusquedaComponent implements OnInit {
   CENTRO_GESTOR!: any;
   CODIGO_RPC!: any;
   infoPagos!: any;
+  cantidadCuotas:any;
   ENTIDAD = atob(localStorage.getItem('entidad')!);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -203,53 +204,37 @@ export class BusquedaComponent implements OnInit {
 
   private validateToken() {
     this.authService.isLogin().subscribe((response:any)=>{
-      console.log(response);
+      // console.log(response);
       if(response.Status == 'Fail' || response.Token == '-1'){
         this.router.navigate(['login']);
       }
     })
   }
 
-  public async getPagosXRpc(){
-    // const { value: rpc } = await Swal.fire({
-    //   title: 'Ingrese el RPC',
-    //   input: 'text',
-    //   confirmButtonColor: '#0b9fa5',
-    //   inputAttributes: {
-    //     autocapitalize: 'off',
-    //     maxlength: '10',
-    //     minlength: '10'
-    //   },
-    //   showCloseButton: true,
-    //   allowOutsideClick: false,
-    //   inputLabel: 'La longitud del Rpc debe ser igual a 10 caracteres!',
-    //   inputValidator: (value: any) => {
-    //     return new Promise((resolve: any) => {
-    //       if (value.length == 10) {
-    //         resolve();
-    //       } else {
-    //         resolve('Por favor Ingrese 10 Digitos :)')
-    //       }
-    //     })
-    //   }
-    // });
-    let rpc = this.CODIGO_RPC;
-
-    if (rpc && rpc.length == 10 ) {
-      this.secopService.getPagosXRpc(this.token,rpc).subscribe((response:any)=>{
-        if(response.Status != 'Ok'){
-          utils.showAlert('Rpc no encontrado, por favor intente de nuevo!','error');
+  public async getPagosXRpc(proceso:any){
+    this.secopService.getRpcFromProcess(proceso).subscribe((response: any) => {
+      if (response.Status != 'Ok') {
+        utils.showAlert('No se encontro un RPC asociado al proceso', 'error');
+        return;
+      }
+      else{
+        let rpc = response.Values.ResultFields;
+        if (rpc != null && rpc.toString().length == 10) {
+          this.secopService.getPagosXRpc(this.token, rpc).subscribe((response: any) => {
+            if (response.Status != 'Ok') {
+              utils.showAlert('Rpc no encontrado, por favor intente de nuevo!', 'error');
+            } else {
+              this.infoPagos = response.Values.ResultFields;
+              this.cantidadCuotas = this.infoPagos.length
+              utils.showAlert('Consulta exitosa!', 'success');
+              this.onOpen();
+            }
+          });
+        } else {
+          utils.showAlert('No se encontro un codigo Rpc asociado!', 'error');
         }
-        else{
-          this.infoPagos = response.Values.ResultFields;
-          utils.showAlert('Consulta exitosa!','success');
-          this.onOpen();
-        }
-      });
-    }
-    else{
-      utils.showAlert('No se encontro un codigo Rpc asociado!','error');
-    }
+      }
+    });
   }
 
   public onSave() {

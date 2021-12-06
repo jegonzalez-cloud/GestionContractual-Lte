@@ -59,16 +59,36 @@
       </div>
       <div class="modal-footer justify-content-between">
         <!--            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+<!--        <button type="button" class="btn btn-secondary"-->
+<!--                data-dismiss="modal"-->
+<!--                (click)="rechazarAutorizacion(PROCESO)"-->
+<!--                [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">-->
+<!--          Rechazar-->
+<!--        </button>-->
+<!--        <button type="button" class="btn btn-primary"-->
+<!--                data-dismiss="modal"-->
+<!--                (click)="aprobarAutorizacion(PROCESO)"-->
+<!--                [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">-->
+<!--          Autorizar-->
+<!--        </button>-->
+
+
+<!--        <button type="button" class="btn btn-warning"-->
+<!--                data-dismiss="modal"-->
+<!--                (click)="fillModal(PROCESO)"-->
+<!--                [ngStyle]="{'display': (ROL == 40 && ESTADO > 2) ? 'block' : (ROL == 41 && ESTADO >3) ? 'block' : (ROL == 42 && ESTADO > 4) ? 'block' : (ROL == 43 && ESTADO > 5) ? 'block' : (ROL == 44 && ESTADO > 6) ? 'block' : 'none' }">-->
+<!--          Historial-->
+<!--        </button>-->
         <button type="button" class="btn btn-secondary"
                 data-dismiss="modal"
                 (click)="rechazarAutorizacion(PROCESO)"
-                [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">
+                [ngStyle]="{'display': (ROL == 2 && ESTADO != 2) ? 'none' : (ROL == 3 && ESTADO !=3) ? 'none' : (ROL == 4 && ESTADO != 4) ? 'none' : (ROL == 5 && ESTADO != 5) ? 'none' : (ROL == 6 && ESTADO != 6) ? 'none' : 'block' }">
           Rechazar
         </button>
         <button type="button" class="btn btn-primary"
                 data-dismiss="modal"
                 (click)="aprobarAutorizacion(PROCESO)"
-                [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">
+                [ngStyle]="{'display': (ROL == 2 && ESTADO != 2) ? 'none' : (ROL == 3 && ESTADO !=3) ? 'none' : (ROL == 4 && ESTADO != 4) ? 'none' : (ROL == 5 && ESTADO != 5) ? 'none' : (ROL == 6 && ESTADO != 6) ? 'none' : 'block' }">
           Autorizar
         </button>
 
@@ -76,7 +96,7 @@
         <button type="button" class="btn btn-warning"
                 data-dismiss="modal"
                 (click)="fillModal(PROCESO)"
-                [ngStyle]="{'display': (ROL == 40 && ESTADO > 2) ? 'block' : (ROL == 41 && ESTADO >3) ? 'block' : (ROL == 42 && ESTADO > 4) ? 'block' : (ROL == 43 && ESTADO > 5) ? 'block' : (ROL == 44 && ESTADO > 6) ? 'block' : 'none' }">
+                [ngStyle]="{'display': (ROL == 2 && ESTADO > 2) ? 'block' : (ROL == 3 && ESTADO >3) ? 'block' : (ROL == 4 && ESTADO > 4) ? 'block' : (ROL == 5 && ESTADO > 5) ? 'block' : (ROL == 6 && ESTADO > 6) ? 'block' : 'none' }">
           Historial
         </button>
       </div>

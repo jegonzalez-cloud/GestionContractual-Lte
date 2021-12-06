@@ -209,4 +209,8 @@ export class SecopService {
   public validateEquipoContratacion(equipo:any){
     return this.httpClient.get(`${environment.apiTestUrl}contratos/validateEquipoContratacion?equipo=${equipo}`);
   }
+
+  public validateUnidadUNSPSC(codigoUnidad:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/validateUnidadUNSPSC?codigoUnidad=${codigoUnidad}`);
+  }
 }

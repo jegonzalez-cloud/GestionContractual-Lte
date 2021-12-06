@@ -15,7 +15,8 @@ export class AutorizacionesGuard implements CanActivate {
 
     let rol:any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
     console.log(rol);
-    if(rol == '' || rol < 40 && rol > 44){
+    // if(rol == '' || rol < 40 && rol > 44){
+    if(rol == '' || rol < 2 && rol > 6){
       this.router.navigate(['busqueda']);
       return false;
     }

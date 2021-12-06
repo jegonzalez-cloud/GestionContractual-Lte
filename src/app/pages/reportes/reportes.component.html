@@ -4,6 +4,7 @@
     <!--Tabla de excel-->
     <table id="excel-table" [hidden]="hideTable">
       <tr>
+        <th>Centro Gestor</th>
         <th>Nombre</th>
         <th>Número de documento</th>
         <th>Tipo de documento</th>
@@ -26,6 +27,7 @@
       </tr>
       <tr *ngFor="let R of RESPONSE">
         // This is the binding part.
+        <td>{{R.CENTRO_GESTOR}}</td>
         <td>{{R.NOM_PROV}}</td>
         <td>{{R.COD_PROV}}</td>
         <td>{{R.TIP_IDEN_PROV}}</td>
@@ -108,7 +110,7 @@
                             />
                           </div>
                         </div>
-                        <div [hidden]="ROL != '42'" class="col-12 col-sm-12">
+                        <div [hidden]="ROL != '4'" class="col-12 col-sm-12">
                           <div class="form-group">
                             <label class="font-weight-normal text-sm">Centro Gestor</label>
                             <select

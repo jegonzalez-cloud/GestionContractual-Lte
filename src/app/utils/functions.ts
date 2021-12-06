@@ -294,7 +294,10 @@ function fillContentReport(response: any, locale: any, centroGestor: any, nomPro
         text: 'Nombre Contratista:  ' + nomProv + '\n'
       },
       {
-        text: 'Identificacion Contratista: ' + codProv
+        text: 'Identificacion Contratista: ' + codProv +'\n'
+      },
+      {
+        text: 'Cantidad Cuotas:  ' + response.length + '\n'
       }
     ]
   };
@@ -358,7 +361,7 @@ function fillContentReport(response: any, locale: any, centroGestor: any, nomPro
             heights: 12,
             body: [
               [{text: response[i][9][j].concepto, fillColor: '#eeeeee'}, {
-                text: [{text: response[i][9][j].valor + ' '},
+                text: [{text: formatCurrency(response[i][9][j].valor, locale, '$') + ' '},
                 ],
               }],
             ]
