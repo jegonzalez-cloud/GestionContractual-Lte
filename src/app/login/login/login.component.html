@@ -44,7 +44,7 @@
                                   Loading...
                                 </a>
                                 <a *ngIf="!loading">
-                                  <b>{{'login.login' | translate}}</b>
+                                  <span>{{'login.login' | translate}}</span>
                                 </a>
 
 
@@ -60,3 +60,4 @@
     <!-- Background image -->
 </div>
 <!--Main Navigation-->
+<ngx-loading [show]="show" [config]="{ backdropBorderRadius: '3px' }" ></ngx-loading>

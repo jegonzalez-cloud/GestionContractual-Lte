@@ -36,7 +36,11 @@
         "secop":"SecopII"
     },
     "config":{
-      "config":"Configuración"
+      "config":"Configuración",
+      "registerRole": "Roles de usuarios",
+      "registerEntity": "Entidades",
+      "registerHiringTeams": "Equipo De Contratación",
+      "registerHiringUnit": "Unidad De Contratación"
     },
     "administration-CI": {
         "titles": {

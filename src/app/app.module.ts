@@ -22,6 +22,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgxCurrencyModule } from "ngx-currency";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import { NgApexchartsModule } from "ng-apexcharts";
+//import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +37,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    //DataTablesModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
