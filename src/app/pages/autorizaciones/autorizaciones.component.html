@@ -17,6 +17,9 @@
           </div>
           <div class="modal-body">
             <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>
+            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;"disabled>
+              N° Cuotas <span class="badge rounded-pill bg-secondary">{{cantidadCuotas}}</span>
+            </button>
             <div class="callout callout-danger" *ngFor="let d of infoPagos">
               <ul>
                 <li><b>Numero de Cuota</b> : <span>{{d[0]}}</span></li>
@@ -238,20 +241,15 @@
                         (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 5) ? 'green' :
                         (row.ESTADO == 7 && ROL == 6) ? 'green' :
                         (row.ESTADO == 0) ? 'black' : 'blue' }">
-                          {{
-                          (row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobación' :
-                          (row.ESTADO == 3 && ROL == 3) ? 'Pendiente Aprobación' :
-                          (row.ESTADO == 4 && ROL == 4) ? 'Pendiente Aprobación' :
-                          (row.ESTADO == 5 && ROL == 5) ? 'Pendiente Aprobación' :
-                          (row.ESTADO == 6 && ROL == 6) ? 'Pendiente Aprobación' :
-                          (row.ESTADO == 0) ? 'Rechazado' :
-                          (row.ESTADO == 1) ? 'Anulado' :
-                          (row.ESTADO >= 3 && row.ESTADO <= 7 && ROL == 2) ? 'Aprobado' :
-                          (row.ESTADO >= 4 && row.ESTADO <= 7 && ROL == 3) ? 'Aprobado' :
-                          (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 4) ? 'Aprobado' :
-                          (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 5) ? 'Aprobado' :
-                          (row.ESTADO == 7 && ROL == 6) ? 'Aprobado' : ''
-                          }}</a>
+                          {{((row.ESTADO >= 3 && row.ESTADO <= 6) && (ROL == 2 || ROL == 1)) ? 'En flujo'
+                          :(row.ESTADO >= 4 && row.ESTADO <= 6) && ROL == 3 ? 'En flujo'
+                            :(row.ESTADO >= 5 && row.ESTADO <= 6) && ROL == 4 ? 'En flujo'
+                              :(row.ESTADO >= 6 && row.ESTADO <= 6) && ROL == 5 ? 'En flujo'
+                                :(row.ESTADO >= 3 && row.ESTADO <= 6) ? 'Pendiente Aprobación' :
+                                  (row.ESTADO == 0) ? 'Rechazado' :
+                                    (row.ESTADO == 1) ? 'Anulado' :
+                                      (row.ESTADO == 7) ? 'Aprobado' : ''}}
+                        </a>
                       </td>
 <!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;font-weight: bold">-->
 <!--                        <a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :-->

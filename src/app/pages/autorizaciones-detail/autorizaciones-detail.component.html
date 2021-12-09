@@ -47,7 +47,7 @@
                     </h3>
                     <form [formGroup]="tablaForm" (ngSubmit)="updateTabla()"
                           (keydown.enter)="$event.preventDefault()">
-                      <div class="row">
+                      <div [hidden]="ISMASIVE" class="row">
                         <div class="col-12 col-sm-4">
                           <div class="form-group">
                             <select
@@ -120,7 +120,7 @@
 
                   </div>
                   <!-- /.card-header -->
-                  <div class="card-body">
+                  <div *ngIf="!ISMASIVE" class="card-body">
                     <dl class="row" *ngFor="let det of response">
                       <dt class="line col-sm-3"><i style="color: #0052B4" class="fa fa-calendar-day"
                                                    aria-hidden="true"> </i> <a style="color: black;font-size: 13px;">
@@ -151,6 +151,13 @@
                       <!--                        sit amet risus.-->
                       <!--                      </dd>-->
                     </dl>
+                  </div>
+
+                  <div *ngIf="ISMASIVE" class="jumbotron jumbotron-fluid m-3 p-3">
+                    <div class="container">
+                      <h1 class="display-4">El Proceso N° <span style="color:var(--companyColor)">{{myParam}}</span></h1>
+                      <p class="lead">Fue creado de forma masiva!.</p>
+                    </div>
                   </div>
                   <!-- /.card-body -->
                 </div>

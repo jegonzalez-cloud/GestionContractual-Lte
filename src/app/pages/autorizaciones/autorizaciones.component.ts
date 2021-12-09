@@ -66,6 +66,7 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   CENTRO_GESTOR: any;
   infoPagos: any;
   verDescuentos: any = [];
+  cantidadCuotas:any;
 
   constructor(private router: Router,private secopService:SecopService,private service:ServicesService,@Inject(LOCALE_ID) public locale: string) {
   }
@@ -209,7 +210,7 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
         }
         else{
           this.infoPagos = response.Values.ResultFields;
-          console.log(this.infoPagos);
+          this.cantidadCuotas = this.infoPagos.length
           utils.showAlert('Consulta exitosa!','success');
           this.onOpen();
         }

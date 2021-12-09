@@ -149,7 +149,7 @@ export class BusquedaComponent implements OnInit {
       this.dataSource.sort = this.sort;
     } else {
       this.dataSource = new MatTableDataSource();
-       //utils.showAlert('Error de información', 'error');
+      //utils.showAlert('Error de información', 'error');
     }
   }
 

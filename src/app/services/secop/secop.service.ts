@@ -213,4 +213,8 @@ export class SecopService {
   public validateUnidadUNSPSC(codigoUnidad:any){
     return this.httpClient.get(`${environment.apiTestUrl}contratos/validateUnidadUNSPSC?codigoUnidad=${codigoUnidad}`);
   }
+
+  public updateProcessMasive(proceso:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/updateProcessMasive?proceso=${proceso}`);
+  }
 }

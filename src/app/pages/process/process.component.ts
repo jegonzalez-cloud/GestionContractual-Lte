@@ -27,6 +27,7 @@ import * as XLSX from "xlsx";
 import {TooltipPosition} from '@angular/material/tooltip';
 import {concatMap, delay, map, switchMap} from "rxjs/operators";
 import {formatDate, formatPercent} from "@angular/common";
+import {error} from "jquery";
 
 @Component({
   selector: 'app-process',
@@ -141,6 +142,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   validacionCelular: boolean = false;
   validacionCorreo: boolean = false;
   verDescuentos: any = [];
+  cantidadCuotas: any;
 
   constructor(
     private fb: FormBuilder,
@@ -1000,6 +1002,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
               utils.showAlert('Rpc no encontrado, por favor intente de nuevo!', 'error');
             } else {
               this.infoPagos = response.Values.ResultFields;
+              this.cantidadCuotas = this.infoPagos.length
               utils.showAlert('Consulta exitosa!', 'success');
               this.onOpen();
             }
@@ -1559,8 +1562,18 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                     arr.push({"TOKEN": this.token});
                     this.secopService.createSoapProcess(arr).subscribe((response: any) => {
                       if (response.hasOwnProperty('proId')) {
-                        this.procesosExitosos.push(response.proId[0]);
-                        console.log(this.procesosExitosos);
+                        if(response.proId[0].includes('CO1.PPI')){
+                          console.log('POR ACA ESTOYY')
+                          console.log(proId)
+                          this.secopService.updateProcessMasive(proId).subscribe((response:any)=>{
+                            console.log(this.procesosExitosos);
+                            this.procesosExitosos.push(proId);
+                          });
+                        }
+                        else{
+                          this.procesosError.push('Proceso N°' + (index + 1) + ' - Error en proceso soap');
+                        }
+
                       } else {
                         this.procesosError.push('Proceso N°' + (index + 1) + ' - creacion soap');
                       }

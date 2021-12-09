@@ -12,7 +12,7 @@
           <div class="modal-header">
             <span style="font-weight: bold;font-size: larger ;color: var(--companyColor)">Listado de Pagos</span>
             <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
-<!--            <h4 class="modal-title">Modal Header</h4>-->
+            <!--            <h4 class="modal-title">Modal Header</h4>-->
           </div>
           <div class="modal-body">
             <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>
@@ -46,9 +46,9 @@
               </ul>
             </div>
           </div>
-<!--          <div class="modal-footer">-->
-<!--            <button type="button" class="btn btn-danger" id="closeModal" (click)="onSave()">Save</button>-->
-<!--          </div>-->
+          <!--          <div class="modal-footer">-->
+          <!--            <button type="button" class="btn btn-danger" id="closeModal" (click)="onSave()">Save</button>-->
+          <!--          </div>-->
         </div>
       </div>
     </div>
@@ -109,25 +109,25 @@
           </div>
           <div class="modal-footer justify-content-between">
             <!--            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-<!--            <button type="button" class="btn btn-secondary"-->
-<!--                    data-dismiss="modal"-->
-<!--                    (click)="rechazarAutorizacion(PROCESO)"-->
-<!--                    [ngStyle]="{'display': (ROL == 40 && ESTADO != 1) ? 'none' : (ROL == 41 && ESTADO !=2) ? 'none' : (ROL == 42 && ESTADO != 3) ? 'none' : 'block' }">-->
-<!--              Rechazar-->
-<!--            </button>-->
-<!--            <button type="button" class="btn btn-primary"-->
-<!--                    data-dismiss="modal"-->
-<!--                    (click)="aprobarAutorizacion(PROCESO)"-->
-<!--                    [ngStyle]="{'display': (ROL == 40 && ESTADO != 1) ? 'none' : (ROL == 41 && ESTADO !=2) ? 'none' : (ROL == 42 && ESTADO != 3) ? 'none' : 'block' }">-->
-<!--              Autorizar-->
-<!--            </button>-->
+            <!--            <button type="button" class="btn btn-secondary"-->
+            <!--                    data-dismiss="modal"-->
+            <!--                    (click)="rechazarAutorizacion(PROCESO)"-->
+            <!--                    [ngStyle]="{'display': (ROL == 40 && ESTADO != 1) ? 'none' : (ROL == 41 && ESTADO !=2) ? 'none' : (ROL == 42 && ESTADO != 3) ? 'none' : 'block' }">-->
+            <!--              Rechazar-->
+            <!--            </button>-->
+            <!--            <button type="button" class="btn btn-primary"-->
+            <!--                    data-dismiss="modal"-->
+            <!--                    (click)="aprobarAutorizacion(PROCESO)"-->
+            <!--                    [ngStyle]="{'display': (ROL == 40 && ESTADO != 1) ? 'none' : (ROL == 41 && ESTADO !=2) ? 'none' : (ROL == 42 && ESTADO != 3) ? 'none' : 'block' }">-->
+            <!--              Autorizar-->
+            <!--            </button>-->
 
 
             <button type="button" class="btn btn-warning"
                     data-dismiss="modal"
                     (click)="fillModal(PROCESO)"
                     [ngStyle]="{'display':
-                    (ROL == 2 && ESTADO == 1) ? 'none' : (ROL == 3 && ESTADO ==2) ? 'none' : (ROL == 4 && ESTADO == 3) ? 'none' : (ROL == 3 && ESTADO == 1) ? 'none' : (ROL == 4 && ESTADO ==1) ? 'none' : 'block' }">
+                    (ROL == 2 && ESTADO == 1) ? 'none' : (ROL == 3 && ESTADO ==2) ? 'none' : (ROL == 4 && ESTADO == 3) ? 'none' : (ROL == 3 && ESTADO == 1) ? 'none' : (ROL == 4 && ESTADO ==1) ? 'none' : (ROL == 5 && ESTADO == 1) ? 'none' : (ROL == 6 && ESTADO ==1) ? 'none' : (ROL == 6 && ESTADO == 2) ? 'none' : 'block' }">
               Historial
             </button>
             <button type="button" class="btn btn-outline-primary"
@@ -136,19 +136,19 @@
                     [ngStyle]="{'display': (ESTADO >= 7) ? 'block' :'none'}">
               Pagos
             </button>
-<!--            <button type="button" class="btn btn-warning"-->
-<!--                    data-dismiss="modal"-->
-<!--                    (click)="fillModal(PROCESO)"-->
-<!--                    [ngStyle]="{'display':-->
-<!--                    (ROL == 40 && ESTADO == 1) ? 'none' : (ROL == 41 && ESTADO ==2) ? 'none' : (ROL == 42 && ESTADO == 3) ? 'none' : (ROL == 41 && ESTADO == 1) ? 'none' : (ROL == 42 && ESTADO ==1) ? 'none' : 'block' }">-->
-<!--              Historial-->
-<!--            </button>-->
-<!--            <button type="button" class="btn btn-outline-primary"-->
-<!--                    data-dismiss="modal"-->
-<!--                    (click)="getPagosXRpc(PROCESO)"-->
-<!--                    [ngStyle]="{'display': (ESTADO >= 7) ? 'block' :'none'}">-->
-<!--              Pagos-->
-<!--            </button>-->
+            <!--            <button type="button" class="btn btn-warning"-->
+            <!--                    data-dismiss="modal"-->
+            <!--                    (click)="fillModal(PROCESO)"-->
+            <!--                    [ngStyle]="{'display':-->
+            <!--                    (ROL == 40 && ESTADO == 1) ? 'none' : (ROL == 41 && ESTADO ==2) ? 'none' : (ROL == 42 && ESTADO == 3) ? 'none' : (ROL == 41 && ESTADO == 1) ? 'none' : (ROL == 42 && ESTADO ==1) ? 'none' : 'block' }">-->
+            <!--              Historial-->
+            <!--            </button>-->
+            <!--            <button type="button" class="btn btn-outline-primary"-->
+            <!--                    data-dismiss="modal"-->
+            <!--                    (click)="getPagosXRpc(PROCESO)"-->
+            <!--                    [ngStyle]="{'display': (ESTADO >= 7) ? 'block' :'none'}">-->
+            <!--              Pagos-->
+            <!--            </button>-->
           </div>
         </div>
         <!-- /.modal-content -->
@@ -285,21 +285,21 @@
     <section class="content">
       <div class="container-fluid">
         <div class="card ml-3 mr-3">
-<!--          <div class="card-header" style="background-color: lavender">-->
-<!--            <div class="card-tools">-->
-<!--              <button-->
-<!--                type="button"-->
-<!--                class="btn btn-tool"-->
-<!--                data-card-widget="collapse"-->
-<!--              >-->
-<!--                <i class="fas fa-minus"></i>-->
-<!--              </button>-->
-<!--            </div>-->
+          <!--          <div class="card-header" style="background-color: lavender">-->
+          <!--            <div class="card-tools">-->
+          <!--              <button-->
+          <!--                type="button"-->
+          <!--                class="btn btn-tool"-->
+          <!--                data-card-widget="collapse"-->
+          <!--              >-->
+          <!--                <i class="fas fa-minus"></i>-->
+          <!--              </button>-->
+          <!--            </div>-->
 
-<!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
-<!--              <b>{{ "administration-CI.panels.menu2" | translate }}</b>-->
-<!--            </h6>-->
-<!--          </div>-->
+          <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
+          <!--              <b>{{ "administration-CI.panels.menu2" | translate }}</b>-->
+          <!--            </h6>-->
+          <!--          </div>-->
           <div class="card-body">
             <div>
               <div class="table-responsive">
@@ -346,10 +346,14 @@
                         (row.ESTADO == 1) ? 'red' :
                         (row.ESTADO == 7) ? 'green' :
                         (row.ESTADO == 0) ? 'black' : 'blue' }">
-                          {{(row.ESTADO >= 3 && row.ESTADO <= 6) ? 'Pendiente Aprobación' :
+                          {{((row.ESTADO >= 3 && row.ESTADO <= 6) && (ROL == 2 || ROL == 1)) ? 'En flujo'
+                          :(row.ESTADO >= 4 && row.ESTADO <= 6) && ROL == 3 ? 'En flujo'
+                          :(row.ESTADO >= 5 && row.ESTADO <= 6) && ROL == 4 ? 'En flujo'
+                          :(row.ESTADO >= 6 && row.ESTADO <= 6) && ROL == 5 ? 'En flujo'
+                          :(row.ESTADO >= 3 && row.ESTADO <= 6) ? 'Pendiente Aprobación' :
                           (row.ESTADO == 0) ? 'Rechazado' :
                             (row.ESTADO == 1) ? 'Anulado' :
-                            (row.ESTADO == 7) ? 'Aprobado' : ''}}</a>
+                              (row.ESTADO == 7) ? 'Aprobado' : ''}}</a>
                       </td>
                     </ng-container>
 
@@ -406,7 +410,7 @@
                       <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
                     </tr>
                   </table>
-                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
                 </div>
               </div>
             </div>

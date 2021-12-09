@@ -37,6 +37,7 @@ export class AutorizacionesDetailComponent implements OnInit {
   prueba: boolean = false;
   tablaForm!: FormGroup;
   estado_proceso: any;
+  ISMASIVE:any;
 
   constructor(private route: ActivatedRoute, private secopService: SecopService, private fb: FormBuilder,) {
   }
@@ -65,13 +66,20 @@ export class AutorizacionesDetailComponent implements OnInit {
       // console.log(this.myParam)
       let username = atob(localStorage.getItem('username')!);
       this.secopService.getAutorizacionesXProceso(this.myParam).subscribe((response: any) => {
-        console.log(response)
-        this.response = response.Values.ResultFields;
-        if(this.response != null && this.response.length > 0){
-          console.log(this.response)
-          console.log(this.response.length)
-          this.estado_proceso = response.Values.ResultFields[response.Values.ResultFields.length - 1].AUTORIZACION_ESTADO;
-          console.log(this.estado_proceso)
+        // console.log(response)
+        if(response.Values.ResultFields != null && response.Values.ResultFields[0].ISMASIVE != null){
+          if(response.Values.ResultFields[0].ISMASIVE == 'SI'){
+            console.log(1234)
+            //this.estado_proceso = 7;
+            this.ISMASIVE = true;
+          }
+        }
+        else{
+          console.log(4321)
+          this.response = response.Values.ResultFields;
+          if(this.response != null && this.response.length > 0){
+            this.estado_proceso = response.Values.ResultFields[response.Values.ResultFields.length - 1].AUTORIZACION_ESTADO;
+          }
         }
       })
     });
@@ -99,119 +107,16 @@ export class AutorizacionesDetailComponent implements OnInit {
 
   generatePdf() {
     let archivo = (this.tablaForm.controls['archivo'].value != null) ? this.tablaForm.controls['archivo'].value : 'Autorizaciones';
-    alert(archivo)
+    // alert(archivo)
     if (archivo == '') {
       return;
     }
-    // let R1 = this.response[0];
-    // let R2;
-    // let estado2;
-    // if(this.response.length >1){
-    //   R2 = this.response[1];
-    //   console.log(R2);
-    //   estado2 = (R2.AUTORIZACION_ESTADO != 0) ? 'autorizó' : 'rechazó';
-    // }
-    //
-    // let estado1 = (R1.AUTORIZACION_ESTADO != 0) ? 'autorizó' : 'rechazó';
-    //
-    // let entidad = atob(localStorage.getItem('entidad')!);
-    // if (this.response.length == 2) {
-    //   let docDefinition = {
-    //     watermark: { text: 'LegalBase', color: 'blue', opacity: 0.1, bold: true, italics: false },
-    //     content: [
-    //       {text: 'Historial de autorizaciones', style: 'header'},
-    //       {qr: 'proceso # '+R1.CONS_PROCESO+'\n entidad: '+entidad},
-    //       {text: R1.CREATED, style: 'date'},
-    //       {text: 'El usuario ' + R1.USR_LOGIN.toString().toUpperCase() + ' correspondiente a ' + R1.NOMBRE_USUARIO},
-    //       {text: estado1 + ' el proceso número ' + R1.CONS_PROCESO},
-    //       {text: ' relacionado a la ' + R1.TIPO_CONTRATO + 'con plazo ' + R1.TIEMPO_DURACION_CONTRATO + ' ' + R1.DURACION_CONTRATO + ' y valor $' + R1.VAL_OFERTA},
-    //       {text: ' Correspondiente a la política ' + R1.TIPO_PROCESO + '', style: 'final'},
-    //
-    //       {text: ''},
-    //       {text: R2.CREATED, style: 'date'},
-    //       {text: 'El usuario ' + R2.USR_LOGIN.toString().toUpperCase() + ' correspondiente a ' + R2.NOMBRE_USUARIO},
-    //       {text: estado2 + ' el proceso número ' + R2.CONS_PROCESO},
-    //       {text: ' relacionado a la ' + R2.TIPO_CONTRATO + 'con plazo ' + R2.TIEMPO_DURACION_CONTRATO + ' ' + R2.DURACION_CONTRATO + ' y valor $' + R2.VAL_OFERTA},
-    //       {text: ' Correspondiente a la política ' + R2.TIPO_PROCESO + '', style: 'final'},
-    //     ],
-    //     footer: {
-    //
-    //       columns: [
-    //         { text: '' },
-    //         // {snow: 'https://helppeoplecloud.com/wp-content/uploads/2020/12/cropped-Logo-para-menu-2.png'},
-    //         { text: 'helppeople cloud',link: 'https://helppeoplecloud.com/sitio/',style:'marca' }
-    //       ]
-    //     },
-    //     styles: {
-    //       header: {
-    //         fontSize: 26,
-    //         bold: true,
-    //         color: '#545cd8',
-    //         marginBottom: 20
-    //       },
-    //       date: {
-    //         fontSize: 16,
-    //         bold: true,
-    //         color: '#000000',
-    //         marginTop: 20,
-    //         marginBottom: 10
-    //       },
-    //       marca:{
-    //         italics:true,
-    //         fontSize:16,
-    //         color: '#545cd8'
-    //       }
-    //     }
-    //   };
-    //   // pdfMake.createPdf(docDefinition).open();
-    //   pdfMake.createPdf(docDefinition).download('AUTORIZACION_'+R1.CONS_PROCESO+'.pdf');
-    // } else {
-    //   let docDefinition = {
-    //     watermark: { text: 'LegalBase', color: 'blue', opacity: 0.1, bold: true, italics: false },
-    //     content: [
-    //       {text: 'Historial de autorizaciones', style: 'header'},
-    //       {qr: 'proceso # '+R1.CONS_PROCESO+'\n entidad: '+entidad},
-    //       {text: R1.CREATED, style: 'date'},
-    //       {text: 'El usuario ' + R1.USR_LOGIN.toString().toUpperCase() + ' correspondiente a ' + R1.NOMBRE_USUARIO},
-    //       {text: estado1 + ' el proceso número ' + R1.CONS_PROCESO},
-    //       {text: ' relacionado a la ' + R1.TIPO_CONTRATO + 'con plazo ' + R1.TIEMPO_DURACION_CONTRATO + ' ' + R1.DURACION_CONTRATO + ' y valor $' + R1.VAL_OFERTA},
-    //       {text: ' Correspondiente a la política ' + R1.TIPO_PROCESO + '', style: 'final'},
-    //     ],
-    //     footer: {
-    //
-    //       columns: [
-    //         { text: '' },
-    //         // {snow: 'https://helppeoplecloud.com/wp-content/uploads/2020/12/cropped-Logo-para-menu-2.png'},
-    //         { text: 'helppeople cloud',link: 'https://helppeoplecloud.com/sitio/',style:'marca' }
-    //       ]
-    //     },
-    //     styles: {
-    //       header: {
-    //         fontSize: 24,
-    //         bold: true,
-    //         color: '#545cd8'
-    //       },
-    //       date: {
-    //         fontSize: 16,
-    //         bold: true,
-    //         color: '#000000',
-    //         marginTop: 20,
-    //         marginBottom: 10
-    //       }
-    //     }
-    //   };
-    //   pdfMake.createPdf(docDefinition).download('AUTORIZACION_'+R1.CONS_PROCESO+'.pdf');
-    // }
-
-    // pdfMake.createPdf(docDefinition).open();
-    //   const documentDefinition = { content: 'This is an sample PDF printed with pdfMake' };
-    //   this.pdfmake.createPdf(documentDefinition).open();
     let tipo_identificacion = (this.response[0].TIP_IDEN_PROV == 'Cédula') ? 'cédula de ciudadanía' : this.response[0].TIP_IDEN_PROV;
     if (archivo == 'Autorizaciones') {
       let data = this.fillContent(this.response);
       let centroGestor = atob(localStorage.getItem('centroGestor')!);
       let response = this.response[0];
-      console.log(response)
+      // console.log(response)
       let entidad = this.ENTIDAD.replaceAll('á','a').replaceAll('é','e').replaceAll('í','i').replaceAll('ó','o').replaceAll('ú','u');
       let autorizaciones: any = {
         pageMargins: [40, 120, 40, 40],
@@ -622,7 +527,7 @@ export class AutorizacionesDetailComponent implements OnInit {
   }
 
   getFirmaDate(fecha: any) {
-    alert(fecha)
+    // alert(fecha)
     let d = new Date(fecha);
     let dia = (d.getDate().toString().length == 1) ? '0' + d.getDate().toString() : d.getDate().toString();
     let mes = ((d.getMonth() + 1).toString().length == 1) ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1);
