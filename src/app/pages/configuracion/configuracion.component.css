@@ -2,6 +2,7 @@ button.btn-primary{
   background-color: var(--companyColor);
   border-color: var(--companyColor);
 }
+
 @media (min-width: 992px) {
   #intro {}
 }
@@ -262,3 +263,4 @@ div.callout{
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+

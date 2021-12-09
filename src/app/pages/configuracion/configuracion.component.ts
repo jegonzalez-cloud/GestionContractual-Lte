@@ -45,10 +45,12 @@ export class ConfiguracionComponent implements OnInit {
 
   public dataConnection!: MatTableDataSource<any>;
   @ViewChild('pagConnection') paginatorConnection!: MatPaginator;
+
   @ViewChild(MatSort) sortConnection!: MatSort;
   displayedColumnsConnection: string[] = ['Usuario','Entidad','Rol','Acciones'];
 
   public dataHiringTeams!: MatTableDataSource<any>;
+
   @ViewChild('pagHiringTeams') paginatorHiringTeams!: MatPaginator;
   @ViewChild(MatSort) sortHiringTeams!: MatSort;
   displayedColumnsHiringTeams: string[] = ['EquipoContratacion','IdIntegracion','TipoProceso','Estado','Acciones'];
@@ -57,7 +59,6 @@ export class ConfiguracionComponent implements OnInit {
   @ViewChild('pagHiringUnit') paginatorHiringUnit!: MatPaginator;
   @ViewChild(MatSort) sortHiringUnit!: MatSort;
   displayedColumnsHiringUnit: string[] = ['USC_COD','UNI_NUMERO_PROCESO','UNI_NOMBRE_PROCESO','Acciones'];
-
 
   constructor(private fb: FormBuilder,private secopService:SecopService,private authService: AuthService,private router: Router,private service: ServicesService,) { }
 
@@ -121,9 +122,7 @@ export class ConfiguracionComponent implements OnInit {
       uni_numero_proceso: new FormControl('',[Validators.required]),
       uni_nombre_proceso: new FormControl('',[Validators.required])
     });
-
-
-    console.log(this.configForm.controls['color'].value);
+    // console.log(this.configForm.controls['color'].value);
   }
 
   saveColor(){
@@ -149,7 +148,6 @@ export class ConfiguracionComponent implements OnInit {
   }
 
   getRolxId(){
-
     this.authService.getRolxId(atob(localStorage.getItem('token')!),20)
       .subscribe((data: any) => {
         this.roles = data.Values;
@@ -157,7 +155,6 @@ export class ConfiguracionComponent implements OnInit {
   }
 
   GetUsersLB(){
-
     this.authService.GetUsersLB(atob(localStorage.getItem('token')!))
       .subscribe((data: any) => {
         this.users = data.Values;
@@ -186,7 +183,6 @@ export class ConfiguracionComponent implements OnInit {
   }
 
   GetUsersConnection(idUser:number){
-
     this.authService.GetUsersConnection(atob(localStorage.getItem('token')!),idUser)
       .subscribe((data: any) => {
         this.UsersConnection = data.Values.ResultFields;
@@ -196,7 +192,6 @@ export class ConfiguracionComponent implements OnInit {
   }
 
   GetHiringTeams(eqcCod:number){
-
     this.authService.GetHiringTeams(atob(localStorage.getItem('token')!),eqcCod)
       .subscribe((data: any) => {
         this.hiringTeams = data.Values.ResultFields;
@@ -206,7 +201,6 @@ export class ConfiguracionComponent implements OnInit {
   }
 
   GetHiringUnit(usc_cod:number){
-
     this.authService.GetHiringUnit(atob(localStorage.getItem('token')!),usc_cod)
       .subscribe((data: any) => {
         this.hiringUnit = data.Values.ResultFields;
@@ -224,10 +218,6 @@ export class ConfiguracionComponent implements OnInit {
       USC_COD: this.registerRol.controls['usc_cod'].value.id,
       ROL_ID: this.registerRol.controls['rol_id'].value.id
     };
-
-    console.log('register')
-    console.log(this.registerRol)
-    console.log('register')
 
     //ind => bandera para identificar si se va a registrar o actualizar
     if(this.indRegister != 0){
@@ -271,14 +261,11 @@ export class ConfiguracionComponent implements OnInit {
           this.registerEntity.controls['usc_codigo_entidad'].setValue(result[0].USC_CODIGO_ENTIDAD);
           this.registerEntity.controls['usc_nombre_entidad'].setValue(result[0].USC_NOMBRE_ENTIDAD);
           this.registerEntity.controls['usc_gestor'].setValue(result[0].USC_GESTOR);
-
         }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
-
     }else{
       this.titleModal = "Registro de entidad",
         this.registerEntity.reset();
     }
-
   }
 
   sendRegisterEntity(){
@@ -344,6 +331,7 @@ export class ConfiguracionComponent implements OnInit {
     }else{
       this.titleModal = "Registro Equipo Contratación",
         this.registerHiringTeams.reset();
+
       this.registerHiringTeams.controls['eqc_estado'].setValue(1);
       this.show = false;
     }

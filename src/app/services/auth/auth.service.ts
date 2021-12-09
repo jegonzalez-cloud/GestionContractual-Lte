@@ -78,7 +78,6 @@ export class AuthService {
   public getConfigApp(token:any){
     return this.http.get(`${environment.apiTestUrl}contratos/getConfigApp?token=${token}`);
   }
-
   public getRolxId(token:any,rol_order:number){
     return this.http.get(`${environment.apiTestUrl}Contratos/GetRolesXId?token=${token}&rol_order=${rol_order}`);
   }
@@ -108,46 +107,40 @@ export class AuthService {
   }
 
   public insertUserRol(datos: any) {
-
     return this.http
       .post(`${environment.apiTestUrl}Contratos/insertUserRol`, datos)
   }
 
   public insertUserConnect(datos: any) {
-
     return this.http
       .post(`${environment.apiTestUrl}Contratos/insertUserConnect`, datos)
   }
 
   public updateUserConnect(datos: any) {
-
     return this.http
       .post(`${environment.apiTestUrl}Contratos/updateUserConnect`, datos)
   }
 
   public insertHiringTeams(datos: any) {
-
     return this.http
       .post(`${environment.apiTestUrl}Contratos/insertHiringTeams`, datos)
   }
 
   public updateHiringTeams(datos: any) {
-
     return this.http
       .post(`${environment.apiTestUrl}Contratos/updateHiringTeams`, datos)
   }
 
   public insertHiringUnit(datos: any) {
-
     return this.http
       .post(`${environment.apiTestUrl}Contratos/insertHiringUnit`, datos)
   }
 
   public updateHiringUnit(datos: any) {
-
     return this.http
       .post(`${environment.apiTestUrl}Contratos/updateHiringUnit`, datos)
   }
+
 
   public updateUserRol(datos: any) {
 

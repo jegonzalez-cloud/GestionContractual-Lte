@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   entityValue: string = '';
   resultEntity: any = [];
   loading: boolean = false;
+  show: boolean = false;
 
   //MODELOS
   usuarios: UserModel[] = [];
@@ -143,6 +144,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
     this.loading = true;
+    this.show = true;
     const {usuario, password} = this.loginForm.value;
     let dataCredential: CredentialsModel = {
       Username: usuario,
@@ -152,12 +154,17 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         if (data.Token != '-1') {
           this.getBasicinformation(dataCredential.Username, dataCredential.Password, data.Token);
+          this.show = false;
         } else {
           this.loading = false;
           utils.showAlert('Credenciales Incorrectas!', 'error');
+          this.show = false;
         }
-      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
-
+      }, (error) => {
+        utils.showAlert('Credenciales Incorrectas!', 'error')
+        this.show = false;
+      })
+      
   }
 
   getBasicinformation(user: string, password: string, token: string) {

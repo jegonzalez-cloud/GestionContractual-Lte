@@ -159,6 +159,7 @@
       </div>
     </section>
 
+<<<<<<< HEAD
     <br>
 
 <!--    <section class="content">-->
@@ -367,6 +368,8 @@
 <!--        </div>-->
 <!--      </div>-->
 <!--    </section>-->
+=======
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
     <section class="content">
       <div class="container-fluid">
         <div class="card ml-3 mr-3">
@@ -396,9 +399,15 @@
 
                   <div class="card-body">
                     <div class="col-md-12">
+<<<<<<< HEAD
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default" #openbutton (click)="onRegisterEntity(0)">
                         Crear Nueva Entidad <i class="fas fa-plus-circle"></i>
                       </button>
+=======
+                      <a role="button" title="Crear Entidad"  class="btn " data-toggle="modal" data-target="#modal-default" #openbutton (click)="onRegisterEntity(0)">
+                        <i class="fas fa-plus-circle"> Crear Nueva Entidad</i>
+                      </a>
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
                     </div><br>
                     <div class="table-responsive">
                       <mat-form-field appearance="fill">
@@ -406,6 +415,7 @@
                         <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
                       </mat-form-field>
                       <!-- <div id="div_container" class="mat-elevation-z8"> -->
+<<<<<<< HEAD
                       <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8">
                         <ng-container matColumnDef="Id">
                           <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
@@ -476,10 +486,83 @@
                         </tr>
                       </table>
                       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" #pagEntitys></mat-paginator>
+=======
+                        <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8">
+                          <ng-container matColumnDef="Id">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
+                              Id
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.USC_COD }} </td>
+                          </ng-container>
+      
+                          <ng-container matColumnDef="Usuario">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Usuario
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.USC_USUARIO  | titlecase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Contraseña">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Contraseña
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.USC_PASSWORD  | titlecase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="CodigoEntidad">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Código Entidad
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.USC_CODIGO_ENTIDAD  | titlecase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="NombreEntidad">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Nombre Entidad
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.USC_NOMBRE_ENTIDAD  | titlecase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Gestor">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Gestor
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.USC_GESTOR  | titlecase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Acciones">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Acciones
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> 
+                                <!-- <a class="nav-link" (click)="logOut()" role="button"> -->
+                                <a role="button" title="Editar" data-toggle="modal" data-target="#modal-default" (click)="onRegisterEntity(row.USC_COD)" #openbutton>
+                                  <i class="far fa-edit"></i>
+                                </a>
+                            </td>
+                          </ng-container>
+           
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <tr class="hoverOnTable" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      
+                          <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No se encontraron datos con:  "{{input.value}}"</td>
+                          </tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
                       <!-- </div> -->
                     </div>
 
                     <!-- Modal Registro-->
+<<<<<<< HEAD
                     <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" tabindex="-1">
                       <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content" style="width: auto">
@@ -560,6 +643,96 @@
                       <!-- /.modal-dialog -->
                     </div>
                     <!-- /.modal -->
+=======
+                  <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                      <div class="modal-content" style="width: auto">
+                        <div class="modal-header">
+                          <h4 class="modal-title"><b style="font-size: larger">{{titleModal}}</b>
+                          </h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body modal-dialog-scrollable">
+                          <div class="callout ">
+                            <form [formGroup]="registerEntity" (ngSubmit)="sendRegisterEntity()"
+                            (keydown.enter)="$event.preventDefault()">
+                              <div class="row">
+
+                                <div class="col-12 col-sm-6">
+                                  <div class="form-group">
+                                    <label class="font-weight-normal text-sm">Usuario</label>
+                                    <input formControlName="usc_usuario" type="text" class="form-control text-sm"/>
+                                    <input formControlName="usc_cod" type="hidden" class="form-control text-sm"/>
+                                  </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                  <div class="form-group">
+                                    <label class="font-weight-normal text-sm">Contraseña</label>
+                                    <input formControlName="usc_password" type="password" class="form-control text-sm"/>
+                                  </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                  <div class="form-group">
+                                    <label class="font-weight-normal text-sm">Código Entidad</label>
+                                    <input formControlName="usc_codigo_entidad" type="text" class="form-control text-sm"/>
+                                  </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                  <div class="form-group">
+                                    <label class="font-weight-normal text-sm">Nombre Entidad</label>
+                                    <input formControlName="usc_nombre_entidad" type="text" class="form-control text-sm"/>
+                                  </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                  <div class="form-group">
+                                    <label class="font-weight-normal text-sm">Gestor</label>
+                                    <input formControlName="usc_gestor" type="text" class="form-control text-sm"/>
+                                  </div>
+                                </div>
+
+                                <button
+                                  *ngIf="indRegister==0"
+                                  [disabled]="registerEntity.invalid"
+                                  type="submit"
+                                  class="btn btn-primary float-left btn-sm btn-block"
+                                >
+                                  <span>Guardar <i class="fas fa-save"></i></span>
+                                </button>
+
+                                <button
+                                  *ngIf="indRegister!=0"
+                                  [disabled]="registerEntity.invalid"
+                                  type="submit"
+                                  class="btn btn-primary float-left btn-sm btn-block"
+                                >
+                                  <span>Actualizar <i class="fas fa-save"></i></span>
+                                </button>
+
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                          <!-- <button type="button" class="btn btn-secondary"
+                                  data-dismiss="modal"
+                                  (click)="rechazarAutorizacion(PROCESO)"
+                                  [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">
+                            Rechazar
+                          </button> -->
+                        </div>
+                      </div>
+                      <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                  </div>
+                  <!-- /.modal -->
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
                   </div>
                   <!-- /.card-body -->
                 </div>
@@ -571,7 +744,10 @@
         </div>
       </div>
     </section>
+<<<<<<< HEAD
     <br>
+=======
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
 
     <section class="content">
       <div class="container-fluid">
@@ -602,9 +778,15 @@
 
                   <div class="card-body">
                     <div class="col-md-12">
+<<<<<<< HEAD
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-Connection" #openbutton (click)="onRegisterConnection(0)">
                         Asignar rol a un usuario <i class="fas fa-plus-circle"></i>
                       </button>
+=======
+                      <a role="button" title="Asignar rol a un usuario"  class="btn " data-toggle="modal" data-target="#modal-Connection" #openbutton (click)="onRegisterConnection(0)">
+                        <i class="fas fa-plus-circle"> Asignar rol a un usuario</i>
+                      </a>
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
                     </div><br>
                     <div class="table-responsive">
                       <mat-form-field appearance="fill">
@@ -612,6 +794,7 @@
                         <input matInput (keyup)="applyFilterConnection($event)" placeholder="" #input>
                       </mat-form-field>
                       <!-- <div id="div_container" class="mat-elevation-z8"> -->
+<<<<<<< HEAD
                       <table mat-table [dataSource]="dataConnection"  class="mat-elevation-z8">
                         <ng-container matColumnDef="Usuario">
                           <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
@@ -658,10 +841,59 @@
                         </tr>
                       </table>
                       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" #pagConnection></mat-paginator>
+=======
+                        <table mat-table [dataSource]="dataConnection"  class="mat-elevation-z8">
+                          <ng-container matColumnDef="Usuario">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
+                              Usuario
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.USR_LOGIN }} </td>
+                          </ng-container>
+      
+                          <ng-container matColumnDef="Entidad">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Entidad
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.USC_NOMBRE_ENTIDAD  | titlecase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Rol">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Rol
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.ROL_NOM  | titlecase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Acciones">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Acciones
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> 
+                                <!-- <a class="nav-link" (click)="logOut()" role="button"> -->
+                                <a role="button" title="Editar" data-toggle="modal" data-target="#modal-Connection" (click)="onRegisterConnection(row.USX_COD)" #openbutton>
+                                  <i class="far fa-edit"></i>
+                                </a>
+                            </td>
+                          </ng-container>
+           
+                          <tr mat-header-row *matHeaderRowDef="displayedColumnsConnection"></tr>
+                          <tr class="hoverOnTable" mat-row *matRowDef="let row; columns: displayedColumnsConnection;"></tr>
+      
+                          <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No se encontraron datos con:  "{{input.value}}"</td>
+                          </tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
                       <!-- </div> -->
                     </div>
 
                     <!-- Modal Registro-->
+<<<<<<< HEAD
                     <div class="modal fade" id="modal-Connection" data-backdrop="static" data-keyboard="false" tabindex="-1">
                       <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content" style="width: auto">
@@ -763,6 +995,111 @@
                       <!-- /.modal-dialog -->
                     </div>
                     <!-- /.modal -->
+=======
+                  <div class="modal fade" id="modal-Connection" data-backdrop="static" data-keyboard="false" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                      <div class="modal-content" style="width: auto">
+                        <div class="modal-header">
+                          <h4 class="modal-title"><b style="font-size: larger">{{titleModal}}</b>
+                          </h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body modal-dialog-scrollable">
+                          <div class="callout ">
+                            <form [formGroup]="registerRol" (ngSubmit)="registerUserRol()"
+                            (keydown.enter)="$event.preventDefault()">
+                            <div class="row">
+
+                              <div class="col-12 col-sm-12">
+                                <div class="form-group">
+                                  <label class="font-weight-normal text-sm">Usuario</label>
+
+                                  <ng-autocomplete
+                                    [data]="users"
+                                    [searchKeyword]="keyword"
+                                    placeholder="Ingrese Nombre Del Usuario"
+                                    [itemTemplate]="itemTemplatea"
+                                    formControlName="usr_login"
+                                    >
+                                  </ng-autocomplete>
+
+                                  <ng-template #itemTemplatea let-item>
+                                    <a [innerHTML]="item.name"></a>
+                                  </ng-template>
+
+                                </div>
+                              </div>
+
+                              <div class="col-12 col-sm-12">
+                                <div class="form-group">
+                                  <label class="font-weight-normal text-sm">Entidad</label>
+                                  <ng-autocomplete
+                                    [data]="selectEntitys"
+                                    [searchKeyword]="keyword"
+                                    placeholder="Ingrese Nombre De La Entidad"
+                                    [itemTemplate]="itemTemplateEntity"
+                                    formControlName="usc_cod">
+                                  </ng-autocomplete>
+
+                                  <ng-template #itemTemplateEntity let-item>
+                                    <a [innerHTML]="item.name"></a>
+                                  </ng-template>
+
+                                </div>
+                              </div>
+
+                              <div class="col-12 col-sm-12">
+                                <div class="form-group">
+                                  <label class="font-weight-normal text-sm">Rol</label>
+                                  <ng-autocomplete
+                                    [data]="roles"
+                                    [searchKeyword]="keyword"
+                                    placeholder="Ingrese Nombre Del Rol"
+                                    [itemTemplate]="itemTemplateRol"
+                                    formControlName="rol_id">
+                                  </ng-autocomplete>
+
+                                  <ng-template #itemTemplateRol let-item>
+                                    <a [innerHTML]="item.name"></a>
+                                  </ng-template>
+
+                                </div>
+                              </div> 
+
+                              <button
+                                  *ngIf="indRegister==0"
+                                  [disabled]="registerRol.invalid"
+                                  type="submit"
+                                  class="btn btn-primary float-left btn-sm btn-block"
+                                >
+                                  <span>Guardar <i class="fas fa-save"></i></span>
+                                </button>
+
+                                <!-- <button
+                                  *ngIf="indRegister!=0"
+                                  [disabled]="registerRol.invalid"
+                                  type="submit"
+                                  class="btn btn-primary float-left btn-sm btn-block"
+                                >
+                                  <span>Actualizar <i class="fas fa-save"></i></span>
+                                </button> -->
+
+                            </div>
+                            </form>
+                          </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                          
+                        </div>
+                      </div>
+                      <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                  </div>
+                  <!-- /.modal -->
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
                   </div>
                   <!-- /.card-body -->
                 </div>
@@ -774,7 +1111,11 @@
         </div>
       </div>
     </section>
+<<<<<<< HEAD
     <br>
+=======
+ 
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
     <section class="content">
       <div class="container-fluid">
         <div class="card ml-3 mr-3">
@@ -804,9 +1145,15 @@
 
                   <div class="card-body">
                     <div class="col-md-12">
+<<<<<<< HEAD
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-HiringTeams"  (click)="onRegisterHiringTeams(0)">
                         Registrar Equipo De Contratación<i class="fas fa-plus-circle"></i>
                       </button>
+=======
+                      <a role="button" title="Registrar Equipo De Contratación"  class="btn " data-toggle="modal" data-target="#modal-HiringTeams" #openbutton (click)="onRegisterHiringTeams(0)">
+                        <i class="fas fa-plus-circle">Registrar Equipo De Contratación</i>
+                      </a>
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
                     </div><br>
                     <div class="table-responsive">
                       <mat-form-field appearance="fill">
@@ -814,6 +1161,7 @@
                         <input matInput (keyup)="applyFilterHiringTeams($event)" placeholder="" #input>
                       </mat-form-field>
                       <!-- <div id="div_container" class="mat-elevation-z8"> -->
+<<<<<<< HEAD
                       <table mat-table [dataSource]="dataHiringTeams"  class="mat-elevation-z8">
                         <ng-container matColumnDef="EquipoContratacion">
                           <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
@@ -874,10 +1222,73 @@
                         </tr>
                       </table>
                       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" #pagHiringTeams></mat-paginator>
+=======
+                        <table mat-table [dataSource]="dataHiringTeams"  class="mat-elevation-z8">
+                          <ng-container matColumnDef="Nombre equipo de contratación">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
+                              Nombre equipo de contratación
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.EQC_NOMBRE }} </td>
+                          </ng-container>
+      
+                          <ng-container matColumnDef="Id Integración equipo de contratación">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Id Integración equipo de contratación
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.EQC_ID_INTEGRACION  | titlecase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Nombre Tipo Proceso">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Nombre Tipo Proceso
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.TPP_NOMBRE  | titlecase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Estado" >
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Estado
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all" > 
+                                <span *ngIf="row.EQC_ESTADO==1">Activo</span>  
+                                <span *ngIf="row.EQC_ESTADO==2">Inactivo</span>
+                            </td>
+
+                            <!-- <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all" *ngIf="row.EQC_ESTADO==0"> Inactivo </td> -->
+                          </ng-container>
+
+                          <ng-container matColumnDef="Acciones">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Acciones
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> 
+                                <!-- <a class="nav-link" (click)="logOut()" role="button"> -->
+                                <a role="button" title="Editar" data-toggle="modal" data-target="#modal-HiringTeams" (click)="onRegisterHiringTeams(row.EQC_COD)" #openbutton>
+                                  <i class="far fa-edit"></i>
+                                </a>
+                            </td>
+                          </ng-container>
+           
+                          <tr mat-header-row *matHeaderRowDef="displayedColumnsHiringTeams"></tr>
+                          <tr class="hoverOnTable" mat-row *matRowDef="let row; columns: displayedColumnsHiringTeams;"></tr>
+      
+                          <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No se encontraron datos con:  "{{input.value}}"</td>
+                          </tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
                       <!-- </div> -->
                     </div>
 
                     <!-- Modal Registro-->
+<<<<<<< HEAD
                     <div class="modal fade" id="modal-HiringTeams" data-backdrop="static" data-keyboard="false" tabindex="-1">
                       <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content" style="width: auto">
@@ -971,6 +1382,103 @@
                       <!-- /.modal-dialog -->
                     </div>
                     <!-- /.modal -->
+=======
+                  <div class="modal fade" id="modal-HiringTeams" data-backdrop="static" data-keyboard="false" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                      <div class="modal-content" style="width: auto">
+                        <div class="modal-header">
+                          <h4 class="modal-title"><b style="font-size: larger">{{titleModal}}</b>
+                          </h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body modal-dialog-scrollable">
+                          <div class="callout ">
+                            <form [formGroup]="registerHiringTeams" (ngSubmit)="sendRegisterHiringTeams()" 
+                            (keydown.enter)="$event.preventDefault()">
+                            <div class="row">
+
+                              <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                  <label class="font-weight-normal text-sm">Tipo Proceso</label>
+
+                                  <select
+                                    class="custom-select form-control-border"
+                                    formControlName="tpp_cod"
+                                  >
+                                    <option
+                                      *ngFor="let dep of tiposProceso"
+                                      value="{{ dep.TPP_COD }}"
+                                    >
+                                      {{ dep.TPP_NOMBRE }}
+                                    </option>
+                                  </select>
+
+                                </div>
+                              </div>
+                              
+                              <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                  <label class="font-weight-normal text-sm">Nombre Equipo Contratación</label>
+                                  <input formControlName="eqc_nombre" type="text" class="form-control text-sm"/>
+                                  <input formControlName="eqc_cod" type="hidden" class="form-control text-sm"/>
+                                </div>
+                              </div>
+
+                              <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                  <label class="font-weight-normal text-sm">Id Integración Equipo Contratación</label>
+                                  <input formControlName="eqc_id_integracion" type="text" class="form-control text-sm"/>
+                                </div>
+                              </div>
+
+                              <div class="col-12 col-sm-6" *ngIf="indRegister!=0">
+                                <div class="form-group">
+                                  <label class="font-weight-normal text-sm">Estado</label>
+                                  <select
+                                    class="custom-select form-control-border"
+                                    formControlName="eqc_estado"
+                                  >
+                                    <option value="1">Activo</option>
+                                    <option value="2">Inactivo</option>
+                                    
+                                  </select>
+                                </div>
+                              </div>
+
+                              <button
+                                  *ngIf="indRegister==0"
+                                  [disabled]="registerHiringTeams.invalid"
+                                  type="submit"
+                                  class="btn btn-primary float-left btn-sm btn-block"
+                                >
+                                  <span>Guardar <i class="fas fa-save"></i></span>
+                                </button>
+
+                                <button
+                                  *ngIf="indRegister!=0"
+                                  [disabled]="registerHiringTeams.invalid"
+                                  type="submit"
+                                  class="btn btn-primary float-left btn-sm btn-block"
+                                >
+                                  <span>Actualizar <i class="fas fa-save"></i></span>
+                                </button>
+
+                            </div>
+                            </form>
+                          </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                          
+                        </div>
+                      </div>
+                      <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                  </div>
+                  <!-- /.modal -->
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
                   </div>
                   <!-- /.card-body -->
                 </div>
@@ -982,7 +1490,11 @@
         </div>
       </div>
     </section>
+<<<<<<< HEAD
     <br>
+=======
+
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
     <section class="content">
       <div class="container-fluid">
         <div class="card ml-3 mr-3">
@@ -1012,9 +1524,15 @@
 
                   <div class="card-body">
                     <div class="col-md-12">
+<<<<<<< HEAD
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-HiringUnit"  (click)="onRegisterHiringUnit(0)">
                         Registrar Unidad De Contratación<i class="fas fa-plus-circle"></i>
                       </button>
+=======
+                      <a role="button" title="Registrar Unidad De Contratación"  class="btn " data-toggle="modal" data-target="#modal-HiringUnit" #openbutton (click)="onRegisterHiringUnit(0)">
+                        <i class="fas fa-plus-circle">Registrar Unidad De Contratación</i>
+                      </a>
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
                     </div><br>
                     <div class="table-responsive">
                       <mat-form-field appearance="fill">
@@ -1022,6 +1540,7 @@
                         <input matInput (keyup)="applyFilterHiringUnit($event)" placeholder="" #input>
                       </mat-form-field>
                       <!-- <div id="div_container" class="mat-elevation-z8"> -->
+<<<<<<< HEAD
                       <table mat-table [dataSource]="dataHiringUnit"  class="mat-elevation-z8">
                         <ng-container matColumnDef="USC_COD">
                           <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
@@ -1068,10 +1587,59 @@
                         </tr>
                       </table>
                       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" #pagHiringUnit></mat-paginator>
+=======
+                        <table mat-table [dataSource]="dataHiringUnit"  class="mat-elevation-z8">
+                          <ng-container matColumnDef="USC_COD">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
+                              USC_COD
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.USC_NOMBRE_ENTIDAD }} </td>
+                          </ng-container>
+      
+                          <ng-container matColumnDef="UNI_NUMERO_PROCESO">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              UNI_NUMERO_PROCESO
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.UNI_NUMERO_PROCESO  | titlecase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="UNI_NOMBRE_PROCESO">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              UNI_NOMBRE_PROCESO
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> {{row.UNI_NOMBRE_PROCESO  | titlecase}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="Acciones">
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                              Acciones
+                            </th>
+                            <td mat-cell *matCellDef="let row"
+                                style="font-size: 12px;word-break: break-all"> 
+                                <!-- <a class="nav-link" (click)="logOut()" role="button"> -->
+                                <a role="button" title="Editar" data-toggle="modal" data-target="#modal-HiringUnit" (click)="onRegisterHiringUnit(row.UNI_COD)" #openbutton>
+                                  <i class="far fa-edit"></i>
+                                </a>
+                            </td>
+                          </ng-container>
+           
+                          <tr mat-header-row *matHeaderRowDef="displayedColumnsHiringUnit"></tr>
+                          <tr class="hoverOnTable" mat-row *matRowDef="let row; columns: displayedColumnsHiringUnit;"></tr>
+      
+                          <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No se encontraron datos con:  "{{input.value}}"</td>
+                          </tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
                       <!-- </div> -->
                     </div>
 
                     <!-- Modal Registro-->
+<<<<<<< HEAD
                     <div class="modal fade" id="modal-HiringUnit" data-backdrop="static" data-keyboard="false" tabindex="-1">
                       <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content" style="width: auto">
@@ -1154,6 +1722,92 @@
                       <!-- /.modal-dialog -->
                     </div>
                     <!-- /.modal -->
+=======
+                  <div class="modal fade" id="modal-HiringUnit" data-backdrop="static" data-keyboard="false" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                      <div class="modal-content" style="width: auto">
+                        <div class="modal-header">
+                          <h4 class="modal-title"><b style="font-size: larger">{{titleModal}}</b>
+                          </h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body modal-dialog-scrollable">
+                          <div class="callout ">
+                            <form [formGroup]="registerHiringUnit" (ngSubmit)="sendRegisterHiringUnit()" 
+                            (keydown.enter)="$event.preventDefault()">
+                            <div class="row">
+
+                              <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                  <label class="font-weight-normal text-sm">Código Usuario</label>
+                                  <!-- <input formControlName="usc_cod" type="text" class="form-control text-sm"/> -->
+                                  
+                                  <ng-autocomplete
+                                    [data]="selectEntitys"
+                                    [searchKeyword]="keyword"
+                                    placeholder="Ingrese Nombre Del Usuario"
+                                    [itemTemplate]="itemTemplateHiringUnit"
+                                    formControlName="usc_cod"
+                                    >
+                                  </ng-autocomplete>
+
+
+                                  <ng-template #itemTemplateHiringUnit let-item>
+                                    <a [innerHTML]="item.name"></a>
+                                  </ng-template>
+
+                                </div>
+                              </div>
+                              
+                              <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                  <label class="font-weight-normal text-sm">Numero De Proceso</label>
+                                  <input formControlName="uni_numero_proceso" type="text" class="form-control text-sm"/>
+                                  <input formControlName="uni_cod" type="hidden" class="form-control text-sm"/>
+                                </div>
+                              </div>
+
+                              <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                  <label class="font-weight-normal text-sm">Nombre De Proceso</label>
+                                  <input formControlName="uni_nombre_proceso" type="text" class="form-control text-sm"/>
+                                </div>
+                              </div>
+
+                              <button
+                                  *ngIf="indRegister==0"
+                                  [disabled]="registerHiringUnit.invalid"
+                                  type="submit"
+                                  class="btn btn-primary float-left btn-sm btn-block"
+                                >
+                                  <span>Guardar <i class="fas fa-save"></i></span>
+                                </button>
+
+                                <button
+                                  *ngIf="indRegister!=0"
+                                  [disabled]="registerHiringUnit.invalid"
+                                  type="submit"
+                                  class="btn btn-primary float-left btn-sm btn-block"
+                                >
+                                  <span>Actualizar <i class="fas fa-save"></i></span>
+                                </button>
+
+                            </div>
+                            </form>
+                          </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                          
+                        </div>
+                      </div>
+                      <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                  </div>
+                  <!-- /.modal -->
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
                   </div>
                   <!-- /.card-body -->
                 </div>
@@ -1165,7 +1819,14 @@
         </div>
       </div>
     </section>
+<<<<<<< HEAD
     <br>
   </div>
 </div>
 <ngx-loading [show]="show"></ngx-loading>
+=======
+
+  </div>
+</div>
+<ngx-loading [show]="show"></ngx-loading> 
+>>>>>>> 6761f3330fdbdc69f903cce18c8535eb9ce3e454
