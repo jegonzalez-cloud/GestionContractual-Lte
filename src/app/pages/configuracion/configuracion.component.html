@@ -821,6 +821,13 @@
                           <td mat-cell *matCellDef="let row"
                               style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.EQC_NOMBRE }} </td>
                         </ng-container>
+                        <ng-container matColumnDef="Entidad">
+                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
+                            Entidad
+                          </th>
+                          <td mat-cell *matCellDef="let row"
+                              style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.USC_NOMBRE_ENTIDAD | titlecase }} </td>
+                        </ng-container>
 
                         <ng-container matColumnDef="IdIntegracion">
                           <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
@@ -922,8 +929,26 @@
 
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
-                                      <label class="font-weight-normal text-sm">Id Integración Equipo Contratación</label>
+                                      <label class="font-weight-normal text-sm" style="text-overflow: ellipsis">Id Integración </label>
                                       <input formControlName="eqc_id_integracion" type="text" class="form-control text-sm"/>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                      <label class="font-weight-normal text-sm">Entidad</label>
+                                      <ng-autocomplete
+                                        [data]="selectEntitys"
+                                        [searchKeyword]="keyword"
+                                        placeholder="Ingrese Nombre De La Entidad"
+                                        [itemTemplate]="itemTemplateEntity"
+                                        formControlName="eqc_usc_cod">
+                                      </ng-autocomplete>
+
+                                      <ng-template #itemTemplateEntity let-item>
+                                        <a [innerHTML]="item.name"></a>
+                                      </ng-template>
+
                                     </div>
                                   </div>
 
@@ -1027,7 +1052,7 @@
                             Dependencia
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.USC_NOMBRE_ENTIDAD }} </td>
+                              style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.USC_NOMBRE_ENTIDAD  | titlecase }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="UNI_NUMERO_PROCESO">
@@ -1089,13 +1114,13 @@
 
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
-                                      <label class="font-weight-normal text-sm">Código Usuario</label>
+                                      <label class="font-weight-normal text-sm">Dependencia</label>
                                       <!-- <input formControlName="usc_cod" type="text" class="form-control text-sm"/> -->
 
                                       <ng-autocomplete
                                         [data]="selectEntitys"
                                         [searchKeyword]="keyword"
-                                        placeholder="Ingrese Nombre Del Usuario"
+                                        placeholder="Ingrese Nombre De la Dependencia"
                                         [itemTemplate]="itemTemplateHiringUnit"
                                         formControlName="usc_cod"
                                       >
@@ -1111,7 +1136,7 @@
 
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
-                                      <label class="font-weight-normal text-sm">Numero De Proceso</label>
+                                      <label class="font-weight-normal text-sm">Identificacion Unidad</label>
                                       <input formControlName="uni_numero_proceso" type="text" class="form-control text-sm"/>
                                       <input formControlName="uni_cod" type="hidden" class="form-control text-sm"/>
                                     </div>
@@ -1119,7 +1144,7 @@
 
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
-                                      <label class="font-weight-normal text-sm">Nombre De Proceso</label>
+                                      <label class="font-weight-normal text-sm">Nombre De la Unidad</label>
                                       <input formControlName="uni_nombre_proceso" type="text" class="form-control text-sm"/>
                                     </div>
                                   </div>

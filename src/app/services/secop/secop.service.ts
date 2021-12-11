@@ -16,8 +16,8 @@ export class SecopService {
     return this.httpClient.get(`${environment.apiSecop}`);
   }
 
-  public getDataProcess(departID: any, type: any) {
-    return this.httpClient.get(`${environment.apiTestUrl}contratos/GetProcess?departID=${departID}&type=${type}`);
+  public getDataProcess(departID: any, type: any,centroGestor:any) {
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/GetProcess?departID=${departID}&type=${type}&centroGestor=${centroGestor}`);
   }
 
   public insertProcess(data: any) {

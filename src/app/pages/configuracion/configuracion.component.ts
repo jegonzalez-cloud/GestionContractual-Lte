@@ -53,7 +53,7 @@ export class ConfiguracionComponent implements OnInit {
 
   @ViewChild('pagHiringTeams') paginatorHiringTeams!: MatPaginator;
   @ViewChild(MatSort) sortHiringTeams!: MatSort;
-  displayedColumnsHiringTeams: string[] = ['EquipoContratacion','IdIntegracion','TipoProceso','Estado','Acciones'];
+  displayedColumnsHiringTeams: string[] = ['EquipoContratacion','IdIntegracion','TipoProceso','Entidad','Estado','Acciones'];
 
   public dataHiringUnit!: MatTableDataSource<any>;
   @ViewChild('pagHiringUnit') paginatorHiringUnit!: MatPaginator;
@@ -113,7 +113,8 @@ export class ConfiguracionComponent implements OnInit {
       tpp_cod: new FormControl('',[Validators.required]),
       eqc_nombre: new FormControl('',[Validators.required]),
       eqc_estado: new FormControl('',[Validators.required]),
-      eqc_id_integracion: new FormControl('',[Validators.required])
+      eqc_id_integracion: new FormControl('',[Validators.required]),
+      eqc_usc_cod: new FormControl('',[Validators.required]),
     });
 
     this.registerHiringUnit = this.fb.group({
@@ -316,11 +317,13 @@ export class ConfiguracionComponent implements OnInit {
       this.authService.GetHiringTeams(atob(localStorage.getItem('token')!),this.indRegister)
         .subscribe((data: any) => {
           let result = data.Values.ResultFields;
+          let valUscCod = this.selectEntitys.find(x => x.id == result[0].EQC_USC_COD);
           let valTpp_cod =  this.tiposProceso.find((item: { TPP_COD: any; }) => item.TPP_COD == result[0].TPP_COD);
           this.registerHiringTeams.controls['eqc_cod'].setValue(result[0].EQC_COD);
           this.registerHiringTeams.controls['tpp_cod'].setValue(valTpp_cod.TPP_COD);
           this.registerHiringTeams.controls['eqc_nombre'].setValue(result[0].EQC_NOMBRE);
           this.registerHiringTeams.controls['eqc_id_integracion'].setValue(result[0].EQC_ID_INTEGRACION);
+          this.registerHiringTeams.controls['eqc_usc_cod'].setValue(valUscCod);
           this.registerHiringTeams.controls['eqc_estado'].setValue(result[0].EQC_ESTADO);
           this.show = false;
         }, (error) => {
@@ -346,6 +349,7 @@ export class ConfiguracionComponent implements OnInit {
       TPP_COD: this.registerHiringTeams.controls['tpp_cod'].value,
       EQC_NOMBRE: this.registerHiringTeams.controls['eqc_nombre'].value,
       EQC_ESTADO: this.registerHiringTeams.controls['eqc_estado'].value,
+      EQC_USC_COD: this.registerHiringTeams.controls['eqc_usc_cod'].value.id,
       EQC_ID_INTEGRACION: this.registerHiringTeams.controls['eqc_id_integracion'].value,
     };
 
@@ -487,7 +491,7 @@ export class ConfiguracionComponent implements OnInit {
   }
 
   infoProcessHiringTeams(): void {
-    if (this.hiringTeams.length > 0) {
+    if (this.hiringTeams?.length > 0) {
       this.dataHiringTeams = new MatTableDataSource(this.hiringTeams!);
       this.dataHiringTeams.paginator = this.paginatorHiringTeams;
       this.dataHiringTeams.sort = this.sortHiringTeams;
@@ -528,6 +532,9 @@ export class ConfiguracionComponent implements OnInit {
             let valRolId =  this.roles.find((item: { id: any; }) => item.id == result[0].ROL_ID);
             let valUsrLogin =  this.users.find((item: { id: any; }) => item.id == result[0].USR_LOGIN);
 
+            console.log(result)
+            console.log(valUscCod)
+
             this.registerRol.controls['usr_login'].setValue(valUsrLogin);
             this.registerRol.controls['usx_cod'].setValue(result[0].USX_COD);
             this.registerRol.controls['usc_cod'].setValue(valUscCod);
@@ -558,6 +565,5 @@ export class ConfiguracionComponent implements OnInit {
   onCloseEquipo(){
     this.CloseEquipo.nativeElement.click();
   }
-
 
 }

@@ -21,6 +21,7 @@ import * as func from "../../utils/functions";
 })
 export class BusquedaComponent implements OnInit {
   private entidad = atob(localStorage.getItem('entidad')!);
+  private centroGestor = atob(localStorage.getItem('centroGestor')!);
   displayedColumns: string[] = ['Num','Identificacion', 'Nombre', 'Estado', 'Fecha', 'Creador', 'ValorOferta'];
   private token: string = localStorage.getItem('token')!;
   ROL: any = atob(localStorage.getItem('rol')!);
@@ -90,7 +91,7 @@ export class BusquedaComponent implements OnInit {
     let proveedor = this.busquedaForm.controls['proveedor'].value;
     let creador = this.busquedaForm.controls['creador'].value;
     let proceso = this.busquedaForm.controls['proceso'].value;
-    let centroGestor = this.busquedaForm.controls['centroGestor'].value;
+    let centroGestor = (this.busquedaForm.controls['centroGestor'].value.length == 0) ? this.centroGestor : this.busquedaForm.controls['centroGestor'].value ;
 
     this.secopService.getSearchDataTable(identificacion,proveedor,creador,proceso,centroGestor).subscribe((response:any)=>{
       this.busqueda = response.Values.ResultFields;

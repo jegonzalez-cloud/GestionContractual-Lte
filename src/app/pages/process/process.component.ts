@@ -124,6 +124,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   categoriasProfesion!: any;
   categoriasSubProfesion!: any;
   @ViewChild('closebutton') closebutton: any;
+  @ViewChild('closebuttonUNSPSC') closebuttonUNSPSC: any;
   @ViewChild('openbutton') openbutton: any;
   CENTRO_GESTOR: any;
   progressValue: number = 0;
@@ -420,7 +421,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
           this.createProcessForm.controls['definirLotes'].setValue('NO');
           this.color = false;
           utils.showAlert('Proceso creado correctamente!', 'success');
-          this.secopService.getDataProcess('0001', 1).subscribe((data: any) => {
+          this.secopService.getDataProcess('0001', 1,this.centroGestor).subscribe((data: any) => {
             this.info_process = data;
             this.infoProcess();
           });
@@ -883,7 +884,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   getdataProcess() {
-    this.secopService.getDataProcess('0001', 1).subscribe((data: any) => {
+    this.secopService.getDataProcess('0001', 1,this.centroGestor).subscribe((data: any) => {
       this.info_process = data;
       this.infoProcess();
     });
@@ -1594,5 +1595,17 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         }
       });
     }
+  }
+  validarCamposUnspsc(){
+    if(this.myForm.controls['arr'].invalid){
+      utils.showAlert('Por favor diligencie todos los campos!','error');
+    }
+    else{
+      this.onCloseUNSPSC();
+    }
+  }
+
+  onCloseUNSPSC(){
+    this.closebuttonUNSPSC.nativeElement.click();
   }
 }
