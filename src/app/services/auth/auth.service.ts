@@ -71,6 +71,10 @@ export class AuthService {
     console.log('error');
   }
 
+  getUsuarioConnect(user:string,centroGestor:string){
+    return this.http.get(`${environment.apiTestUrl}contratos/getUsuarioConnect?username=${user}&centroGestor=${centroGestor}`);
+  }
+
   getEntidades(user:string){
     return this.http.get(`${environment.apiTestUrl}contratos/getEntidadesEstatales?username=${user}`);
   }

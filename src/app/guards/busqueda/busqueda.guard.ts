@@ -14,9 +14,13 @@ export class BusquedaGuard implements CanActivate {
 
     let rol:any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
     console.log(rol);
-    if(rol == ''){
+    if(rol == '' || rol == null){
       localStorage.clear();
       this.router.navigate(['login']);
+      return false;
+    }
+    else if(rol == 7){
+      this.router.navigate(['configuracion']);
       return false;
     }
     else{

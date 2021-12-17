@@ -144,6 +144,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   validacionCorreo: boolean = false;
   verDescuentos: any = [];
   cantidadCuotas: any;
+  valorAcomparar: any;
 
   constructor(
     private fb: FormBuilder,
@@ -265,25 +266,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  // formSearchSecop(): void {
-  //   this.secopSearch = new FormGroup({
-  //     COLUMN: new FormControl(null, [Validators.required]),
-  //     PARAM: new FormControl(null, [Validators.required]),
-  //   });
-  // }
-
-  // searchSecop(): void {
-  //   if (this.secopSearch.valid) {
-  //     var column = this.secopSearch.value.COLUMN;
-  //     var param = this.secopSearch.value.PARAM;
-
-  //     this.secopService.searchDataSecop(column, param).subscribe((data) => {
-  //       // console.log(data);
-  //       this.result = data;
-  //     });
-  //   }
-  // }
-
   getChangeContractValue() {
     this.createProcessForm.controls['valorContrato'].valueChanges.subscribe((data) => {
       this.createProcessForm.controls['duracionContrato'].reset();
@@ -299,7 +281,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   departmentsCont(): void {
     let token = atob(localStorage.getItem('token')!);
-    // console.log('tkn init ', token);
     this.secopService.getDepartmentsCont(token).subscribe((data) => {
       this.departments = data;
       this.departments = this.departments.Values;
@@ -313,39 +294,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       // console.log(data);
     });
   }
-
-  // fillEntidad() {
-  //   let unidadesCount = localStorage.getItem('unidades')!;
-  //   let equiposCount = localStorage.getItem('equipos')!;
-  //
-  //   // if(unidadesCount == null || unidadesCount == '' || equiposCount == null || equiposCount == ''){
-  //   //   return;
-  //   // }
-  //
-  //   if(unidadesCount != null && unidadesCount.includes(',')){
-  //     this.unidades = unidadesCount.split(',');
-  //   }
-  //   else{
-  //     let arr = [];
-  //     arr.push(unidadesCount);
-  //     this.unidades = arr;
-  //   }
-  //   if(equiposCount != null &&  equiposCount.includes(',')){
-  //     this.equipos = equiposCount.split(',');
-  //   }
-  //   else{
-  //     let arr = [];
-  //     arr.push(equiposCount);
-  //     this.equipos = arr;
-  //   }
-  //   // console.log(this.unidades);
-  //   // console.log(this.equipos);
-  //   /*let equipo = JSON.parse(localStorage.getItem('equipo')!);
-  //   let resultArray = Object.keys(equipo).map((data) => {
-  //     let person = equipo[data];
-  //     return person;
-  //   });*/
-  // }
 
   onKeydownEvent(event: HTMLInputElement): void {
     let search_item = event.value.length;
@@ -402,13 +350,21 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.formatDate(this.createProcessForm.controls['fechaInicio'].value, 'fechaInicio');
     this.formatDate(this.createProcessForm.controls['plazoEjecucion'].value, 'plazoEjecucion');
     this.createProcessForm.enable();
+    this.createProcessForm.controls['username'].setValue(atob(localStorage.getItem('username')!));
+    this.createProcessForm.controls['codigoEntidad'].setValue(atob(localStorage.getItem('codigoEntidad')!));
+    this.createProcessForm.controls['centroGestor'].setValue(atob(localStorage.getItem('centroGestor')!));
+    this.createProcessForm.controls['token'].setValue(atob(localStorage.getItem('token')!));
     this.createProcessForm.controls['duracionContrato'].setValue(duracion);
     this.createProcessForm.controls['tiempoDuracion'].setValue(tiempo_duracion);
+    this.createProcessForm.controls['cdp'].enable();
+    this.createProcessForm.controls['cdp'].setValue(localStorage.getItem('cdp'));
+    localStorage.removeItem('cdp');
     let dataForm = Object.assign(this.createProcessForm.value);
     this.secopService.insertProcess(dataForm).subscribe(
       (data: any) => {
         if (data.Status == 'Ok') {
           this.createProcessForm.reset();
+          this.createProcessForm.controls['cdp'].disable();
           this.createProcessForm.controls['valorContrato'].setValue('');
           this.createProcessForm.controls['valorContrato'].disable();
           this.createProcessForm.controls['tiempoDuracion'].disable();
@@ -419,22 +375,24 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
           this.createProcessForm.controls['acuerdoPaz'].setValue('NO');
           this.createProcessForm.controls['definirPagos'].setValue('NO');
           this.createProcessForm.controls['definirLotes'].setValue('NO');
+          this.createProcessForm.controls['genero'].reset();
+          this.createProcessForm.controls['departamento'].reset();
+          this.createProcessForm.controls['municipio'].reset();
+          this.createProcessForm.controls['profesion'].reset();
           this.color = false;
           utils.showAlert('Proceso creado correctamente!', 'success');
           this.secopService.getDataProcess('0001', 1,this.centroGestor).subscribe((data: any) => {
             this.info_process = data;
             this.infoProcess();
           });
-          // console.log(this.myForm.controls['arr'].value);
-          // console.log(this.myForm.controls['arr']);
-          // console.log(data.proId);
           let tamanio = this.myForm.controls['arr'].value.length;
           for (let i = 0; i < tamanio; i++) {
             this.myForm.controls['arr'].value[i].proceso = data.proId;
           }
           // let unspscForm = Object.assign(this.myForm.controls['arr'].value);
           this.secopService.insertUNSPSC(this.myForm.controls['arr'].value).subscribe((response: any) => {
-            console.log(response);
+            this.myForm.controls['arr'].reset();
+            this.myForm.reset();
           });
         }
       }, (error: any) => {
@@ -514,8 +472,9 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                   return new Promise((resolve: any) => {
                     if (value.length == 4) {
                       let vigencia = value;
-                      this.centroGestor = '1158';
+                      this.centroGestor = atob(localStorage.getItem('centroGestor')!);
                       this.secopService.getCdpMount(this.token, this.centroGestor, cdp, this.createProcessForm.controls['valorContrato'].value, vigencia).subscribe((response: any) => {
+                        console.log('response');
                         console.log(response);
                         if (response.Status != 'Ok') {
                           this.color = false;
@@ -525,7 +484,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                           this.createProcessForm.controls['tiempoDuracion'].setValue('');
                           this.createProcessForm.controls['duracionContrato'].disable();
                           this.createProcessForm.controls['tiempoDuracion'].disable();
-                          resolve();
+                          //resolve();
                         } else {
                           let monto = response.Values.ResultFields;
                           if (monto != null && monto != '' && monto.length > 0 && parseFloat(monto) < this.createProcessForm.controls['valorContrato'].value) {
@@ -536,14 +495,17 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                             this.createProcessForm.controls['tiempoDuracion'].setValue('');
                             this.createProcessForm.controls['duracionContrato'].disable();
                             this.createProcessForm.controls['tiempoDuracion'].disable();
-                            resolve();
+                            //resolve();
                           } else {
                             this.color = true;
+                            //utils.showAlert('Valor del contrato valido', 'success');
+                            //utils.showAlert('Por favor ingrese un CDP de 10 digitos!', 'error');
+                            this.valorAcomparar = this.createProcessForm.controls['valorContrato'].value;
+                            localStorage.setItem('cdp',cdp);
                             this.createProcessForm.controls['cdp'].setValue(cdp);
                             this.createProcessForm.controls['duracionContrato'].enable();
-                            utils.showAlert('valor del contrato valido', 'success');
-                            resolve();
                           }
+                          resolve();
                         }
                       });
                     } else {
@@ -560,62 +522,10 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         }
       });
 
-      // const {value: formValues} = await Swal.fire({
-      //   // title: 'Multiple inputs',
-      //   showCloseButton: true,
-      //   confirmButtonColor: '#007BFF',
-      //   confirmButtonText: 'Continue',
-      //   allowOutsideClick: false,
-      //   focusConfirm: false,
-      //   html:
-      //     '<label class="font-weight-bold" style="font-size: 22px">Ingrese el número de CDP</label><br/>' +
-      //     '<a style="color: red;font-size: 14px">Digite un numero de 10 digitos *</a>' +
-      //     '<input id="swal-input1" type="number" class="swal2-input" max="10" required><br/><br/>' +
-      //     '<label class="font-weight-bold" style="font-size: 22px">Ingrese la posicion del CDP</label><br/>' +
-      //     '<input id="swal-input2" type="number" class="swal2-input" required>',
-      //   preConfirm: () => {
-      //     return [
-      //       $('#swal-input1').val(),
-      //       $('#swal-input2').val()
-      //     ]
-      //   }
-      // })
       if (formValues) {
         if (formValues!.toString().length != 10) {
           utils.showAlert('Por favor ingrese un CDP de 10 digitos!', 'error');
           return;
-        } else {
-          // const {value: vigencia} = await Swal.fire({
-          //   title: 'Ingrese la vigencia del CDP',
-          //   showCloseButton: true,
-          //   confirmButtonColor: '#007BFF',
-          //   confirmButtonText: 'Continue',
-          //   input: 'text',
-          //   inputAttributes: {
-          //     autocapitalize: 'off',
-          //     maxlength: '4',
-          //     minlength: '4'
-          //   },
-          //   allowOutsideClick: false,
-          //   focusConfirm: false,
-          //   // showLoaderOnConfirm: true,
-          //   // inputLabel: 'Ingrese el número de CDP',
-          //   // inputPlaceholder: 'Enter your email address'
-          //   inputValidator: (value: any) => {
-          //     return new Promise((resolve: any) => {
-          //       if (value.length == 4) {
-          //         resolve();
-          //       } else {
-          //         resolve('Por favor Ingrese 4 Digitos :)')
-          //       }
-          //     })
-          //   }
-          // });
-          // if (vigencia!.toString().length != 4) {
-          //   utils.showAlert('Por favor ingrese una Vigencia de 4 digitos!', 'error');
-          //   return;
-          // } else {
-
         }
       }
     }
@@ -804,6 +714,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       } else {
         this.createProcessForm.controls['comite'].setValue('NO');
         console.log(this.createProcessForm.controls['comite'].value);
+        console.log(this.createProcessForm.controls['cdp'].value);
         this.iconColor = 'lightgreen';
       }
     } else if (tipoIdentificacion == 'Nit') {
@@ -891,6 +802,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   validateData() {
+    console.log(this.createProcessForm)
+    console.log(this.createProcessForm.value)
     Swal.fire({
       title: 'Esta Seguro?',
       text: "Esta accion no se podrá revertir!",
@@ -940,6 +853,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   onSubmit() {
+    console.log(this.myForm.controls['arr'].value)
     let valor_contrato = this.createProcessForm.controls['valorContrato'].value;
     let tamanio = this.myForm.controls['arr'].value.length;
     let precioTotal = 0;
@@ -1201,7 +1115,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                                                                   dataFormulario.push(dataExcel.UNIDADCONTRATACION);
                                                                   this.secopService.validateEquipoContratacion(dataExcel.EQUIPOCONTRATACION).subscribe((response: any) => {
                                                                     if (response.Status == 'Ok') {
-                                                                      dataFormulario.push(dataExcel.EQUIPOCONTRATACION);
+                                                                      // dataFormulario.push(dataExcel.EQUIPOCONTRATACION);
+                                                                      dataFormulario.push(response.Values.ResultFields);
                                                                       if (dataExcel.OBJETOPROCESO != null && dataExcel.OBJETOPROCESO.toString().length != 0) {
                                                                         dataFormulario.push(dataExcel.OBJETOPROCESO);
                                                                         if (this.validarFirmasPosteriores(moment(dataExcel.FIRMACONTRATO, "YYYYMMDD").format().slice(0, -6)) == 1) {
@@ -1564,8 +1479,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                     this.secopService.createSoapProcess(arr).subscribe((response: any) => {
                       if (response.hasOwnProperty('proId')) {
                         if(response.proId[0].includes('CO1.PPI')){
-                          console.log('POR ACA ESTOYY')
-                          console.log(proId)
+
                           this.secopService.updateProcessMasive(proId).subscribe((response:any)=>{
                             console.log(this.procesosExitosos);
                             this.procesosExitosos.push(proId);
@@ -1608,4 +1522,12 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   onCloseUNSPSC(){
     this.closebuttonUNSPSC.nativeElement.click();
   }
+
+  revisemos(){
+    console.log(this.createProcessForm.value)
+    console.log(this.createProcessForm.controls['cdp'].value)
+    console.log(this.myForm)
+    console.log(this.myForm.value)
+  }
+
 }

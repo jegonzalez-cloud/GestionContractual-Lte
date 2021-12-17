@@ -96,6 +96,15 @@ export class BusquedaComponent implements OnInit {
     this.secopService.getSearchDataTable(identificacion,proveedor,creador,proceso,centroGestor).subscribe((response:any)=>{
       this.busqueda = response.Values.ResultFields;
       this.infoProcess();
+      if(this.busqueda != null){
+        utils.showAlert('Busqueda Exitosa!','success');
+      }
+      else{
+        utils.showAlert('No se encontraron registros!','warning');
+      }
+
+    },(error:any) => {
+      utils.showAlert('Busqueda Errornea!!','Error');
     })
   }
 

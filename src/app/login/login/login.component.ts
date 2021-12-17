@@ -164,7 +164,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         utils.showAlert('Credenciales Incorrectas!', 'error')
         this.show = false;
       })
-      
+
   }
 
   getBasicinformation(user: string, password: string, token: string) {
@@ -218,18 +218,27 @@ export class LoginComponent implements OnInit, OnDestroy {
           return new Promise(async (resolve: any) => {
             if (value.replace(/\s/g, "") !== '') {
               resolve();
-              localStorage.setItem("username", btoa(user));
-              localStorage.setItem('token', btoa(token));
-              localStorage.setItem("name", btoa(fullName));
-              localStorage.setItem("userImage", btoa(userImage));
-              localStorage.setItem('entidad', btoa(dataEntities[value].USC_NOMBRE_ENTIDAD));
-              localStorage.setItem('codigoEntidad', btoa(dataEntities[value].USC_CODIGO_ENTIDAD));
-              localStorage.setItem('conectPw', btoa(dataEntities[value].USC_PASSWORD));
-              localStorage.setItem('userCodeSecop', btoa(dataEntities[value].USS_CODIGO_USUARIO));
-              localStorage.setItem('usuarioConect', btoa(dataEntities[value].USC_USUARIO));
-              localStorage.setItem('centroGestor', btoa(dataEntities[value].USC_GESTOR));
-              localStorage.setItem('rol', btoa(dataEntities[value].ROL_ID));
-              this.goHome(btoa(token));
+
+              this.authService.getUsuarioConnect(user, dataEntities[value].USC_GESTOR).subscribe((response:any)=>{
+                console.log(response['Values']);
+                console.log(dataEntities[value]);
+                if(response != null && response['Values'].length > 0){
+                  localStorage.setItem("username", btoa(user));
+                  localStorage.setItem('token', btoa(token));
+                  localStorage.setItem("name", btoa(fullName));
+                  localStorage.setItem("userImage", btoa(userImage));
+                  localStorage.setItem('entidad', btoa(dataEntities[value].USC_NOMBRE_ENTIDAD));
+                  localStorage.setItem('codigoEntidad', btoa(dataEntities[value].USC_CODIGO_ENTIDAD));
+                  localStorage.setItem('conectPw', btoa(dataEntities[value].USC_PASSWORD));
+                  localStorage.setItem('userCodeSecop', btoa(response['Values']));
+                  localStorage.setItem('centroGestor', btoa(dataEntities[value].USC_GESTOR));
+                  localStorage.setItem('rol', btoa(dataEntities[value].ROL_ID));
+                  localStorage.setItem('usuarioConect', btoa(dataEntities[value].USC_USUARIO));
+                  this.goHome(btoa(token));
+                }
+              },(error:any) => {
+                console.log(error);
+              })
             } else {
               resolve('Por favor seleccione una Entidad!');
             }
@@ -348,8 +357,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  goHome(token:any) {
-    this.authService.getConfigApp(token).subscribe((response:any)=>{
+  goHome(token: any) {
+    this.authService.getConfigApp(token).subscribe((response: any) => {
       localStorage.setItem("color", btoa(response.Values.ResultFields[0].CON_COLOR));
       localStorage.setItem("linkCdp", btoa(response.Values.ResultFields[0].CON_LINK_CDP));
       localStorage.setItem("linkPagos", btoa(response.Values.ResultFields[0].CON_LINK_PAGOS));

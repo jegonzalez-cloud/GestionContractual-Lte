@@ -203,7 +203,7 @@
                       <!--                      </figcaption>-->
                     </figure>
                     <div id="filtros">
-                      <form [formGroup]="reporte4Form" (ngSubmit)="getDataDashboard(4)"
+                      <form [formGroup]="reporte4FormAsociacion" (ngSubmit)="getDataDashboard(4)"
                             (keydown.enter)="$event.preventDefault()">
                         <div class="row">
                           <div class="col-12 col-sm-4">
@@ -243,8 +243,8 @@
                             </div>
                           </div>
                           <button
-                            [hidden]="reporte4Form.invalid"
-                            [disabled]="reporte4Form.invalid"
+                            [hidden]="reporte4FormAsociacion.invalid"
+                            [disabled]="reporte4FormAsociacion.invalid"
                             type="submit"
                             class="btn btn-primary float-left btn-sm btn-block"
                           >

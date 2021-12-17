@@ -95,6 +95,7 @@ export class DashboardComponent implements OnInit {
   entidad = atob(localStorage.getItem('entidad')!);
   ROL: any = atob(localStorage.getItem('rol')!);
   reporte4Form!: FormGroup;
+  reporte4FormAsociacion!: FormGroup;
   dashboardForm!: FormGroup;
   dataReport: any;
   dataSeries!: any;
@@ -111,6 +112,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.createFormAsociacion();
     this.createFormOpcional();
     this.getcentroGestor();
     this.chartOptions = [];
@@ -130,11 +132,26 @@ export class DashboardComponent implements OnInit {
   };
 
   getDataDashboard(id:number) {
-    let centroGestor = this.reporte4Form.controls['centroGestor'].value;
-    let fechaInicio = this.reporte4Form.controls['fechaInicio'].value;
-    let fechaTermino = this.reporte4Form.controls['fechaTermino'].value;
-    let referencia = this.reporte4Form.controls['referencia'].value;
-    let asociacion = this.reporte4Form.controls['asociacion'].value;
+    let centroGestor;
+    let fechaInicio;
+    let fechaTermino;
+    let referencia;
+    let asociacion;
+    if(id == 4){
+      centroGestor = this.reporte4FormAsociacion.controls['centroGestor'].value;
+      fechaInicio = this.reporte4FormAsociacion.controls['fechaInicio'].value;
+      fechaTermino = this.reporte4FormAsociacion.controls['fechaTermino'].value;
+      referencia = this.reporte4FormAsociacion.controls['referencia'].value;
+      asociacion = this.reporte4FormAsociacion.controls['asociacion'].value;
+    }
+    else if(id == 3){
+      centroGestor = this.reporte4Form.controls['centroGestor'].value;
+      fechaInicio = this.reporte4Form.controls['fechaInicio'].value;
+      fechaTermino = this.reporte4Form.controls['fechaTermino'].value;
+      referencia = this.reporte4Form.controls['referencia'].value;
+      asociacion = this.reporte4Form.controls['asociacion'].value;
+    }
+
     this.secopService.getDataDashboard(this.TOKEN, centroGestor, fechaInicio, fechaTermino,referencia,asociacion).subscribe((response: any) => {
       if(response.Status != 'Ok'){
         utilidades.showAlert('No se encontraron registros!','error');
@@ -152,6 +169,7 @@ export class DashboardComponent implements OnInit {
         this.dataSeries = cantidadXAsociacion;
         this.dataAsociacion = labelAsociacion;
         this.dataValorAsociacion = valorTotalXAsociacion;
+        this.reporte4FormAsociacion.reset();
         this.infoProcess(id);
       }
     });
@@ -165,6 +183,17 @@ export class DashboardComponent implements OnInit {
 
   createForm() {
     this.reporte4Form = this.fb.group({
+      token: new FormControl(atob(localStorage.getItem('token')!)),
+      centroGestor: new FormControl({value: '', disabled: false}, [Validators.required]),
+      fechaInicio: new FormControl({value: null, disabled: false}, [Validators.required]),
+      fechaTermino: new FormControl({value: null, disabled: false}, [Validators.required]),
+      referencia: new FormControl({value: '', disabled: false}),
+      asociacion: new FormControl({value: '', disabled: false})
+    });
+  }
+
+  createFormAsociacion() {
+    this.reporte4FormAsociacion = this.fb.group({
       token: new FormControl(atob(localStorage.getItem('token')!)),
       centroGestor: new FormControl({value: '', disabled: false}, [Validators.required]),
       fechaInicio: new FormControl({value: null, disabled: false}, [Validators.required]),

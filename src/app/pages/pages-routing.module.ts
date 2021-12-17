@@ -15,6 +15,7 @@ import {AuthGuard} from "../guards/auth.guard";
 import {ReportesComponent} from "./reportes/reportes.component";
 import {SampleComponent} from "./sample/sample.component";
 import {ConfiguracionComponent} from "./configuracion/configuracion.component";
+import {ConfiguracionGuard} from "../guards/configuracion/configuracion.guard";
 
 // ProcessComponent
 const routes: Routes = [
@@ -25,7 +26,7 @@ const routes: Routes = [
   { path: 'autorizaciones-det/:id', component: AutorizacionesDetailComponent, canActivate:[AutorizacionesGuard] },
   { path: 'reportes', component: ReportesComponent,canLoad:[AuthGuard] },
   { path: 'sample', component: SampleComponent},
-  { path: 'configuracion', component: ConfiguracionComponent},
+  { path: 'configuracion', component: ConfiguracionComponent,canActivate:[ConfiguracionGuard]},
 //   { path: 'newRfc', component: NewRFCComponent },
 //   { path: 'detailRfc/:rfcCode', component: DetailRfcComponent },
   { path: '**', redirectTo: 'busqueda', pathMatch: 'full' },

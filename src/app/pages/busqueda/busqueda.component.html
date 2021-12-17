@@ -31,7 +31,7 @@
                 <li>Valor Bruto : <span>{{d[7] | currency}}</span></li>
                 <li>Valor Neto : <span>{{d[8] | currency}}</span></li>
                 <div *ngIf="d[9] != null" class="mt-3 mb-1">
-                  <a style="color: var(--companyColor)" (click)="WatchDescuento(d)">
+                  <a style="color: var(--companyColor);cursor:pointer" (click)="WatchDescuento(d)">
                     <u>Ver Descuentos</u>
                   </a>
                   <div *ngIf="verDescuentos[d[0]]" class="mt-2">

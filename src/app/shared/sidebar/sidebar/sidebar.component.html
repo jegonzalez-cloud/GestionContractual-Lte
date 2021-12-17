@@ -33,11 +33,24 @@
           src={{userImage}}
           class="img-circle elevation-2"
           alt="User Image"
+          style="margin-top: 18px;"
         />
       </div>
       <div class="info">
+        <a class="d-block text-xs" style="font-weight: bold; color: var(--companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>
         <a class="d-block text-sm">{{nameUser | titlecase}}</a>
-        <a class="d-block text-xs" style="color: var(--companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>
+        <a class="d-block text-xs" style="color: var(--companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{rol == 1 ? 'Creador del Proceso y Contrato' :
+          rol == 2 ? 'Secretaria Juridica' :
+            rol == 3 ? 'Ordenador del gasto' :
+              rol == 4 ? 'Secretaria Privada' :
+                rol == 5 ? 'Comite de Contratacion' :
+                  rol == 6 ? 'DADII' : 'Admin'}}">
+          {{rol == 1 ? 'Creador del Proceso y Contrato' :
+          rol == 2 ? 'Secretaria Juridica' :
+            rol == 3 ? 'Ordenador del gasto' :
+              rol == 4 ? 'Secretaria Privada' :
+                rol == 5 ? 'Comite de Contratacion' :
+                  rol == 6 ? 'DADII' : 'Admin'}}</a>
       </div>
     </div>
 
@@ -71,7 +84,7 @@
         </li>
 
 <!--        <li *ngIf="rol == 39" class="nav-item" [ngStyle]="{'cursor':'pointer'}">-->
-        <li *ngIf="rol == 1" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+        <li *ngIf="rol == 1 " class="nav-item" [ngStyle]="{'cursor':'pointer'}">
           <a routerLink="process" class="nav-link">
             <i class="nav-icon fa fa-edit"></i>
             <p style="color: #a8a8a8">
@@ -89,7 +102,7 @@
           <!--            </ul>-->
         </li>
 <!--        <li class="nav-item" *ngIf="rol != 39" [ngStyle]="{'cursor':'pointer'}">-->
-        <li class="nav-item" *ngIf="rol != 1" [ngStyle]="{'cursor':'pointer'}">
+        <li class="nav-item" *ngIf="rol != 1 && rol != 7" [ngStyle]="{'cursor':'pointer'}">
           <a routerLink="autorizaciones" class="nav-link">
             <i class="nav-icon fas fa-book"></i>
             <p style="color: #a8a8a8">
@@ -98,7 +111,7 @@
             </p>
           </a>
         </li>
-        <li class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+        <li *ngIf="rol != 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
           <a routerLink="busqueda" class="nav-link">
             <i class="nav-icon fas fa-search"></i>
             <p style="color: #a8a8a8">
@@ -107,7 +120,7 @@
             </p>
           </a>
         </li>
-        <li class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+        <li *ngIf="rol != 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
           <a routerLink="reportes" class="nav-link">
             <i class="nav-icon fas fa-book-open"></i>
             <p style="color: #a8a8a8">
@@ -116,7 +129,7 @@
             </p>
           </a>
         </li>
-        <li class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+        <li *ngIf="rol != 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
           <!--            <a routerLink ="reportes" class="nav-link">-->
           <a
             href="https://formacion.secop.gov.co/STS/Users/Login/Index?SkinName=CCE&ReturnUrl=%2fSTS%2fusers%2fissue.aspx%3fwa%3dwsignin1.0%26wtrealm%3dhttps%253a%252f%252fmarketplace-formacion.secop.gov.co%252fCO1Marketplace%26wctx%3drm%253d0%2526id%253dpassive%2526ru%253d%25252fCO1Marketplace%25252fCompanies%25252fCompanyConfiguration%25252findex%26wct%3d2021-10-11T14%253a05%253a50Z&wa=wsignin1.0&wtrealm=https%3a%2f%2fmarketplace-formacion.secop.gov.co%2fCO1Marketplace&wctx=rm%3d0%26id%3dpassive%26ru%3d%252fCO1Marketplace%252fCompanies%252fCompanyConfiguration%252findex&wct=2021-10-11T14%3a05%3a50Z"
@@ -128,7 +141,7 @@
             </p>
           </a>
         </li>
-        <li class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+        <li *ngIf="rol == 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
           <a routerLink="configuracion" class="nav-link">
             <i class="nav-icon fa fa-cog"></i>
             <p style="color: #a8a8a8">

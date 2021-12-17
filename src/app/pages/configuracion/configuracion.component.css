@@ -44,6 +44,12 @@ div.callout{
   text-align: left;
 }
 .mat-column-Usuario {
+  width: 5%;
+  border-right: 1px solid lightgray;
+  /*padding-right: 1%;*/
+  text-align: left;
+}
+.mat-column-Connect {
   /*white-space: nowrap;*/
   /*width: 5%;*/
   /*overflow: hidden;*/

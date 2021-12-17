@@ -90,7 +90,7 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   }
 
   infoProcess(): void {
-    if (this.autorizaciones.length > 0) {
+    if (this.autorizaciones != null && this.autorizaciones.length > 0) {
       this.dataSource = new MatTableDataSource(this.autorizaciones!);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

@@ -41,7 +41,8 @@ export class ConfiguracionComponent implements OnInit {
   public dataSource!: MatTableDataSource<any>;
   @ViewChild('pagEntitys') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  displayedColumns: string[] = ['Id','Usuario','Password','CodigoEntidad','NombreEntidad','Gestor','Acciones'];
+  // displayedColumns: string[] = ['Id','Usuario','Password','CodigoEntidad','NombreEntidad','Gestor','Acciones'];
+  displayedColumns: string[] = ['Connect','Password','CodigoEntidad','NombreEntidad','Gestor','Acciones'];
 
   public dataConnection!: MatTableDataSource<any>;
   @ViewChild('pagConnection') paginatorConnection!: MatPaginator;
@@ -96,7 +97,8 @@ export class ConfiguracionComponent implements OnInit {
       usx_cod: new FormControl('',),
       usr_login: new FormControl('',[Validators.required]),
       usc_cod: new FormControl('',[Validators.required]),
-      rol_id: new FormControl('',[Validators.required])
+      rol_id: new FormControl('',[Validators.required]),
+      usr_connect: new FormControl('',)
     });
 
     this.registerEntity = this.fb.group({
@@ -187,7 +189,6 @@ export class ConfiguracionComponent implements OnInit {
     this.authService.GetUsersConnection(atob(localStorage.getItem('token')!),idUser)
       .subscribe((data: any) => {
         this.UsersConnection = data.Values.ResultFields;
-
         this.infoProcessConnection();
       }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
   }
@@ -217,9 +218,11 @@ export class ConfiguracionComponent implements OnInit {
       USX_COD: this.registerRol.controls['usx_cod'].value,
       USR_LOGIN: this.registerRol.controls['usr_login'].value.id,
       USC_COD: this.registerRol.controls['usc_cod'].value.id,
-      ROL_ID: this.registerRol.controls['rol_id'].value.id
+      ROL_ID: this.registerRol.controls['rol_id'].value.id,
+      USR_CONNECT: this.registerRol.controls['usr_connect'].value,
     };
 
+    console.log(json)
     //ind => bandera para identificar si se va a registrar o actualizar
     if(this.indRegister != 0){
       //actualiza
@@ -256,7 +259,7 @@ export class ConfiguracionComponent implements OnInit {
       this.authService.getUserConectxId(atob(localStorage.getItem('token')!),this.indRegister)
         .subscribe((data: any) => {
           let result = data.Values.ResultFields;
-          this.registerEntity.controls['usc_usuario'].setValue(result[0].USC_USUARIO);
+          this.registerEntity.controls['usc_usuario'].setValue(result[0].USX_CODIGO_USUARIO_CONNECT);
           this.registerEntity.controls['usc_cod'].setValue(result[0].USC_COD);
           this.registerEntity.controls['usc_password'].setValue(result[0].USC_PASSWORD);
           this.registerEntity.controls['usc_codigo_entidad'].setValue(result[0].USC_CODIGO_ENTIDAD);
@@ -274,7 +277,7 @@ export class ConfiguracionComponent implements OnInit {
     let json = {
       TOKEN: atob(localStorage.getItem('token')!),
       USC_COD: this.registerEntity.controls['usc_cod'].value,
-      USC_USUARIO: this.registerEntity.controls['usc_usuario'].value,
+      USX_CODIGO_USUARIO_CONNECT: this.registerEntity.controls['usc_usuario'].value,
       USC_PASSWORD: this.registerEntity.controls['usc_password'].value,
       USC_CODIGO_ENTIDAD: this.registerEntity.controls['usc_codigo_entidad'].value,
       USC_NOMBRE_ENTIDAD: this.registerEntity.controls['usc_nombre_entidad'].value,
@@ -457,9 +460,10 @@ export class ConfiguracionComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.entitys!);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-    } else {
-      utils.showAlert('Error de información', 'error');
     }
+    // else {
+    //   utils.showAlert('Error de información', 'error');
+    // }
   }
 
   applyFilterConnection(event: Event) {
@@ -476,9 +480,10 @@ export class ConfiguracionComponent implements OnInit {
       this.dataConnection = new MatTableDataSource(this.UsersConnection!);
       this.dataConnection.paginator = this.paginatorConnection;
       this.dataConnection.sort = this.sortConnection;
-    } else {
-      utils.showAlert('Error de información', 'error');
     }
+    // else {
+    //   utils.showAlert('Error de información', 'error');
+    // }
   }
 
   applyFilterHiringTeams(event: Event) {
@@ -495,9 +500,10 @@ export class ConfiguracionComponent implements OnInit {
       this.dataHiringTeams = new MatTableDataSource(this.hiringTeams!);
       this.dataHiringTeams.paginator = this.paginatorHiringTeams;
       this.dataHiringTeams.sort = this.sortHiringTeams;
-    } else {
-      utils.showAlert('Error de información', 'error');
     }
+    // else {
+    //   utils.showAlert('Error de información', 'error');
+    // }
   }
 
   applyFilterHiringUnit(event: Event) {
@@ -514,9 +520,10 @@ export class ConfiguracionComponent implements OnInit {
       this.dataHiringUnit = new MatTableDataSource(this.hiringUnit!);
       this.dataHiringUnit.paginator = this.paginatorHiringUnit;
       this.dataHiringUnit.sort = this.sortHiringUnit;
-    } else {
-      utils.showAlert('Error de información', 'error');
     }
+    // else {
+    //   utils.showAlert('Error de información', 'error');
+    // }
   }
 
   onRegisterConnection(ind:number){
@@ -539,6 +546,7 @@ export class ConfiguracionComponent implements OnInit {
             this.registerRol.controls['usx_cod'].setValue(result[0].USX_COD);
             this.registerRol.controls['usc_cod'].setValue(valUscCod);
             this.registerRol.controls['rol_id'].setValue(valRolId);
+            this.registerRol.controls['usr_connect'].setValue(result[0].USX_CODIGO_USUARIO_CONNECT);
             this.show = false;
           }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
 
