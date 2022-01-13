@@ -216,10 +216,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       categoriaContratacion: new FormControl(null, [Validators.required]),
       profesion: new FormControl({value: null, disabled: false}, [Validators.required]),
       correo: new FormControl('', [Validators.required, Validators.email]),
-      celular: new FormControl({
-        value: '',
-        disabled: false
-      }, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
+      celular: new FormControl({value: '',disabled: false}, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
       //****************************************************************************************************************
       tipoProceso: new FormControl(null, [Validators.required]),
       tipoContrato: new FormControl(null, [Validators.required]),
