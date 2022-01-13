@@ -69,13 +69,13 @@ export class AutorizacionesDetailComponent implements OnInit {
         // console.log(response)
         if(response.Values.ResultFields != null && response.Values.ResultFields[0].ISMASIVE != null){
           if(response.Values.ResultFields[0].ISMASIVE == 'SI'){
-            console.log(1234)
+            // console.log(1234)
             //this.estado_proceso = 7;
             this.ISMASIVE = true;
           }
         }
         else{
-          console.log(4321)
+          // console.log(4321)
           this.response = response.Values.ResultFields;
           if(this.response != null && this.response.length > 0){
             this.estado_proceso = response.Values.ResultFields[response.Values.ResultFields.length - 1].AUTORIZACION_ESTADO;
@@ -310,8 +310,8 @@ export class AutorizacionesDetailComponent implements OnInit {
         },
       }
       pdfMake.createPdf(autorizacionSecretaria).open();
-    } else if (archivo == 'Informe DADI') {
-      alert('aqui')
+    } else if (archivo == 'Informe DADII') {
+      // alert('aqui')
       let autorizacionDadi: any = {
         pageMargins: [20, 150, 20, 30],
         footer: function (currentPage: any, pageCount: any) {
@@ -450,7 +450,7 @@ export class AutorizacionesDetailComponent implements OnInit {
           },
         },
       }
-      alert('aqui2')
+      // alert('aqui2')
       pdfMake.createPdf(autorizacionDadi).open();
     }
   }

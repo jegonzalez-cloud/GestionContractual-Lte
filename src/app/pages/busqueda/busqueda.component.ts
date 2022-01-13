@@ -13,6 +13,7 @@ import * as moment from "moment";
 import * as pdfMake from "pdfmake/build/pdfmake";
 import {CurrencyPipe, formatCurrency} from '@angular/common';
 import * as func from "../../utils/functions";
+import {ServicesService} from "../../services/services.service";
 
 @Component({
   selector: 'app-busqueda',
@@ -24,7 +25,10 @@ export class BusquedaComponent implements OnInit {
   private centroGestor = atob(localStorage.getItem('centroGestor')!);
   displayedColumns: string[] = ['Num','Identificacion', 'Nombre', 'Estado', 'Fecha', 'Creador', 'ValorOferta'];
   private token: string = localStorage.getItem('token')!;
+  private codigoEntidad: string = atob(localStorage.getItem('codigoEntidad')!);
+  private username: string = atob(localStorage.getItem('username')!);
   ROL: any = atob(localStorage.getItem('rol')!);
+  info_process: any = [];
   dataSource!: MatTableDataSource<any>;
   busquedaForm!: FormGroup;
   proveedores!: any;
@@ -75,7 +79,7 @@ export class BusquedaComponent implements OnInit {
   @ViewChild('openbutton') openbutton:any;
   verDescuentos: any = [];
 
-  constructor(private secopService: SecopService, private fb: FormBuilder,private router:Router,private authService:AuthService,@Inject(LOCALE_ID) public locale: string) {
+  constructor(private service: ServicesService,private secopService: SecopService, private fb: FormBuilder,private router:Router,private authService:AuthService,@Inject(LOCALE_ID) public locale: string) {
   }
 
   ngOnInit(): void {
@@ -265,6 +269,23 @@ export class BusquedaComponent implements OnInit {
     } else {
       this.verDescuentos[infopago[0]] = true;
     }
+  }
+
+  anularProceso(proceso: string) {
+    this.secopService.updateProcess(proceso, this.ROL, this.entidad, this.codigoEntidad, this.username, 'anulado').subscribe((response: any) => {
+      this.service.sendClickEvent();
+      if (response.Status = 'Ok') {
+        utils.showAlert('Se Anulo el proceso #' + proceso + '!', 'warning');
+        this.getdataProcess();
+      }
+    });
+  }
+
+  getdataProcess() {
+    this.secopService.getDataProcess('0001', 1,this.centroGestor).subscribe((data: any) => {
+      this.info_process = data;
+      this.infoProcess();
+    });
   }
 
 

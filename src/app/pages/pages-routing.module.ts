@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'busqueda', component: BusquedaComponent, canActivate:[BusquedaGuard] },
   { path: 'process', component: ProcessComponent, canActivate:[ProcesosGuard] },
   { path: 'autorizaciones', component: AutorizacionesComponent, canActivate:[AutorizacionesGuard] },
-  { path: 'autorizaciones-det/:id', component: AutorizacionesDetailComponent, canActivate:[AutorizacionesGuard] },
+  { path: 'autorizaciones-det/:id', component: AutorizacionesDetailComponent },
   { path: 'reportes', component: ReportesComponent,canLoad:[AuthGuard] },
   { path: 'sample', component: SampleComponent},
   { path: 'configuracion', component: ConfiguracionComponent,canActivate:[ConfiguracionGuard]},

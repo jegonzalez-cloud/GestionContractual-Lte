@@ -217,4 +217,8 @@ export class SecopService {
   public updateProcessMasive(proceso:any){
     return this.httpClient.get(`${environment.apiTestUrl}contratos/updateProcessMasive?proceso=${proceso}`);
   }
+
+  public insertCdp(cdp:any){
+    return this.httpClient.post(`${environment.apiTestUrl}contratos/insertCdp`, cdp);
+  }
 }

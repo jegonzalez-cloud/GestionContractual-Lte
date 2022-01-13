@@ -171,8 +171,8 @@
 <!--    </li>-->
 
     <!-- Notifications Dropdown Menu -->
-    <li class="nav-item dropdown">
-      <a class="nav-link" data-toggle="dropdown" href="#">
+    <li *ngIf="ROL != 1" class="nav-item dropdown">
+      <a class="nav-link" data-toggle="dropdown" href="#divNotificaciones">
         <i class="far fa-bell text-lg"></i>
         <span *ngIf="cantidadAutorizaciones>0" class="badge badge-danger navbar-badge">{{cantidadAutorizaciones}}</span>
       </a>

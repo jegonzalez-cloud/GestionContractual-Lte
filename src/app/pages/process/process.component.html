@@ -6,6 +6,10 @@
             data-target="#myModal">Open
     </button>
 
+    <button type="button" [hidden]="true" #openbuttonErrorCdp  class="btn btn-info btn-lg" data-toggle="modal"
+            data-target="#modalResultadoCdp">Open
+    </button>
+
     <div class="modal fade" id="carga" role="dialog" data-backdrop="static">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -102,6 +106,38 @@
       </div>
     </div>
 
+    <div class="modal fade" id="modalResultadoCdp" role="dialog">
+      <div class="modal-dialog modal-dialog-scrollable">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <span style="font-weight: bold;font-size: larger ;color: var(--companyColor)">Listado de Errores CDP</span>
+            <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+            <!--            <h4 class="modal-title">Modal Header</h4>-->
+          </div>
+          <div class="modal-body">
+<!--            <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>-->
+<!--            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;"disabled>-->
+<!--              N° Cdp <span class="badge rounded-pill bg-secondary">{{cantidadErrorCdp}}</span>-->
+<!--            </button>-->
+            <br>
+            <div class="callout callout-danger" *ngFor="let d of cdpError">
+              <ul>
+                <li><b>Numero de Cdp</b> : <span>{{d['cdp']}}</span></li>
+                <li><b>Vigencia</b> : <span>{{d['vigencia']}}</span></li>
+                <li><b>Valor</b> : <span>{{d['valor'] | currency}}</span></li>
+                <li><b>Error</b> : <span>{{d['error'] | titlecase}}</span></li>
+              </ul>
+            </div>
+          </div>
+          <!--          <div class="modal-footer">-->
+          <!--            <button type="button" class="btn btn-danger" id="closeModal" (click)="onSave()">Save</button>-->
+          <!--          </div>-->
+        </div>
+      </div>
+    </div>
+
     <!-- Modal -->
     <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" tabindex="-1">
       <div class="modal-dialog modal-dialog-scrollable">
@@ -172,6 +208,13 @@
 <!--                    [ngStyle]="{'display': (ROL == 39 && ESTADO == 2) ? 'block' : 'none'}">-->
 <!--              Anular-->
 <!--            </button>-->
+            <button type="button" class="btn btn-warning"
+                    data-dismiss="modal"
+                    (click)="fillModal(PROCESO)"
+                    [ngStyle]="{'display':
+                    (ROL == 2 && ESTADO == 1) ? 'none' : (ROL == 1 && ESTADO == 2) ? 'none' : (ROL == 3 && ESTADO ==2) ? 'none' : (ROL == 4 && ESTADO == 3) ? 'none' : (ROL == 3 && ESTADO == 1) ? 'none' : (ROL == 4 && ESTADO ==1) ? 'none' : (ROL == 5 && ESTADO == 1) ? 'none' : (ROL == 6 && ESTADO ==1) ? 'none' : (ROL == 6 && ESTADO == 2) ? 'none' : 'block' }">
+              Historial
+            </button>
             <button type="button" class="btn btn-outline-primary"
                     data-dismiss="modal"
                     (click)="getPagosXRpc(PROCESO)"
@@ -295,6 +338,119 @@
                   <button *ngIf="myForm.valid" type="button" class="btn btn-primary ml-2" data-dismiss="modal"
                           (click)="onSubmit()">Guardar
                   </button>
+                </div>
+
+                <!--                <br>-->
+                <!--                <button type="button" (click)="addItem()" style="margin-right: 5px;">Add</button>-->
+                <!--                <button type="submit">Submit</button>-->
+
+              </form>
+
+
+            </div>
+          </div>
+
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="modal-cdp" data-backdrop="static" data-keyboard="false" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content" style="width: auto">
+          <div class="modal-header">
+            <h4 class="modal-title"><b style="font-size: larger">Vincular Codigos CDP<a
+              style="color: var(--companyColor)"></a></b>
+            </h4>
+            <button #closebuttonCdp [hidden]="true" type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <button type="button" class="close" (click)="validarCamposCdp()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="mr-3 ml-3">
+            <h4>
+              <label style="color: var(--companyColor)">Valor Contrato</label>
+              <span class="badge badge-pill badge-success ml-2" style="color:white"> {{valorAcomparar | currency}}</span>
+            </h4>
+          </div>
+          <div class="modal-body modal-dialog-scrollable">
+            <div>
+              <form [formGroup]="cdpForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+                <div formArrayName="cdpArray" *ngFor="let a of cdpForm.get('cdpArray')!.value; let i = index trackBy: trackByFnCdp">
+                  <div [formGroupName]="i" style="margin-bottom: 10px;">
+                    <label class="font-weight-normal text-sm">
+                      <b class="text-md"> CDP #{{i + 1}}</b>
+                    </label>
+                    <div class="callout row" style="border-top: 3px solid var(--companyColor)">
+                      <div class="col-12 col-sm-4">
+                        <div class="form-group">
+                          <label class="font-weight-normal text-sm"> Cdp </label>
+                          <input
+                            [maxLength]="10"
+                            [minlength]="10"
+                            formControlName="cdp"
+                            type="text"
+                            class="form-control"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-4 col-sm-4">
+                        <div class="form-group">
+                          <label class="font-weight-normal text-sm"> Vigencia </label>
+                          <input
+                            [maxLength]="4"
+                            [minlength]="4"
+                            formControlName="vigencia"
+                            type="text"
+                            class="form-control"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <div class="form-group">
+                          <label class="font-weight-normal text-sm"> Valor </label>
+                          <input
+                            formControlName="valor"
+                            class="form-control"
+                            required
+                            currencyMask
+                          />
+                        </div>
+                      </div>
+                      <div [hidden]="true" class="col-12 col-sm-4">
+                        <div class="form-group">
+                          <label class="font-weight-normal text-sm"> Centro Gestor </label>
+                          <input
+                            formControlName="centroGestor"
+                            class="form-control"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <input type="hidden">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+
+                    <button *ngIf="i != 0" type="button" class="btn btn-primary" (click)="deleteCdpItem(i)"
+                            data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Delete ({{i + 1}})
+                    </button>
+
+                    <!--                  <button " >Delete - {{i}}</button>-->
+                  </div>
+                </div>
+                <div class="mb-1">
+                  <button type="button" class="btn btn-secondary" (click)="addCdpItem()">Agregar
+                  </button>
+                  <button *ngIf="cdpForm.valid" type="button" class="btn btn-primary ml-2" data-dismiss="modal"
+                          (click)="onSubmitCdp()">Guardar
+                  </button>
+                  <br>
                 </div>
 
                 <!--                <br>-->
@@ -454,7 +610,7 @@
                               />
                             </div>
                           </div>
-                          <div class="col-12 col-sm-2">
+                          <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">Genero</label>
                               <select
@@ -469,7 +625,7 @@
                               </select>
                             </div>
                           </div>
-                          <div class="col-12 col-sm-2">
+                          <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">Departamento</label>
                               <select
@@ -506,7 +662,7 @@
                             </div>
                           </div>
 
-                          <div class="col-12 col-sm-2">
+                          <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">Celular
                                 <span *ngIf="validacionCelular == true" class="badge badge-danger" style="cursor: pointer;" matTooltip="Introduzca un numero de 10 digitos" matTooltipPosition="above">
@@ -535,7 +691,7 @@
                                 </span>
                               </label>
                               <input
-                                matTooltip="ejemplo@ejemplo.ejemplo" matTooltipPosition="above"
+                                matTooltip="mail@mail.mail" matTooltipPosition="above"
                                 formControlName="correo"
                                 type="email"
                                 required
@@ -562,18 +718,18 @@
                             </div>
                           </div>
 
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Categoría de Profesión</label>
-                              <select (change)="getProfesionByCategoria()"
-                                      formControlName="categoriaProfesion"
-                                      class="form-control text-sm"
-                              >
-                                <option *ngFor="let cat of categoriasProfesion"
-                                        value="{{cat.PROF_CODIGO}}">{{cat.PROF_DESCRIPCION}}</option>
-                              </select>
-                            </div>
-                          </div>
+<!--                          <div class="col-12 col-sm-3">-->
+<!--                            <div class="form-group">-->
+<!--                              <label class="font-weight-normal text-sm">Categoría de Profesión</label>-->
+<!--                              <select (change)="getProfesionByCategoria()"-->
+<!--                                      formControlName="categoriaProfesion"-->
+<!--                                      class="form-control text-sm"-->
+<!--                              >-->
+<!--                                <option *ngFor="let cat of categoriasProfesion"-->
+<!--                                        value="{{cat.PROF_CODIGO}}">{{cat.PROF_DESCRIPCION}}</option>-->
+<!--                              </select>-->
+<!--                            </div>-->
+<!--                          </div>-->
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
@@ -658,7 +814,7 @@
                           </div>
 
 
-                          <div class="col-12 col-sm-4">
+                          <div [hidden]="true" class="col-12 col-sm-4">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">
                                 Nombre del proceso
@@ -889,16 +1045,17 @@
                               >Valor Estimado</label
                               >
                               <div class="input-group">
+<!--                                (keyup.enter)="getCdpMountValidate()"-->
                                 <input (change)="getChangeContractValue()"
-                                       (keyup.enter)="getCdpMountValidate()"
                                        currencyMask
                                        formControlName="valorContrato"
                                        name="valorContrato"
                                        class="form-control"
                                 />
-                                <div class="input-group-append">
+                                <div [hidden]="valorContrato" class="input-group-append">
                                     <span [style]="{'background-color': getColor()}"
-                                          (click)="getCdpMountValidate()"
+                                          (click)="validateFieldsCdp()"
+                                          data-target="#modal-cdp" data-toggle="modal"
                                           class="input-group-text cursor"
                                     ><i class="fas fa-dollar-sign"></i
                                     ></span>
@@ -907,17 +1064,17 @@
                             </div>
                           </div>
 
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">CDP</label>
-                              <input
-                                formControlName="cdp"
-                                type="text"
-                                name="cdp"
-                                class="form-control"
-                              />
-                            </div>
-                          </div>
+<!--                          <div class="col-12 col-sm-3">-->
+<!--                            <div class="form-group">-->
+<!--                              <label class="font-weight-normal text-sm">CDP</label>-->
+<!--                              <input-->
+<!--                                formControlName="cdp"-->
+<!--                                type="text"-->
+<!--                                name="cdp"-->
+<!--                                class="form-control"-->
+<!--                              />-->
+<!--                            </div>-->
+<!--                          </div>-->
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
@@ -1069,7 +1226,7 @@
                   <!-- /.card -->
                 </div>
               </div>
-              <button [hidden]="createProcessForm.invalid || myForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray' || validacionCelular == true || validacionCorreo == true" class="btn btn-primary btn-sm btn-block" type="submit">Crear Proceso</button>
+              <button [hidden]="createProcessForm.invalid || myForm.invalid || cdpForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray' || validacionCelular == true || validacionCorreo == true || validateDataCdp != 1" class="btn btn-primary btn-sm btn-block" type="submit">Crear Proceso</button>
             </form>
           </div>
         </div>
@@ -1142,23 +1299,28 @@
                           style="font-size: 14px;font-weight: bolder;color: black"> Estado
                       </th>
                       <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;word-break: break-all"><a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :
-                        (row.ESTADO >= 2 && row.ESTADO <= 6 && ROL == 1) ? 'gray' :
-                        (ROL == 1 && row.ESTADO == 1) ? 'darkgray' :
-                        (ROL == 1 && row.ESTADO == 7) ? 'green' :
-                        (ROL == 1 && row.ESTADO == 0) ? 'black' : 'blue' }">
-<!--                        {{(row.ESTADO >= 2 && row.ESTADO <= 6 && ROL == 1) ? 'Pendiente Aprobación' :-->
-<!--                        (row.ESTADO == 1 && ROL == 1) ? 'Anulado' :-->
-<!--                          (row.ESTADO == 0 && ROL == 1) ? 'Rechazado' :-->
-<!--                            (row.ESTADO == 7 && ROL == 1) ? 'Aprobado' : ''}}-->
-                        {{((row.ESTADO >= 3 && row.ESTADO <= 6) && (ROL == 2 || ROL == 1)) ? 'En flujo'
+                          style="font-size: 12px;word-break: break-all;font-weight: bold"><a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :
+                        ((row.ESTADO >= 2 && row.ESTADO < 7) && ROL == 1) ? 'gray' :
+                        (row.ESTADO == 2 && ROL == 2) ? 'gray' :
+                        (row.ESTADO == 3 && ROL == 3) ? 'gray' :
+                        (row.ESTADO == 4 && ROL == 4) ? 'gray' :
+                        (row.ESTADO == 5 && ROL == 5) ? 'gray' :
+                        (row.ESTADO == 6 && ROL == 6) ? 'gray' :
+                        (row.ESTADO == 1) ? 'red' :
+                        (row.ESTADO >= 3 && row.ESTADO <= 7 && ROL == 2) ? 'green' :
+                        (row.ESTADO >= 4 && row.ESTADO <= 7 && ROL == 3) ? 'green' :
+                        (row.ESTADO >= 5 && row.ESTADO <= 7 && ROL == 4) ? 'green' :
+                        (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 5) ? 'green' :
+                        (row.ESTADO == 7 && ROL == 6) ? 'green' :
+                        (row.ESTADO == 0) ? 'black' : 'blue' }">
+                        {{((row.ESTADO > 2 && row.ESTADO < 7) && ROL == 1)? 'En flujo':(row.ESTADO == 2 && ROL == 1) ? 'Creado' :(row.ESTADO == 7 && ROL == 1)?'Aprobado':(row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobación' :((row.ESTADO >= 3 && row.ESTADO <= 6) && (ROL == 2 || ROL == 1)) ? 'En flujo'
                         :(row.ESTADO >= 4 && row.ESTADO <= 6) && ROL == 3 ? 'En flujo'
                           :(row.ESTADO >= 5 && row.ESTADO <= 6) && ROL == 4 ? 'En flujo'
                             :(row.ESTADO >= 6 && row.ESTADO <= 6) && ROL == 5 ? 'En flujo'
                               :(row.ESTADO >= 3 && row.ESTADO <= 6) ? 'Pendiente Aprobación' :
                                 (row.ESTADO == 0) ? 'Rechazado' :
                                   (row.ESTADO == 1) ? 'Anulado' :
-                                    (row.ESTADO == 7) ? 'Aprobado' : ''}}
+                                    (row.ESTADO == 7) ? 'Aprobado' : (row.ESTADO == 8) ? 'Liquidado' : ''}}
                       </a></td>
 <!--                      <td mat-cell *matCellDef="let row"-->
 <!--                          style="font-size: 12px;word-break: break-all"><a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :-->

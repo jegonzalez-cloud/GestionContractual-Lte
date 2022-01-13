@@ -260,4 +260,9 @@ export class NavbarComponent implements OnInit {
     let r: any = document.querySelector(':root');
     r.style.setProperty('--companyColor', color);
   }
+
+  ddd(){
+    console.log('pulsaste')
+    alert(this.ROL)
+  }
 }

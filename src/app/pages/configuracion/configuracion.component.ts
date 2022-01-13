@@ -259,7 +259,7 @@ export class ConfiguracionComponent implements OnInit {
       this.authService.getUserConectxId(atob(localStorage.getItem('token')!),this.indRegister)
         .subscribe((data: any) => {
           let result = data.Values.ResultFields;
-          this.registerEntity.controls['usc_usuario'].setValue(result[0].USX_CODIGO_USUARIO_CONNECT);
+          this.registerEntity.controls['usc_usuario'].setValue(result[0].USC_USUARIO);
           this.registerEntity.controls['usc_cod'].setValue(result[0].USC_COD);
           this.registerEntity.controls['usc_password'].setValue(result[0].USC_PASSWORD);
           this.registerEntity.controls['usc_codigo_entidad'].setValue(result[0].USC_CODIGO_ENTIDAD);
@@ -277,7 +277,7 @@ export class ConfiguracionComponent implements OnInit {
     let json = {
       TOKEN: atob(localStorage.getItem('token')!),
       USC_COD: this.registerEntity.controls['usc_cod'].value,
-      USX_CODIGO_USUARIO_CONNECT: this.registerEntity.controls['usc_usuario'].value,
+      USC_USUARIO: this.registerEntity.controls['usc_usuario'].value,
       USC_PASSWORD: this.registerEntity.controls['usc_password'].value,
       USC_CODIGO_ENTIDAD: this.registerEntity.controls['usc_codigo_entidad'].value,
       USC_NOMBRE_ENTIDAD: this.registerEntity.controls['usc_nombre_entidad'].value,
