@@ -202,6 +202,12 @@
                     [ngStyle]="{'display': (ROL == 1 && ESTADO == 2) ? 'block' : 'none'}">
               Anular
             </button>
+            <button type="button" class="btn btn-info"
+                    data-dismiss="modal"
+                    (click)="anularProceso(PROCESO)"
+                    [ngStyle]="{'display': (ROL == 1 && ESTADO == 2) ? 'block' : 'none'}">
+              Editar
+            </button>
 <!--            <button type="button" class="btn btn-secondary"-->
 <!--                    data-dismiss="modal"-->
 <!--                    (click)="anularProceso(PROCESO)"-->
@@ -738,6 +744,7 @@
                                 formControlName="profesion"
                                 class="form-control text-sm"
                               >
+                                <option>sample</option>
                                 <option *ngFor="let cat of categoriasSubProfesion"
                                         value="{{cat.SUB_DESCRIPCION_SUBPROFESION}}">{{cat.SUB_DESCRIPCION_SUBPROFESION}}</option>
                               </select>
