@@ -221,4 +221,8 @@ export class SecopService {
   public insertCdp(cdp:any){
     return this.httpClient.post(`${environment.apiTestUrl}contratos/insertCdp`, cdp);
   }
+
+  public getAllProfesions(token:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getAllProfesions?token=${token}`);
+  }
 }

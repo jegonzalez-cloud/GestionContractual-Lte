@@ -152,6 +152,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   verDescuentos: any = [];
   cantidadCuotas: any;
   valorAcomparar: any;
+  public allProfesions: any;
 
   constructor(
     private fb: FormBuilder,
@@ -263,7 +264,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.getUserData();
     this.getDepartamentos();
     this.getUnidadesUnspsc();
-    this.getCategoriaProfesion();
+    this.getAllProfesions();
+    // this.getCategoriaProfesion();
     // this.fillEntidad();
   }
 
@@ -297,6 +299,16 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         this.valorContrato = true;
       }
     })
+  }
+
+  onClickHonorarios() {
+    this.createProcessForm.controls['duracionContrato'].reset();
+    this.createProcessForm.controls['duracionContrato'].disable();
+    this.createProcessForm.controls['tiempoDuracion'].reset();
+    this.createProcessForm.controls['tiempoDuracion'].disable();
+    this.iconColor = 'lightgray';
+    this.color = false;
+    this.getColor();
   }
 
   departmentsCont(): void {
@@ -472,18 +484,29 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         let cdp = data[i].cdp;
         let vigencia = data[i].vigencia;
         let valor = data[i].valor;
-        let res =  await this.secopService.getCdpMount(this.token, this.centroGestor, cdp, valor, vigencia).toPromise().then((response: any) => {
+        let res = await this.secopService.getCdpMount(this.token, this.centroGestor, cdp, valor, vigencia).toPromise().then((response: any) => {
           if (response.Status != 'Ok') {
             this.color = false;
             this.createProcessForm.controls['duracionContrato'].setValue('');
             this.createProcessForm.controls['tiempoDuracion'].setValue('');
             this.createProcessForm.controls['duracionContrato'].disable();
             this.createProcessForm.controls['tiempoDuracion'].disable();
-            this.cdpError.push({posicion:'Cdp N°' +(i + 1),cdp:cdp,vigencia:vigencia,valor:valor,error:response.Values.Error});
-          }
-          else{
-            if(response.Values.ResultFields < valor){
-              this.cdpError.push({posicion:'Cdp N°' +(i + 1),cdp:cdp,vigencia:vigencia,valor:valor,error:'Valor mayor a monto Cdp'});
+            this.cdpError.push({
+              posicion: 'Cdp N°' + (i + 1),
+              cdp: cdp,
+              vigencia: vigencia,
+              valor: valor,
+              error: response.Values.Error
+            });
+          } else {
+            if (response.Values.ResultFields < valor) {
+              this.cdpError.push({
+                posicion: 'Cdp N°' + (i + 1),
+                cdp: cdp,
+                vigencia: vigencia,
+                valor: valor,
+                error: 'Valor mayor a monto Cdp'
+              });
             }
           }
         }).catch((error: any) => {
@@ -524,7 +547,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         //   }
         // });
         // alert(i)
-        if(i == longitud-1){
+        if (i == longitud - 1) {
           this.verificarErroresCdp(this.cdpError.length);
         }
       }
@@ -628,15 +651,14 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     // }
   }
 
-  verificarErroresCdp(errores:any){
-    if(errores != null && errores != 0){
+  verificarErroresCdp(errores: any) {
+    if (errores != null && errores != 0) {
       localStorage.removeItem('dataCdp');
       this.cantidadErrorCdp = errores;
-      utils.showAlert('Por favor revise los Cdp ingresados','warning');
+      utils.showAlert('Por favor revise los Cdp ingresados', 'warning');
       this.onOpenErroresCdp();
       this.validateDataCdp = 0;
-    }
-    else{
+    } else {
       this.validateDataCdp = 1;
       this.color = true;
       this.createProcessForm.controls['duracionContrato'].enable();
@@ -821,7 +843,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
     if (tipoIdentificacion == 'Cédula' || tipoIdentificacion == 'Cédula de Extranjería') {
 
-      if(!this.createProcessForm.controls['indDuracionContrato'].value){
+      if (this.createProcessForm.controls['indDuracionContrato'].value) {
         if ((valorContrato / tiempoTotal) > this.maxSalary) {
           this.iconColor = 'lightgray';
           this.validateDataUNSPSC = 0;
@@ -832,7 +854,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
           // console.log(this.createProcessForm.controls['cdp'].value);
           this.iconColor = 'lightgreen';
         }
-      }else{
+      } else {
         this.createProcessForm.controls['comite'].setValue('NO');
         this.iconColor = 'lightgreen';
       }
@@ -984,11 +1006,16 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.cdpArray.push(this.createCdpItem());
   }
 
-  validateFieldsCdp(){
+  validateFieldsCdp() {
     console.log(this.cdpForm.controls['cdpArray'].value);
     let cdp = this.cdpForm.controls['cdpArray'].value[0].cdp;
-    if(cdp == null || cdp == '' || cdp.length <= 0){
-      this.cdpForm.controls['cdpArray'].get('0')?.setValue({'cdp':'','vigencia':'','valor':null,'centroGestor':atob(localStorage.getItem('centroGestor')!)});
+    if (cdp == null || cdp == '' || cdp.length <= 0) {
+      this.cdpForm.controls['cdpArray'].get('0')?.setValue({
+        'cdp': '',
+        'vigencia': '',
+        'valor': null,
+        'centroGestor': atob(localStorage.getItem('centroGestor')!)
+      });
     }
   }
 
@@ -1187,10 +1214,10 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         return initial;
       }, {});
 
-      this.progressValueTotal = jsonData.Hoja1.length;
-      for (let i = 0; i < jsonData.Hoja1.length; i++) {
+      this.progressValueTotal = jsonData.DATA.length;
+      for (let i = 0; i < jsonData.DATA.length; i++) {
         this.progressValue = Math.round((((i + 1) / this.progressValueTotal) * 100));
-        let keyCount = Object.keys(jsonData.Hoja1[i]).length;
+        let keyCount = Object.keys(jsonData.DATA[i]).length;
         let dataFormulario: any = [];
         await this.validateDataExcel(jsonData, keyCount, dataFormulario, i);//.then(console.log);
       }
@@ -1208,8 +1235,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   async validateDataExcel(jsonData: any, keyCount: number, dataFormulario: any, i: number) {
     //this.centroGestor = '1158';
     return await new Promise((resolve, reject) => {
-      if (keyCount == 29) {
-        let dataExcel = jsonData.Hoja1[i];
+      if (keyCount == 28) {
+        let dataExcel = jsonData.DATA[i];
         let codigoUNSPSC: any = [];
         let dataExcelCodigo = jsonData.CODIGO;
         let dataExcelCdp = jsonData.CDP;
@@ -1273,180 +1300,179 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
                                     if (dataExcel.CATCONTRATACION.toString() != '') {
                                       dataFormulario.push(dataExcel.CATCONTRATACION);
-                                      this.secopService.getCatProfesion(dataExcel.CATPROFESION).subscribe((response: any) => {
-                                          if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
-                                            dataFormulario.push(response.Values.ResultFields);
-                                            this.secopService.getProfesion(dataExcel.PROFESION).subscribe((response: any) => {
-                                              if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
-                                                dataFormulario.push(response.Values.ResultFields);
-                                                this.secopService.getTipoProceso(dataExcel.TIPOPROCESO).subscribe((response: any) => {
-                                                  if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
-                                                    dataFormulario.push(response.Values.ResultFields);
-                                                    this.secopService.getTipoContrato(dataExcel.TIPOCONTRATO).subscribe((response: any) => {
-                                                      if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
-                                                        dataFormulario.push(response.Values.ResultFields);
-                                                        this.secopService.getJustificacionTipoProceso(dataExcel.JUSTIFICACIONTIPOPROCESO).subscribe((response: any) => {
-                                                          if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
-                                                            dataFormulario.push(response.Values.ResultFields);
-                                                            if (dataExcel.NOMBREPROCESO != null && dataExcel.NOMBREPROCESO.toString().length != 0) {
-                                                              dataFormulario.push(dataExcel.NOMBREPROCESO);
-                                                              this.secopService.validateUnidadContratacion(dataExcel.UNIDADCONTRATACION).subscribe((response: any) => {
-                                                                if (response.Status == 'Ok') {
-                                                                  dataFormulario.push(dataExcel.UNIDADCONTRATACION);
-                                                                  this.secopService.validateEquipoContratacion(dataExcel.EQUIPOCONTRATACION).subscribe(async (response: any) => {
-                                                                    if (response.Status == 'Ok') {
-                                                                      // dataFormulario.push(dataExcel.EQUIPOCONTRATACION);
-                                                                      dataFormulario.push(response.Values.ResultFields);
-                                                                      if (dataExcel.OBJETOPROCESO != null && dataExcel.OBJETOPROCESO.toString().length != 0) {
-                                                                        dataFormulario.push(dataExcel.OBJETOPROCESO);
-                                                                        if (this.validarFirmasPosteriores(moment(dataExcel.FIRMACONTRATO, "YYYYMMDD").format().slice(0, -6)) == 1) {
-                                                                          dataFormulario.push(moment(dataExcel.FIRMACONTRATO, "YYYYMMDD").format().slice(0, -6));
-                                                                          if (this.validarFirmasPosteriores(moment(dataExcel.FECHAINICIO, "YYYYMMDD").format().slice(0, -6)) == 1) {
-                                                                            dataFormulario.push(moment(dataExcel.FECHAINICIO, "YYYYMMDD").format().slice(0, -6));
-                                                                            if (this.validarFirmasPosteriores(moment(dataExcel.FECHATERMINO, "YYYYMMDD").format().slice(0, -6)) == 1) {
-                                                                              dataFormulario.push(moment(dataExcel.FECHATERMINO, "YYYYMMDD").format().slice(0, -6));
-                                                                              if (this.validarFirmasPosteriores(moment(dataExcel.PLAZOEJECUCION, "YYYYMMDD").format().slice(0, -6)) == 1) {
-                                                                                dataFormulario.push(moment(dataExcel.PLAZOEJECUCION, "YYYYMMDD").format().slice(0, -6));
-                                                                                if (dataExcel.VALORESTIMADO != null && dataExcel.VALORESTIMADO.toString().length > 0 && !isNaN(Number(dataExcel.VALORESTIMADO)) && Number(dataExcel.VALORESTIMADO) > 0) {
-                                                                                  dataFormulario.push(dataExcel.VALORESTIMADO);
-                                                                                  // if (dataExcel.CDP != null && dataExcel.CDP.toString().length == 10) {
-                                                                                  //   dataFormulario.push(dataExcel.CDP);
-                                                                                  //   if (dataExcel.VIGENCIA != null && dataExcel.VIGENCIA.toString().length == 4) {
-                                                                                  //     dataFormulario.push(dataExcel.VIGENCIA);
-                                                                                  //     this.secopService.getCdpMount(this.token, dataExcel.CENTROGESTOR, dataExcel.CDP, dataExcel.VALORESTIMADO, dataExcel.VIGENCIA).subscribe(async (response: any) => {
-                                                                                  //       if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
-                                                                                  //         let valorCdp = response.Values.ResultFields;
-                                                                                  //         if (valorCdp < dataExcel.VALORESTIMADO) {
-                                                                                  //           this.procesosError.push('Proceso N°' + (i + 1) + ' - No hay Presupuesto sufiente para este contrato');
-                                                                                  //           resolve('error cdp ' + (i + 1));
-                                                                                  //         } else {
-                                                                                  await this.lumpi(dataExcel, dataExcelCdp, i);
-                                                                                  dataExcel.DURACIONCONTRATO = (dataExcel.DURACIONCONTRATO == 1) ? 'Años' :
-                                                                                    (dataExcel.DURACIONCONTRATO == 2) ? 'Dias' :
-                                                                                      (dataExcel.DURACIONCONTRATO == 3) ? 'Horas' :
-                                                                                        (dataExcel.DURACIONCONTRATO == 4) ? 'Meses' :
-                                                                                          (dataExcel.DURACIONCONTRATO == 5) ? 'Semanas' : '';
+                                      // this.secopService.getCatProfesion(dataExcel.CATPROFESION).subscribe((response: any) => {
+                                      //   if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                                      //     dataFormulario.push(response.Values.ResultFields);
+                                      this.secopService.getProfesion(dataExcel.PROFESION).subscribe((response: any) => {
+                                        if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                                          dataFormulario.push(response.Values.ResultFields);
+                                          this.secopService.getTipoProceso(dataExcel.TIPOPROCESO).subscribe((response: any) => {
+                                            if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                                              dataFormulario.push(response.Values.ResultFields);
+                                              this.secopService.getTipoContrato(dataExcel.TIPOCONTRATO).subscribe((response: any) => {
+                                                if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                                                  dataFormulario.push(response.Values.ResultFields);
+                                                  this.secopService.getJustificacionTipoProceso(dataExcel.JUSTIFICACIONTIPOPROCESO).subscribe((response: any) => {
+                                                    if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                                                      dataFormulario.push(response.Values.ResultFields);
+                                                      if (dataExcel.NOMBREPROCESO != null && dataExcel.NOMBREPROCESO.toString().length != 0) {
+                                                        dataFormulario.push(dataExcel.NOMBREPROCESO);
+                                                        this.secopService.validateUnidadContratacion(dataExcel.UNIDADCONTRATACION).subscribe((response: any) => {
+                                                          if (response.Status == 'Ok') {
+                                                            dataFormulario.push(dataExcel.UNIDADCONTRATACION);
+                                                            this.secopService.validateEquipoContratacion(dataExcel.EQUIPOCONTRATACION).subscribe(async (response: any) => {
+                                                              if (response.Status == 'Ok') {
+                                                                // dataFormulario.push(dataExcel.EQUIPOCONTRATACION);
+                                                                dataFormulario.push(response.Values.ResultFields);
+                                                                if (dataExcel.OBJETOPROCESO != null && dataExcel.OBJETOPROCESO.toString().length != 0) {
+                                                                  dataFormulario.push(dataExcel.OBJETOPROCESO);
+                                                                  if (this.validarFirmasPosteriores(moment(dataExcel.FIRMACONTRATO, "YYYYMMDD").format().slice(0, -6)) == 1) {
+                                                                    dataFormulario.push(moment(dataExcel.FIRMACONTRATO, "YYYYMMDD").format().slice(0, -6));
+                                                                    if (this.validarFirmasPosteriores(moment(dataExcel.FECHAINICIO, "YYYYMMDD").format().slice(0, -6)) == 1) {
+                                                                      dataFormulario.push(moment(dataExcel.FECHAINICIO, "YYYYMMDD").format().slice(0, -6));
+                                                                      if (this.validarFirmasPosteriores(moment(dataExcel.FECHATERMINO, "YYYYMMDD").format().slice(0, -6)) == 1) {
+                                                                        dataFormulario.push(moment(dataExcel.FECHATERMINO, "YYYYMMDD").format().slice(0, -6));
+                                                                        if (this.validarFirmasPosteriores(moment(dataExcel.PLAZOEJECUCION, "YYYYMMDD").format().slice(0, -6)) == 1) {
+                                                                          dataFormulario.push(moment(dataExcel.PLAZOEJECUCION, "YYYYMMDD").format().slice(0, -6));
+                                                                          if (dataExcel.VALORESTIMADO != null && dataExcel.VALORESTIMADO.toString().length > 0 && !isNaN(Number(dataExcel.VALORESTIMADO)) && Number(dataExcel.VALORESTIMADO) > 0) {
+                                                                            dataFormulario.push(dataExcel.VALORESTIMADO);
+                                                                            // if (dataExcel.CDP != null && dataExcel.CDP.toString().length == 10) {
+                                                                            //   dataFormulario.push(dataExcel.CDP);
+                                                                            //   if (dataExcel.VIGENCIA != null && dataExcel.VIGENCIA.toString().length == 4) {
+                                                                            //     dataFormulario.push(dataExcel.VIGENCIA);
+                                                                            //     this.secopService.getCdpMount(this.token, dataExcel.CENTROGESTOR, dataExcel.CDP, dataExcel.VALORESTIMADO, dataExcel.VIGENCIA).subscribe(async (response: any) => {
+                                                                            //       if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                                                                            //         let valorCdp = response.Values.ResultFields;
+                                                                            //         if (valorCdp < dataExcel.VALORESTIMADO) {
+                                                                            //           this.procesosError.push('Proceso N°' + (i + 1) + ' - No hay Presupuesto sufiente para este contrato');
+                                                                            //           resolve('error cdp ' + (i + 1));
+                                                                            //         } else {
+                                                                            await this.lumpi(dataExcel, dataExcelCdp, i);
+                                                                            dataExcel.DURACIONCONTRATO = (dataExcel.DURACIONCONTRATO == 1) ? 'Años' :
+                                                                              (dataExcel.DURACIONCONTRATO == 2) ? 'Dias' :
+                                                                                (dataExcel.DURACIONCONTRATO == 3) ? 'Horas' :
+                                                                                  (dataExcel.DURACIONCONTRATO == 4) ? 'Meses' :
+                                                                                    (dataExcel.DURACIONCONTRATO == 5) ? 'Semanas' : '';
 
-                                                                                  if (dataExcel.DURACIONCONTRATO.toString() != '') {
-                                                                                    if (dataExcel.TIEMPOCONTRATO != null && dataExcel.TIEMPOCONTRATO.toString().length > 0 && !isNaN(Number(dataExcel.TIEMPOCONTRATO.toString())) && Number(dataExcel.TIEMPOCONTRATO.toString()) > 0) {
-                                                                                      let responseDuracion = this.validateDuracionMasivo(dataExcel.DURACIONCONTRATO, dataExcel.TIEMPOCONTRATO, dataExcel.TIPOIDENTIFICACION, dataExcel.VALORESTIMADO);
-                                                                                      let comite;
-                                                                                      if (responseDuracion == 0) {
-                                                                                        this.procesosError.push('Proceso N°' + (i + 1) + ' - duracion contrato');
-                                                                                        resolve('error duracion contrato ' + (i + 1));
-                                                                                      } else if (responseDuracion == 1) {
-                                                                                        //no comite
-                                                                                        comite = 'NO';
-                                                                                      } else if (responseDuracion == 2) {
-                                                                                        //comite
-                                                                                        comite = 'SI';
-                                                                                      }
-                                                                                      dataFormulario.push(dataExcel.DURACIONCONTRATO);
-                                                                                      dataFormulario.push(dataExcel.TIEMPOCONTRATO);
-                                                                                      dataFormulario.push(this.username);
-                                                                                      dataFormulario.push(comite);
-                                                                                      this.secopService.insertProcessMassive(dataFormulario).toPromise().then(async (response: any) => {
-                                                                                        // console.log(response)
-                                                                                        if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
-                                                                                          let r = await response.Values.ResultFields;
-                                                                                          if (r != null) {
-                                                                                            await this.functionInsertunspsc(dataExcelCodigo.length, dataExcelCodigo, dataExcel, response, i, valorAcomparar, codigoUNSPSC, dataExcelCdp);
-                                                                                            resolve('-');
-                                                                                          } else {
-                                                                                            this.procesosError.push('Proceso N°' + (i + 1) + ' - insert process');
-                                                                                            resolve('error insert process ' + (i + 1));
-                                                                                          }
-                                                                                        } else {
-                                                                                          this.procesosError.push('Proceso N°' + (i + 1) + ' - insert process');
-                                                                                          resolve('error insert process ' + (i + 1));
-                                                                                        }
-                                                                                      });
+                                                                            if (dataExcel.DURACIONCONTRATO.toString() != '') {
+                                                                              if (dataExcel.TIEMPOCONTRATO != null && dataExcel.TIEMPOCONTRATO.toString().length > 0 && !isNaN(Number(dataExcel.TIEMPOCONTRATO.toString())) && Number(dataExcel.TIEMPOCONTRATO.toString()) > 0) {
+                                                                                let responseDuracion = this.validateDuracionMasivo(dataExcel.DURACIONCONTRATO, dataExcel.TIEMPOCONTRATO, dataExcel.TIPOIDENTIFICACION, dataExcel.VALORESTIMADO);
+                                                                                let comite;
+                                                                                if (responseDuracion == 0) {
+                                                                                  this.procesosError.push('Proceso N°' + (i + 1) + ' - duracion contrato');
+                                                                                  resolve('error duracion contrato ' + (i + 1));
+                                                                                } else if (responseDuracion == 1) {
+                                                                                  //no comite
+                                                                                  comite = 'NO';
+                                                                                } else if (responseDuracion == 2) {
+                                                                                  //comite
+                                                                                  comite = 'SI';
+                                                                                }
+                                                                                dataFormulario.push(dataExcel.DURACIONCONTRATO);
+                                                                                dataFormulario.push(dataExcel.TIEMPOCONTRATO);
+                                                                                dataFormulario.push(this.username);
+                                                                                dataFormulario.push(comite);
+                                                                                this.secopService.insertProcessMassive(dataFormulario).toPromise().then(async (response: any) => {
+                                                                                  // console.log(response)
+                                                                                  if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
+                                                                                    let r = await response.Values.ResultFields;
+                                                                                    if (r != null) {
+                                                                                      await this.functionInsertunspsc(dataExcelCodigo.length, dataExcelCodigo, dataExcel, response, i, valorAcomparar, codigoUNSPSC, dataExcelCdp);
+                                                                                      resolve('-');
                                                                                     } else {
-                                                                                      this.procesosError.push('Proceso N°' + (i + 1) + ' - tiempo contrato');
-                                                                                      resolve('error tiempo contrato ' + (i + 1));
+                                                                                      this.procesosError.push('Proceso N°' + (i + 1) + ' - insert process');
+                                                                                      resolve('error insert process ' + (i + 1));
                                                                                     }
                                                                                   } else {
-                                                                                    this.procesosError.push('Proceso N°' + (i + 1) + ' - duracion contrato');
-                                                                                    resolve('error duracion contrato ' + (i + 1));
+                                                                                    this.procesosError.push('Proceso N°' + (i + 1) + ' - insert process');
+                                                                                    resolve('error insert process ' + (i + 1));
                                                                                   }
-                                                                                  // }
-                                                                                  //   } else {
-                                                                                  //     this.procesosError.push('Proceso N°' + (i + 1) + ' - cdp');
-                                                                                  //     resolve('error cdp ' + (i + 1));
-                                                                                  //   }
-                                                                                  // });
-                                                                                  // } else {
-                                                                                  //   this.procesosError.push('Proceso N°' + (i + 1) + ' - vigencia');
-                                                                                  //   resolve('error vigencia ' + (i + 1));
-                                                                                  // }
-                                                                                  // } else {
-                                                                                  //   this.procesosError.push('Proceso N°' + (i + 1) + ' - CDP');
-                                                                                  //   resolve('error CDP ' + (i + 1));
-                                                                                  // }
-                                                                                } else {
-                                                                                  this.procesosError.push('Proceso N°' + (i + 1) + ' - valor estimado');
-                                                                                  resolve('error valor estimado ' + (i + 1));
-                                                                                }
+                                                                                });
                                                                               } else {
-                                                                                this.procesosError.push('Proceso N°' + (i + 1) + ' - plazo ejecucion');
-                                                                                resolve('error plazo ejecucion ' + (i + 1));
+                                                                                this.procesosError.push('Proceso N°' + (i + 1) + ' - tiempo contrato');
+                                                                                resolve('error tiempo contrato ' + (i + 1));
                                                                               }
                                                                             } else {
-                                                                              this.procesosError.push('Proceso N°' + (i + 1) + ' - fecha termino');
-                                                                              resolve('error fecha termino ' + (i + 1));
+                                                                              this.procesosError.push('Proceso N°' + (i + 1) + ' - duracion contrato');
+                                                                              resolve('error duracion contrato ' + (i + 1));
                                                                             }
+                                                                            // }
+                                                                            //   } else {
+                                                                            //     this.procesosError.push('Proceso N°' + (i + 1) + ' - cdp');
+                                                                            //     resolve('error cdp ' + (i + 1));
+                                                                            //   }
+                                                                            // });
+                                                                            // } else {
+                                                                            //   this.procesosError.push('Proceso N°' + (i + 1) + ' - vigencia');
+                                                                            //   resolve('error vigencia ' + (i + 1));
+                                                                            // }
+                                                                            // } else {
+                                                                            //   this.procesosError.push('Proceso N°' + (i + 1) + ' - CDP');
+                                                                            //   resolve('error CDP ' + (i + 1));
+                                                                            // }
                                                                           } else {
-                                                                            this.procesosError.push('Proceso N°' + (i + 1) + ' - fecha inicio');
-                                                                            resolve('error fecha inicio ' + (i + 1));
+                                                                            this.procesosError.push('Proceso N°' + (i + 1) + ' - valor estimado');
+                                                                            resolve('error valor estimado ' + (i + 1));
                                                                           }
                                                                         } else {
-                                                                          this.procesosError.push('Proceso N°' + (i + 1) + ' - firma contrato');
-                                                                          resolve('error firma contrato ' + (i + 1));
+                                                                          this.procesosError.push('Proceso N°' + (i + 1) + ' - plazo ejecucion');
+                                                                          resolve('error plazo ejecucion ' + (i + 1));
                                                                         }
                                                                       } else {
-                                                                        this.procesosError.push('Proceso N°' + (i + 1) + ' - objeto proceso');
-                                                                        resolve('error objeto proceso ' + (i + 1));
+                                                                        this.procesosError.push('Proceso N°' + (i + 1) + ' - fecha termino');
+                                                                        resolve('error fecha termino ' + (i + 1));
                                                                       }
                                                                     } else {
-                                                                      this.procesosError.push('Proceso N°' + (i + 1) + ' - equipo contratacion');
-                                                                      resolve('error equipo contratacion ' + (i + 1));
+                                                                      this.procesosError.push('Proceso N°' + (i + 1) + ' - fecha inicio');
+                                                                      resolve('error fecha inicio ' + (i + 1));
                                                                     }
-                                                                  });
+                                                                  } else {
+                                                                    this.procesosError.push('Proceso N°' + (i + 1) + ' - firma contrato');
+                                                                    resolve('error firma contrato ' + (i + 1));
+                                                                  }
                                                                 } else {
-                                                                  this.procesosError.push('Proceso N°' + (i + 1) + ' - unidad contratacion');
-                                                                  resolve('error unidad contratacion ' + (i + 1));
+                                                                  this.procesosError.push('Proceso N°' + (i + 1) + ' - objeto proceso');
+                                                                  resolve('error objeto proceso ' + (i + 1));
                                                                 }
-                                                              });
-                                                            } else {
-                                                              this.procesosError.push('Proceso N°' + (i + 1) + ' - nombre proceso');
-                                                              resolve('error nombre proceso ' + (i + 1));
-                                                            }
+                                                              } else {
+                                                                this.procesosError.push('Proceso N°' + (i + 1) + ' - equipo contratacion');
+                                                                resolve('error equipo contratacion ' + (i + 1));
+                                                              }
+                                                            });
                                                           } else {
-                                                            this.procesosError.push('Proceso N°' + (i + 1) + ' - justificacion Proceso');
-                                                            resolve('error justificacion Proceso ' + (i + 1));
+                                                            this.procesosError.push('Proceso N°' + (i + 1) + ' - unidad contratacion');
+                                                            resolve('error unidad contratacion ' + (i + 1));
                                                           }
                                                         });
                                                       } else {
-                                                        this.procesosError.push('Proceso N°' + (i + 1) + ' - tipo Contrato');
-                                                        resolve('error tipo Contrato ' + (i + 1));
+                                                        this.procesosError.push('Proceso N°' + (i + 1) + ' - nombre proceso');
+                                                        resolve('error nombre proceso ' + (i + 1));
                                                       }
-                                                    });
-                                                  } else {
-                                                    this.procesosError.push('Proceso N°' + (i + 1) + ' - tipo Proceso');
-                                                    resolve('error tipo Proceso ' + (i + 1));
-                                                  }
-                                                });
-                                              } else {
-                                                this.procesosError.push('Proceso N°' + (i + 1) + ' - profesion');
-                                                resolve('error profesion ' + (i + 1));
-                                              }
-                                            });
-                                          } else {
-                                            this.procesosError.push('Proceso N°' + (i + 1) + ' - Categoria Profesion');
-                                            resolve('error Categoria Profesion ' + (i + 1));
-                                          }
+                                                    } else {
+                                                      this.procesosError.push('Proceso N°' + (i + 1) + ' - justificacion Proceso');
+                                                      resolve('error justificacion Proceso ' + (i + 1));
+                                                    }
+                                                  });
+                                                } else {
+                                                  this.procesosError.push('Proceso N°' + (i + 1) + ' - tipo Contrato');
+                                                  resolve('error tipo Contrato ' + (i + 1));
+                                                }
+                                              });
+                                            } else {
+                                              this.procesosError.push('Proceso N°' + (i + 1) + ' - tipo Proceso');
+                                              resolve('error tipo Proceso ' + (i + 1));
+                                            }
+                                          });
+                                        } else {
+                                          this.procesosError.push('Proceso N°' + (i + 1) + ' - profesion');
+                                          resolve('error profesion ' + (i + 1));
                                         }
-                                      );
+                                      });
+                                      // } else {
+                                      //   this.procesosError.push('Proceso N°' + (i + 1) + ' - Categoria Profesion');
+                                      //   resolve('error Categoria Profesion ' + (i + 1));
+                                      // }
+                                      // });
                                     } else {
                                       this.procesosError.push('Proceso N°' + (i + 1) + ' - Categoria Contratacion');
                                       resolve('error Categoria Contratacion ' + (i + 1));
@@ -1599,7 +1625,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  async functionInsertunspsc(size: number, dataExcelCodigo: any, dataExcel: any, response: any, index: any, valorAcomparar: any, codigoUNSPSC: any,dataExcelCdp:any) {
+  async functionInsertunspsc(size: number, dataExcelCodigo: any, dataExcel: any, response: any, index: any, valorAcomparar: any, codigoUNSPSC: any, dataExcelCdp: any) {
     for (let i = 0; i < size; i++) {
       if (dataExcelCodigo[i].IDREGISTRO == dataExcel.IDREGISTRO) {
         dataExcelCodigo[i].PROCESO = response.Values.ResultFields;
@@ -1636,11 +1662,11 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     // await this.lumpi(dataExcel,dataExcelCdp,response.Values.ResultFields,index);
   }
 
-  async lumpi2(dataExcel:any,dataExcelCdp:any,index:any){
+  async lumpi2(dataExcel: any, dataExcelCdp: any, index: any) {
     for (let j = 0; j < dataExcelCdp.length; j++) {
       if (dataExcelCdp[j].IDREGISTRO == dataExcel.IDREGISTRO) {
         dataExcelCdp[j].PROCESO = 'jojojo';
-        let res =  await this.secopService.getCdpMount(this.token, this.centroGestor, dataExcelCdp[j].CDP_NUMERO, dataExcelCdp[j].CDP_VALOR, dataExcelCdp[j].CDP_VIGENCIA).toPromise().then((response: any) => {
+        let res = await this.secopService.getCdpMount(this.token, this.centroGestor, dataExcelCdp[j].CDP_NUMERO, dataExcelCdp[j].CDP_VALOR, dataExcelCdp[j].CDP_VIGENCIA).toPromise().then((response: any) => {
           if (response.Status != 'Ok') {
             this.color = false;
             // this.createProcessForm.controls['duracionContrato'].setValue('');
@@ -1649,23 +1675,21 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
             // this.createProcessForm.controls['tiempoDuracion'].disable();
             // this.cdpError.push({posicion:'Cdp N°' +(i + 1),cdp:cdp,vigencia:vigencia,valor:valor,error:response.Values.Error});
             this.procesosError.push('Proceso N°' + (index + 1) + response.Values.Error);
-          }
-          else{
-            if(response.Values.ResultFields < dataExcelCdp[j].CDP_VALOR){
+          } else {
+            if (response.Values.ResultFields < dataExcelCdp[j].CDP_VALOR) {
               // this.cdpError.push({posicion:'Cdp N°' +(i + 1),cdp:cdp,vigencia:vigencia,valor:valor,error:'Valor mayor a monto Cdp'});
               // this.procesosError.push('Proceso N°' + (index + 1) + ' - Valor mayor a monto Cdp');
               this.procesosError.push('Proceso N°' + (index + 1) + ' - No hay Presupuesto sufiente para este contrato');
               // resolve('error cdp ' + (index + 1));
-            }
-            else{
+            } else {
               let arrayExcelCdp = [];
               let jsonExcelCdp = {
-                cdp : dataExcelCdp[j].CDP_NUMERO,
-                vigencia : dataExcelCdp[j].CDP_VIGENCIA,
-                valor : dataExcelCdp[j].CDP_VALOR,
-                centroGestor : atob(localStorage.getItem('centroGestor')!),
+                cdp: dataExcelCdp[j].CDP_NUMERO,
+                vigencia: dataExcelCdp[j].CDP_VIGENCIA,
+                valor: dataExcelCdp[j].CDP_VALOR,
+                centroGestor: atob(localStorage.getItem('centroGestor')!),
                 proceso: dataExcelCdp[j].PROCESO,
-                sociedad : dataExcelCdp[j].CDP_SOCIEDAD
+                sociedad: dataExcelCdp[j].CDP_SOCIEDAD
               }
               arrayExcelCdp.push(jsonExcelCdp);
               console.log(jsonExcelCdp)
@@ -1682,20 +1706,19 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  async lumpi(dataExcel:any,dataExcelCdp:any,index:any){
+  async lumpi(dataExcel: any, dataExcelCdp: any, index: any) {
     let sumaValoresCdp = 0;
     for (let i = 0; i < dataExcelCdp.length; i++) {
       console.log(index);
       console.log(dataExcelCdp[i].CDP_VALOR);
-      if(dataExcelCdp[i].IDREGISTRO == index+1){
+      if (dataExcelCdp[i].IDREGISTRO == index + 1) {
         sumaValoresCdp += dataExcelCdp[i].CDP_VALOR;
       }
-      if(i == dataExcelCdp.length-1){
-        console.log(dataExcel.VALORESTIMADO , sumaValoresCdp);
-        if(dataExcel.VALORESTIMADO == sumaValoresCdp){
-          await this.lumpi2(dataExcel,dataExcelCdp,index);
-        }
-        else{
+      if (i == dataExcelCdp.length - 1) {
+        console.log(dataExcel.VALORESTIMADO, sumaValoresCdp);
+        if (dataExcel.VALORESTIMADO == sumaValoresCdp) {
+          await this.lumpi2(dataExcel, dataExcelCdp, index);
+        } else {
           this.procesosError.push('Proceso N°' + (index + 1) + ' - El valor del proceso difiere de la suma de los cdp!');
         }
       }
@@ -1792,6 +1815,12 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   fillModal(numProceso: any) {
     this.router.navigate(['home/autorizaciones-det/' + numProceso]);
+  }
+
+  getAllProfesions() {
+    this.secopService.getAllProfesions(this.token).subscribe((response: any) => {
+      this.allProfesions = response.Values.ResultFields;
+    })
   }
 
 }

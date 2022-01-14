@@ -624,7 +624,6 @@
                                 name="genero"
                                 class="form-control text-sm"
                               >
-                                <option></option>
                                 <option *ngIf="isJuridico == true">Indefinido</option>
                                 <option *ngIf="isJuridico == false">Femenino</option>
                                 <option *ngIf="isJuridico == false">Masculino</option>
@@ -744,9 +743,8 @@
                                 formControlName="profesion"
                                 class="form-control text-sm"
                               >
-                                <option>sample</option>
-                                <option *ngFor="let cat of categoriasSubProfesion"
-                                        value="{{cat.SUB_DESCRIPCION_SUBPROFESION}}">{{cat.SUB_DESCRIPCION_SUBPROFESION}}</option>
+                                <option *ngFor="let prof of allProfesions"
+                                        value="{{prof.PROF_DESCRIPCION}}">{{prof.PROF_DESCRIPCION}}</option>
                               </select>
                             </div>
                           </div>
@@ -789,7 +787,6 @@
                                 class="custom-select form-control-border"
                                 formControlName="tipoContrato"
                               >
-                                <option></option>
                                 <option
                                   *ngFor="let dep of tiposContrato"
                                   value="{{ dep.TPC_DESCRIPCION }}"
@@ -803,7 +800,7 @@
                           <div class="col-12 col-sm-4">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">
-                                Justificación Tipo Proceso
+                                Justificación Tipo Contrato
                               </label>
                               <select
                                 (change)="fillNombre()"
@@ -887,11 +884,12 @@
 
                           <div class="col-12 col-sm-4" *ngIf="isJuridico == false">
                             <div class="form-group">
-                              
+
                               <label class="font-weight-normal text-sm">
-                                Validar Honorarios</label
+                                Validar Tabla de Honorarios</label
                               >
                               <input
+                                (click)="onClickHonorarios()"
                                 formControlName="indDuracionContrato"
                                 type="checkbox"
                                 name="indDuracionContrato"
@@ -1065,7 +1063,7 @@
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm"
-                              >Valor Estimado</label
+                              >Valor Contrato</label
                               >
                               <div class="input-group">
 <!--                                (keyup.enter)="getCdpMountValidate()"-->
