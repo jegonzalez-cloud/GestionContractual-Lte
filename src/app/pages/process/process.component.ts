@@ -242,6 +242,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       definirPagos: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
       valorContrato: new FormControl({value: '', disabled: true}, [Validators.required]),
       duracionContrato: new FormControl({value: null, disabled: true}, [Validators.required]),
+      indDuracionContrato: new FormControl({value: '', disabled: false}, [Validators.required]),
       tiempoDuracion: new FormControl({value: '', disabled: true}, [Validators.required]),
       comite: new FormControl({value: '', disabled: false}, [Validators.required]),
       // cdp: new FormControl({value: '', disabled: true}, [Validators.required]),
@@ -819,16 +820,23 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     let valorContrato = this.createProcessForm.controls['valorContrato'].value;
 
     if (tipoIdentificacion == 'Cédula' || tipoIdentificacion == 'Cédula de Extranjería') {
-      if ((valorContrato / tiempoTotal) > this.maxSalary) {
-        this.iconColor = 'lightgray';
-        this.validateDataUNSPSC = 0;
-        utils.showAlert('El valor excede los limites establecidos en la tabla de honorarios! ', 'error');
-      } else {
+
+      if(!this.createProcessForm.controls['indDuracionContrato'].value){
+        if ((valorContrato / tiempoTotal) > this.maxSalary) {
+          this.iconColor = 'lightgray';
+          this.validateDataUNSPSC = 0;
+          utils.showAlert('El valor excede los limites establecidos en la tabla de honorarios! ', 'error');
+        } else {
+          this.createProcessForm.controls['comite'].setValue('NO');
+          // console.log(this.createProcessForm.controls['comite'].value);
+          // console.log(this.createProcessForm.controls['cdp'].value);
+          this.iconColor = 'lightgreen';
+        }
+      }else{
         this.createProcessForm.controls['comite'].setValue('NO');
-        // console.log(this.createProcessForm.controls['comite'].value);
-        // console.log(this.createProcessForm.controls['cdp'].value);
         this.iconColor = 'lightgreen';
       }
+
     } else if (tipoIdentificacion == 'Nit') {
       // if ((valorContrato / tiempoTotal) > (salarioMinimo * 100)) {
       if (valorContrato > (this.minSalary * this.cantidadMaximaSalarios)) {
