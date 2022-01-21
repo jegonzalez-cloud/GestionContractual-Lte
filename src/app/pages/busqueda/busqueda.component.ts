@@ -78,6 +78,9 @@ export class BusquedaComponent implements OnInit {
   @ViewChild('closebutton') closebutton:any;
   @ViewChild('openbutton') openbutton:any;
   verDescuentos: any = [];
+  CDPFIELDS: any = [];
+  UNSPSCFIELDS: any = [];
+  public autorizaciones: any;
 
   constructor(private service: ServicesService,private secopService: SecopService, private fb: FormBuilder,private router:Router,private authService:AuthService,@Inject(LOCALE_ID) public locale: string) {
   }
@@ -169,43 +172,48 @@ export class BusquedaComponent implements OnInit {
 
   goDetail(row: any) {
     this.secopService.getSelectedProcess(this.token,row.CONS_PROCESO).subscribe((response: any) => {
-      this.PROCESO_SELECCIONADO = response.Values.ResultFields[0];
+      this.PROCESO_SELECCIONADO = response.Values.ResultFields[0][0];
       // console.log(response.Values.ResultFields);
-      this.CENTRO_GESTOR = response.Values.ResultFields[0].CENTRO_GESTOR;
-      this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
-      this.TIPO_PROCESO = response.Values.ResultFields[0].TIPO_PROCESO;
-      this.TIPO_CONTRATO = response.Values.ResultFields[0].TIPO_CONTRATO;
-      this.NOMBRE_PROCESO = response.Values.ResultFields[0].NOMBRE_PROCESO;
-      this.DESCRIPCION_PROCESO = response.Values.ResultFields[0].DESCRIPCION_PROCESO;
-      this.COD_PROV = response.Values.ResultFields[0].COD_PROV;
-      this.NOM_PROV = response.Values.ResultFields[0].NOM_PROV;
-      this.NACIMIENTO_PROV = response.Values.ResultFields[0].NACIMIENTO_PROV;
-      this.CORREO_PROV = response.Values.ResultFields[0].CORREO_PROV;
-      this.CELULAR_PROV = response.Values.ResultFields[0].CELULAR_PROV;
-      this.TIP_IDEN_PROV = response.Values.ResultFields[0].TIP_IDEN_PROV;
-      this.DPTO_PROV = response.Values.ResultFields[0].DPTO_PROV;
-      this.CIUDAD_PROV = response.Values.ResultFields[0].CIUDAD_PROV;
-      this.UBICACION_PROV = response.Values.ResultFields[0].UBICACION_PROV;
-      this.CATE_CONTRATACION = response.Values.ResultFields[0].CATE_CONTRATACION;
-      this.GENERO_PROV = response.Values.ResultFields[0].GENERO_PROV;
-      this.PROFESION_PROV = response.Values.ResultFields[0].PROFESION_PROV;
-      this.JUST_TIPO_PROCESO = response.Values.ResultFields[0].JUST_TIPO_PROCESO;
-      this.EQUIPO_CONTRATACION = response.Values.ResultFields[0].EQUIPO_CONTRATACION;
-      this.UNI_CONTRATACION = response.Values.ResultFields[0].UNI_CONTRATACION;
-      this.DOCUMENTOS_TIPO = response.Values.ResultFields[0].DOCUMENTOS_TIPO;
-      this.INTERADMINISTRATIVOS = response.Values.ResultFields[0].INTERADMINISTRATIVOS;
-      this.DEFINIR_LOTES = response.Values.ResultFields[0].DEFINIR_LOTES;
-      this.ESTADO = response.Values.ResultFields[0].ESTADO;
+      this.CENTRO_GESTOR = response.Values.ResultFields[0][0].CENTRO_GESTOR;
+      this.PROCESO = response.Values.ResultFields[0][0].CONS_PROCESO;
+      this.TIPO_PROCESO = response.Values.ResultFields[0][0].TIPO_PROCESO;
+      this.TIPO_CONTRATO = response.Values.ResultFields[0][0].TIPO_CONTRATO;
+      this.NOMBRE_PROCESO = response.Values.ResultFields[0][0].NOMBRE_PROCESO;
+      this.DESCRIPCION_PROCESO = response.Values.ResultFields[0][0].DESCRIPCION_PROCESO;
+      this.COD_PROV = response.Values.ResultFields[0][0].COD_PROV;
+      this.NOM_PROV = response.Values.ResultFields[0][0].NOM_PROV;
+      this.NACIMIENTO_PROV = response.Values.ResultFields[0][0].NACIMIENTO_PROV;
+      this.CORREO_PROV = response.Values.ResultFields[0][0].CORREO_PROV;
+      this.CELULAR_PROV = response.Values.ResultFields[0][0].CELULAR_PROV;
+      this.TIP_IDEN_PROV = response.Values.ResultFields[0][0].TIP_IDEN_PROV;
+      this.DPTO_PROV = response.Values.ResultFields[0][0].DPTO_PROV;
+      this.CIUDAD_PROV = response.Values.ResultFields[0][0].CIUDAD_PROV;
+      this.UBICACION_PROV = response.Values.ResultFields[0][0].UBICACION_PROV;
+      this.CATE_CONTRATACION = response.Values.ResultFields[0][0].CATE_CONTRATACION;
+      this.GENERO_PROV = response.Values.ResultFields[0][0].GENERO_PROV;
+      this.PROFESION_PROV = response.Values.ResultFields[0][0].PROFESION_PROV;
+      this.JUST_TIPO_PROCESO = response.Values.ResultFields[0][0].JUST_TIPO_PROCESO;
+      this.EQUIPO_CONTRATACION = response.Values.ResultFields[0][0].EQUIPO_CONTRATACION;
+      this.UNI_CONTRATACION = response.Values.ResultFields[0][0].UNI_CONTRATACION;
+      this.DOCUMENTOS_TIPO = response.Values.ResultFields[0][0].DOCUMENTOS_TIPO;
+      this.INTERADMINISTRATIVOS = response.Values.ResultFields[0][0].INTERADMINISTRATIVOS;
+      this.DEFINIR_LOTES = response.Values.ResultFields[0][0].DEFINIR_LOTES;
+      this.ESTADO = response.Values.ResultFields[0][0].ESTADO;
 
-      this.CODIGO_RPC = response.Values.ResultFields[0].CODIGO_RPC;
-      this.FECHA_INICIO = response.Values.ResultFields[0].FECHA_INICIO;
-      this.FECHA_TERMINO = response.Values.ResultFields[0].FECHA_TERMINO;
-      this.FIRMA_CONTRATO = response.Values.ResultFields[0].FIRMA_CONTRATO;
-      this.PLAZO_EJECUCION = response.Values.ResultFields[0].PLAZO_EJECUCION;
-      this.PLAN_PAGOS = response.Values.ResultFields[0].PLAN_PAGOS;
-      this.VAL_OFERTA = response.Values.ResultFields[0].VAL_OFERTA;
-      this.TIEMPO_DURACION_CONTRATO  = response.Values.ResultFields[0].TIEMPO_DURACION_CONTRATO ;
-      this.DURACION_CONTRATO = response.Values.ResultFields[0].DURACION_CONTRATO;
+      this.CODIGO_RPC = response.Values.ResultFields[0][0].CODIGO_RPC;
+      this.FECHA_INICIO = response.Values.ResultFields[0][0].FECHA_INICIO;
+      this.FECHA_TERMINO = response.Values.ResultFields[0][0].FECHA_TERMINO;
+      this.FIRMA_CONTRATO = response.Values.ResultFields[0][0].FIRMA_CONTRATO;
+      this.PLAZO_EJECUCION = response.Values.ResultFields[0][0].PLAZO_EJECUCION;
+      this.PLAN_PAGOS = response.Values.ResultFields[0][0].PLAN_PAGOS;
+      this.VAL_OFERTA = response.Values.ResultFields[0][0].VAL_OFERTA;
+      this.TIEMPO_DURACION_CONTRATO  = response.Values.ResultFields[0][0].TIEMPO_DURACION_CONTRATO ;
+      this.DURACION_CONTRATO = response.Values.ResultFields[0][0].DURACION_CONTRATO;
+
+      console.log(response.Values.ResultFields[1][0]);
+      console.log(response.Values.ResultFields[1].length);
+      this.CDPFIELDS = response.Values.ResultFields[1];
+      this.UNSPSCFIELDS = response.Values.ResultFields[2];
 
       // this.autorizaciones = response.Values.ResultFields;
     });
@@ -288,5 +296,57 @@ export class BusquedaComponent implements OnInit {
     });
   }
 
+  aprobarAutorizacion(proceso:string){
+    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'aprobado').subscribe((response:any)=>{
+      this.service.sendClickEvent();
+      if(response.Status = 'Ok'){
+        utils.showAlert('Se autorizo el proceso #'+proceso+ ' correctamente!','success');
+        //disparar creacion secop segun rol
+        // if(this.ROL == 44){
+        if(this.ROL == 6){
+          //console.log('aqui vamos');
+          this.secopService.getUnspscData(this.token,proceso).subscribe((response:any)=>{
+            // console.log('aqui estamos');
+            // console.log(this.token);
+            // console.log(response);
+            let usuarioConect = atob(localStorage.getItem('usuarioConect')!);
+            let conectPw = atob(localStorage.getItem('conectPw')!);
+            let arr: Array<any> = [];
+            arr.push(this.PROCESO_SELECCIONADO);
+            arr.push(response.Values.ResultFields);
+            arr.push({"USUARIO_CONNECT":usuarioConect});
+            arr.push({"PASSWORD_CONNECT":conectPw});
+            arr.push({"USC_CODIGO_ENTIDAD":this.codigoEntidad});
+            arr.push({"TOKEN":this.token});
+
+            this.secopService.createSoapProcess(arr).subscribe((response:any)=>{
+              console.log(response);
+            });
+            //utils.sendSoapData(this.PROCESO_SELECCIONADO,response.Values.ResultFields);
+          });
+
+        }
+        this.getAutorizacionesXEntidad();
+      }
+    });
+  }
+
+  rechazarAutorizacion(proceso:string){
+    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'rechazado').subscribe((response:any)=>{
+      this.service.sendClickEvent();
+      if(response.Status = 'Ok'){
+        utils.showAlert('Se rechazo el proceso #'+proceso+ '!','warning');
+        this.getAutorizacionesXEntidad();
+      }
+    });
+  }
+
+  getAutorizacionesXEntidad(){
+    this.secopService.getAutorizacionesXEntidad(this.entidad).subscribe((response:any)=>{
+      this.autorizaciones = response.Values.ResultFields;
+      // console.log(this.autorizaciones);
+      this.infoProcess();
+    });
+  }
 
 }

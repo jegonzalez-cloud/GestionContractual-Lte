@@ -3,7 +3,9 @@
   <div class="content-wrapper" id="background-home">
     <!-- Button trigger modal -->
 
-    <button type="button" [hidden]="true" #openbutton class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open</button>
+    <button type="button" [hidden]="true" #openbutton class="btn btn-info btn-lg" data-toggle="modal"
+            data-target="#myModal">Open
+    </button>
 
     <div class="modal fade" id="myModal" role="dialog" data-backdrop="static">
       <div class="modal-dialog modal-dialog-scrollable">
@@ -17,7 +19,7 @@
           </div>
           <div class="modal-body">
             <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>
-            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;"disabled>
+            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;" disabled>
               N° Cuotas <span class="badge rounded-pill bg-secondary">{{cantidadCuotas}}</span>
             </button>
             <div class="callout callout-danger" *ngFor="let d of infoPagos">
@@ -59,7 +61,8 @@
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content" style="width: auto">
           <div class="modal-header">
-            <h4 class="modal-title"><b style="font-size: larger">Proceso # <a style="color: var(--companyColor)">{{PROCESO}}</a></b>
+            <h4 class="modal-title"><b style="font-size: larger">Proceso # <a
+              style="color: var(--companyColor)">{{PROCESO}}</a></b>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -123,18 +126,18 @@
                     [ngStyle]="{'display': (ROL == 2 && ESTADO != 2) ? 'none' : (ROL == 3 && ESTADO !=3) ? 'none' : (ROL == 4 && ESTADO != 4) ? 'none' : (ROL == 5 && ESTADO != 5) ? 'none' : (ROL == 6 && ESTADO != 6) ? 'none' : 'block' }">
               Autorizar
             </button>
-<!--            <button type="button" class="btn btn-secondary"-->
-<!--                    data-dismiss="modal"-->
-<!--                    (click)="rechazarAutorizacion(PROCESO)"-->
-<!--                    [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">-->
-<!--              Rechazar-->
-<!--            </button>-->
-<!--            <button type="button" class="btn btn-primary"-->
-<!--                    data-dismiss="modal"-->
-<!--                    (click)="aprobarAutorizacion(PROCESO)"-->
-<!--                    [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">-->
-<!--              Autorizar-->
-<!--            </button>-->
+            <!--            <button type="button" class="btn btn-secondary"-->
+            <!--                    data-dismiss="modal"-->
+            <!--                    (click)="rechazarAutorizacion(PROCESO)"-->
+            <!--                    [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">-->
+            <!--              Rechazar-->
+            <!--            </button>-->
+            <!--            <button type="button" class="btn btn-primary"-->
+            <!--                    data-dismiss="modal"-->
+            <!--                    (click)="aprobarAutorizacion(PROCESO)"-->
+            <!--                    [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">-->
+            <!--              Autorizar-->
+            <!--            </button>-->
 
 
             <button type="button" class="btn btn-warning"
@@ -143,12 +146,12 @@
                     [ngStyle]="{'display': (ROL == 2 && ESTADO > 2) ? 'block' : (ROL == 3 && ESTADO >3) ? 'block' : (ROL == 4 && ESTADO > 4) ? 'block' : (ROL == 5 && ESTADO > 5) ? 'block' : (ROL == 6 && ESTADO > 6) ? 'block' : (ESTADO == 0) ? 'block': 'none' }">
               Historial
             </button>
-<!--            <button type="button" class="btn btn-warning"-->
-<!--                    data-dismiss="modal"-->
-<!--                    (click)="fillModal(PROCESO)"-->
-<!--                    [ngStyle]="{'display': (ROL == 40 && ESTADO > 2) ? 'block' : (ROL == 41 && ESTADO >3) ? 'block' : (ROL == 42 && ESTADO > 4) ? 'block' : (ROL == 43 && ESTADO > 5) ? 'block' : (ROL == 44 && ESTADO > 6) ? 'block' : 'none' }">-->
-<!--              Historial-->
-<!--            </button>-->
+            <!--            <button type="button" class="btn btn-warning"-->
+            <!--                    data-dismiss="modal"-->
+            <!--                    (click)="fillModal(PROCESO)"-->
+            <!--                    [ngStyle]="{'display': (ROL == 40 && ESTADO > 2) ? 'block' : (ROL == 41 && ESTADO >3) ? 'block' : (ROL == 42 && ESTADO > 4) ? 'block' : (ROL == 43 && ESTADO > 5) ? 'block' : (ROL == 44 && ESTADO > 6) ? 'block' : 'none' }">-->
+            <!--              Historial-->
+            <!--            </button>-->
             <button type="button" class="btn btn-outline-primary"
                     data-dismiss="modal"
                     (click)="getPagosXRpc()"
@@ -198,11 +201,15 @@
                   <table mat-table [dataSource]="dataSource">
                     <!-- ID Column -->
                     <ng-container matColumnDef="Num">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
+                      <th mat-header-cell *matHeaderCellDef
+                          style="font-size: 14px;font-weight: bolder;color: black;">
                         Número
                       </th>
                       <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.CONS_PROCESO | uppercase}} </td>
+                          style="font-size: 12px;color: #545cd8; font-weight: bold"
+                      > {{row.CONS_PROCESO | uppercase}} <svg *ngIf="(row.ESTADO > 2 && ROL == 2) || (row.ESTADO > 3 && ROL == 3)||(row.ESTADO > 4 && ROL == 4)|| (row.ESTADO > 5 && ROL == 5)||  (row.ESTADO > 6 && ROL == 6)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                      </svg></td>
                     </ng-container>
 
                     <!-- Progress Column -->
@@ -229,66 +236,70 @@
                       </th>
                       <td mat-cell *matCellDef="let row" style="font-size: 12px;font-weight: bold">
                         <a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :
-                        ((row.ESTADO >= 2 && row.ESTADO < 7) && ROL == 1) ? 'gray' :
-                        (row.ESTADO == 2 && ROL == 2) ? 'gray' :
-                        (row.ESTADO == 3 && ROL == 3) ? 'gray' :
-                        ((row.ESTADO < 4) && ROL == 3) ? 'gray' :
-                        ((row.ESTADO < 5) && ROL == 4) ? 'gray' :
-                        ((row.ESTADO < 6) && ROL == 5) ? 'gray' :
-                        ((row.ESTADO < 7) && ROL == 6) ? 'gray' :
-                        (row.ESTADO == 4 && ROL == 4) ? 'gray' :
-                        (row.ESTADO == 5 && ROL == 5) ? 'gray' :
-                        (row.ESTADO == 6 && ROL == 6) ? 'gray' :
-                        (row.ESTADO == 1) ? 'red' :
-                        (row.ESTADO >= 3 && row.ESTADO <= 7 && ROL == 2) ? 'green' :
-                        (row.ESTADO >= 4 && row.ESTADO <= 7 && ROL == 3) ? 'green' :
-                        (row.ESTADO >= 5 && row.ESTADO <= 7 && ROL == 4) ? 'green' :
-                        (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 5) ? 'green' :
-                        (row.ESTADO == 7 && ROL == 6) ? 'green' :
-                        (row.ESTADO == 0) ? 'black' : 'blue' }">
-                          {{((row.ESTADO > 2 && row.ESTADO < 7) && ROL == 1)? 'En flujo':(row.ESTADO == 2 && ROL == 1) ? 'Creado' :(row.ESTADO == 7 && ROL == 1)?'Aprobado':(row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobación' :((row.ESTADO >= 3 && row.ESTADO <= 6) && (ROL == 2 || ROL == 1)) ? 'En flujo'
-                          :(row.ESTADO >= 4 && row.ESTADO <= 6) && ROL == 3 ? 'En flujo'
-                            :((row.ESTADO < 4) && ROL == 3) ? 'Pendiente Aprobación'
-                              :((row.ESTADO < 5) && ROL == 4) ? 'Pendiente Aprobación'
-                                :((row.ESTADO < 6) && ROL == 5) ? 'Pendiente Aprobación'
-                                  :((row.ESTADO < 7) && ROL == 6) ? 'Pendiente Aprobación'
-                                    :(row.ESTADO >= 5 && row.ESTADO <= 6) && ROL == 4 ? 'En flujo'
-                                      :(row.ESTADO >= 6 && row.ESTADO <= 6) && ROL == 5 ? 'En flujo'
-                                        :(row.ESTADO >= 3 && row.ESTADO <= 6) ? 'Pendiente Aprobación' :
-                                          (row.ESTADO == 0) ? 'Rechazado' :
-                                            (row.ESTADO == 1) ? 'Anulado' :
-                                              (row.ESTADO == 7) ? 'Aprobado' : (row.ESTADO == 8) ? 'Liquidado' : ''}}
+                        (row.ESTADO == 1) ? 'gray' :
+                        (row.ESTADO == 2 && ROL != 2) ? 'blue' :
+                        (row.ESTADO == 7) ? 'green' :
+                        (row.ESTADO == 8) ? 'black' :
+                        (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'goldenrod' :
+                        (row.ESTADO != 2 && ROL == 2) ? 'goldenrod' :
+                        (row.ESTADO != 3 && ROL == 3) ? 'goldenrod' :
+                        (row.ESTADO != 4 && ROL == 4) ? 'goldenrod' :
+                        (row.ESTADO != 5 && ROL == 5) ? 'goldenrod' :
+                        (row.ESTADO != 6 && ROL == 6) ? 'goldenrod' :
+                        (row.ESTADO == 2 && ROL == 2) ? 'goldenrod' :
+                        (row.ESTADO == 3 && ROL == 3) ? 'goldenrod' :
+                        (row.ESTADO == 4 && ROL == 4) ? 'goldenrod' :
+                        (row.ESTADO == 5 && ROL == 5) ? 'goldenrod' :
+                        (row.ESTADO == 6 && ROL == 6) ? 'goldenrod' :
+                        'rose' }">
+                          {{(row.ESTADO == 0) ? 'Rechazado' :
+                          (row.ESTADO == 1) ? 'Anulado' :
+                            (row.ESTADO == 2 && ROL != 2) ? 'Creado' :
+                              (row.ESTADO == 7) ? 'Aprobado' :
+                                (row.ESTADO == 8) ? 'Liquidado' :
+                                  (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'En Gestion' :
+                                    (row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobacion' :
+                                      (row.ESTADO == 3 && ROL == 3) ? 'Pendiente Aprobacion' :
+                                        (row.ESTADO == 4 && ROL == 4) ? 'Pendiente Aprobacion' :
+                                          (row.ESTADO == 5 && ROL == 5) ? 'Pendiente Aprobacion' :
+                                            (row.ESTADO == 6 && ROL == 6) ? 'Pendiente Aprobacion' :
+                                              (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 2) ? 'En Gestion' :
+                                                (row.ESTADO != 3 && ROL == 3) ? 'En Gestion' :
+                                                  (row.ESTADO != 4 && ROL == 4) ? 'En Gestion' :
+                                                    (row.ESTADO != 5 && ROL == 5) ? 'En Gestion' :
+                                                      (row.ESTADO != 6 && ROL == 6) ? 'En Gestion' :
+                                                        ''}}
                         </a>
                       </td>
-<!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;font-weight: bold">-->
-<!--                        <a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :-->
-<!--                        (row.ESTADO == 2 && ROL == 40) ? 'gray' :-->
-<!--                        (row.ESTADO == 3 && ROL == 41) ? 'gray' :-->
-<!--                        (row.ESTADO == 4 && ROL == 42) ? 'gray' :-->
-<!--                        (row.ESTADO == 5 && ROL == 43) ? 'gray' :-->
-<!--                        (row.ESTADO == 6 && ROL == 44) ? 'gray' :-->
-<!--                        (row.ESTADO == 1) ? 'red' :-->
-<!--                        (row.ESTADO >= 3 && row.ESTADO <= 7 && ROL == 40) ? 'green' :-->
-<!--                        (row.ESTADO >= 4 && row.ESTADO <= 7 && ROL == 41) ? 'green' :-->
-<!--                        (row.ESTADO >= 5 && row.ESTADO <= 7 && ROL == 42) ? 'green' :-->
-<!--                        (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 43) ? 'green' :-->
-<!--                        (row.ESTADO == 7 && ROL == 44) ? 'green' :-->
-<!--                        (row.ESTADO == 0) ? 'black' : 'blue' }">-->
-<!--                          {{-->
-<!--                          (row.ESTADO == 2 && ROL == 40) ? 'Pendiente Aprobación' :-->
-<!--                            (row.ESTADO == 3 && ROL == 41) ? 'Pendiente Aprobación' :-->
-<!--                              (row.ESTADO == 4 && ROL == 42) ? 'Pendiente Aprobación' :-->
-<!--                                (row.ESTADO == 5 && ROL == 43) ? 'Pendiente Aprobación' :-->
-<!--                                  (row.ESTADO == 6 && ROL == 44) ? 'Pendiente Aprobación' :-->
-<!--                                    (row.ESTADO == 0) ? 'Rechazado' :-->
-<!--                                      (row.ESTADO == 1) ? 'Anulado' :-->
-<!--                                        (row.ESTADO >= 3 && row.ESTADO <= 7 && ROL == 40) ? 'Aprobado' :-->
-<!--                                          (row.ESTADO >= 4 && row.ESTADO <= 7 && ROL == 41) ? 'Aprobado' :-->
-<!--                                            (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 42) ? 'Aprobado' :-->
-<!--                                              (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 43) ? 'Aprobado' :-->
-<!--                                                (row.ESTADO == 7 && ROL == 44) ? 'Aprobado' : ''-->
-<!--                          }}</a>-->
-<!--                      </td>-->
+                      <!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;font-weight: bold">-->
+                      <!--                        <a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :-->
+                      <!--                        (row.ESTADO == 2 && ROL == 40) ? 'gray' :-->
+                      <!--                        (row.ESTADO == 3 && ROL == 41) ? 'gray' :-->
+                      <!--                        (row.ESTADO == 4 && ROL == 42) ? 'gray' :-->
+                      <!--                        (row.ESTADO == 5 && ROL == 43) ? 'gray' :-->
+                      <!--                        (row.ESTADO == 6 && ROL == 44) ? 'gray' :-->
+                      <!--                        (row.ESTADO == 1) ? 'red' :-->
+                      <!--                        (row.ESTADO >= 3 && row.ESTADO <= 7 && ROL == 40) ? 'green' :-->
+                      <!--                        (row.ESTADO >= 4 && row.ESTADO <= 7 && ROL == 41) ? 'green' :-->
+                      <!--                        (row.ESTADO >= 5 && row.ESTADO <= 7 && ROL == 42) ? 'green' :-->
+                      <!--                        (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 43) ? 'green' :-->
+                      <!--                        (row.ESTADO == 7 && ROL == 44) ? 'green' :-->
+                      <!--                        (row.ESTADO == 0) ? 'black' : 'blue' }">-->
+                      <!--                          {{-->
+                      <!--                          (row.ESTADO == 2 && ROL == 40) ? 'Pendiente Aprobación' :-->
+                      <!--                            (row.ESTADO == 3 && ROL == 41) ? 'Pendiente Aprobación' :-->
+                      <!--                              (row.ESTADO == 4 && ROL == 42) ? 'Pendiente Aprobación' :-->
+                      <!--                                (row.ESTADO == 5 && ROL == 43) ? 'Pendiente Aprobación' :-->
+                      <!--                                  (row.ESTADO == 6 && ROL == 44) ? 'Pendiente Aprobación' :-->
+                      <!--                                    (row.ESTADO == 0) ? 'Rechazado' :-->
+                      <!--                                      (row.ESTADO == 1) ? 'Anulado' :-->
+                      <!--                                        (row.ESTADO >= 3 && row.ESTADO <= 7 && ROL == 40) ? 'Aprobado' :-->
+                      <!--                                          (row.ESTADO >= 4 && row.ESTADO <= 7 && ROL == 41) ? 'Aprobado' :-->
+                      <!--                                            (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 42) ? 'Aprobado' :-->
+                      <!--                                              (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 43) ? 'Aprobado' :-->
+                      <!--                                                (row.ESTADO == 7 && ROL == 44) ? 'Aprobado' : ''-->
+                      <!--                          }}</a>-->
+                      <!--                      </td>-->
                     </ng-container>
 
                     <!-- Name Column -->

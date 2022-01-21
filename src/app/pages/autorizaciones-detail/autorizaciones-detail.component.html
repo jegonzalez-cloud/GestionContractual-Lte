@@ -50,13 +50,21 @@
                       <div [hidden]="ISMASIVE" class="row">
                         <div class="col-12 col-sm-4">
                           <div class="form-group">
+<!--                            <select-->
+<!--                              formControlName="archivo"-->
+<!--                              class="form-control text-sm"-->
+<!--                            >-->
+<!--                              <option selected>Autorizaciones</option>-->
+<!--                              <option *ngIf="estado_proceso >= 6 && estado_proceso <= 7">Informe Secretaría</option>-->
+<!--                              <option *ngIf="estado_proceso == 7">Informe DADII</option>-->
+<!--                            </select>-->
                             <select
                               formControlName="archivo"
                               class="form-control text-sm"
                             >
                               <option selected>Autorizaciones</option>
-                              <option *ngIf="estado_proceso >= 6 && estado_proceso <= 7">Informe Secretaría</option>
-                              <option *ngIf="estado_proceso == 7">Informe DADII</option>
+                              <option >Informe Secretaría</option>
+                              <option >Informe DADII</option>
                             </select>
                           </div>
                         </div>

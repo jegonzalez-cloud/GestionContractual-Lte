@@ -2,11 +2,11 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" id="background-home">
 
-    <button type="button" [hidden]="true" #openbutton  class="btn btn-info btn-lg" data-toggle="modal"
+    <button type="button" [hidden]="true" #openbutton class="btn btn-info btn-lg" data-toggle="modal"
             data-target="#myModal">Open
     </button>
 
-    <button type="button" [hidden]="true" #openbuttonErrorCdp  class="btn btn-info btn-lg" data-toggle="modal"
+    <button type="button" [hidden]="true" #openbuttonErrorCdp class="btn btn-info btn-lg" data-toggle="modal"
             data-target="#modalResultadoCdp">Open
     </button>
 
@@ -21,7 +21,9 @@
             <div class="card">
               <div class="card-header" style="background-color: var(--companyColor)">
                 <span style="font-weight: bold;font-size: larger ;color: white">Carga Masiva de Contratos</span>
-                <button type="button" #closebutton class="close" data-dismiss="modal" (click)="cerrarCargaMasivaContratos()">&times;</button>
+                <button type="button" #closebutton class="close" data-dismiss="modal"
+                        (click)="cerrarCargaMasivaContratos()">&times;
+                </button>
               </div>
               <div class="card-body">
                 <div class="col-12 col-sm-12 mt-1 mb-1">
@@ -69,7 +71,7 @@
           </div>
           <div class="modal-body">
             <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>
-            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;"disabled>
+            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;" disabled>
               N° Cuotas <span class="badge rounded-pill bg-secondary">{{cantidadCuotas}}</span>
             </button>
             <div class="callout callout-danger" *ngFor="let d of infoPagos">
@@ -117,10 +119,10 @@
             <!--            <h4 class="modal-title">Modal Header</h4>-->
           </div>
           <div class="modal-body">
-<!--            <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>-->
-<!--            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;"disabled>-->
-<!--              N° Cdp <span class="badge rounded-pill bg-secondary">{{cantidadErrorCdp}}</span>-->
-<!--            </button>-->
+            <!--            <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>-->
+            <!--            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;"disabled>-->
+            <!--              N° Cdp <span class="badge rounded-pill bg-secondary">{{cantidadErrorCdp}}</span>-->
+            <!--            </button>-->
             <br>
             <div class="callout callout-danger" *ngFor="let d of cdpError">
               <ul>
@@ -198,22 +200,22 @@
             <!--            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
             <button type="button" class="btn btn-secondary"
                     data-dismiss="modal"
-                    (click)="anularProceso(PROCESO)"
+                    (click)="validarAnulacion(PROCESO)"
                     [ngStyle]="{'display': (ROL == 1 && ESTADO == 2) ? 'block' : 'none'}">
               Anular
             </button>
             <button type="button" class="btn btn-info"
                     data-dismiss="modal"
-                    (click)="anularProceso(PROCESO)"
+                    (click)="setFieldsToEdit()"
                     [ngStyle]="{'display': (ROL == 1 && ESTADO == 2) ? 'block' : 'none'}">
               Editar
             </button>
-<!--            <button type="button" class="btn btn-secondary"-->
-<!--                    data-dismiss="modal"-->
-<!--                    (click)="anularProceso(PROCESO)"-->
-<!--                    [ngStyle]="{'display': (ROL == 39 && ESTADO == 2) ? 'block' : 'none'}">-->
-<!--              Anular-->
-<!--            </button>-->
+            <!--            <button type="button" class="btn btn-secondary"-->
+            <!--                    data-dismiss="modal"-->
+            <!--                    (click)="anularProceso(PROCESO)"-->
+            <!--                    [ngStyle]="{'display': (ROL == 39 && ESTADO == 2) ? 'block' : 'none'}">-->
+            <!--              Anular-->
+            <!--            </button>-->
             <button type="button" class="btn btn-warning"
                     data-dismiss="modal"
                     (click)="fillModal(PROCESO)"
@@ -237,13 +239,14 @@
 
     <!-- Modal -->
     <div class="modal fade" id="modal-default-1" data-backdrop="static" data-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content" style="width: auto">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title"><b style="font-size: larger">Vincular Codigos UNSPSC<a
               style="color: var(--companyColor)"></a></b>
             </h4>
-            <button #closebuttonUNSPSC [hidden]="true" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button #closebuttonUNSPSC [hidden]="true" type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
             <button type="button" class="close" (click)="validarCamposUnspsc()">
@@ -253,7 +256,8 @@
           <div class="mr-3 ml-3">
             <h4>
               <label style="color: var(--companyColor)">Valor Contrato</label>
-            <span class="badge badge-pill badge-success ml-2" style="color:white"> {{valorAcomparar | currency}}</span>
+              <span class="badge badge-pill badge-success ml-2"
+                    style="color:white"> {{valorAcomparar | currency}}</span>
             </h4>
           </div>
           <div class="modal-body modal-dialog-scrollable">
@@ -270,19 +274,49 @@
                     <label class="font-weight-normal text-sm">
                       <b class="text-md"> Ref. Artículo {{i + 1}}</b>
                     </label>
-                    <div class="callout" style="border-top: 3px solid var(--companyColor)">
-                      <div class="col-12 col-sm-12">
+                    <div class="callout row" style="border-top: 3px solid var(--companyColor)">
+                      <div class="col-12 col-sm-12 mb-1">
                         <label class="font-weight-normal text-sm">
                           Codigo UNSPSC
                         </label>
-                        <mat-form-field appearance="fill">
-                          <mat-select formControlName="codigoUNSPSC">
-                            <mat-option value="80161500">80161500</mat-option>
-                            <mat-option value="80101706">80101706</mat-option>
-                          </mat-select>
-                        </mat-form-field>
+                        <!--                        <mat-form-field appearance="fill">-->
+                        <!--                          <mat-select formControlName="codigoUNSPSC">-->
+                        <!--                            <mat-option value="80161500">80161500</mat-option>-->
+                        <!--                            <mat-option value="80101706">80101706</mat-option>-->
+                        <!--                          </mat-select>-->
+                        <!--                        </mat-form-field>-->
+
+                        <!--                        <div class="col-12 col-sm-12">-->
+                        <div>
+<!--                          <label for="exampleDataList" class="form-label">Datalist example</label>-->
+                          <input class="form-control" formControlName="codigoUNSPSC" list="datalistOptions"
+                                 id="exampleDataList" placeholder="Ingrese Codigo UNSPSC..." (keyup)="xxx($event)">
+                          <datalist id="datalistOptions">
+                            <option
+                              *ngFor="let cb of clasificacionBienes"
+                              value="{{ cb.CLA_CODIGO_PRODUCTO }}"
+                            >
+                              {{cb.CLA_NOMBRE_PRODUCTO}}
+                            </option>
+                          </datalist>
+                        </div>
+                        <!--                        </div>-->
+
+                        <!--                        <ng-autocomplete-->
+                        <!--                          [data]="clasificacionBienes"-->
+                        <!--                          [searchKeyword]="keyword"-->
+                        <!--                          (inputChanged)='xxx($event)'-->
+                        <!--                          placeholder="Ingrese Codigo UNSPSC"-->
+                        <!--                          [itemTemplate]="itemTemplatea"-->
+                        <!--                          formControlName="codigoUNSPSC"-->
+                        <!--                        >-->
+                        <!--                        </ng-autocomplete>-->
+
+                        <!--                        <ng-template #itemTemplatea let-item>-->
+                        <!--                          <a [innerHTML]="item.id"></a><a>{{item.name}}</a>-->
+                        <!--                        </ng-template>-->
                       </div>
-                      <div class="col-12 col-sm-12">
+                      <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label class="font-weight-normal text-sm"> Descripción </label>
                           <input
@@ -293,18 +327,16 @@
                           />
                         </div>
                       </div>
-                      <div class="col-12 col-sm-12">
+                      <div class="col-12 col-sm-6">
                         <div class="form-group">
-                          <label class="font-weight-normal text-sm"> unidad </label>
-                          <mat-form-field appearance="fill">
-                            <mat-select formControlName="unidad">
-                              <mat-option *ngFor="let UN of UNIDADESUNSPSC"
-                                          value="{{ UN.UNI_IDENTIFICADOR }}">{{ UN.UNI_SIMBOLO }}</mat-option>
-                            </mat-select>
-                          </mat-form-field>
+                          <label class="font-weight-normal text-sm"> Unidad </label>
+                          <select class="form-control form-select" aria-label="Default select example">
+                            <option *ngFor="let UN of UNIDADESUNSPSC"
+                                    value="{{ UN.UNI_IDENTIFICADOR }}">{{ UN.UNI_SIMBOLO }}</option>
+                          </select>
                         </div>
                       </div>
-                      <div class="col-12 col-sm-12">
+                      <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label class="font-weight-normal text-sm"> Cantidad </label>
                           <input
@@ -315,7 +347,7 @@
                           />
                         </div>
                       </div>
-                      <div class="col-12 col-sm-12">
+                      <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label class="font-weight-normal text-sm"> Valor </label>
                           <input
@@ -332,7 +364,7 @@
                   <div class="modal-footer">
 
                     <button *ngIf="i != 0" type="button" class="btn btn-primary" (click)="deleteItem(i)"
-                            data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Delete ({{i + 1}})
+                            data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Eliminar ({{i + 1}})
                     </button>
 
                     <!--                  <button " >Delete - {{i}}</button>-->
@@ -363,7 +395,7 @@
     </div>
 
     <div class="modal fade" id="modal-cdp" data-backdrop="static" data-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content" style="width: auto">
           <div class="modal-header">
             <h4 class="modal-title"><b style="font-size: larger">Vincular Codigos CDP<a
@@ -379,13 +411,15 @@
           <div class="mr-3 ml-3">
             <h4>
               <label style="color: var(--companyColor)">Valor Contrato</label>
-              <span class="badge badge-pill badge-success ml-2" style="color:white"> {{valorAcomparar | currency}}</span>
+              <span class="badge badge-pill badge-success ml-2"
+                    style="color:white"> {{valorAcomparar | currency}}</span>
             </h4>
           </div>
-          <div class="modal-body modal-dialog-scrollable">
+          <div class="modal-body modal-dialog-scrollable modal-lg">
             <div>
               <form [formGroup]="cdpForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
-                <div formArrayName="cdpArray" *ngFor="let a of cdpForm.get('cdpArray')!.value; let i = index trackBy: trackByFnCdp">
+                <div formArrayName="cdpArray"
+                     *ngFor="let a of cdpForm.get('cdpArray')!.value; let i = index trackBy: trackByFnCdp">
                   <div [formGroupName]="i" style="margin-bottom: 10px;">
                     <label class="font-weight-normal text-sm">
                       <b class="text-md"> CDP #{{i + 1}}</b>
@@ -444,7 +478,7 @@
                   <div class="modal-footer">
 
                     <button *ngIf="i != 0" type="button" class="btn btn-primary" (click)="deleteCdpItem(i)"
-                            data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Delete ({{i + 1}})
+                            data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Eliminar ({{i + 1}})
                     </button>
 
                     <!--                  <button " >Delete - {{i}}</button>-->
@@ -624,6 +658,7 @@
                                 name="genero"
                                 class="form-control text-sm"
                               >
+                                <option *ngIf="isJuridico == true"></option>
                                 <option *ngIf="isJuridico == true">Indefinido</option>
                                 <option *ngIf="isJuridico == false">Femenino</option>
                                 <option *ngIf="isJuridico == false">Masculino</option>
@@ -636,7 +671,6 @@
                               <select
                                 (change)="getMunicipios()"
                                 formControlName="departamento"
-                                name="departamento"
                                 class="form-control text-sm"
                               >
                                 <option
@@ -670,7 +704,9 @@
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">Celular
-                                <span *ngIf="validacionCelular == true" class="badge badge-danger" style="cursor: pointer;" matTooltip="Introduzca un numero de 10 digitos" matTooltipPosition="above">
+                                <span *ngIf="validacionCelular == true" class="badge badge-danger"
+                                      style="cursor: pointer;" matTooltip="Introduzca un numero de 10 digitos"
+                                      matTooltipPosition="above">
                                   * Invalido
                                 </span>
                               </label>
@@ -691,7 +727,8 @@
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label class="font-weight-normal text-sm">Correo
-                                <span *ngIf="validacionCorreo == true" class="badge badge-danger" style="cursor: pointer;" matTooltip="Formato invalido" matTooltipPosition="above">
+                                <span *ngIf="validacionCorreo == true" class="badge badge-danger"
+                                      style="cursor: pointer;" matTooltip="Formato invalido" matTooltipPosition="above">
                                   * Invalido
                                 </span>
                               </label>
@@ -723,18 +760,18 @@
                             </div>
                           </div>
 
-<!--                          <div class="col-12 col-sm-3">-->
-<!--                            <div class="form-group">-->
-<!--                              <label class="font-weight-normal text-sm">Categoría de Profesión</label>-->
-<!--                              <select (change)="getProfesionByCategoria()"-->
-<!--                                      formControlName="categoriaProfesion"-->
-<!--                                      class="form-control text-sm"-->
-<!--                              >-->
-<!--                                <option *ngFor="let cat of categoriasProfesion"-->
-<!--                                        value="{{cat.PROF_CODIGO}}">{{cat.PROF_DESCRIPCION}}</option>-->
-<!--                              </select>-->
-<!--                            </div>-->
-<!--                          </div>-->
+                          <!--                          <div class="col-12 col-sm-3">-->
+                          <!--                            <div class="form-group">-->
+                          <!--                              <label class="font-weight-normal text-sm">Categoría de Profesión</label>-->
+                          <!--                              <select (change)="getProfesionByCategoria()"-->
+                          <!--                                      formControlName="categoriaProfesion"-->
+                          <!--                                      class="form-control text-sm"-->
+                          <!--                              >-->
+                          <!--                                <option *ngFor="let cat of categoriasProfesion"-->
+                          <!--                                        value="{{cat.PROF_CODIGO}}">{{cat.PROF_DESCRIPCION}}</option>-->
+                          <!--                              </select>-->
+                          <!--                            </div>-->
+                          <!--                          </div>-->
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
@@ -767,6 +804,7 @@
                                 formControlName="tipoProceso"
                               >
                                 <!--                                <option>Seleccione...</option>-->
+                                <option></option>
                                 <option
                                   *ngFor="let dep of tiposProceso"
                                   value="{{ dep.TPP_DESCRIPCION }}"
@@ -787,6 +825,7 @@
                                 class="custom-select form-control-border"
                                 formControlName="tipoContrato"
                               >
+                                <option></option>
                                 <option
                                   *ngFor="let dep of tiposContrato"
                                   value="{{ dep.TPC_DESCRIPCION }}"
@@ -807,6 +846,7 @@
                                 class="custom-select form-control-border"
                                 formControlName="justificacionTipoProceso"
                               >
+                                <option></option>
                                 <option
                                   *ngFor="let dep of tiposJustificacionContrato"
                                   value="{{ dep.TPJ_DESCRIPCION }}"
@@ -853,6 +893,7 @@
                                 class="custom-select form-control-border"
                                 formControlName="unidad"
                               >
+                                <option></option>
                                 <option
                                   *ngFor="let und of unidades"
                                   value="{{ und.UNI_NUMERO_PROCESO }}"
@@ -1066,7 +1107,7 @@
                               >Valor Contrato</label
                               >
                               <div class="input-group">
-<!--                                (keyup.enter)="getCdpMountValidate()"-->
+                                <!--                                (keyup.enter)="getCdpMountValidate()"-->
                                 <input (change)="getChangeContractValue()"
                                        currencyMask
                                        formControlName="valorContrato"
@@ -1085,17 +1126,17 @@
                             </div>
                           </div>
 
-<!--                          <div class="col-12 col-sm-3">-->
-<!--                            <div class="form-group">-->
-<!--                              <label class="font-weight-normal text-sm">CDP</label>-->
-<!--                              <input-->
-<!--                                formControlName="cdp"-->
-<!--                                type="text"-->
-<!--                                name="cdp"-->
-<!--                                class="form-control"-->
-<!--                              />-->
-<!--                            </div>-->
-<!--                          </div>-->
+                          <!--                          <div class="col-12 col-sm-3">-->
+                          <!--                            <div class="form-group">-->
+                          <!--                              <label class="font-weight-normal text-sm">CDP</label>-->
+                          <!--                              <input-->
+                          <!--                                formControlName="cdp"-->
+                          <!--                                type="text"-->
+                          <!--                                name="cdp"-->
+                          <!--                                class="form-control"-->
+                          <!--                              />-->
+                          <!--                            </div>-->
+                          <!--                          </div>-->
 
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
@@ -1247,7 +1288,14 @@
                   <!-- /.card -->
                 </div>
               </div>
-              <button [hidden]="createProcessForm.invalid || myForm.invalid || cdpForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray' || validacionCelular == true || validacionCorreo == true || validateDataCdp != 1" class="btn btn-primary btn-sm btn-block" type="submit">Crear Proceso</button>
+              <button
+                [hidden]="createProcessForm.invalid || myForm.invalid || cdpForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray' || validacionCelular == true || validacionCorreo == true || validateDataCdp != 1 || EDITPROCESS != 0"
+                class="btn btn-primary btn-sm btn-block" type="submit">Crear Proceso
+              </button>
+              <button
+                [hidden]="createProcessForm.invalid || myForm.invalid || cdpForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray' || validacionCelular == true || validacionCorreo == true || validateDataCdp != 1 || EDITPROCESS != 1"
+                class="btn btn-primary btn-sm btn-block" type="button" (click)="modifyProcess()">Modificar Proceso
+              </button>
             </form>
           </div>
         </div>
@@ -1291,10 +1339,14 @@
                     <!-- ID Column -->
                     <ng-container matColumnDef="Num">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header
-                          style="font-size: 14px;font-weight: bolder;color: black;"> Número
+                          style="font-size: 14px;font-weight: bolder;color: black;">
+                        Número
                       </th>
                       <td mat-cell *matCellDef="let row"
-                          style="font-size: 11px;color: #545cd8; font-weight: bold"> {{row.CONS_PROCESO}} </td>
+                          style="font-size: 12px;color: #545cd8; font-weight: bold"
+                      > {{row.CONS_PROCESO | uppercase}} <svg *ngIf=" (row.ESTADO > 2 && ROL == 2) || (row.ESTADO > 3 && ROL == 3)||(row.ESTADO > 4 && ROL == 4)|| (row.ESTADO > 5 && ROL == 5)||  (row.ESTADO > 6 && ROL == 6)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                      </svg></td>
                     </ng-container>
 
                     <ng-container matColumnDef="Identificacion">
@@ -1320,39 +1372,52 @@
                           style="font-size: 14px;font-weight: bolder;color: black"> Estado
                       </th>
                       <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;word-break: break-all;font-weight: bold"><a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :
-                        ((row.ESTADO >= 2 && row.ESTADO < 7) && ROL == 1) ? 'gray' :
-                        (row.ESTADO == 2 && ROL == 2) ? 'gray' :
-                        (row.ESTADO == 3 && ROL == 3) ? 'gray' :
-                        (row.ESTADO == 4 && ROL == 4) ? 'gray' :
-                        (row.ESTADO == 5 && ROL == 5) ? 'gray' :
-                        (row.ESTADO == 6 && ROL == 6) ? 'gray' :
-                        (row.ESTADO == 1) ? 'red' :
-                        (row.ESTADO >= 3 && row.ESTADO <= 7 && ROL == 2) ? 'green' :
-                        (row.ESTADO >= 4 && row.ESTADO <= 7 && ROL == 3) ? 'green' :
-                        (row.ESTADO >= 5 && row.ESTADO <= 7 && ROL == 4) ? 'green' :
-                        (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 5) ? 'green' :
-                        (row.ESTADO == 7 && ROL == 6) ? 'green' :
-                        (row.ESTADO == 0) ? 'black' : 'blue' }">
-                        {{((row.ESTADO > 2 && row.ESTADO < 7) && ROL == 1)? 'En flujo':(row.ESTADO == 2 && ROL == 1) ? 'Creado' :(row.ESTADO == 7 && ROL == 1)?'Aprobado':(row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobación' :((row.ESTADO >= 3 && row.ESTADO <= 6) && (ROL == 2 || ROL == 1)) ? 'En flujo'
-                        :(row.ESTADO >= 4 && row.ESTADO <= 6) && ROL == 3 ? 'En flujo'
-                          :(row.ESTADO >= 5 && row.ESTADO <= 6) && ROL == 4 ? 'En flujo'
-                            :(row.ESTADO >= 6 && row.ESTADO <= 6) && ROL == 5 ? 'En flujo'
-                              :(row.ESTADO >= 3 && row.ESTADO <= 6) ? 'Pendiente Aprobación' :
-                                (row.ESTADO == 0) ? 'Rechazado' :
-                                  (row.ESTADO == 1) ? 'Anulado' :
-                                    (row.ESTADO == 7) ? 'Aprobado' : (row.ESTADO == 8) ? 'Liquidado' : ''}}
-                      </a></td>
-<!--                      <td mat-cell *matCellDef="let row"-->
-<!--                          style="font-size: 12px;word-break: break-all"><a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :-->
-<!--                        (row.ESTADO >= 2 && row.ESTADO <= 6 && ROL == 39) ? 'gray' :-->
-<!--                        (ROL == 39 && row.ESTADO == 1) ? 'darkgray' :-->
-<!--                        (ROL == 39 && row.ESTADO == 7) ? 'green' :-->
-<!--                        (ROL == 39 && row.ESTADO == 0) ? 'black' : 'blue' }">-->
-<!--                        {{(row.ESTADO >= 2 && row.ESTADO <= 6 && ROL == 39) ? 'Pendiente Aprobación' :-->
-<!--                        (row.ESTADO == 1 && ROL == 39) ? 'Anulado' :-->
-<!--                          (row.ESTADO == 0 && ROL == 39) ? 'Rechazado' :-->
-<!--                            (row.ESTADO == 7 && ROL == 39) ? 'Aprobado' : ''}}</a></td>-->
+                          style="font-size: 12px;word-break: break-all;font-weight: bold">
+                        <a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :
+                        (row.ESTADO == 1) ? 'gray' :
+                        (row.ESTADO == 2 && ROL != 2) ? 'blue' :
+                        (row.ESTADO == 7) ? 'green' :
+                        (row.ESTADO == 8) ? 'black' :
+                        (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'goldenrod' :
+                        (row.ESTADO != 2 && ROL == 2) ? 'goldenrod' :
+                        (row.ESTADO != 3 && ROL == 3) ? 'goldenrod' :
+                        (row.ESTADO != 4 && ROL == 4) ? 'goldenrod' :
+                        (row.ESTADO != 5 && ROL == 5) ? 'goldenrod' :
+                        (row.ESTADO != 6 && ROL == 6) ? 'goldenrod' :
+                        (row.ESTADO == 2 && ROL == 2) ? 'goldenrod' :
+                        (row.ESTADO == 3 && ROL == 3) ? 'goldenrod' :
+                        (row.ESTADO == 4 && ROL == 4) ? 'goldenrod' :
+                        (row.ESTADO == 5 && ROL == 5) ? 'goldenrod' :
+                        (row.ESTADO == 6 && ROL == 6) ? 'goldenrod' :
+                        'rose' }">
+                          {{(row.ESTADO == 0) ? 'Rechazado' :
+                          (row.ESTADO == 1) ? 'Anulado' :
+                            (row.ESTADO == 2 && ROL != 2) ? 'Creado' :
+                              (row.ESTADO == 7) ? 'Aprobado' :
+                                (row.ESTADO == 8) ? 'Liquidado' :
+                                  (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'En Gestion' :
+                                    (row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobacion' :
+                                      (row.ESTADO == 3 && ROL == 3) ? 'Pendiente Aprobacion' :
+                                        (row.ESTADO == 4 && ROL == 4) ? 'Pendiente Aprobacion' :
+                                          (row.ESTADO == 5 && ROL == 5) ? 'Pendiente Aprobacion' :
+                                            (row.ESTADO == 6 && ROL == 6) ? 'Pendiente Aprobacion' :
+                                              (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 2) ? 'En Gestion' :
+                                                (row.ESTADO != 3 && ROL == 3) ? 'En Gestion' :
+                                                  (row.ESTADO != 4 && ROL == 4) ? 'En Gestion' :
+                                                    (row.ESTADO != 5 && ROL == 5) ? 'En Gestion' :
+                                                      (row.ESTADO != 6 && ROL == 6) ? 'En Gestion' :
+                                                        ''}}
+                        </a></td>
+                      <!--                      <td mat-cell *matCellDef="let row"-->
+                      <!--                          style="font-size: 12px;word-break: break-all"><a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :-->
+                      <!--                        (row.ESTADO >= 2 && row.ESTADO <= 6 && ROL == 39) ? 'gray' :-->
+                      <!--                        (ROL == 39 && row.ESTADO == 1) ? 'darkgray' :-->
+                      <!--                        (ROL == 39 && row.ESTADO == 7) ? 'green' :-->
+                      <!--                        (ROL == 39 && row.ESTADO == 0) ? 'black' : 'blue' }">-->
+                      <!--                        {{(row.ESTADO >= 2 && row.ESTADO <= 6 && ROL == 39) ? 'Pendiente Aprobación' :-->
+                      <!--                        (row.ESTADO == 1 && ROL == 39) ? 'Anulado' :-->
+                      <!--                          (row.ESTADO == 0 && ROL == 39) ? 'Rechazado' :-->
+                      <!--                            (row.ESTADO == 7 && ROL == 39) ? 'Aprobado' : ''}}</a></td>-->
                     </ng-container>
 
                     <!-- Fruit Column -->
@@ -1500,7 +1565,7 @@
                       <th mat-header-cell *matHeaderCellDef mat-sort-header
                           style="font-size: 14px;font-weight: bolder;color: black;"> Número
                       </th>
-<!--                      style="font-size: 11px;color: #545cd8; font-weight: bold"> {{row.id_del_proceso}} </td>-->
+                      <!--                      style="font-size: 11px;color: #545cd8; font-weight: bold"> {{row.id_del_proceso}} </td>-->
                       <td mat-cell *matCellDef="let row"
                           style="font-size: 11px;color: #545cd8; font-weight: bold"> {{row.nit_entidad}} </td>
                     </ng-container>

@@ -153,6 +153,12 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   cantidadCuotas: any;
   valorAcomparar: any;
   public allProfesions: any;
+  public CDPFIELDS: any;
+  public UNSPSCFIELDS: any;
+  public EDITPROCESS: any = 0;
+  public keyword = 'id';
+  public clasificacionBienes: any;
+  public clasificacionBienesAlmacenado: any;
 
   constructor(
     private fb: FormBuilder,
@@ -202,6 +208,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
     this.createProcessForm = this.fb.group({
       token: new FormControl(atob(localStorage.getItem('token')!)),
+      proceso: this.PROCESO,
       username: new FormControl(atob(localStorage.getItem('username')!)),
       codigoEntidad: new FormControl(atob(localStorage.getItem('codigoEntidad')!)),
       centroGestor: new FormControl(atob(localStorage.getItem('centroGestor')!)),
@@ -243,7 +250,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       definirPagos: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
       valorContrato: new FormControl({value: '', disabled: true}, [Validators.required]),
       duracionContrato: new FormControl({value: null, disabled: true}, [Validators.required]),
-      indDuracionContrato: new FormControl({value: '', disabled: false}, [Validators.required]),
+      indDuracionContrato: new FormControl({value: true, disabled: false}),
       tiempoDuracion: new FormControl({value: '', disabled: true}, [Validators.required]),
       comite: new FormControl({value: '', disabled: false}, [Validators.required]),
       // cdp: new FormControl({value: '', disabled: true}, [Validators.required]),
@@ -263,6 +270,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.departmentsCont();
     this.getUserData();
     this.getDepartamentos();
+    this.getClasificacionBienes();
     this.getUnidadesUnspsc();
     this.getAllProfesions();
     // this.getCategoriaProfesion();
@@ -330,11 +338,9 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   onKeydownEvent(event: HTMLInputElement): void {
     let search_item = event.value.length;
     let search_value = event.value;
-    // console.log(search_value);
 
     if (search_item > 4) {
       this.secopService
-        // .searchDataSecop('nit','tipo_empresa',tipoIdValue, search_value)
         .searchDataSecop('nit', search_value)
         .subscribe((data) => {
           this.userDataFromSecop = data;
@@ -376,17 +382,14 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     }
     let dataCdp = localStorage.getItem('dataCdp');
     if (dataCdp != null) {
-      // console.log(1)
       let dato = JSON.parse(dataCdp);
-      // console.log(dato)
-      // console.log(dato.length)
       let size = dato.length;
       for (let i = 0; i < size; i++) {
-        dato[i].proceso = 'jojojo';
+        dato[i].proceso = '';
       }
       await this.secopService.insertCdp(dato).subscribe((response: any) => {
-        // console.log(response);
         this.cdpForm.reset();
+        localStorage.removeItem('dataCdp');
       });
     }
     let duracion = this.createProcessForm.controls['duracionContrato'].value;
@@ -434,6 +437,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
           }
           // let unspscForm = Object.assign(this.myForm.controls['arr'].value);
           this.secopService.insertUNSPSC(this.myForm.controls['arr'].value).subscribe((response: any) => {
+            this.createProcessForm.reset();
+            this.cdpForm.reset();
             this.myForm.controls['arr'].reset();
             this.myForm.reset();
           });
@@ -512,143 +517,11 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         }).catch((error: any) => {
           console.log(error);
         });
-        // this.secopService.getCdpMount(this.token, this.centroGestor, cdp, this.createProcessForm.controls['valorContrato'].value, vigencia).subscribe((response: any) => {
-        //   console.log('response');
-        //   console.log(response);
-        //   if (response.Status != 'Ok') {
-        //     this.color = false;
-        //     utils.showAlert('CDP no encontrado por favor intente de nuevo!', 'error');
-        //     // this.createProcessForm.controls['cdp'].setValue('');
-        //     this.createProcessForm.controls['duracionContrato'].setValue('');
-        //     this.createProcessForm.controls['tiempoDuracion'].setValue('');
-        //     this.createProcessForm.controls['duracionContrato'].disable();
-        //     this.createProcessForm.controls['tiempoDuracion'].disable();
-        //     //resolve();
-        //   } else {
-        //     let monto = response.Values.ResultFields;
-        //     if (monto != null && monto != '' && monto.length > 0 && parseFloat(monto) < this.createProcessForm.controls['valorContrato'].value) {
-        //       this.color = false;
-        //       utils.showAlert('No hay fondos suficientes!', 'error');
-        //       // this.createProcessForm.controls['cdp'].setValue('');
-        //       this.createProcessForm.controls['duracionContrato'].setValue('');
-        //       this.createProcessForm.controls['tiempoDuracion'].setValue('');
-        //       this.createProcessForm.controls['duracionContrato'].disable();
-        //       this.createProcessForm.controls['tiempoDuracion'].disable();
-        //       //resolve();
-        //     } else {
-        //       this.color = true;
-        //       //utils.showAlert('Valor del contrato valido', 'success');
-        //       //utils.showAlert('Por favor ingrese un CDP de 10 digitos!', 'error');
-        //       this.valorAcomparar = this.createProcessForm.controls['valorContrato'].value;
-        //       // localStorage.setItem('cdp',cdp);
-        //       // this.createProcessForm.controls['cdp'].setValue(cdp);
-        //       this.createProcessForm.controls['duracionContrato'].enable();
-        //     }
-        //   }
-        // });
-        // alert(i)
         if (i == longitud - 1) {
           this.verificarErroresCdp(this.cdpError.length);
         }
       }
     }
-
-    // if (
-    //   this.createProcessForm.controls['valorContrato'].value != null &&
-    //   this.createProcessForm.controls['valorContrato'].value != '' &&
-    //   this.createProcessForm.controls['valorContrato'].value >= 1
-    // ) {
-    // const {value: formValues} = await Swal.fire({
-    //   title: 'Ingrese el número de CDP',
-    //   showCloseButton: true,
-    //   confirmButtonColor: '#007BFF',
-    //   confirmButtonText: 'Continue',
-    //   input: 'text',
-    //   inputAttributes: {
-    //     autocapitalize: 'off',
-    //     maxlength: '10',
-    //     minlength: '10'
-    //   },
-    //   allowOutsideClick: false,
-    //   focusConfirm: false,
-    //   inputValidator: (value: any) => {
-    //     return new Promise(async (resolve: any) => {
-    //       if (value.length == 10) {
-    //         let cdp = value;
-    //         const {value: vigencia} = await Swal.fire({
-    //           title: 'Ingrese la vigencia del CDP',
-    //           showCloseButton: true,
-    //           confirmButtonColor: '#007BFF',
-    //           confirmButtonText: 'Continue',
-    //           input: 'text',
-    //           inputAttributes: {
-    //             autocapitalize: 'off',
-    //             maxlength: '4',
-    //             minlength: '4'
-    //           },
-    //           allowOutsideClick: false,
-    //           focusConfirm: false,
-    //           inputValidator: (value: any) => {
-    //             return new Promise((resolve: any) => {
-    //               if (value.length == 4) {
-    //                 let vigencia = value;
-    //                 this.centroGestor = atob(localStorage.getItem('centroGestor')!);
-    //                 this.secopService.getCdpMount(this.token, this.centroGestor, cdp, this.createProcessForm.controls['valorContrato'].value, vigencia).subscribe((response: any) => {
-    //                   console.log('response');
-    //                   console.log(response);
-    //                   if (response.Status != 'Ok') {
-    //                     this.color = false;
-    //                     utils.showAlert('CDP no encontrado por favor intente de nuevo!', 'error');
-    //                     // this.createProcessForm.controls['cdp'].setValue('');
-    //                     this.createProcessForm.controls['duracionContrato'].setValue('');
-    //                     this.createProcessForm.controls['tiempoDuracion'].setValue('');
-    //                     this.createProcessForm.controls['duracionContrato'].disable();
-    //                     this.createProcessForm.controls['tiempoDuracion'].disable();
-    //                     //resolve();
-    //                   } else {
-    //                     let monto = response.Values.ResultFields;
-    //                     if (monto != null && monto != '' && monto.length > 0 && parseFloat(monto) < this.createProcessForm.controls['valorContrato'].value) {
-    //                       this.color = false;
-    //                       utils.showAlert('No hay fondos suficientes!', 'error');
-    //                       // this.createProcessForm.controls['cdp'].setValue('');
-    //                       this.createProcessForm.controls['duracionContrato'].setValue('');
-    //                       this.createProcessForm.controls['tiempoDuracion'].setValue('');
-    //                       this.createProcessForm.controls['duracionContrato'].disable();
-    //                       this.createProcessForm.controls['tiempoDuracion'].disable();
-    //                       //resolve();
-    //                     } else {
-    //                       this.color = true;
-    //                       //utils.showAlert('Valor del contrato valido', 'success');
-    //                       //utils.showAlert('Por favor ingrese un CDP de 10 digitos!', 'error');
-    //                       this.valorAcomparar = this.createProcessForm.controls['valorContrato'].value;
-    //                       // localStorage.setItem('cdp',cdp);
-    //                       // this.createProcessForm.controls['cdp'].setValue(cdp);
-    //                       this.createProcessForm.controls['duracionContrato'].enable();
-    //                     }
-    //                     resolve();
-    //                   }
-    //                 });
-    //               } else {
-    //                 resolve('Por favor Ingrese 4 Digitos :)')
-    //               }
-    //             })
-    //           }
-    //         });
-    //         // resolve();
-    //       } else {
-    //         resolve('Por favor Ingrese 10 Digitos :)')
-    //       }
-    //     })
-    //   }
-    // });
-    //
-    // if (formValues) {
-    //   if (formValues!.toString().length != 10) {
-    //     utils.showAlert('Por favor ingrese un CDP de 10 digitos!', 'error');
-    //     return;
-    //   }
-    // }
-    // }
   }
 
   verificarErroresCdp(errores: any) {
@@ -666,17 +539,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  // changeEscolaridad() {
-  //   if (
-  //     this.createProcessForm.controls['escolaridad'].value !== 'Selecione...'
-  //   ) {
-  //     alert(this.createProcessForm.controls['escolaridad'].value);
-  //     this.createProcessForm.controls['profesion'].enable();
-  //   } else {
-  //     this.createProcessForm.controls['profesion'].disable();
-  //   }
-  // }
-
   getColor() {
     let validColor = (this.color === true) ? 'lightgreen' : 'lightgray';
     return validColor;
@@ -684,13 +546,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   formatDate(data: string, campo: string) {
     let result = moment(data).format().slice(0, -6);
-    // let d = new Date(data);
-    // let dia = (d.getDate().toString().length == 1) ? '0' + d.getDate().toString() : d.getDate().toString();
-    // let mes = ((d.getMonth() + 1).toString().length == 1) ? '0' + (d.getMonth() + 1).toString() : (d.getMonth() + 1).toString();
-    // let anio = d.getFullYear();
-    // let hora = d.getHours();
-    // let minutos = (d.getMinutes().toString().length == 1) ? '0' + d.getMinutes() : d.getMinutes();
-    // let segundos = (d.getSeconds().toString().length == 1) ? '0' + d.getSeconds() : d.getSeconds();
     return this.createProcessForm.controls[campo].setValue(result);
   }
 
@@ -715,7 +570,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.tiposJustificacionContrato = null;
     this.service.getTiposContrato(this.createProcessForm.controls['tipoProceso'].value).subscribe((data: any) => {
       this.tiposContrato = data.Values.ResultFields;
-    })
+    });
   }
 
   getTiposJustificacionContrato() {
@@ -730,7 +585,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     });
   }
 
-  validateMount(value: any) {
+  /*validateMount(value: any) {
     // this.createProcessForm.controls['duracionContrato'].setValue(value.target.value.toString())
     let valorContrato = this.createProcessForm.controls['valorContrato'].value;
     let tipoIdentificacion = this.createProcessForm.controls['tipoIdentificacion'].value;
@@ -762,7 +617,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.validateDataUNSPSC = 0;
       utils.showAlert('El valor excede los limites establecidos en la tabla de honorarios! ', 'error');
     }
-  }
+  }*/
 
   getDepartamentos() {
     this.service.getDepartamentos('1').subscribe((data: any) => {
@@ -776,11 +631,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.municipios = data.Values.ResultFields;
     });
   }
-
-  // test() {
-  //   alert('jojojo')
-  //   utils.sendSoapData([], '');
-  // }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -837,7 +687,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   validateMoney(tiempoTotal: any) {
-    //let salarioMinimo = 980000;
     let tipoIdentificacion = this.createProcessForm.controls['tipoIdentificacion'].value;
     let valorContrato = this.createProcessForm.controls['valorContrato'].value;
 
@@ -850,8 +699,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
           utils.showAlert('El valor excede los limites establecidos en la tabla de honorarios! ', 'error');
         } else {
           this.createProcessForm.controls['comite'].setValue('NO');
-          // console.log(this.createProcessForm.controls['comite'].value);
-          // console.log(this.createProcessForm.controls['cdp'].value);
           this.iconColor = 'lightgreen';
         }
       } else {
@@ -860,18 +707,12 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       }
 
     } else if (tipoIdentificacion == 'Nit') {
-      // if ((valorContrato / tiempoTotal) > (salarioMinimo * 100)) {
       if (valorContrato > (this.minSalary * this.cantidadMaximaSalarios)) {
-        // this.iconColor = 'lightgray';
-        // console.log(salarioMinimo*100)
         this.iconColor = 'lightgreen';
         this.createProcessForm.controls['comite'].setValue('SI');
-        // console.log(this.createProcessForm.controls['comite'].value);
-        // utils.showAlert('El valor excede los limites establecidos en la tabla de honorarios! ', 'error');
       } else {
         this.iconColor = 'lightgreen';
         this.createProcessForm.controls['comite'].setValue('NO');
-        // console.log(this.createProcessForm.controls['comite'].value);
       }
     }
   }
@@ -881,43 +722,108 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.validateDataUNSPSC = 0;
   }
 
+  setFieldsToEdit() {
+    this.EDITPROCESS = 1;
+    this.createProcessForm.controls['proceso'].setValue(this.PROCESO);
+    this.createProcessForm.controls['tipoIdentificacion'].setValue(this.TIP_IDEN_PROV);
+    this.changeTipoIdentificacion(this.TIP_IDEN_PROV);
+    this.createProcessForm.controls['identificacion'].setValue(this.COD_PROV);
+    this.createProcessForm.controls['proveedor'].setValue(this.NOM_PROV);
+    this.createProcessForm.controls['ubicacion'].setValue(this.UBICACION_PROV);
+    this.createProcessForm.controls['fechaNacimiento'].setValue(this.NACIMIENTO_PROV);
+    // this.getDepartamentos();
+    this.createProcessForm.controls['genero'].setValue(this.GENERO_PROV);
+    this.createProcessForm.controls['departamento'].setValue(this.DPTO_PROV);
+    this.getMunicipios();
+    this.createProcessForm.controls['municipio'].setValue(this.CIUDAD_PROV);
+    this.createProcessForm.controls['correo'].setValue(this.CORREO_PROV);
+    this.createProcessForm.controls['celular'].setValue(this.CELULAR_PROV);
+    this.createProcessForm.controls['categoriaContratacion'].setValue(this.CATE_CONTRATACION);
+    this.createProcessForm.controls['profesion'].setValue(this.PROFESION_PROV);
+    this.createProcessForm.controls['tipoProceso'].setValue(this.TIPO_PROCESO);
+    this.service.getTiposContrato(this.createProcessForm.controls['tipoProceso'].value).subscribe((data: any) => {
+      this.tiposContrato = data.Values.ResultFields;
+      this.getEquipoContratacion();
+      this.createProcessForm.controls['tipoContrato'].setValue(this.TIPO_CONTRATO);
+      this.getTiposJustificacionContrato();
+      this.createProcessForm.controls['justificacionTipoProceso'].setValue(this.JUST_TIPO_PROCESO);
+      this.fillNombre();
+    });
+    // alert(this.UNI_CONTRATACION);
+    this.createProcessForm.controls['unidad'].setValue(this.UNI_CONTRATACION);
+    this.createProcessForm.controls['equipo'].setValue(this.EQUIPO_CONTRATACION);
+    this.createProcessForm.controls['objeto'].setValue(this.DESCRIPCION_PROCESO);
+    this.createProcessForm.controls['fechaInicio'].setValue(this.FECHA_INICIO);
+    this.createProcessForm.controls['fechaTermino'].setValue(this.FECHA_TERMINO);
+    this.createProcessForm.controls['firmaContrato'].setValue(this.FIRMA_CONTRATO);
+    this.createProcessForm.controls['plazoEjecucion'].setValue(this.PLAZO_EJECUCION);
+    this.createProcessForm.controls['valorContrato'].setValue(this.VAL_OFERTA);
+
+    for (let i = 0; i < this.CDPFIELDS.length; i++) {
+      this.cdpForm.controls['cdpArray'].get(i.toString())?.setValue({
+        'cdp': this.CDPFIELDS[i].CDP_NUMBER,
+        'vigencia': this.CDPFIELDS[i].CDP_VIGENCIA,
+        'valor': this.CDPFIELDS[i].CDP_VALOR,
+        'centroGestor': atob(localStorage.getItem('centroGestor')!)
+      });
+      if (i != this.CDPFIELDS.length - 1) {
+        this.addCdpItem();
+      }
+    }
+
+    for (let j = 0; j < this.UNSPSCFIELDS.length; j++) {
+      this.myForm.controls['arr'].get(j.toString())?.setValue({
+        'codigoUNSPSC': this.UNSPSCFIELDS[j].UNS_CODIGO,
+        'proceso': this.PROCESO,
+        'descripcion': this.UNSPSCFIELDS[j].UNS_DESCRIPCION,
+        'unidad': this.UNSPSCFIELDS[j].UNS_UNIDAD,
+        'cantidad': this.UNSPSCFIELDS[j].UNS_CANTIDAD,
+        'precioUnitario': this.UNSPSCFIELDS[j].UNS_PRECIO_UNITARIO,
+      });
+      if (j != this.UNSPSCFIELDS.length - 1) {
+        this.addItem();
+      }
+    }
+  }
+
   goDetail(row: any) {
     this.secopService.getSelectedProcess(this.token, row.CONS_PROCESO).subscribe((response: any) => {
-      this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
-      this.CENTRO_GESTOR = response.Values.ResultFields[0].CENTRO_GESTOR;
-      this.TIPO_PROCESO = response.Values.ResultFields[0].TIPO_PROCESO;
-      this.TIPO_CONTRATO = response.Values.ResultFields[0].TIPO_CONTRATO;
-      this.NOMBRE_PROCESO = response.Values.ResultFields[0].NOMBRE_PROCESO;
-      this.DESCRIPCION_PROCESO = response.Values.ResultFields[0].DESCRIPCION_PROCESO;
-      this.COD_PROV = response.Values.ResultFields[0].COD_PROV;
-      this.NOM_PROV = response.Values.ResultFields[0].NOM_PROV;
-      this.NACIMIENTO_PROV = response.Values.ResultFields[0].NACIMIENTO_PROV;
-      this.CORREO_PROV = response.Values.ResultFields[0].CORREO_PROV;
-      this.CELULAR_PROV = response.Values.ResultFields[0].CELULAR_PROV;
-      this.TIP_IDEN_PROV = response.Values.ResultFields[0].TIP_IDEN_PROV;
-      this.DPTO_PROV = response.Values.ResultFields[0].DPTO_PROV;
-      this.CIUDAD_PROV = response.Values.ResultFields[0].CIUDAD_PROV;
-      this.UBICACION_PROV = response.Values.ResultFields[0].UBICACION_PROV;
-      this.CATE_CONTRATACION = response.Values.ResultFields[0].CATE_CONTRATACION;
-      this.GENERO_PROV = response.Values.ResultFields[0].GENERO_PROV;
-      this.PROFESION_PROV = response.Values.ResultFields[0].PROFESION_PROV;
-      this.JUST_TIPO_PROCESO = response.Values.ResultFields[0].JUST_TIPO_PROCESO;
-      this.EQUIPO_CONTRATACION = response.Values.ResultFields[0].EQUIPO_CONTRATACION;
-      this.UNI_CONTRATACION = response.Values.ResultFields[0].UNI_CONTRATACION;
-      this.DOCUMENTOS_TIPO = response.Values.ResultFields[0].DOCUMENTOS_TIPO;
-      this.INTERADMINISTRATIVOS = response.Values.ResultFields[0].INTERADMINISTRATIVOS;
-      this.DEFINIR_LOTES = response.Values.ResultFields[0].DEFINIR_LOTES;
-      this.ESTADO = response.Values.ResultFields[0].ESTADO;
-
-      this.CODIGO_RPC = response.Values.ResultFields[0].CODIGO_RPC;
-      this.FECHA_INICIO = response.Values.ResultFields[0].FECHA_INICIO;
-      this.FECHA_TERMINO = response.Values.ResultFields[0].FECHA_TERMINO;
-      this.FIRMA_CONTRATO = response.Values.ResultFields[0].FIRMA_CONTRATO;
-      this.PLAZO_EJECUCION = response.Values.ResultFields[0].PLAZO_EJECUCION;
-      this.PLAN_PAGOS = response.Values.ResultFields[0].PLAN_PAGOS;
-      this.VAL_OFERTA = response.Values.ResultFields[0].VAL_OFERTA;
-      this.TIEMPO_DURACION_CONTRATO = response.Values.ResultFields[0].TIEMPO_DURACION_CONTRATO;
-      this.DURACION_CONTRATO = response.Values.ResultFields[0].DURACION_CONTRATO;
+      this.PROCESO = response.Values.ResultFields[0][0].CONS_PROCESO;
+      this.CENTRO_GESTOR = response.Values.ResultFields[0][0].CENTRO_GESTOR;
+      this.TIPO_PROCESO = response.Values.ResultFields[0][0].TIPO_PROCESO;
+      this.TIPO_CONTRATO = response.Values.ResultFields[0][0].TIPO_CONTRATO;
+      this.NOMBRE_PROCESO = response.Values.ResultFields[0][0].NOMBRE_PROCESO;
+      this.DESCRIPCION_PROCESO = response.Values.ResultFields[0][0].DESCRIPCION_PROCESO;
+      this.COD_PROV = response.Values.ResultFields[0][0].COD_PROV;
+      this.NOM_PROV = response.Values.ResultFields[0][0].NOM_PROV;
+      this.NACIMIENTO_PROV = response.Values.ResultFields[0][0].NACIMIENTO_PROV;
+      this.CORREO_PROV = response.Values.ResultFields[0][0].CORREO_PROV;
+      this.CELULAR_PROV = response.Values.ResultFields[0][0].CELULAR_PROV;
+      this.TIP_IDEN_PROV = response.Values.ResultFields[0][0].TIP_IDEN_PROV;
+      this.DPTO_PROV = response.Values.ResultFields[0][0].DPTO_PROV;
+      this.CIUDAD_PROV = response.Values.ResultFields[0][0].CIUDAD_PROV;
+      this.UBICACION_PROV = response.Values.ResultFields[0][0].UBICACION_PROV;
+      this.CATE_CONTRATACION = response.Values.ResultFields[0][0].CATE_CONTRATACION;
+      this.GENERO_PROV = response.Values.ResultFields[0][0].GENERO_PROV;
+      this.PROFESION_PROV = response.Values.ResultFields[0][0].PROFESION_PROV;
+      this.JUST_TIPO_PROCESO = response.Values.ResultFields[0][0].JUST_TIPO_PROCESO;
+      this.EQUIPO_CONTRATACION = response.Values.ResultFields[0][0].EQUIPO_CONTRATACION;
+      this.UNI_CONTRATACION = response.Values.ResultFields[0][0].UNI_CONTRATACION;
+      this.DOCUMENTOS_TIPO = response.Values.ResultFields[0][0].DOCUMENTOS_TIPO;
+      this.INTERADMINISTRATIVOS = response.Values.ResultFields[0][0].INTERADMINISTRATIVOS;
+      this.DEFINIR_LOTES = response.Values.ResultFields[0][0].DEFINIR_LOTES;
+      this.ESTADO = response.Values.ResultFields[0][0].ESTADO;
+      this.CODIGO_RPC = response.Values.ResultFields[0][0].CODIGO_RPC;
+      this.FECHA_INICIO = response.Values.ResultFields[0][0].FECHA_INICIO;
+      this.FECHA_TERMINO = response.Values.ResultFields[0][0].FECHA_TERMINO;
+      this.FIRMA_CONTRATO = response.Values.ResultFields[0][0].FIRMA_CONTRATO;
+      this.PLAZO_EJECUCION = response.Values.ResultFields[0][0].PLAZO_EJECUCION;
+      this.PLAN_PAGOS = response.Values.ResultFields[0][0].PLAN_PAGOS;
+      this.VAL_OFERTA = response.Values.ResultFields[0][0].VAL_OFERTA;
+      this.TIEMPO_DURACION_CONTRATO = response.Values.ResultFields[0][0].TIEMPO_DURACION_CONTRATO;
+      this.DURACION_CONTRATO = response.Values.ResultFields[0][0].DURACION_CONTRATO;
+      this.CDPFIELDS = response.Values.ResultFields[1];
+      this.UNSPSCFIELDS = response.Values.ResultFields[2];
     });
   }
 
@@ -959,21 +865,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       if (result.isConfirmed) {
         this.createProcess();
       }
-    })
-  }
-
-  ver() {
-    console.log(this.createProcessForm.controls['codigoUNSPSC'].value);
-    // let longitud = this.createProcessForm.controls['codigoUNSPSC'].value;
-    // let dato = '';
-    // for (let i = 0; i < longitud.length; i++) {
-    //   dato = dato + longitud[i];
-    //   if (i != longitud.length - 1){
-    //     dato = dato + ',';
-    //   }
-    // }
-    // console.log(dato);
-    // this.createProcessForm.controls['codigoUNSPSC'].setValue(dato.toString());
+    });
   }
 
   createItem() {
@@ -1007,7 +899,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   validateFieldsCdp() {
-    console.log(this.cdpForm.controls['cdpArray'].value);
     let cdp = this.cdpForm.controls['cdpArray'].value[0].cdp;
     if (cdp == null || cdp == '' || cdp.length <= 0) {
       this.cdpForm.controls['cdpArray'].get('0')?.setValue({
@@ -1049,7 +940,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       valorTotal += this.cdpForm.controls['cdpArray'].value[i].valor;
     }
     if (valorTotal == valor_contrato) {
-      console.log(this.cdpForm.controls['cdpArray'].value);
       localStorage.setItem('dataCdp', JSON.stringify(this.cdpForm.controls['cdpArray'].value));
       this.onCloseCdp();
       this.cantidadErrorCdp = [];
@@ -1058,7 +948,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     } else {
       this.validateDataCdp = 0;
       this.color = false;
-      // this.cdpForm.reset();
       utils.showAlert('El valor de los codigos CDP debe ser igual al valor del contrato!', 'error');
     }
   }
@@ -1079,11 +968,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   deleteCdpItem(index: number) {
     const itemsArray = this.cdpForm.get('cdpArray') as FormArray;
     itemsArray.removeAt(index);
-    // itemsArray.controls.forEach(c=>{
-    //   c.setValue({
-    //     cdp:'jojojo',vigencia:'',valor:''
-    //   })
-    // })
   }
 
   getUnidadesUnspsc() {
@@ -1092,19 +976,19 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     });
   }
 
-  getCategoriaProfesion() {
-    this.secopService.getCategoriaProfesion(this.token).subscribe((response: any) => {
-      this.categoriasProfesion = response.Values.ResultFields;
-    })
-  }
-
-  getProfesionByCategoria() {
-    let categoriaProfesion = this.createProcessForm.controls['categoriaProfesion'].value;
-    this.secopService.getProfesionByCategoria(this.token, categoriaProfesion).subscribe((response: any) => {
-      this.createProcessForm.controls['profesion'].enable();
-      this.categoriasSubProfesion = response.Values.ResultFields;
-    })
-  }
+  // getCategoriaProfesion() {
+  //   this.secopService.getCategoriaProfesion(this.token).subscribe((response: any) => {
+  //     this.categoriasProfesion = response.Values.ResultFields;
+  //   })
+  // }
+  //
+  // getProfesionByCategoria() {
+  //   let categoriaProfesion = this.createProcessForm.controls['categoriaProfesion'].value;
+  //   this.secopService.getProfesionByCategoria(this.token, categoriaProfesion).subscribe((response: any) => {
+  //     this.createProcessForm.controls['profesion'].enable();
+  //     this.categoriasSubProfesion = response.Values.ResultFields;
+  //   })
+  // }
 
   public getPagosXRpc(proceso: any) {
     this.secopService.getRpcFromProcess(proceso).subscribe((response: any) => {
@@ -1175,7 +1059,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   validateMoneyMasivo(tiempoTotal: any, tipoIdentificacion: string, valorContrato: any) {
-
     if (tipoIdentificacion == 'Cédula' || tipoIdentificacion == 'Cédula de Extranjería') {
       if ((valorContrato / tiempoTotal) > this.maxSalary) {
         utils.showAlert('El valor excede los limites establecidos en la tabla de honorarios! ', 'error');
@@ -1222,7 +1105,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         await this.validateDataExcel(jsonData, keyCount, dataFormulario, i);//.then(console.log);
       }
       this.progressValue = 0;
-      // console.log(this.procesosError);
       this.getdataProcess();
       this.cantidadError = this.procesosError.length;
       ev.target.value = '';
@@ -1347,7 +1229,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                                                                             //           this.procesosError.push('Proceso N°' + (i + 1) + ' - No hay Presupuesto sufiente para este contrato');
                                                                             //           resolve('error cdp ' + (i + 1));
                                                                             //         } else {
-                                                                            await this.lumpi(dataExcel, dataExcelCdp, i);
+                                                                            let v = await this.lumpi(dataExcel, dataExcelCdp, i);
                                                                             dataExcel.DURACIONCONTRATO = (dataExcel.DURACIONCONTRATO == 1) ? 'Años' :
                                                                               (dataExcel.DURACIONCONTRATO == 2) ? 'Dias' :
                                                                                 (dataExcel.DURACIONCONTRATO == 3) ? 'Horas' :
@@ -1372,7 +1254,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                                                                                 dataFormulario.push(dataExcel.TIEMPOCONTRATO);
                                                                                 dataFormulario.push(this.username);
                                                                                 dataFormulario.push(comite);
-                                                                                this.secopService.insertProcessMassive(dataFormulario).toPromise().then(async (response: any) => {
+                                                                                await this.secopService.insertProcessMassive(dataFormulario).toPromise().then(async (response: any) => {
                                                                                   // console.log(response)
                                                                                   if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
                                                                                     let r = await response.Values.ResultFields;
@@ -1616,14 +1498,14 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     return resultado;
   }
 
-  wait(ms: any) {
-    console.log('estamos esperando')
-    let start = new Date().getTime();
-    let end = start;
-    while (end < start + ms) {
-      end = new Date().getTime();
-    }
-  }
+  // wait(ms: any) {
+  //   console.log('estamos esperando')
+  //   let start = new Date().getTime();
+  //   let end = start;
+  //   while (end < start + ms) {
+  //     end = new Date().getTime();
+  //   }
+  // }
 
   async functionInsertunspsc(size: number, dataExcelCodigo: any, dataExcel: any, response: any, index: any, valorAcomparar: any, codigoUNSPSC: any, dataExcelCdp: any) {
     for (let i = 0; i < size; i++) {
@@ -1665,7 +1547,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   async lumpi2(dataExcel: any, dataExcelCdp: any, index: any) {
     for (let j = 0; j < dataExcelCdp.length; j++) {
       if (dataExcelCdp[j].IDREGISTRO == dataExcel.IDREGISTRO) {
-        dataExcelCdp[j].PROCESO = 'jojojo';
+        dataExcelCdp[j].PROCESO = '';
         let res = await this.secopService.getCdpMount(this.token, this.centroGestor, dataExcelCdp[j].CDP_NUMERO, dataExcelCdp[j].CDP_VALOR, dataExcelCdp[j].CDP_VIGENCIA).toPromise().then((response: any) => {
           if (response.Status != 'Ok') {
             this.color = false;
@@ -1695,6 +1577,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
               console.log(jsonExcelCdp)
               this.secopService.insertCdp(arrayExcelCdp).subscribe((response: any) => {
                 // console.log(response);
+                this.createProcessForm.reset();
+                this.myForm.reset();
                 this.cdpForm.reset();
               });
             }
@@ -1820,7 +1704,101 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   getAllProfesions() {
     this.secopService.getAllProfesions(this.token).subscribe((response: any) => {
       this.allProfesions = response.Values.ResultFields;
-    })
+    });
+  }
+
+  async modifyProcess() {
+    this.createProcessForm.controls['proveedor'].enable();
+    this.createProcessForm.controls['ubicacion'].enable();
+    let dataForm = Object.assign(this.createProcessForm.value);
+    // console.log(dataForm);
+    let dataCdp = localStorage.getItem('dataCdp');
+    if (dataCdp != null) {
+      let dato = JSON.parse(dataCdp);
+      let size = dato.length;
+      for (let i = 0; i < size; i++) {
+        dato[i].proceso = this.PROCESO;
+      }
+      this.secopService.updateProcessComplete(dataForm).subscribe(async (response: any) => {
+        // this.createProcessForm.enable();
+        if (response.Status == 'Ok') {
+          await this.secopService.insertCdp(dato).subscribe(async (response: any) => {
+            // this.cdpForm.reset();
+            // console.log(this.myForm.controls['arr'].value.length);
+            if (response.Status == 'Ok') {
+              for (let i = 0; i < this.myForm.controls['arr'].value.length; i++) {
+                // console.log('entramos por aqui');
+                this.myForm.controls['arr'].value[i].proceso = this.PROCESO;
+                if (i == this.myForm.controls['arr'].value.length - 1) {
+                  await this.secopService.insertUNSPSC(this.myForm.controls['arr'].value).subscribe((response: any) => {
+                    this.iconColor = 'lightgray';
+                    this.createProcessForm.reset();
+                    this.createProcessForm.controls['duracionContrato'].disable();
+                    this.createProcessForm.controls['tiempoDuracion'].disable();
+                    this.createProcessForm.controls['proveedor'].disable();
+                    this.createProcessForm.controls['ubicacion'].disable();
+                    this.cdpForm.controls['cdpArray'].reset();
+                    this.cdpForm.reset();
+                    this.myForm.controls['arr'].reset();
+                    this.myForm.reset();
+                    this.EDITPROCESS = 0;
+                  });
+                }
+              }
+            }
+            localStorage.removeItem('dataCdp');
+          });
+        }
+      });
+    }
+  }
+
+  async getClasificacionBienes() {
+    this.secopService.getClasificacionBienes(this.token,'null').subscribe((response: any) => {
+      let jsonRetur: any = [];
+      // console.log(jsonRetur.length);
+      this.clasificacionBienes = response.Values.ResultFields;
+      this.clasificacionBienesAlmacenado = response.Values.ResultFields;
+    });
+  }
+
+  xxx(data: any) {
+    console.log(data.target.value);
+    if(data.target.value.length >= 6){
+      this.secopService.getClasificacionBienes(this.token,data.target.value).subscribe((response: any) => {
+        console.log(response.Values.ResultFields);
+        this.clasificacionBienes = response.Values.ResultFields;
+      });
+    }
+    else if(data.target.value.length == 0){
+      this.clasificacionBienes = this.clasificacionBienesAlmacenado;
+    }
+
+    // if(data.length >= 6){
+    //   this.clasificacionBienes = {
+    //     "id": '12345678',
+    //     "name": '12345678',
+    //   }
+    // }
+  }
+
+  validarAnulacion(proceso: string) {
+    Swal.fire({
+      title: 'Esta Seguro?',
+      text: "Esta accion no se podrá revertir!",
+      icon: 'warning',
+      showCancelButton: true,
+      allowOutsideClick: false,
+      confirmButtonColor: 'var(--companyColor)',
+      cancelButtonColor: '#E9ECEF',
+      confirmButtonText: 'Si, anular proceso!',
+      cancelButtonText: 'No, deseo revisar!',
+      reverseButtons: true
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.anularProceso(proceso);
+      }
+    });
   }
 
 }
