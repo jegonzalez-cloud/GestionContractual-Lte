@@ -200,26 +200,52 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
     })
   }
 
-  getPagosXRpc(){
-    let rpc = this.CODIGO_RPC;
-    rpc = '5600015821'; // FIXME: corregir envio de codigo RPC
-    if (rpc && rpc.length == 10 ) {
-      this.secopService.getPagosXRpc(this.token,rpc).subscribe((response:any)=>{
-        if(response.Status != 'Ok'){
-          utils.showAlert('Rpc no encontrado, por favor intente de nuevo!','error');
+  public async getPagosXRpc(proceso:any){
+    this.secopService.getRpcFromProcess(proceso).subscribe((response: any) => {
+      if (response.Status != 'Ok') {
+        utils.showAlert('No se encontro un RPC asociado al proceso', 'error');
+        return;
+      }
+      else{
+        let rpc = response.Values.ResultFields;
+        if (rpc != null && rpc.toString().length == 10) {
+          this.secopService.getPagosXRpc(this.token, rpc).subscribe((response: any) => {
+            if (response.Status != 'Ok') {
+              utils.showAlert('Rpc no encontrado, por favor intente de nuevo!', 'error');
+            } else {
+              this.infoPagos = response.Values.ResultFields;
+              this.cantidadCuotas = this.infoPagos.length
+              utils.showAlert('Consulta exitosa!', 'success');
+              this.onOpen();
+            }
+          });
+        } else {
+          utils.showAlert('No se encontro un codigo Rpc asociado!', 'error');
         }
-        else{
-          this.infoPagos = response.Values.ResultFields;
-          this.cantidadCuotas = this.infoPagos.length
-          utils.showAlert('Consulta exitosa!','success');
-          this.onOpen();
-        }
-      });
-    }
-    else{
-      utils.showAlert('No se encontro un codigo Rpc asociado!','error');
-    }
+      }
+    });
   }
+
+  // getPagosXRpc(){
+  //   let rpc = this.CODIGO_RPC;
+  //   rpc = '5600015821'; // FIXME: corregir envio de codigo RPC
+  //   if (rpc && rpc.length == 10 ) {
+  //     this.secopService.getPagosXRpc(this.token,rpc).subscribe((response:any)=>{
+  //       if(response.Status != 'Ok'){
+  //         utils.showAlert('Rpc no encontrado, por favor intente de nuevo!','error');
+  //       }
+  //       else{
+  //         this.infoPagos = response.Values.ResultFields;
+  //         this.cantidadCuotas = this.infoPagos.length
+  //         utils.showAlert('Consulta exitosa!','success');
+  //         this.onOpen();
+  //       }
+  //     });
+  //   }
+  //   else{
+  //     utils.showAlert('No se encontro un codigo Rpc asociado!','error');
+  //   }
+  // }
 
   public onOpen(){
     this.openbutton.nativeElement.click();
@@ -236,4 +262,6 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
       this.verDescuentos[infopago[0]] = true;
     }
   }
+
+
 }

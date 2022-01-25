@@ -72,24 +72,28 @@ export class AutorizacionesDetailComponent implements OnInit {
       // console.log(this.myParam)
       let username = atob(localStorage.getItem('username')!);
       this.secopService.getAutorizacionesXProceso(this.myParam).subscribe((response: any) => {
-        console.log(response)
-        this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
-        this.NOMBRE_CONTRATISTA = response.Values.ResultFields[0].NOM_PROV;
-        this.CREADO = response.Values.ResultFields[0].CREATED;
-        this.VAL_OFERTA = response.Values.ResultFields[0].VAL_OFERTA;
-        if (response.Values.ResultFields != null && response.Values.ResultFields[0].ISMASIVE != null) {
-          if (response.Values.ResultFields[0].ISMASIVE == 'SI') {
-            // console.log(1234)
-            //this.estado_proceso = 7;
-            //TODO: this.ISMASIVE = true;
-          }
-        } else {
-          // console.log(4321)
+        // console.log(response)
+        if(response.Status == 'Ok'){
+          this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
+          this.NOMBRE_CONTRATISTA = response.Values.ResultFields[0].NOM_PROV;
+          this.CREADO = response.Values.ResultFields[0].CREATED;
+          this.VAL_OFERTA = response.Values.ResultFields[0].VAL_OFERTA;
           this.response = response.Values.ResultFields;
           if (this.response != null && this.response.length > 0) {
             this.estado_proceso = response.Values.ResultFields[response.Values.ResultFields.length - 1].AUTORIZACION_ESTADO;
           }
         }
+
+        // if (response.Values.ResultFields != null && response.Values.ResultFields[0].ISMASIVE != null) {
+        //   if (response.Values.ResultFields[0].ISMASIVE == 'SI') {
+        //     // console.log(1234)
+        //     //this.estado_proceso = 7;
+        //     //TODO: this.ISMASIVE = true;
+        //   }
+        // } else {
+        //   // console.log(4321)
+
+        // }
       })
     });
   }

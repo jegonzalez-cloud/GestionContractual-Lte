@@ -349,4 +349,23 @@ export class BusquedaComponent implements OnInit {
     });
   }
 
+  validarAnulacion(proceso: string) {
+    Swal.fire({
+      title: 'Esta Seguro?',
+      text: "Esta accion no se podrá revertir!",
+      icon: 'warning',
+      showCancelButton: true,
+      allowOutsideClick: false,
+      confirmButtonColor: 'var(--companyColor)',
+      cancelButtonColor: '#E9ECEF',
+      confirmButtonText: 'Si, anular proceso!',
+      cancelButtonText: 'No, deseo revisar!',
+      reverseButtons: true
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.anularProceso(proceso);
+      }
+    });
+  }
+
 }

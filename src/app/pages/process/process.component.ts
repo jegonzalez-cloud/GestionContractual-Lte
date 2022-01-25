@@ -871,7 +871,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   createItem() {
     return this.fb.group({
       codigoUNSPSC: new FormControl({value: null, disabled: false}, [Validators.required]),
-      proceso: new FormControl({value: '', disabled: false}),
+      proceso: new FormControl({value: null, disabled: false}),
       descripcion: new FormControl({value: '', disabled: false}, [Validators.required]),
       unidad: new FormControl({value: null, disabled: false}, [Validators.required]),
       cantidad: new FormControl({value: null, disabled: false}, [Validators.required]),
@@ -1799,6 +1799,10 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         this.anularProceso(proceso);
       }
     });
+  }
+
+  sample(){
+    console.log(this.myForm);
   }
 
 }
