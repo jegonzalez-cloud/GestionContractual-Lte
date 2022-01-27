@@ -159,6 +159,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   public keyword = 'id';
   public clasificacionBienes: any;
   public clasificacionBienesAlmacenado: any;
+  public modalidad: any;
 
   constructor(
     private fb: FormBuilder,
@@ -176,6 +177,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.idioma = idioma;
       this.translate.use(idioma);
     });
+    this.modalidad = true
   }
 
   ngAfterViewInit() {
@@ -1803,6 +1805,17 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   sample(){
     console.log(this.myForm);
+  }
+
+  mm(){
+    this.modalidad = false;
+  }
+
+  downloadFormat(){
+    let link = document.createElement("a");
+    link.download = "filename";
+    link.href = "./assets/images/excel-homologacion-gestion-prueba.xlsx";
+    link.click();
   }
 
 }

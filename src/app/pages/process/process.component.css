@@ -135,6 +135,10 @@ a{
   color: #495057;
 }
 
+.bd:hover{
+  border: solid 2px var(--companyColor);
+}
+
 .card-header a.active{
   border-top: 3px solid var(--companyColor);
 }

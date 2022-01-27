@@ -296,16 +296,16 @@ export class BusquedaComponent implements OnInit {
     });
   }
 
-  aprobarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'aprobado').subscribe((response:any)=>{
+  async aprobarAutorizacion(proceso:string){
+    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'aprobado').subscribe(async (response: any) => {
       this.service.sendClickEvent();
-      if(response.Status = 'Ok'){
-        utils.showAlert('Se autorizo el proceso #'+proceso+ ' correctamente!','success');
+      if (response.Status = 'Ok') {
+        utils.showAlert('Se autorizo el proceso #' + proceso + ' correctamente!', 'success');
         //disparar creacion secop segun rol
         // if(this.ROL == 44){
-        if(this.ROL == 6){
+        if (this.ROL == 6) {
           //console.log('aqui vamos');
-          this.secopService.getUnspscData(this.token,proceso).subscribe((response:any)=>{
+          this.secopService.getUnspscData(this.token, proceso).subscribe((response: any) => {
             // console.log('aqui estamos');
             // console.log(this.token);
             // console.log(response);
@@ -314,19 +314,19 @@ export class BusquedaComponent implements OnInit {
             let arr: Array<any> = [];
             arr.push(this.PROCESO_SELECCIONADO);
             arr.push(response.Values.ResultFields);
-            arr.push({"USUARIO_CONNECT":usuarioConect});
-            arr.push({"PASSWORD_CONNECT":conectPw});
-            arr.push({"USC_CODIGO_ENTIDAD":this.codigoEntidad});
-            arr.push({"TOKEN":this.token});
+            arr.push({"USUARIO_CONNECT": usuarioConect});
+            arr.push({"PASSWORD_CONNECT": conectPw});
+            arr.push({"USC_CODIGO_ENTIDAD": this.codigoEntidad});
+            arr.push({"TOKEN": this.token});
 
-            this.secopService.createSoapProcess(arr).subscribe((response:any)=>{
+            this.secopService.createSoapProcess(arr).subscribe((response: any) => {
               console.log(response);
             });
             //utils.sendSoapData(this.PROCESO_SELECCIONADO,response.Values.ResultFields);
           });
 
         }
-        this.getAutorizacionesXEntidad();
+        await this.getAutorizacionesXEntidad();
       }
     });
   }
@@ -341,11 +341,11 @@ export class BusquedaComponent implements OnInit {
     });
   }
 
-  getAutorizacionesXEntidad(){
-    this.secopService.getAutorizacionesXEntidad(this.entidad).subscribe((response:any)=>{
-      this.autorizaciones = response.Values.ResultFields;
+  async getAutorizacionesXEntidad(){
+    this.secopService.getAutorizacionesXEntidad(this.entidad).subscribe(async (response:any)=>{
+      this.busqueda = response.Values.ResultFields;
       // console.log(this.autorizaciones);
-      this.infoProcess();
+      await this.infoProcess();
     });
   }
 
