@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 export class SidebarComponent implements OnInit {
   nameUser: string = '';
   userImage: string = '';
+  logoImage: string = '';
   entidad: string = '';
   rol:any = atob(localStorage.getItem('rol')!);
   constructor(private router:Router) {}
@@ -23,6 +24,7 @@ export class SidebarComponent implements OnInit {
     this.userImage = localStorage.getItem('userImage')!;
     this.entidad = atob(localStorage.getItem('entidad')!);
     this.userImage = "./assets/img/avatar.png";
+    this.logoImage = "./assets/img/Logo-helppeople-2021-horizontal.png";
     //console.log(this.userImage)
     this.nameUser = atob(this.nameUser!);
   }

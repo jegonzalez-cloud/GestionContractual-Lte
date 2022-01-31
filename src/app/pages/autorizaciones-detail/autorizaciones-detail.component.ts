@@ -591,6 +591,7 @@ export class AutorizacionesDetailComponent implements OnInit {
   }
 
   fillContent(response: any) {
+    console.log('aca');
     let body = [];
     let header = {
       text: 'Historial de Autorizaciones' +
@@ -600,6 +601,7 @@ export class AutorizacionesDetailComponent implements OnInit {
     let estado;
     body.push(header);
     for (let i = 0; i < response.length; i++) {
+      console.log(response[i].AUTORIZACION_ESTADO);
       let text = [
         {
           style: 'table',
@@ -609,7 +611,7 @@ export class AutorizacionesDetailComponent implements OnInit {
             body: [
               [{text: response[i].CREATED, border: [false, false, false, false]}, {
                 text: [{text: 'El usuario ' + response[i].USR_LOGIN.toString().toUpperCase() + ' correspondiente a ' + response[i].NOMBRE_USUARIO + ' '},
-                  {text: estado = (response[i].AUTORIZACION_ESTADO != 0) ? 'autorizó' : 'rechazó' + ' el proceso número ' + response[i].CONS_PROCESO},
+                  {text: estado = (response[i].AUTORIZACION_ESTADO == 0) ? 'rechazó' : (response[i].AUTORIZACION_ESTADO == 1) ? 'anulo' : 'autorizó' + ' el proceso número ' + response[i].CONS_PROCESO},
                   {text: ' relacionado a la ' + response[i].TIPO_CONTRATO + 'con plazo ' + response[i].TIEMPO_DURACION_CONTRATO + ' ' + response[i].DURACION_CONTRATO + ' y valor $' + this.response[0].VAL_OFERTA},
                   {text: ' Correspondiente a la política ' + response[i].TIPO_PROCESO + '.', style: 'final'},
                 ],

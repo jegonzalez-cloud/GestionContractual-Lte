@@ -356,8 +356,10 @@ export class BusquedaComponent implements OnInit {
       icon: 'warning',
       showCancelButton: true,
       allowOutsideClick: false,
-      confirmButtonColor: 'var(--companyColor)',
-      cancelButtonColor: '#E9ECEF',
+      // confirmButtonColor: 'var(--companyColor)',
+      confirmButtonColor: 'primary',
+      // cancelButtonColor: '#E9ECEF',
+      cancelButtonColor: 'dark',
       confirmButtonText: 'Si, anular proceso!',
       cancelButtonText: 'No, deseo revisar!',
       reverseButtons: true

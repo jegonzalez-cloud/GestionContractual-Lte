@@ -131,11 +131,21 @@
 
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
-                            <label class="font-weight-normal text-sm">Color</label>
-                            <input style="width:10%" type="color" formControlName="color" class="form-control form-control-color"
-                                   id="exampleColorInput" value="#563d7c" title="Escoge tu color">
+                            <label class="font-weight-normal text-sm">Sociedad</label>
+                            <input
+                              formControlName="sociedad"
+                              class="form-control text-sm"
+                            />
                           </div>
                         </div>
+
+<!--                        <div [hidden]="true" class="col-12 col-sm-6">-->
+<!--                          <div class="form-group">-->
+<!--                            <label class="font-weight-normal text-sm">Color</label>-->
+<!--                            <input style="width:10%" type="color" formControlName="color" class="form-control form-control-color"-->
+<!--                                   id="exampleColorInput" value="#563d7c" title="Escoge tu color">-->
+<!--                          </div>-->
+<!--                        </div>-->
 
                         <button
                           [disabled]="configForm.invalid"

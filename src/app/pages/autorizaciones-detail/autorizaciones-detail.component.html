@@ -136,7 +136,7 @@
                       </dt>
                       <dd class="col-sm-9">El usuario <a class="color">{{det.USR_LOGIN | uppercase}}</a> correspondiente
                         a <a
-                          class="color">{{det.NOMBRE_USUARIO | uppercase}}</a><b> {{(det.AUTORIZACION_ESTADO != 0) ? 'autorizó' : 'rechazó'}}</b>
+                          class="color">{{det.NOMBRE_USUARIO | uppercase}}</a><b> {{(det.AUTORIZACION_ESTADO == 0) ? 'rechazó' : (det.AUTORIZACION_ESTADO == 1) ? 'anulo' : 'autorizó'}}</b>
                         el proceso número
                         <a class="color">{{det.CONS_PROCESO}}</a>
                         relacionado a la <a class="color">{{det.TIPO_CONTRATO | uppercase}}</a> con

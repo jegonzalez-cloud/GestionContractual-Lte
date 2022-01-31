@@ -26,11 +26,14 @@ td, th {
 table {
   width: 100%;
 }
-:host {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
+
+/*:host {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  align-items: flex-start;*/
+/*}*/
+
+
 
 .mat-column-Num {
   width: 18%;
@@ -147,10 +150,10 @@ div.callout{
   border-left-color: var(--companyColor);
 }
 
-button.btn-primary{
-  background-color: var(--companyColor);
-  border-color: var(--companyColor);
-}
+/*button.btn-primary{*/
+/*  background-color: var(--companyColor);*/
+/*  border-color: var(--companyColor);*/
+/*}*/
 
 .cdk-global-overlay-wrapper, .cdk-overlay-container {
   z-index: 99999 !important;
@@ -163,3 +166,28 @@ button.btn-primary{
 .hoverCarga:hover{
   color: var(--companyColor);
 }
+
+.iconsBG{
+  font-size: smaller;
+}
+
+.iconsBG:hover{
+  text-decoration: underline;
+  /*color:var(--companyColor);*/
+  color:#000fff;
+  /*font-weight: bold;*/
+}
+
+div_container{
+  overflow: auto;
+}
+
+.borderIcon:hover{
+  color: black;
+  font-size: large;
+}
+
+.nav-item .nav-link active{
+  color:red;
+}
+

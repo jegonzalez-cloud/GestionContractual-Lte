@@ -369,6 +369,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       localStorage.setItem("cantidadSalarios", btoa(response.Values.ResultFields[0].CON_CANTIDAD_SALARIOS));
       localStorage.setItem("identificacionSecop", btoa(response.Values.ResultFields[0].CON_LINK_IDENTIFICACIONSECOP));
       localStorage.setItem("dataSecop", btoa(response.Values.ResultFields[0].CON_LINK_SECOP));
+      localStorage.setItem("sociedad", btoa(response.Values.ResultFields[0].CON_SOCIEDAD));
       this.router.navigate(['home']);
     });
   }

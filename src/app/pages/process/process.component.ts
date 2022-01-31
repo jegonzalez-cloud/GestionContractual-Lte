@@ -429,6 +429,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
           this.createProcessForm.controls['profesion'].reset();
           this.color = false;
           utils.showAlert('Proceso creado correctamente!', 'success');
+          this.createProcessForm.controls['indDuracionContrato'].setValue(true);
           this.secopService.getDataProcess('0001', 1, this.centroGestor).subscribe((data: any) => {
             this.info_process = data;
             this.infoProcess();
@@ -471,8 +472,10 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     if (data.value == 'Nit') {
       this.isJuridico = true;
       this.fechaMinimaNacimiento = '';
+      this.createProcessForm.controls['genero'].setValue('Indefinido');
     } else {
       this.isJuridico = false;
+      this.createProcessForm.controls['genero'].setValue('');
       this.fechaMinimaNacimiento = this.ValidarMayoriaEdad();
     }
     this.createProcessForm.controls['fechaNacimiento'].enable();
@@ -572,18 +575,21 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.tiposJustificacionContrato = null;
     this.service.getTiposContrato(this.createProcessForm.controls['tipoProceso'].value).subscribe((data: any) => {
       this.tiposContrato = data.Values.ResultFields;
+      this.createProcessForm.controls['tipoContrato'].setValue('');
     });
   }
 
   getTiposJustificacionContrato() {
     this.service.getTiposJustificacionContrato(this.createProcessForm.controls['tipoContrato'].value).subscribe((data: any) => {
       this.tiposJustificacionContrato = data.Values.ResultFields;
+      this.createProcessForm.controls['justificacionTipoProceso'].setValue('');
     })
   }
 
   getEquipoContratacion() {
     this.service.getEquipoContratacion(this.createProcessForm.controls['tipoProceso'].value).subscribe((data: any) => {
       this.equipoContratacion = data.Values.ResultFields;
+      this.createProcessForm.controls['equipo'].setValue('');
     });
   }
 
@@ -631,6 +637,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     let dpto = this.createProcessForm.controls['departamento'].value
     this.service.getMunicipios(dpto).subscribe((data: any) => {
       this.municipios = data.Values.ResultFields;
+      this.createProcessForm.controls['municipio'].setValue('');
     });
   }
 
@@ -726,6 +733,11 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   setFieldsToEdit() {
     this.EDITPROCESS = 1;
+    this.createProcessForm.controls['codigoEntidad'].setValue(atob(localStorage.getItem('codigoEntidad')!));
+    this.createProcessForm.controls['centroGestor'].setValue(atob(localStorage.getItem('centroGestor')!));
+    this.createProcessForm.controls['token'].setValue(atob(localStorage.getItem('token')!));
+    this.createProcessForm.controls['username'].setValue(atob(localStorage.getItem('username')!));
+    this.createProcessForm.controls['documentosTipo'].setValue('NO');
     this.createProcessForm.controls['proceso'].setValue(this.PROCESO);
     this.createProcessForm.controls['tipoIdentificacion'].setValue(this.TIP_IDEN_PROV);
     this.changeTipoIdentificacion(this.TIP_IDEN_PROV);
@@ -858,8 +870,9 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       icon: 'warning',
       showCancelButton: true,
       allowOutsideClick: false,
-      confirmButtonColor: 'var(--companyColor)',
-      cancelButtonColor: '#E9ECEF',
+      confirmButtonColor: 'primary',
+      // cancelButtonColor: '#E9ECEF',
+      cancelButtonColor: 'dark',
       confirmButtonText: 'Si, crear proceso!',
       cancelButtonText: 'No, deseo revisar!',
       reverseButtons: true
@@ -878,6 +891,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       unidad: new FormControl({value: null, disabled: false}, [Validators.required]),
       cantidad: new FormControl({value: null, disabled: false}, [Validators.required]),
       precioUnitario: new FormControl({value: null, disabled: false}, [Validators.required]),
+      centroGestor: new FormControl(atob(localStorage.getItem('centroGestor')!)),
     })
   }
 
@@ -1161,6 +1175,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
                       dataExcel.GENERO = (dataExcel.GENERO == 1) ? 'Masculino' :
                         (dataExcel.GENERO == 2) ? 'Femenino' :
+                        (dataExcel.GENERO == 3) ? 'Indefinido' :
                           (dataExcel.GENERO.toString() == 'Indefinido') ? 'Indefinido' : '';
 
                       if (dataExcel.GENERO.toString() != '' || dataExcel.GENERO.toString().length != 0) {
@@ -1520,6 +1535,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
               if (response.Status == 'Ok') {
                 if (dataExcelCodigo[i].CANTIDAD != null && dataExcelCodigo[i].CANTIDAD.toString().length > 0 && !isNaN(Number(dataExcelCodigo[i].CANTIDAD.toString())) && Number(dataExcelCodigo[i].CANTIDAD.toString()) > 0) {
                   if (dataExcelCodigo[i].PRECIOUNITARIO != null && dataExcelCodigo[i].PRECIOUNITARIO.toString().length > 0 && !isNaN(Number(dataExcelCodigo[i].PRECIOUNITARIO.toString()))) {
+                    dataExcelCodigo[i].CENTROGESTOR = atob(localStorage.getItem('centroGestor')!);
                     codigoUNSPSC.push(dataExcelCodigo[i]);
                     valorAcomparar += dataExcelCodigo[i].PRECIOUNITARIO;
                     if (Number(valorAcomparar) == Number(dataExcel.VALORESTIMADO)) {
@@ -1573,7 +1589,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                 valor: dataExcelCdp[j].CDP_VALOR,
                 centroGestor: atob(localStorage.getItem('centroGestor')!),
                 proceso: dataExcelCdp[j].PROCESO,
-                sociedad: dataExcelCdp[j].CDP_SOCIEDAD
+                // sociedad: dataExcelCdp[j].CDP_SOCIEDAD
+                sociedad: atob(localStorage.getItem('sociedad')!),
               }
               arrayExcelCdp.push(jsonExcelCdp);
               console.log(jsonExcelCdp)
@@ -1733,17 +1750,24 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                 this.myForm.controls['arr'].value[i].proceso = this.PROCESO;
                 if (i == this.myForm.controls['arr'].value.length - 1) {
                   await this.secopService.insertUNSPSC(this.myForm.controls['arr'].value).subscribe((response: any) => {
-                    this.iconColor = 'lightgray';
-                    this.createProcessForm.reset();
-                    this.createProcessForm.controls['duracionContrato'].disable();
-                    this.createProcessForm.controls['tiempoDuracion'].disable();
-                    this.createProcessForm.controls['proveedor'].disable();
-                    this.createProcessForm.controls['ubicacion'].disable();
-                    this.cdpForm.controls['cdpArray'].reset();
-                    this.cdpForm.reset();
-                    this.myForm.controls['arr'].reset();
-                    this.myForm.reset();
-                    this.EDITPROCESS = 0;
+                    if(response.Status == 'Ok'){
+                      this.iconColor = 'lightgray';
+                      this.createProcessForm.reset();
+                      this.createProcessForm.controls['duracionContrato'].disable();
+                      this.createProcessForm.controls['tiempoDuracion'].disable();
+                      this.createProcessForm.controls['proveedor'].disable();
+                      this.createProcessForm.controls['ubicacion'].disable();
+                      this.cdpForm.controls['cdpArray'].reset();
+                      this.cdpForm.reset();
+                      this.myForm.controls['arr'].reset();
+                      this.myForm.reset();
+                      this.EDITPROCESS = 0;
+                      utils.showAlert('Proceso actualizado correctamente!','success');
+                    }
+                    else{
+                      utils.showAlert('Proceso no pudo ser actualizado!','warning');
+                    }
+
                   });
                 }
               }
@@ -1764,24 +1788,17 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     });
   }
 
-  xxx(data: any) {
-    console.log(data.target.value);
+  getCodigosUnspsc(data: any) {
+    // console.log(data.target.value);
     if(data.target.value.length >= 6){
       this.secopService.getClasificacionBienes(this.token,data.target.value).subscribe((response: any) => {
-        console.log(response.Values.ResultFields);
+        // console.log(response.Values.ResultFields);
         this.clasificacionBienes = response.Values.ResultFields;
       });
     }
     else if(data.target.value.length == 0){
       this.clasificacionBienes = this.clasificacionBienesAlmacenado;
     }
-
-    // if(data.length >= 6){
-    //   this.clasificacionBienes = {
-    //     "id": '12345678',
-    //     "name": '12345678',
-    //   }
-    // }
   }
 
   validarAnulacion(proceso: string) {
@@ -1791,8 +1808,9 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       icon: 'warning',
       showCancelButton: true,
       allowOutsideClick: false,
-      confirmButtonColor: 'var(--companyColor)',
-      cancelButtonColor: '#E9ECEF',
+      confirmButtonColor: 'primary',
+      // cancelButtonColor: '#E9ECEF',
+      cancelButtonColor: 'dark',
       confirmButtonText: 'Si, anular proceso!',
       cancelButtonText: 'No, deseo revisar!',
       reverseButtons: true
@@ -1807,7 +1825,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     console.log(this.myForm);
   }
 
-  mm(){
+  procesoManual(){
     this.modalidad = false;
   }
 
@@ -1816,6 +1834,14 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     link.download = "filename";
     link.href = "./assets/images/excel-homologacion-gestion-prueba.xlsx";
     link.click();
+  }
+
+  backModalidad(){
+    this.modalidad = true;
+  }
+
+  onBlurFields(event:any){
+    event.target.blur();
   }
 
 }

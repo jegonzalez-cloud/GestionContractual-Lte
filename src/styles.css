@@ -4,6 +4,8 @@
   --red: #f00;
   /*--companyColor: #f00;*/
   --companyColor: #0b9fa5;
+  /*--labelColor: #585858;*/
+  --labelColor: #2F3244;
 }
 
 html, body { height: 100%;}
