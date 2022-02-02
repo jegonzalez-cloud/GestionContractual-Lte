@@ -131,7 +131,12 @@ tr.hoverOnTable:hover {
 }
 
 .nav-tabs .nav-link.active{
-  color: var(--companyColor);
+  color: var(--labelColor);
+  background-color: #F4F6F9;
+}
+
+.nav-tabs .nav-link{
+  color: lightgray;
 }
 
 a{
@@ -139,7 +144,7 @@ a{
 }
 
 .bd:hover{
-  border: solid 2px var(--companyColor);
+  border: solid 2px var(--labelColor);
 }
 
 .card-header a.active{
@@ -150,10 +155,10 @@ div.callout{
   border-left-color: var(--companyColor);
 }
 
-/*button.btn-primary{*/
-/*  background-color: var(--companyColor);*/
-/*  border-color: var(--companyColor);*/
-/*}*/
+button.btn-primary{
+  background-color: var(--sidebarColor);
+  border-color: var(--sidebarColor);
+}
 
 .cdk-global-overlay-wrapper, .cdk-overlay-container {
   z-index: 99999 !important;
@@ -183,8 +188,8 @@ div_container{
 }
 
 .borderIcon:hover{
-  color: black;
-  font-size: large;
+  color: #06092F;
+  /*font-size: large;*/
 }
 
 .nav-item .nav-link active{

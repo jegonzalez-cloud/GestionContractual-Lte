@@ -157,11 +157,11 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.show = false;
         } else {
           this.loading = false;
-          utils.showAlert('Credenciales Incorrectas!', 'error');
+          utils.showAlert('Credenciales Incorrectas!', 'warning');
           this.show = false;
         }
       }, (error) => {
-        utils.showAlert('Credenciales Incorrectas!', 'error')
+        utils.showAlert('Credenciales Incorrectas!', 'warning')
         this.show = false;
       })
 

@@ -142,7 +142,7 @@ export class ConfiguracionComponent implements OnInit {
         this.onUpdateConfig(this.token);
       }
       else{
-        utils.showAlert('No se pudo actualizar la configuración','error');
+        utils.showAlert('No se pudo actualizar la configuración','warning');
       }
     });
   }
@@ -157,14 +157,14 @@ export class ConfiguracionComponent implements OnInit {
     this.authService.getRolxId(atob(localStorage.getItem('token')!),20)
       .subscribe((data: any) => {
         this.roles = data.Values;
-      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
+      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'warning'))
   }
 
   GetUsersLB(){
     this.authService.GetUsersLB(atob(localStorage.getItem('token')!))
       .subscribe((data: any) => {
         this.users = data.Values;
-      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
+      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'warning'))
   }
 
   GetUsersConnect(){
@@ -185,7 +185,7 @@ export class ConfiguracionComponent implements OnInit {
         this.selectEntitys = jsonRetur;
 
         this.infoProcess();
-      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
+      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'warning'))
   }
 
   GetUsersConnection(idUser:number){
@@ -193,7 +193,7 @@ export class ConfiguracionComponent implements OnInit {
       .subscribe((data: any) => {
         this.UsersConnection = data.Values.ResultFields;
         this.infoProcessConnection();
-      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
+      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'warning'))
   }
 
   GetHiringTeams(eqcCod:number){

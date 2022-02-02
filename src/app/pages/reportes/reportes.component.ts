@@ -61,7 +61,7 @@ export class ReportesComponent implements OnInit {
     let entidad = this.ENTIDAD;
     let CENTROGESTOR = this.CENTROGESTOR;
     if (this.RESPONSE == null || this.RESPONSE.length <= 0) {
-      utils.showAlert('No se encontraron datos para la busqueda!', 'error');
+      utils.showAlert('No se encontraron datos para la busqueda!', 'warning');
       return;
     }
     let data = this.fillContentReport(this.RESPONSE);
@@ -289,7 +289,7 @@ export class ReportesComponent implements OnInit {
 
   validateData() {
     if (this.RESPONSE == null || this.RESPONSE.length <= 0) {
-      utils.showAlert('No se encontraron datos para la busqueda!', 'error');
+      utils.showAlert('No se encontraron datos para la busqueda!', 'warning');
       return;
     }
     Swal.fire({

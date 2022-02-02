@@ -1,5 +1,5 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4 " style="color:var(--labelColor)">
+<aside class="main-sidebar sidebar-dark-primary elevation-4 " style="background-color:var(--sidebarColor);color:var(--labelColor)">
   <!-- Brand Logo -->
   <div style="text-align: center;padding: 5% 5% 5% 5%" class="mt-2">
     <!--      <img-->
@@ -26,33 +26,33 @@
   <!-- Sidebar -->
   <div class="sidebar">
     <!-- Sidebar user (optional) -->
-    <div class="user-panel mt-0 pb-3 mb-3 d-flex">
-      <div class="image mt-0">
-<!--        [ngStyle]="{'cursor':'pointer'}"-->
-        <img
-          src={{userImage}}
-          class="img-circle elevation-2"
-          alt="User Image"
-          style="margin-top: 18px;"
-        />
-      </div>
-      <div class="info">
-        <a class="d-block text-xs" style="font-weight: bold; color: var(--companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>
-        <a class="d-block text-sm">{{nameUser | titlecase}}</a>
-        <a class="d-block text-xs" style="color: var(--companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{rol == 1 ? 'Creador del Proceso y Contrato' :
-          rol == 2 ? 'Secretaria Juridica' :
-            rol == 3 ? 'Ordenador del gasto' :
-              rol == 4 ? 'Secretaria Privada' :
-                rol == 5 ? 'Comite de Contratacion' :
-                  rol == 6 ? 'DADII' : 'Admin'}}">
-          {{rol == 1 ? 'Creador del Proceso y Contrato' :
-          rol == 2 ? 'Secretaria Juridica' :
-            rol == 3 ? 'Ordenador del gasto' :
-              rol == 4 ? 'Secretaria Privada' :
-                rol == 5 ? 'Comite de Contratacion' :
-                  rol == 6 ? 'DADII' : 'Admin'}}</a>
-      </div>
-    </div>
+<!--    <div class="user-panel mt-0 pb-3 mb-3 d-flex">-->
+<!--      <div class="image mt-0">-->
+<!--&lt;!&ndash;        [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;-->
+<!--        <img-->
+<!--          src={{userImage}}-->
+<!--          class="img-circle elevation-2"-->
+<!--          alt="User Image"-->
+<!--          style="margin-top: 18px;"-->
+<!--        />-->
+<!--      </div>-->
+<!--      <div class="info">-->
+<!--        <a class="d-block text-xs" style="font-weight: bold; color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>-->
+<!--        <a class="d-block text-sm">{{nameUser | titlecase}}</a>-->
+<!--        <a class="d-block text-xs" style="color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{rol == 1 ? 'Creador del Proceso y Contrato' :-->
+<!--          rol == 2 ? 'Secretaria Juridica' :-->
+<!--            rol == 3 ? 'Ordenador del gasto' :-->
+<!--              rol == 4 ? 'Secretaria Privada' :-->
+<!--                rol == 5 ? 'Comite de Contratacion' :-->
+<!--                  rol == 6 ? 'DADII' : 'Admin'}}">-->
+<!--          {{rol == 1 ? 'Creador del Proceso y Contrato' :-->
+<!--          rol == 2 ? 'Secretaria Juridica' :-->
+<!--            rol == 3 ? 'Ordenador del gasto' :-->
+<!--              rol == 4 ? 'Secretaria Privada' :-->
+<!--                rol == 5 ? 'Comite de Contratacion' :-->
+<!--                  rol == 6 ? 'DADII' : 'Admin'}}</a>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <!-- Sidebar Menu -->
     <nav class="mt-2">
@@ -151,17 +151,20 @@
           </a>
         </li>
 
-        <li class="nav-item text-center" style="margin-top: 60%;cursor: pointer">
-          <div class="image mt-0">
-            <!--        [ngStyle]="{'cursor':'pointer'}"-->
-            <img
-              src={{logoImage}}
-              alt="Logo Image"
-              width="120px"
-              style="margin-top: 18px;"
-            />
-          </div>
-        </li>
+<!--        <li  style="margin-top: 60%;cursor: pointer">-->
+<!--          <div class="image mt-0">-->
+<!--            &lt;!&ndash;        [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;-->
+<!--            <footer style="position:fixed; bottom: 0; height:40px; background-color:red;">-->
+<!--              <img-->
+<!--                src={{logoImage}}-->
+<!--                alt="Logo Image"-->
+<!--                width="120px"-->
+<!--                style="margin-top: 18px;"-->
+<!--              />-->
+<!--            </footer>-->
+
+<!--          </div>-->
+<!--        </li>-->
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   public cantidadAutorizaciones: any;
   public autorizaciones: any;
   private username: string = atob(localStorage.getItem('username')!);
-  private entidad: string = atob(localStorage.getItem('entidad')!);
+  entidad: string = atob(localStorage.getItem('entidad')!);
   private token: string = localStorage.getItem('token')!;
   private codigoEntidad: string = atob(localStorage.getItem('codigoEntidad')!);
   clickEventSubscription!: Subscription;
@@ -64,6 +64,9 @@ export class NavbarComponent implements OnInit {
   bbb:boolean=true;
   @ViewChild('closebutton') closebutton: any;
   @ViewChild('openbutton') openbutton: any;
+  userImage = "./assets/img/avatar.png";
+  nameUser: any;
+  logoImage: any;
 
   constructor(private router: Router, private store: Store<AppState>, private authService: AuthService, private secopService: SecopService, private service: ServicesService) {
     this.changeVar();
@@ -73,7 +76,8 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAutorizaciones()
+    this.getAutorizaciones();
+    this.getUserData();
     this.store.select('idioma').subscribe(({idioma}) => {
       this.lenguaje = idioma;
     });
@@ -209,7 +213,7 @@ export class NavbarComponent implements OnInit {
         utils.showAlert('Se autorizo el proceso #' + proceso + ' correctamente!', 'success');
         if (this.ROL == 6) {
           this.secopService.getSelectedProcess(this.token, proceso).subscribe((response: any) => {
-            let PROCESO_SELECCIONADO = response.Values.ResultFields[0];
+            let PROCESO_SELECCIONADO = response.Values.ResultFields[0][0];
             this.secopService.getUnspscData(this.token, proceso).subscribe((response: any) => {
               let usuarioConect = atob(localStorage.getItem('usuarioConect')!);
               let conectPw = atob(localStorage.getItem('conectPw')!);
@@ -265,5 +269,15 @@ export class NavbarComponent implements OnInit {
   ddd(){
     console.log('pulsaste')
     alert(this.ROL)
+  }
+
+  getUserData() {
+    this.nameUser = localStorage.getItem('name')!;
+    this.userImage = localStorage.getItem('userImage')!;
+    this.entidad = atob(localStorage.getItem('entidad')!);
+    this.userImage = "./assets/img/avatar.png";
+    this.logoImage = "./assets/img/Logo-helppeople-2021-horizontal.png";
+    //console.log(this.userImage)
+    this.nameUser = atob(this.nameUser!);
   }
 }

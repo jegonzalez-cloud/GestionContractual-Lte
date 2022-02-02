@@ -182,7 +182,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.secopService.sendGetDataSecop().subscribe((data: any) => {
-      // console.log(data)
       this.result = data;
       this.dataSourceSecop = new MatTableDataSource(this.result);
       this.dataSourceSecop.paginator = this.paginatorSecop;
@@ -202,68 +201,22 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     let username = atob(localStorage.getItem('username')!);
     this.minSalary = atob(localStorage.getItem('salarioMinimo')!);//985000; // traer salario minimo de la base de datos
     this.maxSalary = atob(localStorage.getItem('topeMaximo')!);//985000; // traer salario minimo de la base de datos
+    this.cantidadMaximaSalarios = atob(localStorage.getItem('cantidadSalarios')!);//TODO: cantidad de maxima de salarios
     // let token = atob(localStorage.getItem('token')!);
     let codigoEntidad = atob(localStorage.getItem('codigoEntidad')!);
     this.service.getUnidadesContratacion(username, codigoEntidad).subscribe((data: any) => {
       this.unidades = data.Values.ResultFields;
     });
 
-    this.createProcessForm = this.fb.group({
-      token: new FormControl(atob(localStorage.getItem('token')!)),
-      proceso: this.PROCESO,
-      username: new FormControl(atob(localStorage.getItem('username')!)),
-      codigoEntidad: new FormControl(atob(localStorage.getItem('codigoEntidad')!)),
-      centroGestor: new FormControl(atob(localStorage.getItem('centroGestor')!)),
-      //*****************************************************************************************************************
-      tipoIdentificacion: new FormControl(null, [Validators.required]),
-      identificacion: new FormControl({value: '', disabled: true}, [Validators.required]),
-      proveedor: new FormControl({value: '', disabled: true}, [Validators.required]),
-      ubicacion: new FormControl({value: '', disabled: true}, [Validators.required]),
-      fechaNacimiento: new FormControl({value: '', disabled: true}, [Validators.required]),
-      genero: new FormControl(null, [Validators.required]),
-      departamento: new FormControl(null, [Validators.required]),
-      municipio: new FormControl(null, [Validators.required]),
-      categoriaContratacion: new FormControl(null, [Validators.required]),
-      profesion: new FormControl({value: null, disabled: false}, [Validators.required]),
-      correo: new FormControl('', [Validators.required, Validators.email]),
-      celular: new FormControl({
-        value: '',
-        disabled: false
-      }, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
-      //****************************************************************************************************************
-      tipoProceso: new FormControl(null, [Validators.required]),
-      tipoContrato: new FormControl(null, [Validators.required]),
-      justificacionTipoProceso: new FormControl(null, [Validators.required]),
-      nombreProceso: new FormControl('', [Validators.required]),
-      objeto: new FormControl('', [Validators.required]),
-      unidad: new FormControl(null, [Validators.required]),
-      equipo: new FormControl(null, [Validators.required]),
-      acuerdos: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
-      acuerdoPaz: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
-      //****************************************************************************************************************
-      documentosTipo: new FormControl({value: 'NO', disabled: false}),
-      codigoUNSPSC: new FormControl({value: '', disabled: false}),
-      interadministrativos: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
-      definirLotes: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
-      firmaContrato: new FormControl({value: null, disabled: false}, [Validators.required]),
-      fechaInicio: new FormControl({value: null, disabled: false}, [Validators.required]),
-      fechaTermino: new FormControl({value: null, disabled: false}, [Validators.required]),
-      plazoEjecucion: new FormControl({value: null, disabled: false}, [Validators.required]),
-      definirPagos: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
-      valorContrato: new FormControl({value: '', disabled: true}, [Validators.required]),
-      duracionContrato: new FormControl({value: null, disabled: true}, [Validators.required]),
-      indDuracionContrato: new FormControl({value: true, disabled: false}),
-      tiempoDuracion: new FormControl({value: '', disabled: true}, [Validators.required]),
-      comite: new FormControl({value: '', disabled: false}, [Validators.required]),
-      // cdp: new FormControl({value: '', disabled: true}, [Validators.required]),
-      // categoriaProfesion: new FormControl({value: '', disabled: false}, [Validators.required]),
-    });
+    this.formularioProceso();
+
     this.myForm = this.fb.group({
       arr: this.fb.array([this.createItem()])
-    })
+    });
+
     this.cdpForm = this.fb.group({
       cdpArray: this.fb.array([this.createCdpItem()])
-    })
+    });
     //*************** TABLAS PROCESOS ********************
     this.getdataProcess();
     //****************************************************
@@ -286,12 +239,14 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     } else {
-      utils.showAlert('Error de información', 'error');
+      utils.showAlert('Error de información', 'warning');
     }
   }
 
   getChangeContractValue() {
+    // alert('data');
     this.createProcessForm.controls['valorContrato'].valueChanges.subscribe((data: number) => {
+      console.log(data);
       this.cdpForm.reset();
       // this.cdpForm.reset();
       if (data > 0) {
@@ -353,7 +308,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
             // this.camposSecop.push(this.userDataFromSecop[0].nombre);
             // this.camposSecop.push(this.userDataFromSecop[0].ubicacion);
           } else {
-            utils.showAlert("El N° de identificacion no se encontro!", "error");
+            utils.showAlert("El N° de identificacion no se encontro!", "warning");
             this.camposSecop = [];
             return;
           }
@@ -371,7 +326,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         },
       });
       Toast.fire({
-        icon: 'error',
+        icon: 'warning',
         title: 'El valor a insertar debe ser mayor a 4 digitos!',
       });
       return;
@@ -413,10 +368,13 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       (data: any) => {
         if (data.Status == 'Ok') {
           this.createProcessForm.reset();
+          this.isJuridico = null;
+          this.disableFields();
           this.createProcessForm.controls['valorContrato'].setValue('');
           this.createProcessForm.controls['valorContrato'].disable();
           this.createProcessForm.controls['tiempoDuracion'].disable();
           this.createProcessForm.controls['acuerdos'].setValue('NO');
+          this.createProcessForm.controls['indDuracionContrato'].setValue(true);
           this.createProcessForm.controls['documentosTipo'].setValue('NO');
           this.createProcessForm.controls['codigoUNSPSC'].reset();
           this.createProcessForm.controls['interadministrativos'].setValue('NO');
@@ -448,8 +406,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         }
       }, (error: any) => {
         this.createProcessForm.reset();
-        utils.showAlert('Proceso creado incorrectamente!', 'error');
-        console.log('error ==> ' + error);
+        utils.showAlert('Proceso creado incorrectamente!', 'warning');
+        // console.log('error ==> ' + error);
       });
     this.createProcessForm.controls['acuerdoPaz'].disable();
     this.createProcessForm.controls['definirPagos'].disable();
@@ -469,12 +427,17 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.createProcessForm.controls['valorContrato'].setValue('');
     this.createProcessForm.controls['fechaNacimiento'].setValue('');
     this.createProcessForm.controls['duracionContrato'].reset();
-    if (data.value == 'Nit') {
+    let tipoIdentificacion = data;
+    if (this.EDITPROCESS != 1) {
+      tipoIdentificacion = data.value;
+    }
+    if (tipoIdentificacion == 'Nit') {
       this.isJuridico = true;
       this.fechaMinimaNacimiento = '';
       this.createProcessForm.controls['genero'].setValue('Indefinido');
     } else {
       this.isJuridico = false;
+      this.createProcessForm.get('indDuracionContrato')!.setValue(true);
       this.createProcessForm.controls['genero'].setValue('');
       this.fechaMinimaNacimiento = this.ValidarMayoriaEdad();
     }
@@ -575,21 +538,35 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.tiposJustificacionContrato = null;
     this.service.getTiposContrato(this.createProcessForm.controls['tipoProceso'].value).subscribe((data: any) => {
       this.tiposContrato = data.Values.ResultFields;
-      this.createProcessForm.controls['tipoContrato'].setValue('');
+      if (this.EDITPROCESS == 1) {
+        this.createProcessForm.controls['tipoContrato'].setValue(this.TIPO_CONTRATO);
+      } else {
+        this.createProcessForm.controls['tipoContrato'].setValue('');
+      }
     });
   }
 
   getTiposJustificacionContrato() {
     this.service.getTiposJustificacionContrato(this.createProcessForm.controls['tipoContrato'].value).subscribe((data: any) => {
       this.tiposJustificacionContrato = data.Values.ResultFields;
-      this.createProcessForm.controls['justificacionTipoProceso'].setValue('');
+      if (this.EDITPROCESS == 1) {
+        this.createProcessForm.controls['tipoContrato'].setValue(this.TIPO_CONTRATO);
+        this.createProcessForm.controls['justificacionTipoProceso'].setValue(this.JUST_TIPO_PROCESO);
+      } else {
+        this.createProcessForm.controls['justificacionTipoProceso'].setValue('');
+      }
+      this.fillNombre();
     })
   }
 
   getEquipoContratacion() {
     this.service.getEquipoContratacion(this.createProcessForm.controls['tipoProceso'].value).subscribe((data: any) => {
       this.equipoContratacion = data.Values.ResultFields;
-      this.createProcessForm.controls['equipo'].setValue('');
+      if (this.EDITPROCESS == 1) {
+        this.createProcessForm.controls['equipo'].setValue(this.EQUIPO_CONTRATACION);
+      } else {
+        this.createProcessForm.controls['equipo'].setValue('');
+      }
     });
   }
 
@@ -635,8 +612,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   getMunicipios() {
     let dpto = this.createProcessForm.controls['departamento'].value
-    this.service.getMunicipios(dpto).subscribe((data: any) => {
-      this.municipios = data.Values.ResultFields;
+    this.service.getMunicipios(dpto).subscribe(async (data: any) => {
+      this.municipios = await data.Values.ResultFields;
       this.createProcessForm.controls['municipio'].setValue('');
     });
   }
@@ -644,7 +621,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -716,6 +692,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       }
 
     } else if (tipoIdentificacion == 'Nit') {
+      console.log(valorContrato, this.minSalary, this.cantidadMaximaSalarios)
       if (valorContrato > (this.minSalary * this.cantidadMaximaSalarios)) {
         this.iconColor = 'lightgreen';
         this.createProcessForm.controls['comite'].setValue('SI');
@@ -732,7 +709,19 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   setFieldsToEdit() {
+    this.formularioProceso();
+    this.disableFields();
+    this.myForm.get('arr')!.reset();
+    this.cdpForm.get('cdpArray')!.reset();
+    this.myForm.reset();
+    this.cdpForm.reset();
+    this.iconColor = 'lightgray';
+    this.color = false;
+    this.deleteCdpItem(1);
+    this.deleteItem(1);
     this.EDITPROCESS = 1;
+    this.valorContrato = false;
+    this.enableFields();
     this.createProcessForm.controls['codigoEntidad'].setValue(atob(localStorage.getItem('codigoEntidad')!));
     this.createProcessForm.controls['centroGestor'].setValue(atob(localStorage.getItem('centroGestor')!));
     this.createProcessForm.controls['token'].setValue(atob(localStorage.getItem('token')!));
@@ -741,15 +730,17 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.createProcessForm.controls['proceso'].setValue(this.PROCESO);
     this.createProcessForm.controls['tipoIdentificacion'].setValue(this.TIP_IDEN_PROV);
     this.changeTipoIdentificacion(this.TIP_IDEN_PROV);
+    // console.log(this.GENERO_PROV);
     this.createProcessForm.controls['identificacion'].setValue(this.COD_PROV);
     this.createProcessForm.controls['proveedor'].setValue(this.NOM_PROV);
     this.createProcessForm.controls['ubicacion'].setValue(this.UBICACION_PROV);
     this.createProcessForm.controls['fechaNacimiento'].setValue(this.NACIMIENTO_PROV);
     // this.getDepartamentos();
-    this.createProcessForm.controls['genero'].setValue(this.GENERO_PROV);
+    // this.createProcessForm.controls['genero'].setValue(this.GENERO_PROV);
+    // this.createProcessForm.controls['genero'].setValue('Indefinido');
     this.createProcessForm.controls['departamento'].setValue(this.DPTO_PROV);
     this.getMunicipios();
-    this.createProcessForm.controls['municipio'].setValue(this.CIUDAD_PROV);
+    // this.createProcessForm.controls['municipio'].setValue(this.CIUDAD_PROV);
     this.createProcessForm.controls['correo'].setValue(this.CORREO_PROV);
     this.createProcessForm.controls['celular'].setValue(this.CELULAR_PROV);
     this.createProcessForm.controls['categoriaContratacion'].setValue(this.CATE_CONTRATACION);
@@ -757,21 +748,20 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.createProcessForm.controls['tipoProceso'].setValue(this.TIPO_PROCESO);
     this.service.getTiposContrato(this.createProcessForm.controls['tipoProceso'].value).subscribe((data: any) => {
       this.tiposContrato = data.Values.ResultFields;
-      this.getEquipoContratacion();
       this.createProcessForm.controls['tipoContrato'].setValue(this.TIPO_CONTRATO);
+      this.getEquipoContratacion();
       this.getTiposJustificacionContrato();
-      this.createProcessForm.controls['justificacionTipoProceso'].setValue(this.JUST_TIPO_PROCESO);
-      this.fillNombre();
     });
     // alert(this.UNI_CONTRATACION);
+    this.reSetFields();
     this.createProcessForm.controls['unidad'].setValue(this.UNI_CONTRATACION);
-    this.createProcessForm.controls['equipo'].setValue(this.EQUIPO_CONTRATACION);
     this.createProcessForm.controls['objeto'].setValue(this.DESCRIPCION_PROCESO);
     this.createProcessForm.controls['fechaInicio'].setValue(this.FECHA_INICIO);
     this.createProcessForm.controls['fechaTermino'].setValue(this.FECHA_TERMINO);
     this.createProcessForm.controls['firmaContrato'].setValue(this.FIRMA_CONTRATO);
     this.createProcessForm.controls['plazoEjecucion'].setValue(this.PLAZO_EJECUCION);
     this.createProcessForm.controls['valorContrato'].setValue(this.VAL_OFERTA);
+    this.valorAcomparar = this.VAL_OFERTA;
 
     for (let i = 0; i < this.CDPFIELDS.length; i++) {
       this.cdpForm.controls['cdpArray'].get(i.toString())?.setValue({
@@ -793,6 +783,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
         'unidad': this.UNSPSCFIELDS[j].UNS_UNIDAD,
         'cantidad': this.UNSPSCFIELDS[j].UNS_CANTIDAD,
         'precioUnitario': this.UNSPSCFIELDS[j].UNS_PRECIO_UNITARIO,
+        'centroGestor': this.UNSPSCFIELDS[j].UNS_CENTRO_GESTOR,
       });
       if (j != this.UNSPSCFIELDS.length - 1) {
         this.addItem();
@@ -915,6 +906,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   validateFieldsCdp() {
+    this.valorAcomparar = this.createProcessForm.get('valorContrato')?.value;
     let cdp = this.cdpForm.controls['cdpArray'].value[0].cdp;
     if (cdp == null || cdp == '' || cdp.length <= 0) {
       this.cdpForm.controls['cdpArray'].get('0')?.setValue({
@@ -932,6 +924,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     let precioTotal = 0;
     let valorTotal = 0;
     for (let i = 0; i < tamanio; i++) {
+      this.myForm.controls['arr'].value[i].centroGestor = this.centroGestor;
       let cantidad = this.myForm.controls['arr'].value[i].cantidad;
       let precioUnitario = this.myForm.controls['arr'].value[i].precioUnitario;
       precioTotal = cantidad * precioUnitario;
@@ -944,7 +937,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     } else {
       this.myForm.reset();
       this.validateDataUNSPSC = 0;
-      utils.showAlert('El valor de los codigos UNSPSC debe ser igual al valor del contrato!', 'error');
+      utils.showAlert('El valor de los codigos UNSPSC debe ser igual al valor del contrato!', 'warning');
     }
   }
 
@@ -964,7 +957,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     } else {
       this.validateDataCdp = 0;
       this.color = false;
-      utils.showAlert('El valor de los codigos CDP debe ser igual al valor del contrato!', 'error');
+      utils.showAlert('El valor de los codigos CDP debe ser igual al valor del contrato!', 'warning');
     }
   }
 
@@ -1175,8 +1168,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
                       dataExcel.GENERO = (dataExcel.GENERO == 1) ? 'Masculino' :
                         (dataExcel.GENERO == 2) ? 'Femenino' :
-                        (dataExcel.GENERO == 3) ? 'Indefinido' :
-                          (dataExcel.GENERO.toString() == 'Indefinido') ? 'Indefinido' : '';
+                          (dataExcel.GENERO == 3) ? 'Indefinido' :
+                            (dataExcel.GENERO.toString() == 'Indefinido') ? 'Indefinido' : '';
 
                       if (dataExcel.GENERO.toString() != '' || dataExcel.GENERO.toString().length != 0) {
                         dataFormulario.push(dataExcel.GENERO);
@@ -1702,7 +1695,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   validarCamposCdp() {
     if (this.cdpForm.controls['cdpArray'].invalid) {
-      utils.showAlert('Por favor diligencie todos los campos!', 'error');
+      utils.showAlert('Por favor diligencie todos los campos!', 'warning');
     } else {
       this.onSubmitCdp();
     }
@@ -1750,9 +1743,11 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                 this.myForm.controls['arr'].value[i].proceso = this.PROCESO;
                 if (i == this.myForm.controls['arr'].value.length - 1) {
                   await this.secopService.insertUNSPSC(this.myForm.controls['arr'].value).subscribe((response: any) => {
-                    if(response.Status == 'Ok'){
+                    if (response.Status == 'Ok') {
                       this.iconColor = 'lightgray';
+                      this.color = false;
                       this.createProcessForm.reset();
+                      this.createProcessForm.controls['valorContrato'].disable();
                       this.createProcessForm.controls['duracionContrato'].disable();
                       this.createProcessForm.controls['tiempoDuracion'].disable();
                       this.createProcessForm.controls['proveedor'].disable();
@@ -1761,11 +1756,12 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                       this.cdpForm.reset();
                       this.myForm.controls['arr'].reset();
                       this.myForm.reset();
+                      this.deleteCdpItem(1);
+                      this.deleteItem(1);
                       this.EDITPROCESS = 0;
-                      utils.showAlert('Proceso actualizado correctamente!','success');
-                    }
-                    else{
-                      utils.showAlert('Proceso no pudo ser actualizado!','warning');
+                      utils.showAlert('Proceso actualizado correctamente!', 'success');
+                    } else {
+                      utils.showAlert('Proceso no pudo ser actualizado!', 'warning');
                     }
 
                   });
@@ -1780,7 +1776,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   async getClasificacionBienes() {
-    this.secopService.getClasificacionBienes(this.token,'null').subscribe((response: any) => {
+    this.secopService.getClasificacionBienes(this.token, 'null').subscribe((response: any) => {
       let jsonRetur: any = [];
       // console.log(jsonRetur.length);
       this.clasificacionBienes = response.Values.ResultFields;
@@ -1790,13 +1786,12 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   getCodigosUnspsc(data: any) {
     // console.log(data.target.value);
-    if(data.target.value.length >= 6){
-      this.secopService.getClasificacionBienes(this.token,data.target.value).subscribe((response: any) => {
+    if (data.target.value.length >= 6) {
+      this.secopService.getClasificacionBienes(this.token, data.target.value).subscribe((response: any) => {
         // console.log(response.Values.ResultFields);
         this.clasificacionBienes = response.Values.ResultFields;
       });
-    }
-    else if(data.target.value.length == 0){
+    } else if (data.target.value.length == 0) {
       this.clasificacionBienes = this.clasificacionBienesAlmacenado;
     }
   }
@@ -1821,27 +1816,126 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     });
   }
 
-  sample(){
+  sample() {
     console.log(this.myForm);
   }
 
-  procesoManual(){
+  procesoManual() {
     this.modalidad = false;
   }
 
-  downloadFormat(){
+  downloadFormat() {
     let link = document.createElement("a");
     link.download = "filename";
     link.href = "./assets/images/excel-homologacion-gestion-prueba.xlsx";
     link.click();
   }
 
-  backModalidad(){
+  backModalidad() {
     this.modalidad = true;
   }
 
-  onBlurFields(event:any){
+  onBlurFields(event: any) {
     event.target.blur();
   }
 
+  resetFieldsProcess() {
+    this.EDITPROCESS = 0;
+    this.deleteCdpItem(1);
+    this.deleteItem(1);
+    this.iconColor = 'lightgray';
+    this.color = false;
+    this.formularioProceso();
+    this.myForm.get('arr')!.reset();
+    this.cdpForm.get('cdpArray')!.reset();
+    this.myForm.reset();
+    this.cdpForm.reset();
+    localStorage.removeItem('dataCdp');
+    this.createProcessForm.get('municipio')?.setValue(null);
+    this.createProcessForm.controls['acuerdos'].setValue('NO');
+    this.createProcessForm.controls['documentosTipo'].setValue('NO');
+    this.createProcessForm.controls['interadministrativos'].setValue('NO');
+    this.createProcessForm.controls['acuerdoPaz'].setValue('NO');
+    this.createProcessForm.controls['definirPagos'].setValue('NO');
+    this.createProcessForm.controls['definirLotes'].setValue('NO');
+    this.disableFields();
+  }
+
+
+  disableFields(){
+    setTimeout(() => {
+      this.createProcessForm.controls['duracionContrato'].disable();
+      this.createProcessForm.controls['tiempoDuracion'].disable();
+      this.createProcessForm.controls['valorContrato'].disable();
+    }, 100);
+  }
+
+  reSetFields() {
+    setTimeout(() => {
+      this.createProcessForm.get('genero')?.setValue(this.GENERO_PROV);
+      this.createProcessForm.get('municipio')?.setValue(this.CIUDAD_PROV);
+      this.createProcessForm.get('equipo')?.setValue(this.EQUIPO_CONTRATACION);
+      this.createProcessForm.controls['tipoContrato'].setValue(this.TIPO_CONTRATO);
+      this.createProcessForm.controls['justificacionTipoProceso'].setValue(this.JUST_TIPO_PROCESO);
+    }, 100);
+  }
+
+  formularioProceso() {
+    this.createProcessForm = this.fb.group({
+      token: new FormControl(atob(localStorage.getItem('token')!)),
+      proceso: this.PROCESO,
+      username: new FormControl(atob(localStorage.getItem('username')!)),
+      codigoEntidad: new FormControl(atob(localStorage.getItem('codigoEntidad')!)),
+      centroGestor: new FormControl(atob(localStorage.getItem('centroGestor')!)),
+      //*****************************************************************************************************************
+      tipoIdentificacion: new FormControl(null, [Validators.required]),
+      identificacion: new FormControl({value: '', disabled: true}, [Validators.required]),
+      proveedor: new FormControl({value: '', disabled: true}, [Validators.required]),
+      ubicacion: new FormControl({value: '', disabled: true}, [Validators.required]),
+      fechaNacimiento: new FormControl({value: '', disabled: true}, [Validators.required]),
+      genero: new FormControl(null, [Validators.required]),
+      departamento: new FormControl(null, [Validators.required]),
+      municipio: new FormControl(null, [Validators.required]),
+      categoriaContratacion: new FormControl(null, [Validators.required]),
+      profesion: new FormControl({value: null, disabled: false}, [Validators.required]),
+      correo: new FormControl('', [Validators.required, Validators.email]),
+      celular: new FormControl({
+        value: '',
+        disabled: false
+      }, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
+      //****************************************************************************************************************
+      tipoProceso: new FormControl(null, [Validators.required]),
+      tipoContrato: new FormControl(null, [Validators.required]),
+      justificacionTipoProceso: new FormControl(null, [Validators.required]),
+      nombreProceso: new FormControl('', [Validators.required]),
+      objeto: new FormControl('', [Validators.required]),
+      unidad: new FormControl(null, [Validators.required]),
+      equipo: new FormControl(null, [Validators.required]),
+      acuerdos: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
+      acuerdoPaz: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
+      //****************************************************************************************************************
+      documentosTipo: new FormControl({value: 'NO', disabled: false}),
+      codigoUNSPSC: new FormControl({value: '', disabled: false}),
+      interadministrativos: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
+      definirLotes: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
+      firmaContrato: new FormControl({value: null, disabled: false}, [Validators.required]),
+      fechaInicio: new FormControl({value: null, disabled: false}, [Validators.required]),
+      fechaTermino: new FormControl({value: null, disabled: false}, [Validators.required]),
+      plazoEjecucion: new FormControl({value: null, disabled: false}, [Validators.required]),
+      definirPagos: new FormControl({value: 'NO', disabled: true}, [Validators.required]),
+      valorContrato: new FormControl({value: '', disabled: true}, [Validators.required]),
+      duracionContrato: new FormControl({value: null, disabled: true}, [Validators.required]),
+      indDuracionContrato: new FormControl({value: true, disabled: false}),
+      tiempoDuracion: new FormControl({value: '', disabled: true}, [Validators.required]),
+      comite: new FormControl({value: '', disabled: false}, [Validators.required]),
+      // cdp: new FormControl({value: '', disabled: true}, [Validators.required]),
+      // categoriaProfesion: new FormControl({value: '', disabled: false}, [Validators.required]),
+    });
+  }
+
+  enableFields(){
+    setTimeout(() => {
+      this.createProcessForm.controls['valorContrato'].enable();
+    }, 100);
+  }
 }
