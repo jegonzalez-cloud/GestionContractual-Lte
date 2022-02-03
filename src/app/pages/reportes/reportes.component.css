@@ -1,4 +1,11 @@
-/*button.btn-primary{*/
-/*  background-color: var(--companyColor);*/
-/*  border-color: var(--companyColor);*/
-/*}*/
+button.btn-outline-primary{
+  background-color: var(--companyColor);
+  border-color: var(--sidebarColor);
+  color: var(--sidebarColor);
+}
+
+button.btn-outline-primary:hover{
+  background-color: var(--sidebarColor);
+  border-color: var(--companyColor);
+  color: var(--companyColor);
+}

@@ -44,8 +44,8 @@ export class ServicesService {
     return this.http.get(`${environment.apiTestUrl}Contratos/getTiposJustificacionContrato?tipoContrato=`+contrato);
   }
 
-  getEquipoContratacion(tipoProceso:string){
-    return this.http.get(`${environment.apiTestUrl}Contratos/getEquiposContratacion?tipoProceso=`+tipoProceso);
+  getEquipoContratacion(tipoProceso:string,centroGestor:string){
+    return this.http.get(`${environment.apiTestUrl}Contratos/getEquiposContratacion?tipoProceso=`+tipoProceso+`&centroGestor=`+centroGestor);
   }
 
   getUnidadesContratacion(username:string,entidad:string){

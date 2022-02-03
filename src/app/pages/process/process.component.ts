@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild, Inject, LOCALE_ID} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  Inject,
+  LOCALE_ID,
+  ElementRef, Renderer2
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -131,6 +141,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('closebuttonCdp') closebuttonCdp: any;
   @ViewChild('openbutton') openbutton: any;
   @ViewChild('openbuttonErrorCdp') openbuttonErrorCdp: any;
+  // @ViewChild("myDiv") divView: ElementRef;
   CENTRO_GESTOR: any;
   progressValue: number = 0;
   progressValueTotal: number = 0;
@@ -171,6 +182,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     private store: Store<AppState>,
     public dialog: MatDialog,
     private router: Router,
+    private renderer: Renderer2,
     @Inject(LOCALE_ID) public locale: string
   ) {
     this.store.select('idioma').subscribe(({idioma}) => {
@@ -560,7 +572,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   getEquipoContratacion() {
-    this.service.getEquipoContratacion(this.createProcessForm.controls['tipoProceso'].value).subscribe((data: any) => {
+    this.service.getEquipoContratacion(this.createProcessForm.controls['tipoProceso'].value,this.centroGestor).subscribe((data: any) => {
       this.equipoContratacion = data.Values.ResultFields;
       if (this.EDITPROCESS == 1) {
         this.createProcessForm.controls['equipo'].setValue(this.EQUIPO_CONTRATACION);
@@ -709,6 +721,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   setFieldsToEdit() {
+    // this.createProcessForm.controls['tipoIdentificacion'].(this.TIP_IDEN_PROV);
     this.formularioProceso();
     this.disableFields();
     this.myForm.get('arr')!.reset();
@@ -1937,5 +1950,9 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     setTimeout(() => {
       this.createProcessForm.controls['valorContrato'].enable();
     }, 100);
+  }
+
+  onFocus(){
+    this.renderer.selectRootElement('#celular').focus();
   }
 }

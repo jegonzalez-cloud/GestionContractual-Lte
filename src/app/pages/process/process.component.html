@@ -3,7 +3,6 @@
   <div class="content-wrapper" id="background-home">
 
     <!-- BUTTONS  -->
-
     <button type="button" [hidden]="true" #openbutton class="btn btn-info btn-lg" data-toggle="modal"
             data-target="#myModal">Open
     </button>
@@ -215,7 +214,7 @@
             </button>
             <button type="button" class="btn btn-info"
                     data-dismiss="modal"
-                    (click)="setFieldsToEdit()"
+                    (click)="setFieldsToEdit();onFocus()"
                     [ngStyle]="{'display': (ROL == 1 && ESTADO == 2) ? 'block' : 'none'}">
               Editar
             </button>
@@ -570,19 +569,11 @@
               </div>
 
               <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
-              <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
+              <h6 id="xxx" class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
                 <span>{{ "procesos.crearProceso" | translate }}</span>
               </h6>
             </div>
             <div class="card-body">
-              <!--            <div class="col-12 col-sm-12">-->
-              <!--              <div class="form-group">-->
-              <!--&lt;!&ndash;                <label class="font-weight-normal text-sm"> Identificación </label>&ndash;&gt;-->
-              <!--                <input class="form-control" type="file" (change)="readExcell($event)" />-->
-              <!--              </div>-->
-              <!--            </div>-->
-
-              <!--            <button class="btn btn-primary btn-sm mb-3 ml-1">Carga Masiva</button>-->
               <form [formGroup]="createProcessForm" (ngSubmit)="validateData()"
                     (keydown.enter)="$event.preventDefault()">
                 <div class="col-12 col-sm-12">
@@ -630,7 +621,7 @@
                                 <label class="font-weight-light text-sm">
                                   Tipo Identificación
                                 </label>
-                                <select class="form-control font-weight-lighter text-sm" #tipoIdentificacion
+                                <select id="tipoIdentificacion" class="form-control font-weight-lighter text-sm" #tipoIdentificacion
                                         (change)="changeTipoIdentificacion(tipoIdentificacion)"
                                         formControlName="tipoIdentificacion">
                                   <option value="Cédula">Cédula</option>
@@ -646,7 +637,6 @@
                                 <input
                                   formControlName="identificacion"
                                   type="number"
-                                  name="Identificacion"
                                   class="form-control font-weight-lighter"
                                   #item_search
                                   (keyup.enter)="onKeydownEvent(item_search)"
@@ -751,6 +741,7 @@
                                 <input
                                   matTooltip="Introduzca un numero de 10 digitos" matTooltipPosition="above"
                                   #celular
+                                  id="celular"
                                   [maxLength]="10"
                                   formControlName="celular"
                                   type="tel"
@@ -1673,8 +1664,6 @@
 
       <br/>
     </div>
-
-  </div>
   <!-- /.content-wrapper -->
 
   <!-- Control Sidebar -->
