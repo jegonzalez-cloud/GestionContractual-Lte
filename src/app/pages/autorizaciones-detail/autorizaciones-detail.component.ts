@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {LOCALE_ID, Component, OnInit, Inject} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SecopService} from "../../services/secop/secop.service";
 import {PdfService} from "../../services/pdf/pdf.service";
@@ -9,6 +9,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import * as utils from "../../utils/functions";
 import * as numberToLetters from '../../utils/numerosLetras';
 import {utf8Encode} from "@angular/compiler/src/util";
+import {CurrencyPipe, formatCurrency} from "@angular/common";
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -32,14 +33,19 @@ export class AutorizacionesDetailComponent implements OnInit {
   response!: any;
   ROL: any = atob(localStorage.getItem('rol')!);
   ENTIDAD: any = atob(localStorage.getItem('entidad')!);
+  private centroGestor = atob(localStorage.getItem('centroGestor')!);
   REFERENCIAS: any;
   ASOCIACION: any;
   prueba: boolean = false;
   tablaForm!: FormGroup;
   estado_proceso: any;
-  ISMASIVE:any;
+  ISMASIVE: any;
+  PROCESO: any;
+  NOMBRE_CONTRATISTA: any;
+  CREADO: any;
+  VAL_OFERTA: any;
 
-  constructor(private route: ActivatedRoute, private secopService: SecopService, private fb: FormBuilder,) {
+  constructor(private route: ActivatedRoute, private secopService: SecopService, private fb: FormBuilder,@Inject(LOCALE_ID) public locale: string) {
   }
 
   ngOnInit(): void {
@@ -67,20 +73,27 @@ export class AutorizacionesDetailComponent implements OnInit {
       let username = atob(localStorage.getItem('username')!);
       this.secopService.getAutorizacionesXProceso(this.myParam).subscribe((response: any) => {
         // console.log(response)
-        if(response.Values.ResultFields != null && response.Values.ResultFields[0].ISMASIVE != null){
-          if(response.Values.ResultFields[0].ISMASIVE == 'SI'){
-            // console.log(1234)
-            //this.estado_proceso = 7;
-            this.ISMASIVE = true;
-          }
-        }
-        else{
-          // console.log(4321)
+        if(response.Status == 'Ok'){
+          this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
+          this.NOMBRE_CONTRATISTA = response.Values.ResultFields[0].NOM_PROV;
+          this.CREADO = response.Values.ResultFields[0].CREATED;
+          this.VAL_OFERTA = response.Values.ResultFields[0].VAL_OFERTA;
           this.response = response.Values.ResultFields;
-          if(this.response != null && this.response.length > 0){
+          if (this.response != null && this.response.length > 0) {
             this.estado_proceso = response.Values.ResultFields[response.Values.ResultFields.length - 1].AUTORIZACION_ESTADO;
           }
         }
+
+        // if (response.Values.ResultFields != null && response.Values.ResultFields[0].ISMASIVE != null) {
+        //   if (response.Values.ResultFields[0].ISMASIVE == 'SI') {
+        //     // console.log(1234)
+        //     //this.estado_proceso = 7;
+        //     //TODO: this.ISMASIVE = true;
+        //   }
+        // } else {
+        //   // console.log(4321)
+
+        // }
       })
     });
   }
@@ -117,7 +130,7 @@ export class AutorizacionesDetailComponent implements OnInit {
       let centroGestor = atob(localStorage.getItem('centroGestor')!);
       let response = this.response[0];
       // console.log(response)
-      let entidad = this.ENTIDAD.replaceAll('á','a').replaceAll('é','e').replaceAll('í','i').replaceAll('ó','o').replaceAll('ú','u');
+      let entidad = this.ENTIDAD.replaceAll('á', 'a').replaceAll('é', 'e').replaceAll('í', 'i').replaceAll('ó', 'o').replaceAll('ú', 'u');
       let autorizaciones: any = {
         pageMargins: [40, 120, 40, 40],
         footer: function (currentPage: any, pageCount: any) {
@@ -139,7 +152,11 @@ export class AutorizacionesDetailComponent implements OnInit {
                   height: 55,
                   margin: [30, 40],
                 },
-                {qr: 'Proceso # '+response.CONS_PROCESO+'\n Centro Gestor - '+centroGestor, fit: '67', margin: [160, 30, 0, 50]},
+                {
+                  qr: 'Proceso # ' + response.CONS_PROCESO + '\n Centro Gestor - ' + centroGestor,
+                  fit: '67',
+                  margin: [160, 30, 0, 50]
+                },
               ],
             }
           ]
@@ -254,25 +271,20 @@ export class AutorizacionesDetailComponent implements OnInit {
               'Se indica igualmente, que conforme a lo expresado por el manual de contratación de la Gobernación, los objetos contractuales de los procesos de prestación de servicios deberán coincidir con actividades especializadas, profesionales, técnicas o de apoyo a la gestión que no puedan ser llevadas a cabo por el personal de la entidad, siendo labor de cada área jurídica verificar la coherencia con la normatividad de contratación estatal vigente y  la normatividad administrativa, además de verificar que se observen los valores de contraprestación asignados conforme a las circulares internas existentes y garantizar que se trate de personas idóneas para el cumplimiento del objeto a contratar. Si esta autorización no es utilizada antes de UN MES contado desde la fecha expedición se considerará revocada y como tal el proceso contractual no se considerará autorizado, dando lugar a las consecuencias disciplinarias, penales y/o fiscales que se puedan configurar en caso de ser usada pasado ese tiempo. \n' +
               '\n' +
               'De acuerdo con la delegación recibida, cada jefe de dependencia será responsable de la contratación conforme a la Ley.\n' +
-              '\n' +
-              'Para constancia se firma en Santiago de Cali, a los ' + this.getFirmaDate(this.response[0].AUT_SECRETARIA.slice(0, -8)) + '\n' +
-              '\n' +
-              '\n' +
-              '\n' +
-              '\n' +
-              '\n' +
-              this.response[0].ORDENADOR.toString().toUpperCase()+'\t\n' +
-              'Director(a) (E)\t\t\t\n' +
-              this.ENTIDAD + ' \n' +
-              '\n' +
-              '\n' +
-              '\n' +
-              '\n' +
-              '\n' +
-              this.response[2].NOMBRE_USUARIO.toString().toUpperCase() + '.\n' +
-              this.response[2].ROL_USUARIO.toString().toUpperCase() + '\n',
+              '\n',
             style: 'texto1'
-          }
+          },
+          {
+            text: 'El presente documento se entiende fechado y firmado una vez sea aprobado por ambas partes - ordenador del gasto y secretaria privada - a través de la solución helppeople Legalbase 2021-2022.\n' +
+              '\n',
+            style: 'texto2'
+          },
+          {
+            qr: 'Proceso # ' + this.PROCESO + '\nCentro Gestor - ' + this.centroGestor + '\nContratista - ' + this.NOMBRE_CONTRATISTA  + '\nCreado - ' +this.CREADO+ '\nValor Contrato - ' + formatCurrency(this.VAL_OFERTA.toString(),this.locale,'$'),
+            fit: '90',
+            margin: [45, 20, 0, 50]
+          },
+          // {qr: 'Proceso # '+this.PROCESO+'\n Centro Gestor - '+this.centroGestor, fit: '67', margin: [445, -600, 0, 50]},
         ],
         styles: {
           header: {
@@ -292,6 +304,13 @@ export class AutorizacionesDetailComponent implements OnInit {
             bold: false,
             margin: [45, 0, 45, 0],
             alignment: 'justify'
+          },
+          texto2: {
+            fontSize: 10,
+            bold: false,
+            margin: [45, 0, 45, 0],
+            alignment: 'justify',
+            decoration: 'underline'
           },
           table: {
             margin: [45, 15, 45, 10],
@@ -385,27 +404,16 @@ export class AutorizacionesDetailComponent implements OnInit {
             style: 'texto2'
           },
           {
-            text: 'Esta certificación se firma en Santiago de Cali, a los ' + this.getFirmaDate(this.response[3].AUT_DADI.toString().slice(0, -8)) + '\n' +
-              '\n' +
-              '\n' +
-              '\n' +
-              '\n' +
-              '\n' +
+            text: 'El presente documento se entiende fechado y firmado una vez sea aprobado por ambas partes - Director del DADI y Subdirector de Gestión Humana del DADI - a través de la solución helppeople Legalbase 2021-2022.\n' +
               '\n',
-            style: 'texto1'
+            style: 'texto3'
           },
           {
-            columns: [
-              {
-                text: this.response[this.response.length-1].NOMBRE_USUARIO.toString().toUpperCase()+'\nDIRECTOR DEL DEPARTAMENTO\nADMINISTRATIVO DE DESARROLLO\nINSTITUCIONAL'
-                , style: 'texto1'
-              },
-              {
-                text: 'RICARDO YATE VILLEGAS\nSUBDIRECTOR DE\nGESTIÓN HUMANA'
-                , style: 'texto1'
-              }
-            ]
+            qr: 'Proceso # ' + this.PROCESO + '\nCentro Gestor - ' + this.centroGestor + '\nContratista - ' + this.NOMBRE_CONTRATISTA  + '\nCreado - ' +this.CREADO+ '\nValor Contrato - ' + formatCurrency(this.VAL_OFERTA.toString(),this.locale,'$'),
+            fit: '90',
+            margin: [45, 20, 0, 50]
           },
+          // {qr: 'Proceso # '+this.PROCESO+'\n Centro Gestor - '+this.centroGestor, fit: '67', margin: [445, -520, 0, 50]},
         ],
         styles: {
           header: {
@@ -433,6 +441,13 @@ export class AutorizacionesDetailComponent implements OnInit {
             margin: [60, 0, 60, 0],
             color: '#5e5e5e',
             alignment: 'justify'
+          },
+          texto3: {
+            fontSize: 10,
+            bold: false,
+            margin: [45, 0, 45, 0],
+            alignment: 'justify',
+            decoration: 'underline'
           },
           table: {
             margin: [45, 15, 45, 10],
@@ -576,6 +591,7 @@ export class AutorizacionesDetailComponent implements OnInit {
   }
 
   fillContent(response: any) {
+    console.log('aca');
     let body = [];
     let header = {
       text: 'Historial de Autorizaciones' +
@@ -585,6 +601,7 @@ export class AutorizacionesDetailComponent implements OnInit {
     let estado;
     body.push(header);
     for (let i = 0; i < response.length; i++) {
+      console.log(response[i].AUTORIZACION_ESTADO);
       let text = [
         {
           style: 'table',
@@ -594,7 +611,7 @@ export class AutorizacionesDetailComponent implements OnInit {
             body: [
               [{text: response[i].CREATED, border: [false, false, false, false]}, {
                 text: [{text: 'El usuario ' + response[i].USR_LOGIN.toString().toUpperCase() + ' correspondiente a ' + response[i].NOMBRE_USUARIO + ' '},
-                  {text: estado = (response[i].AUTORIZACION_ESTADO != 0) ? 'autorizó' : 'rechazó' + ' el proceso número ' + response[i].CONS_PROCESO},
+                  {text: estado = (response[i].AUTORIZACION_ESTADO == 0) ? 'rechazó' : (response[i].AUTORIZACION_ESTADO == 1) ? 'anulo' : 'autorizó' + ' el proceso número ' + response[i].CONS_PROCESO},
                   {text: ' relacionado a la ' + response[i].TIPO_CONTRATO + 'con plazo ' + response[i].TIEMPO_DURACION_CONTRATO + ' ' + response[i].DURACION_CONTRATO + ' y valor $' + this.response[0].VAL_OFERTA},
                   {text: ' Correspondiente a la política ' + response[i].TIPO_PROCESO + '.', style: 'final'},
                 ],

@@ -34,3 +34,7 @@ log-out:hover{
 div.callout{
   border-left-color: var(--companyColor);
 }
+
+.main-header{
+  /*z-index: 999;*/
+}

@@ -2,14 +2,17 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" id="background-home">
 
-    <button type="button" [hidden]="true" #openbutton  class="btn btn-info btn-lg" data-toggle="modal"
+    <!-- BUTTONS  -->
+    <button type="button" [hidden]="true" #openbutton class="btn btn-info btn-lg" data-toggle="modal"
             data-target="#myModal">Open
     </button>
 
-    <button type="button" [hidden]="true" #openbuttonErrorCdp  class="btn btn-info btn-lg" data-toggle="modal"
+    <button type="button" [hidden]="true" #openbuttonErrorCdp class="btn btn-info btn-lg" data-toggle="modal"
             data-target="#modalResultadoCdp">Open
     </button>
+    <!-- END BUTTONS  -->
 
+    <!-- MODAL CARGA MASIVA  -->
     <div class="modal fade" id="carga" role="dialog" data-backdrop="static">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -20,8 +23,10 @@
           <div class="modal-body">
             <div class="card">
               <div class="card-header" style="background-color: var(--companyColor)">
-                <span style="font-weight: bold;font-size: larger ;color: white">Carga Masiva de Contratos</span>
-                <button type="button" #closebutton class="close" data-dismiss="modal" (click)="cerrarCargaMasivaContratos()">&times;</button>
+                <span style="font-weight: bold;font-size: larger ;color: var(--labelColor)">Carga Masiva de Contratos</span>
+                <button type="button" #closebutton class="close" data-dismiss="modal"
+                        (click)="cerrarCargaMasivaContratos()">&times;
+                </button>
               </div>
               <div class="card-body">
                 <div class="col-12 col-sm-12 mt-1 mb-1">
@@ -36,7 +41,7 @@
                     </div>
                   </div>
                   <div *ngIf="cantidadError" class="mt-3 mb-1">
-                    <a style="color: var(--companyColor); cursor: pointer" (click)="WatchError()">
+                    <a style="color: var(--labelColor); cursor: pointer" (click)="WatchError()">
                       <u>Ver Errores</u>
                     </a>
                     <div *ngIf="verErrores" class="mt-2">
@@ -44,6 +49,10 @@
                         <li class="list-group-item" *ngFor="let i of procesosError">{{i}}</li>
                       </ol>
                     </div>
+                  </div>
+                  <div>
+<!--                    <p class="font-weight-light">Descarga el formato  <a class="iconsBG" title="Excel" href='./assets/img/excel-homologacion-gestion-prueba.xlsx' download="formato_carga_masiva_legalBase.xlsx"><i class="far fa-file-excel" style="color:var(&#45;&#45;companyColor)"></i></a></p>-->
+                    <a class="iconsBG" title="Excel" href='./assets/img/excel-homologacion-gestion-prueba.xlsx' download="formato_carga_masiva_legalBase.xlsx"><a>Descarga el formato </a><i class="far fa-file-excel"></i></a>
                   </div>
                 </div>
               </div>
@@ -56,6 +65,7 @@
         </div>
       </div>
     </div>
+    <!-- END MODAL CARGA MASIVA  -->
 
     <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog modal-dialog-scrollable">
@@ -69,7 +79,7 @@
           </div>
           <div class="modal-body">
             <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>
-            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;"disabled>
+            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;" disabled>
               N° Cuotas <span class="badge rounded-pill bg-secondary">{{cantidadCuotas}}</span>
             </button>
             <div class="callout callout-danger" *ngFor="let d of infoPagos">
@@ -117,10 +127,10 @@
             <!--            <h4 class="modal-title">Modal Header</h4>-->
           </div>
           <div class="modal-body">
-<!--            <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>-->
-<!--            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;"disabled>-->
-<!--              N° Cdp <span class="badge rounded-pill bg-secondary">{{cantidadErrorCdp}}</span>-->
-<!--            </button>-->
+            <!--            <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>-->
+            <!--            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;"disabled>-->
+            <!--              N° Cdp <span class="badge rounded-pill bg-secondary">{{cantidadErrorCdp}}</span>-->
+            <!--            </button>-->
             <br>
             <div class="callout callout-danger" *ngFor="let d of cdpError">
               <ul>
@@ -144,7 +154,7 @@
         <div class="modal-content" style="width: auto">
           <div class="modal-header">
             <h4 class="modal-title"><b style="font-size: larger">Proceso # <a
-              style="color: var(--companyColor)">{{PROCESO}}</a></b>
+              style="color: var(--labelColor)">{{PROCESO}}</a></b>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -153,7 +163,7 @@
           <div class="modal-body modal-dialog-scrollable">
             <div>
               <div class="callout">
-                <p><b style="color: var(--companyColor);font-size: 16px">Información General</b></p>
+                <p><b style="color: var(--labelColor);font-size: 16px">Información General</b></p>
                 <p><b>Tipo Proceso :</b> {{TIPO_PROCESO}}</p>
                 <p><b>Tipo Contrato :</b> {{TIPO_CONTRATO}}</p>
                 <p><b>Justificación Tipo Contrato :</b> {{JUST_TIPO_PROCESO}}</p>
@@ -165,7 +175,7 @@
 
 
               <div class="callout">
-                <p><b style="color: var(--companyColor);font-size: 16px">Datos Personales</b></p>
+                <p><b style="color: var(--labelColor);font-size: 16px">Datos Personales</b></p>
                 <p><b>Tipo identificacion Proveedor :</b> {{TIP_IDEN_PROV}}</p>
                 <p><b>Cédula Proveedor :</b> {{COD_PROV}}</p>
                 <p><b>Nombre Proveedor :</b> {{NOM_PROV}}</p>
@@ -180,7 +190,7 @@
               </div>
 
               <div class="callout">
-                <p><b style="color: var(--companyColor);font-size: 16px">Configuración</b></p>
+                <p><b style="color: var(--labelColor);font-size: 16px">Configuración</b></p>
                 <p><b>Documentos Tipo :</b> {{DOCUMENTOS_TIPO}}</p>
                 <p><b>Interadministrativos :</b> {{INTERADMINISTRATIVOS}}</p>
                 <p><b>Definir Lotes :</b> {{DEFINIR_LOTES}}</p>
@@ -198,27 +208,33 @@
             <!--            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
             <button type="button" class="btn btn-secondary"
                     data-dismiss="modal"
-                    (click)="anularProceso(PROCESO)"
+                    (click)="validarAnulacion(PROCESO)"
                     [ngStyle]="{'display': (ROL == 1 && ESTADO == 2) ? 'block' : 'none'}">
               Anular
             </button>
-<!--            <button type="button" class="btn btn-secondary"-->
-<!--                    data-dismiss="modal"-->
-<!--                    (click)="anularProceso(PROCESO)"-->
-<!--                    [ngStyle]="{'display': (ROL == 39 && ESTADO == 2) ? 'block' : 'none'}">-->
-<!--              Anular-->
-<!--            </button>-->
+            <button type="button" class="btn btn-info"
+                    data-dismiss="modal"
+                    (click)="setFieldsToEdit();onFocus()"
+                    [ngStyle]="{'display': (ROL == 1 && ESTADO == 2) ? 'block' : 'none'}">
+              Editar
+            </button>
+            <!--            <button type="button" class="btn btn-secondary"-->
+            <!--                    data-dismiss="modal"-->
+            <!--                    (click)="anularProceso(PROCESO)"-->
+            <!--                    [ngStyle]="{'display': (ROL == 39 && ESTADO == 2) ? 'block' : 'none'}">-->
+            <!--              Anular-->
+            <!--            </button>-->
             <button type="button" class="btn btn-warning"
                     data-dismiss="modal"
                     (click)="fillModal(PROCESO)"
                     [ngStyle]="{'display':
-                    (ROL == 2 && ESTADO == 1) ? 'none' : (ROL == 1 && ESTADO == 2) ? 'none' : (ROL == 3 && ESTADO ==2) ? 'none' : (ROL == 4 && ESTADO == 3) ? 'none' : (ROL == 3 && ESTADO == 1) ? 'none' : (ROL == 4 && ESTADO ==1) ? 'none' : (ROL == 5 && ESTADO == 1) ? 'none' : (ROL == 6 && ESTADO ==1) ? 'none' : (ROL == 6 && ESTADO == 2) ? 'none' : 'block' }">
+                    (ROL == 1 && ESTADO == 2) ? 'none' : 'block' }">
               Historial
             </button>
             <button type="button" class="btn btn-outline-primary"
                     data-dismiss="modal"
                     (click)="getPagosXRpc(PROCESO)"
-                    [ngStyle]="{'display': (ESTADO >= 7) ? 'block' :'none'}">
+                    [ngStyle]="{'display': (ESTADO == 8) ? 'block' :'none'}">
               Pagos
             </button>
           </div>
@@ -231,13 +247,12 @@
 
     <!-- Modal -->
     <div class="modal fade" id="modal-default-1" data-backdrop="static" data-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content" style="width: auto">
-          <div class="modal-header">
-            <h4 class="modal-title"><b style="font-size: larger">Vincular Codigos UNSPSC<a
-              style="color: var(--companyColor)"></a></b>
-            </h4>
-            <button #closebuttonUNSPSC [hidden]="true" type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header pb-0" style="background-color: #F0F2F5;">
+            <h4 class="modal-title"><b style="font-size: large;font-weight: normal;color:var(--labelColor)">Vincular Codigos UNSPSC</b></h4>
+            <button #closebuttonUNSPSC [hidden]="true" type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
             <button type="button" class="close" (click)="validarCamposUnspsc()">
@@ -245,9 +260,10 @@
             </button>
           </div>
           <div class="mr-3 ml-3">
-            <h4>
-              <label style="color: var(--companyColor)">Valor Contrato</label>
-            <span class="badge badge-pill badge-success ml-2" style="color:white"> {{valorAcomparar | currency}}</span>
+            <h4 style="text-align: end;margin-top: 1%;margin-bottom: 0">
+              <label style="color: var(--labelColor);font-weight: lighter">Valor Contrato</label>
+              <span class="badge badge-pill badge-light ml-2"
+                    style="color:var(--labelColor);border: 1px solid;font-weight: lighter"> {{valorAcomparar | currency}}</span>
             </h4>
           </div>
           <div class="modal-body modal-dialog-scrollable">
@@ -255,67 +271,70 @@
               <form [formGroup]="myForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
                 <div formArrayName="arr" *ngFor="let a of myForm.get('arr')!.value; let i = index trackBy: trackByFn">
                   <div [formGroupName]="i" style="margin-bottom: 10px;">
-                    <!--                      <label for="name">Name:</label>-->
-                    <!--                      <input type="text" id="name" formControlName="name">-->
-                    <!--                      <br><br>-->
-                    <!--                      <label for="pay">Pay:</label>-->
-                    <!--                      <input type="text" id="pay" formControlName="pay">-->
 
                     <label class="font-weight-normal text-sm">
-                      <b class="text-md"> Ref. Artículo {{i + 1}}</b>
+                      <!--                      <span class="text-md"> CDP #{{i + 1}}</span>-->
+                      <span class="badge badge-pill badge-light ml-2"
+                            style="color:var(--labelColor);border: 1px solid;font-weight: lighter"> Ref. Artículo {{i + 1}}
+                      </span>
                     </label>
-                    <div class="callout" style="border-top: 3px solid var(--companyColor)">
-                      <div class="col-12 col-sm-12">
-                        <label class="font-weight-normal text-sm">
+                    <div class="callout row" style="border-top: 3px solid var(--companyColor)">
+                      <div class="col-12 col-sm-12 mb-1">
+                        <label class="font-weight-light text-sm">
                           Codigo UNSPSC
                         </label>
-                        <mat-form-field appearance="fill">
-                          <mat-select formControlName="codigoUNSPSC">
-                            <mat-option value="80161500">80161500</mat-option>
-                            <mat-option value="80101706">80101706</mat-option>
-                          </mat-select>
-                        </mat-form-field>
+                        <div>
+                          <input class="form-control font-weight-light text-sm" formControlName="codigoUNSPSC" list="datalistOptions"
+                                 id="exampleDataList" placeholder="Ingrese Codigo UNSPSC..." (keyup)="getCodigosUnspsc($event)"  (change)="onBlurFields($event)">
+                          <datalist id="datalistOptions" class="font-weight-lighter">
+                            <option
+                              *ngFor="let cb of clasificacionBienes"
+                              value="{{ cb.CLA_CODIGO_PRODUCTO }}"
+                            >
+                              {{cb.CLA_NOMBRE_PRODUCTO}}
+                            </option>
+                          </datalist>
+                        </div>
                       </div>
-                      <div class="col-12 col-sm-12">
+                      <div class="col-12 col-sm-6">
                         <div class="form-group">
-                          <label class="font-weight-normal text-sm"> Descripción </label>
+                          <label class="font-weight-light text-sm"> Descripción </label>
                           <input
                             formControlName="descripcion"
                             type="text"
-                            class="form-control"
+                            class="form-control font-weight-lighter"
                             required
                           />
                         </div>
                       </div>
-                      <div class="col-12 col-sm-12">
+                      <div class="col-12 col-sm-6">
                         <div class="form-group">
-                          <label class="font-weight-normal text-sm"> unidad </label>
-                          <mat-form-field appearance="fill">
-                            <mat-select formControlName="unidad">
-                              <mat-option *ngFor="let UN of UNIDADESUNSPSC"
-                                          value="{{ UN.UNI_IDENTIFICADOR }}">{{ UN.UNI_SIMBOLO }}</mat-option>
-                            </mat-select>
-                          </mat-form-field>
+                          <label class="font-weight-light text-sm"> Unidad </label>
+                          <select formControlName="unidad" class="form-control form-select font-weight-lighter"
+                                  aria-label="Default select example">
+                            <option *ngFor="let UN of UNIDADESUNSPSC"
+                                    value="{{ UN.UNI_IDENTIFICADOR }}">{{ UN.UNI_SIMBOLO }}</option>
+                          </select>
                         </div>
                       </div>
-                      <div class="col-12 col-sm-12">
+                      <div class="col-12 col-sm-6">
                         <div class="form-group">
-                          <label class="font-weight-normal text-sm"> Cantidad </label>
+                          <label class="font-weight-light text-sm"> Cantidad </label>
                           <input
                             formControlName="cantidad"
                             type="number"
-                            class="form-control"
+                            class="form-control font-weight-lighter"
                             required
                           />
                         </div>
                       </div>
-                      <div class="col-12 col-sm-12">
+                      <div class="col-12 col-sm-6">
                         <div class="form-group">
-                          <label class="font-weight-normal text-sm"> Valor </label>
+                          <label class="font-weight-light text-sm"> Valor </label>
                           <input
                             currencyMask
                             formControlName="precioUnitario"
-                            class="form-control"
+                            class="form-control font-weight-lighter"
                             required
                           />
                         </div>
@@ -324,29 +343,20 @@
                     </div>
                   </div>
                   <div class="modal-footer">
-
-                    <button *ngIf="i != 0" type="button" class="btn btn-primary" (click)="deleteItem(i)"
-                            data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Delete ({{i + 1}})
+                    <button *ngIf="i != 0" type="button" class="btn btn-outline-danger" (click)="deleteItem(i)"
+                            data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Eliminar ({{i + 1}})
                     </button>
-
-                    <!--                  <button " >Delete - {{i}}</button>-->
                   </div>
                 </div>
                 <div class="mb-1">
-                  <button type="button" class="btn btn-secondary" (click)="addItem()">Agregar
+                  <button type="button" class="btn btn-outline-secondary" (click)="addItem()">Agregar
                   </button>
-                  <button *ngIf="myForm.valid" type="button" class="btn btn-primary ml-2" data-dismiss="modal"
+                  <button *ngIf="myForm.valid" type="button" class="btn btn-outline-primary ml-2" data-dismiss="modal"
                           (click)="onSubmit()">Guardar
                   </button>
                 </div>
-
-                <!--                <br>-->
-                <!--                <button type="button" (click)="addItem()" style="margin-right: 5px;">Add</button>-->
-                <!--                <button type="submit">Submit</button>-->
-
               </form>
-
-
+              <br>
             </div>
           </div>
 
@@ -357,11 +367,10 @@
     </div>
 
     <div class="modal fade" id="modal-cdp" data-backdrop="static" data-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content" style="width: auto">
-          <div class="modal-header">
-            <h4 class="modal-title"><b style="font-size: larger">Vincular Codigos CDP<a
-              style="color: var(--companyColor)"></a></b>
+          <div class="modal-header pb-0" style="background-color: #F0F2F5;">
+            <h4 class="modal-title"><b style="font-size: large;font-weight: normal;color:var(--labelColor)">Vincular Codigos CDP</b>
             </h4>
             <button #closebuttonCdp [hidden]="true" type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -371,52 +380,57 @@
             </button>
           </div>
           <div class="mr-3 ml-3">
-            <h4>
-              <label style="color: var(--companyColor)">Valor Contrato</label>
-              <span class="badge badge-pill badge-success ml-2" style="color:white"> {{valorAcomparar | currency}}</span>
+            <h4 style="text-align: end;margin-top: 1%;margin-bottom: 0">
+              <label style="color: var(--labelColor);font-weight: lighter">Valor Contrato</label>
+              <span class="badge badge-pill badge-light ml-2"
+                    style="color:var(--labelColor);border: 1px solid;font-weight: lighter"> {{valorAcomparar | currency}}</span>
             </h4>
           </div>
-          <div class="modal-body modal-dialog-scrollable">
+          <div class="modal-body modal-dialog-scrollable modal-lg">
             <div>
               <form [formGroup]="cdpForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
-                <div formArrayName="cdpArray" *ngFor="let a of cdpForm.get('cdpArray')!.value; let i = index trackBy: trackByFnCdp">
+                <div formArrayName="cdpArray"
+                     *ngFor="let a of cdpForm.get('cdpArray')!.value; let i = index trackBy: trackByFnCdp">
                   <div [formGroupName]="i" style="margin-bottom: 10px;">
                     <label class="font-weight-normal text-sm">
-                      <b class="text-md"> CDP #{{i + 1}}</b>
+<!--                      <span class="text-md"> CDP #{{i + 1}}</span>-->
+                      <span class="badge badge-pill badge-light ml-2"
+                            style="color:var(--labelColor);border: 1px solid;font-weight: lighter"> CDP #{{i + 1}}
+                      </span>
                     </label>
                     <div class="callout row" style="border-top: 3px solid var(--companyColor)">
                       <div class="col-12 col-sm-4">
                         <div class="form-group">
-                          <label class="font-weight-normal text-sm"> Cdp </label>
+                          <label class="font-weight-light text-sm"> Cdp </label>
                           <input
                             [maxLength]="10"
                             [minlength]="10"
                             formControlName="cdp"
                             type="text"
-                            class="form-control"
+                            class="form-control font-weight-lighter"
                             required
                           />
                         </div>
                       </div>
                       <div class="col-4 col-sm-4">
                         <div class="form-group">
-                          <label class="font-weight-normal text-sm"> Vigencia </label>
+                          <label class="font-weight-light text-sm"> Vigencia </label>
                           <input
                             [maxLength]="4"
                             [minlength]="4"
                             formControlName="vigencia"
                             type="text"
-                            class="form-control"
+                            class="form-control font-weight-lighter"
                             required
                           />
                         </div>
                       </div>
                       <div class="col-12 col-sm-4">
                         <div class="form-group">
-                          <label class="font-weight-normal text-sm"> Valor </label>
+                          <label class="font-weight-light text-sm"> Valor </label>
                           <input
                             formControlName="valor"
-                            class="form-control"
+                            class="form-control font-weight-lighter"
                             required
                             currencyMask
                           />
@@ -424,7 +438,7 @@
                       </div>
                       <div [hidden]="true" class="col-12 col-sm-4">
                         <div class="form-group">
-                          <label class="font-weight-normal text-sm"> Centro Gestor </label>
+                          <label class="font-weight-lighter text-sm"> Centro Gestor </label>
                           <input
                             formControlName="centroGestor"
                             class="form-control"
@@ -437,29 +451,22 @@
                   </div>
                   <div class="modal-footer">
 
-                    <button *ngIf="i != 0" type="button" class="btn btn-primary" (click)="deleteCdpItem(i)"
-                            data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Delete ({{i + 1}})
+                    <button *ngIf="i != 0" type="button" class="btn btn-outline-danger" (click)="deleteCdpItem(i)"
+                            data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Eliminar ({{i + 1}})
                     </button>
 
                     <!--                  <button " >Delete - {{i}}</button>-->
                   </div>
                 </div>
                 <div class="mb-1">
-                  <button type="button" class="btn btn-secondary" (click)="addCdpItem()">Agregar
+                  <button type="button" class="btn btn-outline-secondary" (click)="addCdpItem()">Agregar
                   </button>
-                  <button *ngIf="cdpForm.valid" type="button" class="btn btn-primary ml-2" data-dismiss="modal"
+                  <button *ngIf="cdpForm.valid" type="button" class="btn btn-outline-primary ml-2" data-dismiss="modal"
                           (click)="onSubmitCdp()">Guardar
                   </button>
-                  <br>
                 </div>
-
-                <!--                <br>-->
-                <!--                <button type="button" (click)="addItem()" style="margin-right: 5px;">Add</button>-->
-                <!--                <button type="submit">Submit</button>-->
-
               </form>
-
-
+              <br>
             </div>
           </div>
 
@@ -476,1168 +483,1187 @@
       <!-- /.container-fluid -->
     </section>
 
-    <section class="content" id="intro">
-      <div class="container-fluid">
-        <div class="card ml-3 mr-3">
-          <!--          <div class="card-header" style="background-color: lavender">-->
-          <div class="card-header" style="background-color: var(--companyColor)">
-            <div class="card-tools">
-              <!--              <button-->
-              <!--                type="button"-->
-              <!--                class="btn btn-tool"-->
-              <!--                data-card-widget="collapse"-->
-              <!--              >-->
-              <!--                <i class="fas fa-minus"></i>-->
-              <!--              </button>-->
-            </div>
+    <!--        <button type="button" (click)="test()">surprise</button>-->
 
-            <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
-            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
-              <span>{{ "procesos.crearProceso" | translate }}</span>
+    <section [hidden]="!modalidad" class="content">
+      <div class="container-fluid">
+        <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+          <!--          <div class="card-header" style="background-color: lavender">-->
+          <div class="card-header" style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
+            <div class="card-tools">
+<!--              <button-->
+<!--                type="button"-->
+<!--                class="btn btn-tool"-->
+<!--                data-card-widget="collapse"-->
+<!--              >-->
+<!--              </button>-->
+<!--              <i class="fas fa-minus"></i>-->
+            </div>
+            <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
+              <span >Seleccione la modalidad! </span>
             </h6>
           </div>
-          <div class="card-body">
-            <!--            <div class="col-12 col-sm-12">-->
-            <!--              <div class="form-group">-->
-            <!--&lt;!&ndash;                <label class="font-weight-normal text-sm"> Identificación </label>&ndash;&gt;-->
-            <!--                <input class="form-control" type="file" (change)="readExcell($event)" />-->
-            <!--              </div>-->
-            <!--            </div>-->
+          <div class="card-body" style="background-color: transparent">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <div class="row d-flex justify-content-center rounded">
+                      <div class="col-12 col-sm-5 shadow p-1 mt-5 mb-5 mr-5 bg-white rounded bd" (click)="procesoManual();resetFieldsProcess()" style="cursor:pointer">
+                        <p class="mb-0 text-center font-weight-normal" style="color:var(--labelColor)">Creacion Manual de Procesos...!</p>
+                        <footer class="blockquote-footer text-center font-weight-lighter">El programa de creacion manual permite completar un formulario para ejecutar tus procesos uno a uno.<cite
+                          title="Source Title"></cite></footer>
 
-            <!--            <button class="btn btn-primary btn-sm mb-3 ml-1">Carga Masiva</button>-->
-            <form [formGroup]="createProcessForm" (ngSubmit)="validateData()"
-                  (keydown.enter)="$event.preventDefault()">
-              <div class="col-12 col-sm-12">
-                <div class="card card-primary card-outline card-outline-tabs">
-                  <div class="card-header p-0 border-bottom-0">
-                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                      <li class="nav-item">
-                        <a class="nav-link active" id="datos-personales-tab" href="#datos-personales"
-                           data-toggle="pill"
-                           role="tab" aria-controls="datos-personales"
-                           aria-selected="false" style="font-weight: bold">Datos Personales</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-four-home-tab" href="#custom-tabs-four-home"
-                           data-toggle="pill"
-                           role="tab" aria-controls="custom-tabs-four-home"
-                           aria-selected="false" style="font-weight: bold">Información General</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-four-profile-tab" href="#custom-tabs-four-profile"
-                           data-toggle="pill"
-                           role="tab" aria-controls="custom-tabs-four-profile"
-                           aria-selected="false" style="font-weight: bold">Configuración</a>
-                      </li>
-                      <li class="nav-item">
+                        <img
+                          class="rounded mx-auto d-block"
+                          width="140px"
+                          height="140px"
+                          src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/452/external-edit-interface-kiranshastry-lineal-kiranshastry-1.png"
+                          alt="..."
+                        />
+                      </div>
+
+                      <div class="col-12 col-sm-5 shadow p-1 mt-5 mb-5 ml-4 bg-white rounded bd" data-toggle="modal" data-target="#carga" aria-selected="true" style="cursor:pointer">
+                        <p class="mb-0 text-center font-weight-normal" style="color:var(--labelColor)">Carga Masiva de Procesos...!</p>
+                        <footer class="blockquote-footer text-center font-weight-lighter">El programa de carga masiva permite cargar o actualizar grandes cantidades de datos.<cite
+                          title="Source Title"></cite></footer>
+                        <img
+                          class="rounded mx-auto d-block"
+                          color="var(--labelColor)"
+                          width="150px"
+                          height="150px"
+                          src="./assets/img/file-upload.png"
+                          alt="..."
+                        />
+                      </div>
+                      <!--                  <p class="text-center">Creacion Manual de Procesos...!</p>-->
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div [hidden]="modalidad">
+      <!--  FORMULARIO PROCESOS  -->
+      <section class="content" id="intro">
+        <div class="container-fluid">
+          <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+            <!--          <div class="card-header" style="background-color: lavender">-->
+            <div class="card-header" style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
+              <div class="card-tools">
+                              <button
+                                type="button"
+                                class="btn btn-tool borderIcon"
+                                (click)="backModalidad()"
+                                title="Volver"
+                              >
+                                <i class="fas fa-undo"></i>
+                              </button>
+              </div>
+
+              <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
+              <h6 id="xxx" class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
+                <span>{{ "procesos.crearProceso" | translate }}</span>
+              </h6>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="createProcessForm" (ngSubmit)="validateData()"
+                    (keydown.enter)="$event.preventDefault()">
+                <div class="col-12 col-sm-12">
+                  <div class="card card-primary card-outline card-outline-tabs">
+                    <div class="card-header p-0 border-bottom-0">
+                      <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="datos-personales-tab" href="#datos-personales"
+                             data-toggle="pill"
+                             role="tab" aria-controls="datos-personales"
+                             aria-selected="false" style="font-weight: normal">Datos Personales</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="custom-tabs-four-home-tab" href="#custom-tabs-four-home"
+                             data-toggle="pill"
+                             role="tab" aria-controls="custom-tabs-four-home"
+                             aria-selected="false" style="font-weight: normal">Información General</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="custom-tabs-four-profile-tab" href="#custom-tabs-four-profile"
+                             data-toggle="pill"
+                             role="tab" aria-controls="custom-tabs-four-profile"
+                             aria-selected="false" style="font-weight: normal">Configuración</a>
+                        </li>
+                        <li class="nav-item" [hidden]="!modalidad">
                         <span class="nav-link hoverCarga" data-toggle="modal" role="tab"
                               aria-controls="custom-tabs-four-profile"
                               aria-selected="false" data-target="#carga" aria-selected="true"
                               style="margin-top: 1.2px; font-weight: bold;cursor:pointer">Carga Masiva</span>
-                        <!--                        <a class="nav-link active" id="custom-tabs-four-carga-tab" href="#custom-tabs-four-carga"-->
-                        <!--                           data-toggle="pill"-->
-                        <!--                           role="tab" aria-controls="custom-tabs-four-carga"-->
-                        <!--                           aria-selected="true" style="font-weight: bold">Carga Masiva</a>-->
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="card-body">
-                    <div class="tab-content" id="custom-tabs-four-tabContent">
-                      <div class="tab-pane fade show active" id="datos-personales" role="tabpanel"
-                           aria-labelledby="datos-personales-tab">
-                        <!--INGRESAR DATA-->
-                        <div class="row">
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">
-                                Tipo Identificación
-                              </label>
-                              <select class="form-control text-sm" #tipoIdentificacion
-                                      (change)="changeTipoIdentificacion(tipoIdentificacion)"
-                                      formControlName="tipoIdentificacion">
-                                <option value="Cédula">Cédula</option>
-                                <option>Cédula de Extranjería</option>
-                                <option>Nit</option>
-                              </select>
+                          <!--                        <a class="nav-link active" id="custom-tabs-four-carga-tab" href="#custom-tabs-four-carga"-->
+                          <!--                           data-toggle="pill"-->
+                          <!--                           role="tab" aria-controls="custom-tabs-four-carga"-->
+                          <!--                           aria-selected="true" style="font-weight: bold">Carga Masiva</a>-->
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="card-body">
+                      <div class="tab-content" id="custom-tabs-four-tabContent">
+                        <div class="tab-pane fade show active" id="datos-personales" role="tabpanel"
+                             aria-labelledby="datos-personales-tab">
+                          <!--INGRESAR DATA-->
+                          <div class="row">
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">
+                                  Tipo Identificación
+                                </label>
+                                <select id="tipoIdentificacion" class="form-control font-weight-lighter text-sm" #tipoIdentificacion
+                                        (change)="changeTipoIdentificacion(tipoIdentificacion)"
+                                        formControlName="tipoIdentificacion">
+                                  <option value="Cédula">Cédula</option>
+                                  <option>Cédula de Extranjería</option>
+                                  <option>Nit</option>
+                                </select>
+                              </div>
                             </div>
-                          </div>
 
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm"> Identificación </label>
-                              <input
-                                formControlName="identificacion"
-                                type="number"
-                                name="Identificacion"
-                                class="form-control"
-                                #item_search
-                                (keyup.enter)="onKeydownEvent(item_search)"
-                              />
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm"> Proveedor </label>
-                              <input
-                                formControlName="proveedor"
-                                type="text"
-                                name="Proveedor"
-                                class="form-control"
-                                required
-                              />
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Ubicación</label>
-                              <input
-                                type="text"
-                                formControlName="ubicacion"
-                                name="ubicacion"
-                                class="form-control"
-                              />
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Fecha de Nacimiento</label>
-                              <input
-                                max="{{fechaMinimaNacimiento}}"
-                                formControlName="fechaNacimiento"
-                                type="datetime-local"
-                                name="fechaNacimiento"
-                                class="form-control text-sm"
-                              />
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Genero</label>
-                              <select
-                                formControlName="genero"
-                                name="genero"
-                                class="form-control text-sm"
-                              >
-                                <option></option>
-                                <option *ngIf="isJuridico == true">Indefinido</option>
-                                <option *ngIf="isJuridico == false">Femenino</option>
-                                <option *ngIf="isJuridico == false">Masculino</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Departamento</label>
-                              <select
-                                (change)="getMunicipios()"
-                                formControlName="departamento"
-                                name="departamento"
-                                class="form-control text-sm"
-                              >
-                                <option
-                                  *ngFor="let dep of departamentos"
-                                  value="{{ dep.DPTO_COD }}"
-                                >
-                                  {{ dep.DPTO_DESCRIPCION }}
-                                </option>
-
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Municipio</label>
-                              <select
-                                formControlName="municipio"
-                                name="municipio"
-                                class="form-control text-sm"
-                              >
-                                <option
-                                  *ngFor="let mun of municipios"
-                                  value="{{ mun.CIU_COD }}"
-                                >
-                                  {{ mun.CIU_DESCRIPCION }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Celular
-                                <span *ngIf="validacionCelular == true" class="badge badge-danger" style="cursor: pointer;" matTooltip="Introduzca un numero de 10 digitos" matTooltipPosition="above">
-                                  * Invalido
-                                </span>
-                              </label>
-                              <input
-                                matTooltip="Introduzca un numero de 10 digitos" matTooltipPosition="above"
-                                #celular
-                                [maxLength]="10"
-                                formControlName="celular"
-                                type="tel"
-                                name="celular"
-                                class="form-control"
-                                (keypress)="$event.keyCode === 8 || $event.charCode >= 48 && $event.charCode <= 57"
-                                (keyup)="validarCelular($event)"
-                              />
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Correo
-                                <span *ngIf="validacionCorreo == true" class="badge badge-danger" style="cursor: pointer;" matTooltip="Formato invalido" matTooltipPosition="above">
-                                  * Invalido
-                                </span>
-                              </label>
-                              <input
-                                matTooltip="mail@mail.mail" matTooltipPosition="above"
-                                formControlName="correo"
-                                type="email"
-                                required
-                                class="form-control"
-                                (keyup)="validarCorreo()"
-                              />
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Categoría de Contratación</label>
-                              <select
-                                formControlName="categoriaContratacion"
-                                name="categoriaContratacion"
-                                class="form-control text-sm"
-                              >
-                                <option>Asesor</option>
-                                <option>Asistencial</option>
-                                <option>Profesional</option>
-                                <option>Profesional Especializado</option>
-                                <option>Técnico</option>
-                                <option>Tecnólogo</option>
-                              </select>
-                            </div>
-                          </div>
-
-<!--                          <div class="col-12 col-sm-3">-->
-<!--                            <div class="form-group">-->
-<!--                              <label class="font-weight-normal text-sm">Categoría de Profesión</label>-->
-<!--                              <select (change)="getProfesionByCategoria()"-->
-<!--                                      formControlName="categoriaProfesion"-->
-<!--                                      class="form-control text-sm"-->
-<!--                              >-->
-<!--                                <option *ngFor="let cat of categoriasProfesion"-->
-<!--                                        value="{{cat.PROF_CODIGO}}">{{cat.PROF_DESCRIPCION}}</option>-->
-<!--                              </select>-->
-<!--                            </div>-->
-<!--                          </div>-->
-
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Profesión</label>
-                              <select
-                                formControlName="profesion"
-                                class="form-control text-sm"
-                              >
-                                <option *ngFor="let cat of categoriasSubProfesion"
-                                        value="{{cat.SUB_DESCRIPCION_SUBPROFESION}}">{{cat.SUB_DESCRIPCION_SUBPROFESION}}</option>
-                              </select>
-                            </div>
-                          </div>
-
-
-                        </div>
-                      </div>
-                      <div class="tab-pane fade show" id="custom-tabs-four-home" role="tabpanel"
-                           aria-labelledby="custom-tabs-four-home-tab">
-                        <!--INGRESAR DATA-->
-                        <div class="row">
-
-                          <div class="col-12 col-sm-4">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm"> Tipo Proceso </label>
-
-                              <select
-                                (change)="[getTiposContrato(),getEquipoContratacion()]"
-                                class="custom-select form-control-border"
-                                formControlName="tipoProceso"
-                              >
-                                <!--                                <option>Seleccione...</option>-->
-                                <option
-                                  *ngFor="let dep of tiposProceso"
-                                  value="{{ dep.TPP_DESCRIPCION }}"
-                                >
-                                  {{ dep.TPP_NOMBRE }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-4">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">
-                                Tipo Contrato
-                              </label>
-                              <select
-                                (change)="getTiposJustificacionContrato()"
-                                class="custom-select form-control-border"
-                                formControlName="tipoContrato"
-                              >
-                                <option></option>
-                                <option
-                                  *ngFor="let dep of tiposContrato"
-                                  value="{{ dep.TPC_DESCRIPCION }}"
-                                >
-                                  {{ dep.TPC_NOMBRE }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-4">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">
-                                Justificación Tipo Proceso
-                              </label>
-                              <select
-                                (change)="fillNombre()"
-                                class="custom-select form-control-border"
-                                formControlName="justificacionTipoProceso"
-                              >
-                                <option
-                                  *ngFor="let dep of tiposJustificacionContrato"
-                                  value="{{ dep.TPJ_DESCRIPCION }}"
-                                >
-                                  {{ dep.TPJ_NOMBRE }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-
-
-                          <div [hidden]="true" class="col-12 col-sm-4">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">
-                                Nombre del proceso
-                              </label>
-                              <input
-                                formControlName="nombreProceso"
-                                type="text"
-                                name="nombreProceso"
-                                class="form-control"
-                              />
-                            </div>
-                          </div>
-
-                          <div style="display: none" class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Plan de acuerdo de paz</label>
-                              <input
-                                formControlName="acuerdoPaz"
-                                type="text"
-                                name="acuerdoPaz"
-                                class="form-control"
-                              />
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-4">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">
-                                Unidad de Contratación</label
-                              >
-                              <select
-                                class="custom-select form-control-border"
-                                formControlName="unidad"
-                              >
-                                <option
-                                  *ngFor="let und of unidades"
-                                  value="{{ und.UNI_NUMERO_PROCESO }}"
-                                >
-                                  {{ und.UNI_NUMERO_PROCESO }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                          <!---->
-                          <div class="col-12 col-sm-4">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">
-                                Equipo de Contratación</label
-                              >
-                              <select
-                                class="custom-select form-control-border"
-                                formControlName="equipo"
-                              >
-                                <option
-                                  *ngFor="let equ of equipoContratacion"
-                                  value="{{ equ.EQC_ID_INTEGRACION }}"
-                                >
-                                  {{ equ.EQC_NOMBRE }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div style="display: none" class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm"> Acuerdos comerciales </label>
-                              <input
-                                formControlName="acuerdos"
-                                type="text"
-                                name="acuerdos"
-                                class="form-control"
-                              />
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-12">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">
-                                Objeto proceso
-                              </label>
-                              <textarea
-                                formControlName="objeto"
-                                type="text"
-                                name="objeto"
-                                class="form-control"
-                              >
-                              </textarea>
-                            </div>
-                          </div>
-
-                          <!--                          <div class="col-12 col-sm-3">-->
-                          <!--                            <div class="form-group">-->
-                          <!--                              <label class="font-weight-normal text-sm">Entidad</label>-->
-                          <!--                              <input-->
-                          <!--                                disabled-->
-                          <!--                                type="text"-->
-                          <!--                                name="entidad"-->
-                          <!--                                class="form-control"-->
-                          <!--                                placeholder="Ingrese Entidad"-->
-                          <!--                                value="{{ camposEntidad[0] }}"-->
-                          <!--                              />-->
-                          <!--                            </div>-->
-                          <!--                          </div>-->
-
-
-                        </div>
-                        <!--TERMINAR INGRESAR DATA-->
-                      </div>
-                      <div class="tab-pane fade show" id="custom-tabs-four-profile" role="tabpanel"
-                           aria-labelledby="custom-tabs-four-profile-tab">
-                        <div class="row">
-
-                          <!--                          <div class="col-12 col-sm-3">-->
-                          <!--                            <div class="form-group">-->
-                          <!--                              <label class="font-weight-normal text-sm">Documentos Tipo</label>-->
-                          <!--                              <select class="custom-select form-control-border">-->
-                          <!--                                <option>Seleccione...</option>-->
-                          <!--                                <option>SI</option>-->
-                          <!--                                <option>NO</option>-->
-                          <!--                              </select>-->
-                          <!--                            </div>-->
-                          <!--                          </div>-->
-
-                          <!--                          <div class="col-12 col-sm-3">-->
-                          <!--                            <div class="form-group">-->
-                          <!--                              <label class="font-weight-normal text-sm">Documentos Tipo</label>-->
-                          <input
-                            formControlName="documentosTipo"
-                            type="hidden"
-                            name="documentosTipo"
-                            class="form-control"
-                          />
-                          <!--                            </div>-->
-                          <!--                          </div>-->
-
-                          <div style="display: none" class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Interadministrativos</label>
-                              <input
-                                formControlName="interadministrativos"
-                                type="text"
-                                name="interadministrativos"
-                                class="form-control"
-                              />
-                            </div>
-                          </div>
-
-                          <div style="display: none" class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Definir lotes </label>
-                              <input
-                                formControlName="definirLotes"
-                                type="text"
-                                name="definirLotes"
-                                class="form-control"
-                              />
-                            </div>
-                          </div>
-
-                          <div style="display: none" class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Definir Plan de Pagos </label>
-                              <input
-                                formControlName="definirPagos"
-                                type="text"
-                                name="definirPagos"
-                                class="form-control"
-                              />
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Firma de Contrato</label>
-                              <input
-                                min="{{fecha}}"
-                                formControlName="firmaContrato"
-                                type="datetime-local"
-                                name="firmaContrato"
-                                name="firmaContrato"
-                                class="form-control text-sm"
-                              />
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Fecha de inicio</label>
-                              <input
-                                min="{{fecha}}"
-                                formControlName="fechaInicio"
-                                type="datetime-local"
-                                name="fechaInicio"
-                                class="form-control text-sm"
-                              />
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Fecha termino</label>
-                              <input
-                                min="{{fecha}}"
-                                formControlName="fechaTermino"
-                                type="datetime-local"
-                                name="fechaTermino"
-                                class="form-control text-sm"
-                              />
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">Plazo de ejecucion</label>
-                              <input
-                                min="{{fecha}}"
-                                formControlName="plazoEjecucion"
-                                type="datetime-local"
-                                name="plazoEjecucion"
-                                class="form-control text-sm"
-                              />
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm"
-                              >Valor Estimado</label
-                              >
-                              <div class="input-group">
-<!--                                (keyup.enter)="getCdpMountValidate()"-->
-                                <input (change)="getChangeContractValue()"
-                                       currencyMask
-                                       formControlName="valorContrato"
-                                       name="valorContrato"
-                                       class="form-control"
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm"> Identificación </label>
+                                <input
+                                  formControlName="identificacion"
+                                  type="number"
+                                  class="form-control font-weight-lighter"
+                                  #item_search
+                                  (keyup.enter)="onKeydownEvent(item_search)"
                                 />
-                                <div [hidden]="valorContrato" class="input-group-append">
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm"> Proveedor </label>
+                                <input
+                                  formControlName="proveedor"
+                                  type="text"
+                                  name="Proveedor"
+                                  class="form-control font-weight-lighter"
+                                  required
+                                />
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Ubicación</label>
+                                <input
+                                  type="text"
+                                  formControlName="ubicacion"
+                                  name="ubicacion"
+                                  class="form-control font-weight-lighter"
+                                />
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Fecha de Nacimiento</label>
+                                <input
+                                  max="{{fechaMinimaNacimiento}}"
+                                  formControlName="fechaNacimiento"
+                                  type="datetime-local"
+                                  name="fechaNacimiento"
+                                  class="form-control font-weight-lighter text-sm"
+                                />
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Genero</label>
+                                <select
+                                  formControlName="genero"
+                                  class="form-control font-weight-lighter text-sm"
+                                >
+                                  <option value="" disabled></option>
+                                  <option *ngIf="isJuridico == true" value="Indefinido">Indefinido</option>
+                                  <option *ngIf="isJuridico == false" value="Femenino">Femenino</option>
+                                  <option *ngIf="isJuridico == false" value="Masculino">Masculino</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Departamento</label>
+                                <select
+                                  (change)="getMunicipios()"
+                                  formControlName="departamento"
+                                  class="form-control font-weight-lighter text-sm"
+                                >
+                                  <option
+                                    *ngFor="let dep of departamentos"
+                                    value="{{ dep.DPTO_COD }}"
+                                  >
+                                    {{ dep.DPTO_DESCRIPCION }}
+                                  </option>
+
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Municipio</label>
+                                <select
+                                  formControlName="municipio"
+                                  name="municipio"
+                                  class="form-control font-weight-lighter text-sm"
+                                >
+                                  <option value=""></option>
+                                  <option
+                                    *ngFor="let mun of municipios"
+                                    value="{{ mun.CIU_COD }}"
+                                  >
+                                    {{ mun.CIU_DESCRIPCION }}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Celular
+                                  <span *ngIf="validacionCelular == true" class="badge badge-danger"
+                                        style="cursor: pointer;" matTooltip="Introduzca un numero de 10 digitos"
+                                        matTooltipPosition="above">
+                                  * Invalido
+                                </span>
+                                </label>
+                                <input
+                                  matTooltip="Introduzca un numero de 10 digitos" matTooltipPosition="above"
+                                  #celular
+                                  id="celular"
+                                  [maxLength]="10"
+                                  formControlName="celular"
+                                  type="tel"
+                                  name="celular"
+                                  class="form-control font-weight-lighter"
+                                  (keypress)="$event.keyCode === 8 || $event.charCode >= 48 && $event.charCode <= 57"
+                                  (keyup)="validarCelular($event)"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Correo
+                                  <span *ngIf="validacionCorreo == true" class="badge badge-danger"
+                                        style="cursor: pointer;" matTooltip="Formato invalido"
+                                        matTooltipPosition="above">
+                                  * Invalido
+                                </span>
+                                </label>
+                                <input
+                                  matTooltip="mail@mail.mail" matTooltipPosition="above"
+                                  formControlName="correo"
+                                  type="email"
+                                  required
+                                  class="form-control font-weight-lighter"
+                                  (keyup)="validarCorreo()"
+                                />
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Categoría de Contratación</label>
+                                <select
+                                  formControlName="categoriaContratacion"
+                                  name="categoriaContratacion"
+                                  class="form-control font-weight-lighter text-sm"
+                                >
+                                  <option>Asesor</option>
+                                  <option>Asistencial</option>
+                                  <option>Profesional</option>
+                                  <option>Profesional Especializado</option>
+                                  <option>Técnico</option>
+                                  <option>Tecnólogo</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <!--                          <div class="col-12 col-sm-3">-->
+                            <!--                            <div class="form-group">-->
+                            <!--                              <label class="font-weight-light text-sm">Categoría de Profesión</label>-->
+                            <!--                              <select (change)="getProfesionByCategoria()"-->
+                            <!--                                      formControlName="categoriaProfesion"-->
+                            <!--                                      class="form-control font-weight-lighter text-sm"-->
+                            <!--                              >-->
+                            <!--                                <option *ngFor="let cat of categoriasProfesion"-->
+                            <!--                                        value="{{cat.PROF_CODIGO}}">{{cat.PROF_DESCRIPCION}}</option>-->
+                            <!--                              </select>-->
+                            <!--                            </div>-->
+                            <!--                          </div>-->
+
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Profesión</label>
+                                <select
+                                  formControlName="profesion"
+                                  class="form-control font-weight-lighter text-sm"
+                                >
+                                  <option *ngFor="let prof of allProfesions"
+                                          value="{{prof.PROF_DESCRIPCION}}">{{prof.PROF_DESCRIPCION}}</option>
+                                </select>
+                              </div>
+                            </div>
+
+
+                          </div>
+                        </div>
+                        <div class="tab-pane fade show" id="custom-tabs-four-home" role="tabpanel"
+                             aria-labelledby="custom-tabs-four-home-tab">
+                          <!--INGRESAR DATA-->
+                          <div class="row">
+
+                            <div class="col-12 col-sm-4">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm"> Tipo Proceso </label>
+
+                                <select
+                                  (change)="[getTiposContrato(),getEquipoContratacion()]"
+                                  class="custom-select form-control font-weight-lighter"
+                                  formControlName="tipoProceso"
+                                >
+                                  <!--                                <option>Seleccione...</option>-->
+                                  <option value=""></option>
+                                  <option
+                                    *ngFor="let dep of tiposProceso"
+                                    value="{{ dep.TPP_DESCRIPCION }}"
+                                  >
+                                    {{ dep.TPP_NOMBRE }}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">
+                                  Tipo Contrato
+                                </label>
+                                <select
+                                  (change)="getTiposJustificacionContrato()"
+                                  class="custom-select form-control font-weight-lighter"
+                                  formControlName="tipoContrato"
+                                >
+                                  <option value=""></option>
+                                  <option
+                                    *ngFor="let dep of tiposContrato"
+                                    value="{{ dep.TPC_DESCRIPCION }}"
+                                  >
+                                    {{ dep.TPC_NOMBRE }}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">
+                                  Justificación Tipo Contrato
+                                </label>
+                                <select
+                                  (change)="fillNombre()"
+                                  class="custom-select form-control font-weight-lighter"
+                                  formControlName="justificacionTipoProceso"
+                                >
+                                  <option value=""></option>
+                                  <option
+                                    *ngFor="let dep of tiposJustificacionContrato"
+                                    value="{{ dep.TPJ_DESCRIPCION }}"
+                                  >
+                                    {{ dep.TPJ_NOMBRE }}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+
+
+                            <div [hidden]="true" class="col-12 col-sm-4">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">
+                                  Nombre del proceso
+                                </label>
+                                <input
+                                  formControlName="nombreProceso"
+                                  type="text"
+                                  name="nombreProceso"
+                                  class="form-control font-weight-lighter"
+                                />
+                              </div>
+                            </div>
+
+                            <div style="display: none" class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Plan de acuerdo de paz</label>
+                                <input
+                                  formControlName="acuerdoPaz"
+                                  type="text"
+                                  name="acuerdoPaz"
+                                  class="form-control font-weight-lighter"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">
+                                  Unidad de Contratación</label
+                                >
+                                <select
+                                  class="custom-select form-control font-weight-lighter-border font-weight-lighter"
+                                  formControlName="unidad"
+                                >
+                                  <option value=""></option>
+                                  <option
+                                    *ngFor="let und of unidades"
+                                    value="{{ und.UNI_NUMERO_PROCESO }}"
+                                  >
+                                    {{ und.UNI_NUMERO_PROCESO }}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                            <!---->
+                            <div class="col-12 col-sm-4">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">
+                                  Equipo de Contratación</label
+                                >
+                                <select
+                                  class="custom-select form-control-border font-weight-lighter"
+                                  formControlName="equipo"
+                                >
+                                  <option value=""></option>
+                                  <option
+                                    *ngFor="let equ of equipoContratacion"
+                                    value="{{ equ.EQC_ID_INTEGRACION }}"
+                                  >
+                                    {{ equ.EQC_NOMBRE }}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4" *ngIf="isJuridico == false">
+                              <div class="form-group">
+
+                                <label class="font-weight-light text-sm">
+                                  Validar Tabla de Honorarios</label
+                                >
+                                <input
+                                  (click)="onClickHonorarios()"
+                                  formControlName="indDuracionContrato"
+                                  type="checkbox"
+                                  name="indDuracionContrato"
+                                  class="form-control font-weight-lighter"
+                                  style="width: 7%;"
+                                />
+                              </div>
+                            </div>
+
+                            <div style="display: none" class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm"> Acuerdos comerciales </label>
+                                <input
+                                  formControlName="acuerdos"
+                                  type="text"
+                                  name="acuerdos"
+                                  class="form-control font-weight-lighter"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-12">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">
+                                  Objeto proceso
+                                </label>
+                                <textarea
+                                  formControlName="objeto"
+                                  type="text"
+                                  name="objeto"
+                                  class="form-control font-weight-lighter"
+                                >
+                              </textarea>
+                              </div>
+                            </div>
+
+                            <!--                          <div class="col-12 col-sm-3">-->
+                            <!--                            <div class="form-group">-->
+                            <!--                              <label class="font-weight-light text-sm">Entidad</label>-->
+                            <!--                              <input-->
+                            <!--                                disabled-->
+                            <!--                                type="text"-->
+                            <!--                                name="entidad"-->
+                            <!--                                class="form-control font-weight-lighter"-->
+                            <!--                                placeholder="Ingrese Entidad"-->
+                            <!--                                value="{{ camposEntidad[0] }}"-->
+                            <!--                              />-->
+                            <!--                            </div>-->
+                            <!--                          </div>-->
+
+
+                          </div>
+                          <!--TERMINAR INGRESAR DATA-->
+                        </div>
+                        <div class="tab-pane fade show" id="custom-tabs-four-profile" role="tabpanel"
+                             aria-labelledby="custom-tabs-four-profile-tab">
+                          <div class="row">
+
+                            <!--                          <div class="col-12 col-sm-3">-->
+                            <!--                            <div class="form-group">-->
+                            <!--                              <label class="font-weight-light text-sm">Documentos Tipo</label>-->
+                            <!--                              <select class="custom-select form-control font-weight-lighter-border">-->
+                            <!--                                <option>Seleccione...</option>-->
+                            <!--                                <option>SI</option>-->
+                            <!--                                <option>NO</option>-->
+                            <!--                              </select>-->
+                            <!--                            </div>-->
+                            <!--                          </div>-->
+
+                            <!--                          <div class="col-12 col-sm-3">-->
+                            <!--                            <div class="form-group">-->
+                            <!--                              <label class="font-weight-light text-sm">Documentos Tipo</label>-->
+                            <input
+                              formControlName="documentosTipo"
+                              type="hidden"
+                              name="documentosTipo"
+                              class="form-control font-weight-lighter"
+                            />
+                            <!--                            </div>-->
+                            <!--                          </div>-->
+
+                            <div style="display: none" class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Interadministrativos</label>
+                                <input
+                                  formControlName="interadministrativos"
+                                  type="text"
+                                  name="interadministrativos"
+                                  class="form-control font-weight-lighter"
+                                />
+                              </div>
+                            </div>
+
+                            <div style="display: none" class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Definir lotes </label>
+                                <input
+                                  formControlName="definirLotes"
+                                  type="text"
+                                  name="definirLotes"
+                                  class="form-control font-weight-lighter"
+                                />
+                              </div>
+                            </div>
+
+                            <div style="display: none" class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Definir Plan de Pagos </label>
+                                <input
+                                  formControlName="definirPagos"
+                                  type="text"
+                                  name="definirPagos"
+                                  class="form-control font-weight-lighter"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Firma de Contrato</label>
+                                <input
+                                  min="{{fecha}}"
+                                  formControlName="firmaContrato"
+                                  type="datetime-local"
+                                  name="firmaContrato"
+                                  name="firmaContrato"
+                                  class="form-control font-weight-lighter text-sm"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Fecha de inicio</label>
+                                <input
+                                  min="{{fecha}}"
+                                  formControlName="fechaInicio"
+                                  type="datetime-local"
+                                  name="fechaInicio"
+                                  class="form-control font-weight-lighter text-sm"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Fecha termino</label>
+                                <input
+                                  min="{{fecha}}"
+                                  formControlName="fechaTermino"
+                                  type="datetime-local"
+                                  name="fechaTermino"
+                                  class="form-control font-weight-lighter text-sm"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">Plazo de ejecucion</label>
+                                <input
+                                  min="{{fecha}}"
+                                  formControlName="plazoEjecucion"
+                                  type="datetime-local"
+                                  name="plazoEjecucion"
+                                  class="form-control font-weight-lighter text-sm"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm"
+                                >Valor Contrato</label
+                                >
+                                <div class="input-group">
+                                  <!--                                (keyup.enter)="getCdpMountValidate()"-->
+<!--                                  (change)="getChangeContractValue()"-->
+                                  <input (keydown)="getChangeContractValue()"
+                                         currencyMask
+                                         formControlName="valorContrato"
+                                         class="form-control font-weight-lighter"
+                                  />
+                                  <div [hidden]="valorContrato" class="input-group-append">
                                     <span [style]="{'background-color': getColor()}"
                                           (click)="validateFieldsCdp()"
                                           data-target="#modal-cdp" data-toggle="modal"
                                           class="input-group-text cursor"
                                     ><i class="fas fa-dollar-sign"></i
                                     ></span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
-<!--                          <div class="col-12 col-sm-3">-->
-<!--                            <div class="form-group">-->
-<!--                              <label class="font-weight-normal text-sm">CDP</label>-->
-<!--                              <input-->
-<!--                                formControlName="cdp"-->
-<!--                                type="text"-->
-<!--                                name="cdp"-->
-<!--                                class="form-control"-->
-<!--                              />-->
-<!--                            </div>-->
-<!--                          </div>-->
-
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">
-                                Duracion Contrato
-                              </label>
-                              <select
-                                (change)="activateTiempo()"
-                                class="custom-select form-control-border"
-                                formControlName="duracionContrato"
-                              >
-                                <option>Años</option>
-                                <option>Dias</option>
-                                <option>Horas</option>
-                                <option>Meses</option>
-                                <option>Semanas</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-sm-3">
-                            <div class="form-group">
-                              <label class="font-weight-normal text-sm">
-                                Tiempo contrato
-                                <i class="fa fa-check-circle" [style]="{'color': iconColor}"></i>
-                              </label>
-                              <div class="input-group">
-                                <input (keyup)="changeTiempoDuracion()"
-                                       (keyup.enter)="validateDuracion($event)"
-                                       formControlName="tiempoDuracion"
-                                       type="number"
-                                       name="tiempoDuracion"
-                                       class="form-control"
-                                />
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--                          <div class="col-12 col-sm-3">-->
-                          <!--                            <div class="form-group">-->
-                          <!--                              <label class="font-weight-normal text-sm">HUIR</label>-->
-                          <!--                              <button type="button" data-toggle="modal" data-target="#modal-default-1">HUIR</button>-->
-                          <!--                            </div>-->
-                          <!--                          </div>-->
-
-                          <!--                          <div class="col-12 col-sm-3">-->
-                          <!--                            <div class="form-group">-->
-                          <!--                              <label class="font-weight-normal text-sm">Comite</label>-->
-                          <input
-                            formControlName="comite"
-                            type="hidden"
-                            name="comite"
-                            class="form-control"
-                          />
-
-                          <div class="col-12 col-sm-3">
-                            <label class="font-weight-normal text-sm">
-                              Codigo UNSPSC
-                            </label>
-                            <button [disabled]="iconColor == 'lightgray'" type="button"
-                                    class="form-control btn btn-primary btn-md"
-                                    data-target="#modal-default-1" data-toggle="modal">Codigo UNSPSC
-                            </button>
-                            <!--                            <mat-form-field appearance="fill">-->
-                            <!--                              <mat-select formControlName="codigoUNSPSC" multiple (closed)="ver()">-->
-                            <!--                                <mat-option value="80161500">80161500</mat-option>-->
-                            <!--                                <mat-option value="80101706">80101706</mat-option>-->
-                            <!--                              </mat-select>-->
-                            <!--                            </mat-form-field>-->
+                            <!--                          <div class="col-12 col-sm-3">-->
                             <!--                            <div class="form-group">-->
-                            <!--                              <label class="font-weight-normal text-sm">-->
-                            <!--                                Codigo UNSPSC-->
-                            <!--                              </label>-->
-                            <!--                              <select-->
-                            <!--                                multiple-->
-                            <!--                                (change)="ver()"-->
-                            <!--                                class="custom-select form-control-border"-->
-                            <!--                                formControlName="codigoUNSPSC"-->
-                            <!--                              >-->
-                            <!--                                <option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</option>-->
-                            <!--                              </select>-->
-                            <!--                            </div>-->
-
-
-                            <!--                            <div class="form-group">-->
-                            <!--                              <label class="font-weight-normal text-sm">Codigo UNSPSC</label>-->
+                            <!--                              <label class="font-weight-light text-sm">CDP</label>-->
                             <!--                              <input-->
-                            <!--                                formControlName="codigoUNSPSC"-->
-                            <!--                                type="number"-->
-                            <!--                                name="CodigoUNSPSC"-->
+                            <!--                                formControlName="cdp"-->
+                            <!--                                type="text"-->
+                            <!--                                name="cdp"-->
                             <!--                                class="form-control"-->
                             <!--                              />-->
                             <!--                            </div>-->
+                            <!--                          </div>-->
+
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">
+                                  Duracion Contrato
+                                </label>
+                                <select
+                                  (change)="activateTiempo()"
+                                  class="custom-select form-control-border font-weight-lighter"
+                                  formControlName="duracionContrato"
+                                >
+                                  <option>Años</option>
+                                  <option>Dias</option>
+                                  <option>Horas</option>
+                                  <option>Meses</option>
+                                  <option>Semanas</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-12 col-sm-3">
+                              <div class="form-group">
+                                <label class="font-weight-light text-sm">
+                                  Tiempo contrato
+                                  <i class="fa fa-check-circle" [style]="{'color': iconColor}"></i>
+                                </label>
+                                <div class="input-group">
+                                  <input (keyup)="changeTiempoDuracion()"
+                                         (keyup.enter)="validateDuracion($event)"
+                                         formControlName="tiempoDuracion"
+                                         type="number"
+                                         name="tiempoDuracion"
+                                         class="form-control font-weight-lighter"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <!--                          <div class="col-12 col-sm-3">-->
+                            <!--                            <div class="form-group">-->
+                            <!--                              <label class="font-weight-light text-sm">HUIR</label>-->
+                            <!--                              <button type="button" data-toggle="modal" data-target="#modal-default-1">HUIR</button>-->
+                            <!--                            </div>-->
+                            <!--                          </div>-->
+
+                            <!--                          <div class="col-12 col-sm-3">-->
+                            <!--                            <div class="form-group">-->
+                            <!--                              <label class="font-weight-light text-sm">Comite</label>-->
+                            <input
+                              formControlName="comite"
+                              type="hidden"
+                              name="comite"
+                              class="form-control font-weight-lighter"
+                            />
+
+                            <div class="col-12 col-sm-3">
+                              <label class="font-weight-light text-sm">
+                                Codigo UNSPSC
+                              </label>
+                              <button [disabled]="iconColor == 'lightgray'" type="button"
+                                      class="form-control font-weight-lighter btn btn-outline-secondary btn-md"
+                                      data-target="#modal-default-1" data-toggle="modal">Codigo UNSPSC
+                              </button>
+                              <!--                            <mat-form-field appearance="fill">-->
+                              <!--                              <mat-select formControlName="codigoUNSPSC" multiple (closed)="ver()">-->
+                              <!--                                <mat-option value="80161500">80161500</mat-option>-->
+                              <!--                                <mat-option value="80101706">80101706</mat-option>-->
+                              <!--                              </mat-select>-->
+                              <!--                            </mat-form-field>-->
+                              <!--                            <div class="form-group">-->
+                              <!--                              <label class="font-weight-light text-sm">-->
+                              <!--                                Codigo UNSPSC-->
+                              <!--                              </label>-->
+                              <!--                              <select-->
+                              <!--                                multiple-->
+                              <!--                                (change)="ver()"-->
+                              <!--                                class="custom-select form-control-border"-->
+                              <!--                                formControlName="codigoUNSPSC"-->
+                              <!--                              >-->
+                              <!--                                <option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</option>-->
+                              <!--                              </select>-->
+                              <!--                            </div>-->
+
+
+                              <!--                            <div class="form-group">-->
+                              <!--                              <label class="font-weight-light text-sm">Codigo UNSPSC</label>-->
+                              <!--                              <input-->
+                              <!--                                formControlName="codigoUNSPSC"-->
+                              <!--                                type="number"-->
+                              <!--                                name="CodigoUNSPSC"-->
+                              <!--                                class="form-control"-->
+                              <!--                              />-->
+                              <!--                            </div>-->
+                            </div>
+                            <!--                            </div>-->
+                            <!--                          </div>-->
+
+                            <!--                          <div class="col-12 col-sm-3">-->
+                            <!--                            <div class="form-group">-->
+                            <!--                              <label class="font-weight-light text-sm">Destinacion del Gasto</label>-->
+                            <!--                              <select-->
+                            <!--                                formControlName="destinacionGasto"-->
+                            <!--                                class="custom-select form-control-border"-->
+                            <!--                              >-->
+                            <!--                                <option-->
+                            <!--                                  *ngFor="let gasto of gastos"-->
+                            <!--                                  value="{{ gasto }}"-->
+                            <!--                                >-->
+                            <!--                                  {{ gasto }}-->
+                            <!--                                </option>-->
+                            <!--                              </select>-->
+                            <!--                            </div>-->
+                            <!--                          </div>-->
+
                           </div>
-                          <!--                            </div>-->
-                          <!--                          </div>-->
-
-                          <!--                          <div class="col-12 col-sm-3">-->
-                          <!--                            <div class="form-group">-->
-                          <!--                              <label class="font-weight-normal text-sm">Destinacion del Gasto</label>-->
-                          <!--                              <select-->
-                          <!--                                formControlName="destinacionGasto"-->
-                          <!--                                class="custom-select form-control-border"-->
-                          <!--                              >-->
-                          <!--                                <option-->
-                          <!--                                  *ngFor="let gasto of gastos"-->
-                          <!--                                  value="{{ gasto }}"-->
-                          <!--                                >-->
-                          <!--                                  {{ gasto }}-->
-                          <!--                                </option>-->
-                          <!--                              </select>-->
-                          <!--                            </div>-->
-                          <!--                          </div>-->
-
                         </div>
+                        <!--                      <div class="tab-pane fade show active" id="custom-tabs-four-carga" role="tabpanel"-->
+                        <!--                           aria-labelledby="custom-tabs-four-carga-tab">-->
+                        <!--                        <div class="row">-->
+
+                        <!--                          &lt;!&ndash;                          <div class="col-12 col-sm-3">&ndash;&gt;-->
+                        <!--                          &lt;!&ndash;                            <div class="form-group">&ndash;&gt;-->
+                        <!--                          &lt;!&ndash;                              <label class="font-weight-light text-sm">Documentos Tipo</label>&ndash;&gt;-->
+                        <!--                          &lt;!&ndash;                              <select class="custom-select form-control-border">&ndash;&gt;-->
+                        <!--                          &lt;!&ndash;                                <option>Seleccione...</option>&ndash;&gt;-->
+                        <!--                          &lt;!&ndash;                                <option>SI</option>&ndash;&gt;-->
+                        <!--                          &lt;!&ndash;                                <option>NO</option>&ndash;&gt;-->
+                        <!--                          &lt;!&ndash;                              </select>&ndash;&gt;-->
+                        <!--                          &lt;!&ndash;                            </div>&ndash;&gt;-->
+                        <!--                          &lt;!&ndash;                          </div>&ndash;&gt;-->
+
+                        <!--                          &lt;!&ndash;                          <div class="col-12 col-sm-3">&ndash;&gt;-->
+                        <!--                          &lt;!&ndash;                            <div class="form-group">&ndash;&gt;-->
+                        <!--                          &lt;!&ndash;                              <label class="font-weight-light text-sm">Documentos Tipo</label>&ndash;&gt;-->
+                        <!--                          <div class="col-12 col-sm-12">-->
+                        <!--                            <div class="custom-file">-->
+                        <!--                              <input type="file" (change)="readExcell($event)" class="custom-file-input" id="validatedFile" required="true"/>-->
+                        <!--                              <label class="custom-file-label" for="validatedFile">{{filename}}</label>-->
+                        <!--                              <div class="invalid-feedback">Error</div>-->
+                        <!--                              <div class="progress mt-1">-->
+                        <!--                                <div class="progress-bar" role="progressbar" [style.width.%]="progressValue">{{progressValue}}%</div>-->
+                        <!--                              </div>-->
+                        <!--                            </div>-->
+                        <!--                          </div>-->
+                        <!--                        </div>-->
+                        <!--                      </div>-->
                       </div>
-                      <!--                      <div class="tab-pane fade show active" id="custom-tabs-four-carga" role="tabpanel"-->
-                      <!--                           aria-labelledby="custom-tabs-four-carga-tab">-->
-                      <!--                        <div class="row">-->
-
-                      <!--                          &lt;!&ndash;                          <div class="col-12 col-sm-3">&ndash;&gt;-->
-                      <!--                          &lt;!&ndash;                            <div class="form-group">&ndash;&gt;-->
-                      <!--                          &lt;!&ndash;                              <label class="font-weight-normal text-sm">Documentos Tipo</label>&ndash;&gt;-->
-                      <!--                          &lt;!&ndash;                              <select class="custom-select form-control-border">&ndash;&gt;-->
-                      <!--                          &lt;!&ndash;                                <option>Seleccione...</option>&ndash;&gt;-->
-                      <!--                          &lt;!&ndash;                                <option>SI</option>&ndash;&gt;-->
-                      <!--                          &lt;!&ndash;                                <option>NO</option>&ndash;&gt;-->
-                      <!--                          &lt;!&ndash;                              </select>&ndash;&gt;-->
-                      <!--                          &lt;!&ndash;                            </div>&ndash;&gt;-->
-                      <!--                          &lt;!&ndash;                          </div>&ndash;&gt;-->
-
-                      <!--                          &lt;!&ndash;                          <div class="col-12 col-sm-3">&ndash;&gt;-->
-                      <!--                          &lt;!&ndash;                            <div class="form-group">&ndash;&gt;-->
-                      <!--                          &lt;!&ndash;                              <label class="font-weight-normal text-sm">Documentos Tipo</label>&ndash;&gt;-->
-                      <!--                          <div class="col-12 col-sm-12">-->
-                      <!--                            <div class="custom-file">-->
-                      <!--                              <input type="file" (change)="readExcell($event)" class="custom-file-input" id="validatedFile" required="true"/>-->
-                      <!--                              <label class="custom-file-label" for="validatedFile">{{filename}}</label>-->
-                      <!--                              <div class="invalid-feedback">Error</div>-->
-                      <!--                              <div class="progress mt-1">-->
-                      <!--                                <div class="progress-bar" role="progressbar" [style.width.%]="progressValue">{{progressValue}}%</div>-->
-                      <!--                              </div>-->
-                      <!--                            </div>-->
-                      <!--                          </div>-->
-                      <!--                        </div>-->
-                      <!--                      </div>-->
                     </div>
+                    <!-- /.card -->
                   </div>
-                  <!-- /.card -->
                 </div>
-              </div>
-              <button [hidden]="createProcessForm.invalid || myForm.invalid || cdpForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray' || validacionCelular == true || validacionCorreo == true || validateDataCdp != 1" class="btn btn-primary btn-sm btn-block" type="submit">Crear Proceso</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!--        <button type="button" (click)="test()">surprise</button>-->
-
-    <br/>
-    <!--  MIS PROCESOS  -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="card ml-3 mr-3">
-          <!--          <div class="card-header" style="background-color: lavender">-->
-          <div class="card-header" style="background-color: var(--companyColor)">
-            <div class="card-tools">
-              <button
-                type="button"
-                class="btn btn-tool"
-                data-card-widget="collapse"
-              >
-                <i class="fas fa-minus"></i>
-              </button>
-            </div>
-
-            <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
-            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
-              <span>{{ "procesos.misProcesos" | translate }}</span>
-            </h6>
-          </div>
-          <div class="card-body">
-            <div>
-              <div class="table-responsive">
-                <mat-form-field appearance="fill">
-                  <mat-label>Filter</mat-label>
-                  <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
-                </mat-form-field>
-                <div class="example-container mat-elevation-z8">
-                  <table mat-table [dataSource]="dataSource" matSort>
-
-                    <!-- ID Column -->
-                    <ng-container matColumnDef="Num">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header
-                          style="font-size: 14px;font-weight: bolder;color: black;"> Número
-                      </th>
-                      <td mat-cell *matCellDef="let row"
-                          style="font-size: 11px;color: #545cd8; font-weight: bold"> {{row.CONS_PROCESO}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="Identificacion">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
-                        Identificación
-                      </th>
-                      <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;word-break: break-all"> {{row.COD_PROV  | number}} </td>
-                    </ng-container>
-
-                    <!-- Progress Column -->
-                    <ng-container matColumnDef="Nombre">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header
-                          style="font-size: 14px;font-weight: bolder;color: black"> Proveedor
-                      </th>
-                      <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;word-break: break-all"> {{row.NOM_PROV | titlecase}} </td>
-                    </ng-container>
-
-                    <!-- Name Column -->
-                    <ng-container matColumnDef="Estado">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header
-                          style="font-size: 14px;font-weight: bolder;color: black"> Estado
-                      </th>
-                      <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;word-break: break-all;font-weight: bold"><a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :
-                        ((row.ESTADO >= 2 && row.ESTADO < 7) && ROL == 1) ? 'gray' :
-                        (row.ESTADO == 2 && ROL == 2) ? 'gray' :
-                        (row.ESTADO == 3 && ROL == 3) ? 'gray' :
-                        (row.ESTADO == 4 && ROL == 4) ? 'gray' :
-                        (row.ESTADO == 5 && ROL == 5) ? 'gray' :
-                        (row.ESTADO == 6 && ROL == 6) ? 'gray' :
-                        (row.ESTADO == 1) ? 'red' :
-                        (row.ESTADO >= 3 && row.ESTADO <= 7 && ROL == 2) ? 'green' :
-                        (row.ESTADO >= 4 && row.ESTADO <= 7 && ROL == 3) ? 'green' :
-                        (row.ESTADO >= 5 && row.ESTADO <= 7 && ROL == 4) ? 'green' :
-                        (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 5) ? 'green' :
-                        (row.ESTADO == 7 && ROL == 6) ? 'green' :
-                        (row.ESTADO == 0) ? 'black' : 'blue' }">
-                        {{((row.ESTADO > 2 && row.ESTADO < 7) && ROL == 1)? 'En flujo':(row.ESTADO == 2 && ROL == 1) ? 'Creado' :(row.ESTADO == 7 && ROL == 1)?'Aprobado':(row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobación' :((row.ESTADO >= 3 && row.ESTADO <= 6) && (ROL == 2 || ROL == 1)) ? 'En flujo'
-                        :(row.ESTADO >= 4 && row.ESTADO <= 6) && ROL == 3 ? 'En flujo'
-                          :(row.ESTADO >= 5 && row.ESTADO <= 6) && ROL == 4 ? 'En flujo'
-                            :(row.ESTADO >= 6 && row.ESTADO <= 6) && ROL == 5 ? 'En flujo'
-                              :(row.ESTADO >= 3 && row.ESTADO <= 6) ? 'Pendiente Aprobación' :
-                                (row.ESTADO == 0) ? 'Rechazado' :
-                                  (row.ESTADO == 1) ? 'Anulado' :
-                                    (row.ESTADO == 7) ? 'Aprobado' : (row.ESTADO == 8) ? 'Liquidado' : ''}}
-                      </a></td>
-<!--                      <td mat-cell *matCellDef="let row"-->
-<!--                          style="font-size: 12px;word-break: break-all"><a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :-->
-<!--                        (row.ESTADO >= 2 && row.ESTADO <= 6 && ROL == 39) ? 'gray' :-->
-<!--                        (ROL == 39 && row.ESTADO == 1) ? 'darkgray' :-->
-<!--                        (ROL == 39 && row.ESTADO == 7) ? 'green' :-->
-<!--                        (ROL == 39 && row.ESTADO == 0) ? 'black' : 'blue' }">-->
-<!--                        {{(row.ESTADO >= 2 && row.ESTADO <= 6 && ROL == 39) ? 'Pendiente Aprobación' :-->
-<!--                        (row.ESTADO == 1 && ROL == 39) ? 'Anulado' :-->
-<!--                          (row.ESTADO == 0 && ROL == 39) ? 'Rechazado' :-->
-<!--                            (row.ESTADO == 7 && ROL == 39) ? 'Aprobado' : ''}}</a></td>-->
-                    </ng-container>
-
-                    <!-- Fruit Column -->
-                    <ng-container matColumnDef="Fecha">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header
-                          style="font-size: 14px;font-weight: bolder;color: black"> Fecha
-                      </th>
-                      <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;"> {{row.CREATED | date}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="Creador">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"
-                          mat-sort-header>
-                        Creador
-                      </th>
-                      <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;">{{row.USR_LOGIN | titlecase}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="ValorOferta">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header
-                          style="font-size: 14px;font-weight: bolder;color: black"> Valor Oferta
-                      </th>
-                      <td mat-cell *matCellDef="let row"
-                          style="font-size: 11px;color: rosybrown;font-weight: bold;text-align: right;"> {{row.VAL_OFERTA | currency}} </td>
-                    </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumnsProcess"></tr>
-                    <tr class="hoverOnTable" (click)="goDetail(row)" data-toggle="modal" data-target="#modal-default"
-                        mat-row *matRowDef="let row; columns: displayedColumnsProcess;"></tr>
-
-                    <!-- Row shown when there is no matching data. -->
-                    <tr class="mat-row" *matNoDataRow>
-                      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-                    </tr>
-                  </table>
-
-                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-                </div>
-
-                <!--                <table class="align-middle table table-bordered table-striped table-hover"-->
-                <!--                >-->
-                <!--                  <thead>-->
-                <!--                  <tr class="tit_table text-sm">-->
-                <!--                    &lt;!&ndash;                    <th scope="col">#</th>&ndash;&gt;-->
-                <!--                    <th scope="col">Numeración</th>-->
-                <!--                    <th scope="col">ID Secop</th>-->
-                <!--                    <th scope="col">Nombre del Proceso</th>-->
-                <!--                    <th scope="col">Dependencia</th>-->
-                <!--                    <th scope="col">Unidad</th>-->
-                <!--                    <th scope="col">Equipo</th>-->
-                <!--                    &lt;!&ndash;<th scope="col">Facturación de la entidad</th>&ndash;&gt;-->
-                <!--                    <th scope="col">Valor oferta</th>-->
-                <!--                    <th scope="col">Opciones</th>-->
-                <!--                  </tr>-->
-                <!--                  </thead>-->
-                <!--                  <tbody>-->
-                <!--                  <tr *ngFor="let info of info_process">-->
-                <!--                    &lt;!&ndash;                    <td class="text-sm" row>{{ i + 1 }}</td>&ndash;&gt;-->
-                <!--                    <td row style="font-size: 12px; color: #545cd8; font-weight: bold">{{ info.CONS_PROCESO }}</td>-->
-                <!--                    <td style="font-size: 12px;font-weight: bold">-->
-                <!--                                <span-->
-                <!--                                  style="color: rosybrown"-->
-                <!--                                  *ngIf="!info.SECOP_CODE"-->
-                <!--                                >Pendiente</span-->
-                <!--                                >-->
-                <!--                      <span>{{ info.SECOP_CODE }}</span>-->
-                <!--                    </td>-->
-                <!--                    <td style="font-size: 12px;">{{ info.NOMBRE_PROCESO }}</td>-->
-                <!--                    <td style="font-size: 12px;">{{ info.ENTIDAD_CODE }}</td>-->
-                <!--&lt;!&ndash;                    <td style="font-size: 12px;">{{ info.DEP_CODE }}</td>&ndash;&gt;-->
-                <!--                    <td style="font-size: 12px;">{{ info.UNI_CONTRATACION }}</td>-->
-                <!--                    <td style="font-size: 12px;">{{ info.EQUIPO_CONTRATACION }}</td>-->
-                <!--                    &lt;!&ndash;<td>{{ info.FACT_ENTIDAD }}</td>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                     <td" *ngIf="info.VAL_OFERTA > 0" >{{ info.VAL_OFERTA | currency }}</td>&ndash;&gt;-->
-                <!--                    <td style="font-size: 12px;">{{ info.VAL_OFERTA | currency }}</td>-->
-                <!--                    <td style="font-size: 12px;">-->
-                <!--                      &lt;!&ndash;                      <a href="#" target="_blank" rel="noopener noreferrer">&ndash;&gt;-->
-                <!--                      &lt;!&ndash;                                    Ver detalle&ndash;&gt;-->
-                <!--                      &lt;!&ndash;                      </a>&ndash;&gt;-->
-                <!--                      <a-->
-                <!--                        routerLink="/home/administration-ci/det_aut/{{-->
-                <!--                                    info.CONS_PROCESO-->
-                <!--                                  }}"-->
-                <!--                        routerLinkActive="active-item"-->
-                <!--                        [routerLinkActiveOptions]="{ exact: true }"-->
-                <!--                        class="vsm-link"-->
-                <!--                      >-->
-                <!--                        <span class="vsm-title">Revisar</span>-->
-                <!--                      </a>-->
-                <!--                    </td>-->
-                <!--                  </tr>-->
-                <!--                  </tbody>-->
-                <!--                </table>-->
-
-                <!--                <div class="d-flex justify-content-center">-->
-                <!--                  <pagination-controls-->
-                <!--                    (pageChange)="page = $event"-->
-                <!--                    previousLabel="Anterior"-->
-                <!--                    nextLabel="Siguiente"-->
-                <!--                  ></pagination-controls>-->
-                <!--                </div>-->
-              </div>
+                <button
+                  [hidden]="createProcessForm.invalid || myForm.invalid || cdpForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray' || validacionCelular == true || validacionCorreo == true || validateDataCdp != 1 || EDITPROCESS != 0"
+                  class="btn btn-primary btn-sm ml-2" type="submit">Crear Proceso
+                </button>
+                <button
+                  [hidden]="createProcessForm.invalid || myForm.invalid || cdpForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray' || validacionCelular == true || validacionCorreo == true || validateDataCdp != 1 || EDITPROCESS != 1"
+                  class="btn btn-primary btn-sm ml-2" type="button" (click)="modifyProcess()">Modificar Proceso
+                </button>
+              </form>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <!--  END FORMULARIO PROCESOS  -->
 
-    <br/>
-    <!--  PROCESOS EN SECOP  -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="card ml-3 mr-3">
-          <!--          <div class="card-header" style="background-color: lavender">-->
-          <div class="card-header" style="background-color: var(--companyColor)">
-            <div class="card-tools">
-              <button
-                type="button"
-                class="btn btn-tool"
-                data-card-widget="collapse"
-              >
-                <i class="fas fa-minus"></i>
-              </button>
+      <br/>
+
+      <!--  MIS PROCESOS  -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+            <!--          <div class="card-header" style="background-color: lavender">-->
+            <div class="card-header" style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
+              <div class="card-tools">
+                <button
+                  type="button"
+                  class="btn btn-tool"
+                  data-card-widget="collapse"
+                >
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+
+              <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
+              <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
+                <span>{{ "procesos.misProcesos" | translate }}</span>
+              </h6>
             </div>
+            <div class="card-body">
+              <div>
+                <div class="table-responsive">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+                  </mat-form-field>
+                  <div class="example-container mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" matSort>
 
-            <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
-            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
-              <span>{{ "procesos.procesosSecop" | translate }}</span>
-            </h6>
-          </div>
-          <div class="card-body">
-            <div>
-              <div class="table-responsive">
-                <mat-form-field appearance="fill">
-                  <mat-label>Filter</mat-label>
-                  <input matInput (keyup)="applyFilterSecop($event)" placeholder="" #inputSecop>
-                </mat-form-field>
-                <div class="example-container mat-elevation-z8">
-                  <table mat-table [dataSource]="dataSourceSecop" #sortSecop matSort>
+                      <!-- ID Column -->
+                      <ng-container matColumnDef="Num">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="font-size: 14px;font-weight: normal;color: black;">
+                          Número
+                        </th>
+                        <td mat-cell *matCellDef="let row"
+                            style="font-size: 12px;color: #545cd8; font-weight: lighter"
+                        > {{row.CONS_PROCESO | uppercase}}
+                          <svg
+                            *ngIf=" (row.ESTADO > 2 && ROL == 2) || (row.ESTADO > 3 && ROL == 3)||(row.ESTADO > 4 && ROL == 4)|| (row.ESTADO > 5 && ROL == 5)||  (row.ESTADO > 6 && ROL == 6)"
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                            <path
+                              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                          </svg>
+                        </td>
+                      </ng-container>
 
-                    <!-- ID Column -->
-                    <ng-container matColumnDef="Num">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header
-                          style="font-size: 14px;font-weight: bolder;color: black;"> Número
-                      </th>
-<!--                      style="font-size: 11px;color: #545cd8; font-weight: bold"> {{row.id_del_proceso}} </td>-->
-                      <td mat-cell *matCellDef="let row"
-                          style="font-size: 11px;color: #545cd8; font-weight: bold"> {{row.nit_entidad}} </td>
-                    </ng-container>
+                      <ng-container matColumnDef="Identificacion">
+                        <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: normal;color: black">
+                          Identificación
+                        </th>
+                        <td mat-cell *matCellDef="let row"
+                            style="font-size: 12px;word-break: break-all;font-weight: lighter"> {{row.COD_PROV  | number}} </td>
+                      </ng-container>
 
-                    <!-- Progress Column -->
-                    <ng-container matColumnDef="Nombre">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header
-                          style="font-size: 14px;font-weight: bolder;color: black"> Nombre del proceso
-                      </th>
-                      <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;word-break: break-all"> {{row.nombre_del_procedimiento | titlecase}} </td>
-                    </ng-container>
+                      <!-- Progress Column -->
+                      <ng-container matColumnDef="Nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="font-size: 14px;font-weight: normal;color: black"> Proveedor
+                        </th>
+                        <td mat-cell *matCellDef="let row"
+                            style="font-size: 12px;word-break: break-all;font-weight: lighter"> {{row.NOM_PROV | titlecase}} </td>
+                      </ng-container>
 
-                    <!-- Name Column -->
-                    <ng-container matColumnDef="Entidad">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header
-                          style="font-size: 14px;font-weight: bolder;color: black"> Entidad
-                      </th>
-                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.entidad | titlecase}} </td>
-                    </ng-container>
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="Estado">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="font-size: 14px;font-weight: normal;color: black"> Estado
+                        </th>
+                        <td mat-cell *matCellDef="let row"
+                            style="font-size: 12px;word-break: break-all;;font-weight: lighter">
+                          <a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :
+                        (row.ESTADO == 1) ? 'gray' :
+                        (row.ESTADO == 2 && ROL != 2) ? 'blue' :
+                        (row.ESTADO == 7) ? 'green' :
+                        (row.ESTADO == 8) ? 'black' :
+                        (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'goldenrod' :
+                        (row.ESTADO != 2 && ROL == 2) ? 'goldenrod' :
+                        (row.ESTADO != 3 && ROL == 3) ? 'goldenrod' :
+                        (row.ESTADO != 4 && ROL == 4) ? 'goldenrod' :
+                        (row.ESTADO != 5 && ROL == 5) ? 'goldenrod' :
+                        (row.ESTADO != 6 && ROL == 6) ? 'goldenrod' :
+                        (row.ESTADO == 2 && ROL == 2) ? 'goldenrod' :
+                        (row.ESTADO == 3 && ROL == 3) ? 'goldenrod' :
+                        (row.ESTADO == 4 && ROL == 4) ? 'goldenrod' :
+                        (row.ESTADO == 5 && ROL == 5) ? 'goldenrod' :
+                        (row.ESTADO == 6 && ROL == 6) ? 'goldenrod' :
+                        'rose' }">
+                            {{(row.ESTADO == 0) ? 'Rechazado' :
+                            (row.ESTADO == 1) ? 'Anulado' :
+                              (row.ESTADO == 2 && ROL != 2) ? 'Creado' :
+                                (row.ESTADO == 7) ? 'Aprobado' :
+                                  (row.ESTADO == 8) ? 'Liquidado' :
+                                    (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'En Gestion' :
+                                      (row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobacion' :
+                                        (row.ESTADO == 3 && ROL == 3) ? 'Pendiente Aprobacion' :
+                                          (row.ESTADO == 4 && ROL == 4) ? 'Pendiente Aprobacion' :
+                                            (row.ESTADO == 5 && ROL == 5) ? 'Pendiente Aprobacion' :
+                                              (row.ESTADO == 6 && ROL == 6) ? 'Pendiente Aprobacion' :
+                                                (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 2) ? 'En Gestion' :
+                                                  (row.ESTADO != 3 && ROL == 3) ? 'En Gestion' :
+                                                    (row.ESTADO != 4 && ROL == 4) ? 'En Gestion' :
+                                                      (row.ESTADO != 5 && ROL == 5) ? 'En Gestion' :
+                                                        (row.ESTADO != 6 && ROL == 6) ? 'En Gestion' :
+                                                          ''}}
+                          </a></td>
+                        <!--                      <td mat-cell *matCellDef="let row"-->
+                        <!--                          style="font-size: 12px;word-break: break-all"><a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :-->
+                        <!--                        (row.ESTADO >= 2 && row.ESTADO <= 6 && ROL == 39) ? 'gray' :-->
+                        <!--                        (ROL == 39 && row.ESTADO == 1) ? 'darkgray' :-->
+                        <!--                        (ROL == 39 && row.ESTADO == 7) ? 'green' :-->
+                        <!--                        (ROL == 39 && row.ESTADO == 0) ? 'black' : 'blue' }">-->
+                        <!--                        {{(row.ESTADO >= 2 && row.ESTADO <= 6 && ROL == 39) ? 'Pendiente Aprobación' :-->
+                        <!--                        (row.ESTADO == 1 && ROL == 39) ? 'Anulado' :-->
+                        <!--                          (row.ESTADO == 0 && ROL == 39) ? 'Rechazado' :-->
+                        <!--                            (row.ESTADO == 7 && ROL == 39) ? 'Aprobado' : ''}}</a></td>-->
+                      </ng-container>
 
-                    <!-- Fruit Column -->
-                    <ng-container matColumnDef="Unidad">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header
-                          style="font-size: 14px;font-weight: bolder;color: black"> Unidad
-                      </th>
-                      <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;"> {{row.nombre_de_la_unidad_de | titlecase}} </td>
-                    </ng-container>
+                      <!-- Fruit Column -->
+                      <ng-container matColumnDef="Fecha">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="font-size: 14px;font-weight: normal;color: black"> Fecha
+                        </th>
+                        <td mat-cell *matCellDef="let row"
+                            style="font-size: 12px;;font-weight: lighter"> {{row.CREATED | date}} </td>
+                      </ng-container>
 
-                    <ng-container matColumnDef="ValorOferta">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header
-                          style="font-size: 14px;font-weight: bolder;color: black"> Valor Oferta
-                      </th>
-                      <td mat-cell *matCellDef="let row"
-                          style="font-size: 11px;color: rosybrown;font-weight: bold;text-align: right;"> {{row.precio_base | currency}} </td>
-                    </ng-container>
+                      <ng-container matColumnDef="Creador">
+                        <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: normal;color: black"
+                            mat-sort-header>
+                          Creador
+                        </th>
+                        <td mat-cell *matCellDef="let row"
+                            style="font-size: 12px;font-weight: lighter">{{row.USR_LOGIN | titlecase}} </td>
+                      </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                      <ng-container matColumnDef="ValorOferta">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="font-size: 14px;font-weight: normal;color: black"> Valor Oferta
+                        </th>
+                        <td mat-cell *matCellDef="let row"
+                            style="font-size: 11px;color: rosybrown;font-weight: lighter;text-align: right;"> {{row.VAL_OFERTA | currency}} </td>
+                      </ng-container>
 
-                    <!-- Row shown when there is no matching data. -->
-                    <tr class="mat-row" *matNoDataRow>
-                      <td class="mat-cell" colspan="4">No data matching the filter "{{inputSecop.value}}"</td>
-                    </tr>
-                  </table>
+                      <tr mat-header-row *matHeaderRowDef="displayedColumnsProcess"></tr>
+                      <tr class="hoverOnTable" (click)="goDetail(row)" data-toggle="modal" data-target="#modal-default"
+                          mat-row *matRowDef="let row; columns: displayedColumnsProcess;"></tr>
 
-                  <mat-paginator #paginatorSecop [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                      <!-- Row shown when there is no matching data. -->
+                      <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                      </tr>
+                    </table>
+
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                                   aria-label="Select page of users"></mat-paginator>
+                  </div>
+
+                  <!--                <table class="align-middle table table-bordered table-striped table-hover"-->
+                  <!--                >-->
+                  <!--                  <thead>-->
+                  <!--                  <tr class="tit_table text-sm">-->
+                  <!--                    &lt;!&ndash;                    <th scope="col">#</th>&ndash;&gt;-->
+                  <!--                    <th scope="col">Numeración</th>-->
+                  <!--                    <th scope="col">ID Secop</th>-->
+                  <!--                    <th scope="col">Nombre del Proceso</th>-->
+                  <!--                    <th scope="col">Dependencia</th>-->
+                  <!--                    <th scope="col">Unidad</th>-->
+                  <!--                    <th scope="col">Equipo</th>-->
+                  <!--                    &lt;!&ndash;<th scope="col">Facturación de la entidad</th>&ndash;&gt;-->
+                  <!--                    <th scope="col">Valor oferta</th>-->
+                  <!--                    <th scope="col">Opciones</th>-->
+                  <!--                  </tr>-->
+                  <!--                  </thead>-->
+                  <!--                  <tbody>-->
+                  <!--                  <tr *ngFor="let info of info_process">-->
+                  <!--                    &lt;!&ndash;                    <td class="text-sm" row>{{ i + 1 }}</td>&ndash;&gt;-->
+                  <!--                    <td row style="font-size: 12px; color: #545cd8; font-weight: bold">{{ info.CONS_PROCESO }}</td>-->
+                  <!--                    <td style="font-size: 12px;font-weight: bold">-->
+                  <!--                                <span-->
+                  <!--                                  style="color: rosybrown"-->
+                  <!--                                  *ngIf="!info.SECOP_CODE"-->
+                  <!--                                >Pendiente</span-->
+                  <!--                                >-->
+                  <!--                      <span>{{ info.SECOP_CODE }}</span>-->
+                  <!--                    </td>-->
+                  <!--                    <td style="font-size: 12px;">{{ info.NOMBRE_PROCESO }}</td>-->
+                  <!--                    <td style="font-size: 12px;">{{ info.ENTIDAD_CODE }}</td>-->
+                  <!--&lt;!&ndash;                    <td style="font-size: 12px;">{{ info.DEP_CODE }}</td>&ndash;&gt;-->
+                  <!--                    <td style="font-size: 12px;">{{ info.UNI_CONTRATACION }}</td>-->
+                  <!--                    <td style="font-size: 12px;">{{ info.EQUIPO_CONTRATACION }}</td>-->
+                  <!--                    &lt;!&ndash;<td>{{ info.FACT_ENTIDAD }}</td>&ndash;&gt;-->
+                  <!--                    &lt;!&ndash;                     <td" *ngIf="info.VAL_OFERTA > 0" >{{ info.VAL_OFERTA | currency }}</td>&ndash;&gt;-->
+                  <!--                    <td style="font-size: 12px;">{{ info.VAL_OFERTA | currency }}</td>-->
+                  <!--                    <td style="font-size: 12px;">-->
+                  <!--                      &lt;!&ndash;                      <a href="#" target="_blank" rel="noopener noreferrer">&ndash;&gt;-->
+                  <!--                      &lt;!&ndash;                                    Ver detalle&ndash;&gt;-->
+                  <!--                      &lt;!&ndash;                      </a>&ndash;&gt;-->
+                  <!--                      <a-->
+                  <!--                        routerLink="/home/administration-ci/det_aut/{{-->
+                  <!--                                    info.CONS_PROCESO-->
+                  <!--                                  }}"-->
+                  <!--                        routerLinkActive="active-item"-->
+                  <!--                        [routerLinkActiveOptions]="{ exact: true }"-->
+                  <!--                        class="vsm-link"-->
+                  <!--                      >-->
+                  <!--                        <span class="vsm-title">Revisar</span>-->
+                  <!--                      </a>-->
+                  <!--                    </td>-->
+                  <!--                  </tr>-->
+                  <!--                  </tbody>-->
+                  <!--                </table>-->
+
+                  <!--                <div class="d-flex justify-content-center">-->
+                  <!--                  <pagination-controls-->
+                  <!--                    (pageChange)="page = $event"-->
+                  <!--                    previousLabel="Anterior"-->
+                  <!--                    nextLabel="Siguiente"-->
+                  <!--                  ></pagination-controls>-->
+                  <!--                </div>-->
                 </div>
-
-                <!--                <table class="align-middle table table-bordered table-striped table-hover"-->
-                <!--                >-->
-                <!--                  <thead>-->
-                <!--                  <tr class="tit_table text-sm">-->
-                <!--                    &lt;!&ndash;                    <th scope="col">#</th>&ndash;&gt;-->
-                <!--                    <th scope="col">Numeración</th>-->
-                <!--                    <th scope="col">ID Secop</th>-->
-                <!--                    <th scope="col">Nombre del Proceso</th>-->
-                <!--                    <th scope="col">Dependencia</th>-->
-                <!--                    <th scope="col">Unidad</th>-->
-                <!--                    <th scope="col">Equipo</th>-->
-                <!--                    &lt;!&ndash;<th scope="col">Facturación de la entidad</th>&ndash;&gt;-->
-                <!--                    <th scope="col">Valor oferta</th>-->
-                <!--                    <th scope="col">Opciones</th>-->
-                <!--                  </tr>-->
-                <!--                  </thead>-->
-                <!--                  <tbody>-->
-                <!--                  <tr *ngFor="let info of info_process">-->
-                <!--                    &lt;!&ndash;                    <td class="text-sm" row>{{ i + 1 }}</td>&ndash;&gt;-->
-                <!--                    <td row style="font-size: 12px; color: #545cd8; font-weight: bold">{{ info.CONS_PROCESO }}</td>-->
-                <!--                    <td style="font-size: 12px;font-weight: bold">-->
-                <!--                                <span-->
-                <!--                                  style="color: rosybrown"-->
-                <!--                                  *ngIf="!info.SECOP_CODE"-->
-                <!--                                >Pendiente</span-->
-                <!--                                >-->
-                <!--                      <span>{{ info.SECOP_CODE }}</span>-->
-                <!--                    </td>-->
-                <!--                    <td style="font-size: 12px;">{{ info.NOMBRE_PROCESO }}</td>-->
-                <!--                    <td style="font-size: 12px;">{{ info.ENTIDAD_CODE }}</td>-->
-                <!--&lt;!&ndash;                    <td style="font-size: 12px;">{{ info.DEP_CODE }}</td>&ndash;&gt;-->
-                <!--                    <td style="font-size: 12px;">{{ info.UNI_CONTRATACION }}</td>-->
-                <!--                    <td style="font-size: 12px;">{{ info.EQUIPO_CONTRATACION }}</td>-->
-                <!--                    &lt;!&ndash;<td>{{ info.FACT_ENTIDAD }}</td>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                     <td" *ngIf="info.VAL_OFERTA > 0" >{{ info.VAL_OFERTA | currency }}</td>&ndash;&gt;-->
-                <!--                    <td style="font-size: 12px;">{{ info.VAL_OFERTA | currency }}</td>-->
-                <!--                    <td style="font-size: 12px;">-->
-                <!--                      &lt;!&ndash;                      <a href="#" target="_blank" rel="noopener noreferrer">&ndash;&gt;-->
-                <!--                      &lt;!&ndash;                                    Ver detalle&ndash;&gt;-->
-                <!--                      &lt;!&ndash;                      </a>&ndash;&gt;-->
-                <!--                      <a-->
-                <!--                        routerLink="/home/administration-ci/det_aut/{{-->
-                <!--                                    info.CONS_PROCESO-->
-                <!--                                  }}"-->
-                <!--                        routerLinkActive="active-item"-->
-                <!--                        [routerLinkActiveOptions]="{ exact: true }"-->
-                <!--                        class="vsm-link"-->
-                <!--                      >-->
-                <!--                        <span class="vsm-title">Revisar</span>-->
-                <!--                      </a>-->
-                <!--                    </td>-->
-                <!--                  </tr>-->
-                <!--                  </tbody>-->
-                <!--                </table>-->
-
-                <!--                <div class="d-flex justify-content-center">-->
-                <!--                  <pagination-controls-->
-                <!--                    (pageChange)="page = $event"-->
-                <!--                    previousLabel="Anterior"-->
-                <!--                    nextLabel="Siguiente"-->
-                <!--                  ></pagination-controls>-->
-                <!--                </div>-->
               </div>
             </div>
           </div>
-          <!--          <div class="card-body">-->
-          <!--            <div class="container">-->
-          <!--              <div class="table-responsive">-->
-          <!--                <table class="table table-bordered table-striped  row-border hover">-->
-          <!--                  <thead>-->
-          <!--                  <tr class="tit_table text-sm">-->
-          <!--                    <th scope="col">Id del proceso</th>-->
-          <!--                    <th scope="col">Ref del proceso</th>-->
-          <!--                    <th scope="col">Nombre del contrato</th>-->
-          <!--                    <th scope="col">Entidad estatal</th>-->
-          <!--                    &lt;!&ndash;                    <th scope="col">Tipo de contrato</th>&ndash;&gt;-->
-          <!--                    &lt;!&ndash;                    <th scope="col">Fecha firma</th>&ndash;&gt;-->
-          <!--                    &lt;!&ndash;                    <th scope="col">Fecha finalizaciòn</th>&ndash;&gt;-->
-          <!--                    <th scope="col">Tipo de contrato</th>-->
-          <!--                    <th scope="col">Fase</th>-->
-          <!--                    &lt;!&ndash;                    <th scope="col">URL Proceso</th>&ndash;&gt;-->
-          <!--                  </tr>-->
-          <!--                  </thead>-->
-          <!--                  <tbody>-->
-          <!--                  <tr *ngFor="let res of result">-->
-          <!--                    <td row style="font-size: 12px; color: #545cd8; font-weight: bold">{{ res.id_del_proceso}}</td>-->
-          <!--                    <td row style="font-size: 12px">{{ res.referencia_del_proceso | titlecase}}</td>-->
-          <!--                    <td style="font-size: 12px">{{ res.nombre_del_procedimiento | titlecase}}</td>-->
-          <!--                    <td style="font-size: 12px">{{ res.entidad | titlecase}}</td>-->
-          <!--                    &lt;!&ndash;                    <td style="font-size: 12px">{{ res.tipo_de_contrato| titlecase }}</td>&ndash;&gt;-->
-          <!--                    &lt;!&ndash;                    <td style="font-size: 12px">{{ res.fecha_de_publicacion_del | titlecase }}</td>&ndash;&gt;-->
-          <!--                    &lt;!&ndash;                    <td style="font-size: 12px">{{ res.fecha_de_ultima_publicaci | titlecase }}</td>&ndash;&gt;-->
-          <!--                    <td style="font-size: 12px">{{ res.tipo_de_contrato | titlecase }}</td>-->
-          <!--                    <td style="font-size: 12px">{{ res.fase | titlecase}}</td>-->
-          <!--                    &lt;!&ndash;                    <td></td>&ndash;&gt;-->
-          <!--                  </tr>-->
-          <!--                  </tbody>-->
-          <!--                </table>-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
         </div>
-      </div>
-    </section>
+      </section>
+      <!--  MIS PROCESOS  -->
 
-    <br/>
+      <br/>
+      <!--  PROCESOS EN SECOP  -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+            <!--          <div class="card-header" style="background-color: lavender">-->
+            <div class="card-header" style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
+              <div class="card-tools">
+                <button
+                  type="button"
+                  class="btn btn-tool"
+                  data-card-widget="collapse"
+                >
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
 
-  </div>
+              <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
+              <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
+                <span>{{ "procesos.procesosSecop" | translate }}</span>
+              </h6>
+            </div>
+            <div class="card-body">
+              <div>
+                <div class="table-responsive">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyFilterSecop($event)" placeholder="" #inputSecop>
+                  </mat-form-field>
+                  <div class="example-container mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSourceSecop" #sortSecop matSort>
+
+                      <!-- ID Column -->
+                      <ng-container matColumnDef="Num">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="font-size: 14px;font-weight: normal;color: black;"> Número
+                        </th>
+                        <!--                      style="font-size: 11px;color: #545cd8; font-weight: bold"> {{row.id_del_proceso}} </td>-->
+                        <td mat-cell *matCellDef="let row"
+                            style="font-size: 11px;color: #545cd8; font-weight: lighter"> {{row.nit_entidad}} </td>
+                      </ng-container>
+
+                      <!-- Progress Column -->
+                      <ng-container matColumnDef="Nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="font-size: 14px;font-weight: normal;color: black"> Nombre del proceso
+                        </th>
+                        <td mat-cell *matCellDef="let row"
+                            style="font-size: 12px;word-break: break-all; font-weight: lighter"> {{row.nombre_del_procedimiento | titlecase}} </td>
+                      </ng-container>
+
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="Entidad">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="font-size: 14px;font-weight: normal;color: black"> Entidad
+                        </th>
+                        <td mat-cell *matCellDef="let row" style="font-size: 12px; font-weight: lighter"> {{row.entidad | titlecase}} </td>
+                      </ng-container>
+
+                      <!-- Fruit Column -->
+                      <ng-container matColumnDef="Unidad">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="font-size: 14px;font-weight: normal;color: black"> Unidad
+                        </th>
+                        <td mat-cell *matCellDef="let row"
+                            style="font-size: 12px; font-weight: lighter"> {{row.nombre_de_la_unidad_de | titlecase}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="ValorOferta">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="font-size: 14px;font-weight: normal;color: black"> Valor Oferta
+                        </th>
+                        <td mat-cell *matCellDef="let row"
+                            style="font-size: 11px;color: rosybrown;font-weight: lighter;text-align: right;"> {{row.precio_base | currency}} </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                      <!-- Row shown when there is no matching data. -->
+                      <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{inputSecop.value}}"</td>
+                      </tr>
+                    </table>
+
+                    <mat-paginator #paginatorSecop [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--  END PROCESOS EN SECOP  -->
+
+      <br/>
+    </div>
   <!-- /.content-wrapper -->
 
   <!-- Control Sidebar -->

@@ -1,6 +1,7 @@
 #background-home {
     /* background-image: url('src/assets/img/contracts.jpg'); */
     background-color: gray;
+    /*width: 1000px;*/
     background-size: cover;
     /* min-width: 90%; */
 }

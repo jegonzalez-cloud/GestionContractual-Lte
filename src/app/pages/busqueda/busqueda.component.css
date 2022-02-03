@@ -90,10 +90,10 @@ tr.hoverOnTable:hover {
   cursor: pointer;
 }
 
-button.btn-primary{
-  background-color: var(--companyColor);
-  border-color: var(--companyColor);
-}
+/*button.btn-primary{*/
+/*  background-color: var(--companyColor);*/
+/*  border-color: var(--companyColor);*/
+/*}*/
 
 /*tr.hoverOnTable:not(.hoverOnTable):active {*/
 /*  background: #efefef;*/

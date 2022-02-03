@@ -107,7 +107,7 @@ div.callout{
   border-left-color: var(--companyColor);
 }
 
-button.btn-primary{
-  background-color: var(--companyColor);
-  border-color: var(--companyColor);
-}
+/*button.btn-primary{*/
+/*  background-color: var(--companyColor);*/
+/*  border-color: var(--companyColor);*/
+/*}*/

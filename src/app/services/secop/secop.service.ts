@@ -221,4 +221,21 @@ export class SecopService {
   public insertCdp(cdp:any){
     return this.httpClient.post(`${environment.apiTestUrl}contratos/insertCdp`, cdp);
   }
+
+  public getAllProfesions(token:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getAllProfesions?token=${token}`);
+  }
+
+  public updateProcessComplete(process:any){
+    return this.httpClient.post(`${environment.apiTestUrl}contratos/updateProcessComplete`, process);
+  }
+
+  public deleteCdp(proceso:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/deleteCdp?proceso=${proceso}`);
+  }
+
+  public getClasificacionBienes(token:any,codigo:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getClasificacionBienes?token=${token}&codigo=${codigo}`);
+  }
+
 }

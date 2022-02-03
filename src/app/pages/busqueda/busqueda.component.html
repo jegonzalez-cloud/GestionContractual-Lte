@@ -2,7 +2,9 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" id="background-home">
 
-    <button type="button" [hidden]="true" #openbutton class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open</button>
+    <button type="button" [hidden]="true" #openbutton class="btn btn-info btn-lg" data-toggle="modal"
+            data-target="#myModal">Open
+    </button>
 
     <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog modal-dialog-scrollable">
@@ -16,7 +18,7 @@
           </div>
           <div class="modal-body">
             <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>
-            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;"disabled>
+            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;" disabled>
               N° Cuotas <span class="badge rounded-pill bg-secondary">{{cantidadCuotas}}</span>
             </button>
             <div class="callout callout-danger" *ngFor="let d of infoPagos">
@@ -57,7 +59,8 @@
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content" style="width: auto">
           <div class="modal-header">
-            <h4 class="modal-title"><b style="font-size: larger">Proceso # <a style="color: var(--companyColor)">{{PROCESO}}</a></b>
+            <h4 class="modal-title"><b style="font-size: larger">Proceso # <a
+              style="color: var(--labelColor)">{{PROCESO}}</a></b>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -66,7 +69,7 @@
           <div class="modal-body modal-dialog-scrollable">
             <div>
               <div class="callout callout-danger">
-                <p><b style="color: var(--companyColor);font-size: 16px">Información General</b></p>
+                <p><b style="color: var(--labelColor);font-size: 16px">Información General</b></p>
                 <p><b>Tipo Proceso :</b> {{TIPO_PROCESO}}</p>
                 <p><b>Tipo Contrato :</b> {{TIPO_CONTRATO}}</p>
                 <p><b>Justificación Tipo Contrato :</b> {{JUST_TIPO_PROCESO}}</p>
@@ -78,7 +81,7 @@
 
 
               <div class="callout callout-danger">
-                <p><b style="color: var(--companyColor);font-size: 16px">Datos Personales</b></p>
+                <p><b style="color: var(--labelColor);font-size: 16px">Datos Personales</b></p>
                 <p><b>Tipo identificacion Proveedor :</b> {{TIP_IDEN_PROV}}</p>
                 <p><b>Cédula Proveedor :</b> {{COD_PROV}}</p>
                 <p><b>Nombre Proveedor :</b> {{NOM_PROV}}</p>
@@ -93,7 +96,7 @@
               </div>
 
               <div class="callout callout-danger">
-                <p><b style="color: var(--companyColor);font-size: 16px">Configuración</b></p>
+                <p><b style="color: var(--labelColor);font-size: 16px">Configuración</b></p>
                 <p><b>Documentos Tipo :</b> {{DOCUMENTOS_TIPO}}</p>
                 <p><b>Interadministrativos :</b> {{INTERADMINISTRATIVOS}}</p>
                 <p><b>Definir Lotes :</b> {{DEFINIR_LOTES}}</p>
@@ -109,22 +112,36 @@
           </div>
           <div class="modal-footer justify-content-between">
             <!--            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-            <!--            <button type="button" class="btn btn-secondary"-->
-            <!--                    data-dismiss="modal"-->
-            <!--                    (click)="rechazarAutorizacion(PROCESO)"-->
-            <!--                    [ngStyle]="{'display': (ROL == 40 && ESTADO != 1) ? 'none' : (ROL == 41 && ESTADO !=2) ? 'none' : (ROL == 42 && ESTADO != 3) ? 'none' : 'block' }">-->
-            <!--              Rechazar-->
-            <!--            </button>-->
-            <!--            <button type="button" class="btn btn-primary"-->
-            <!--                    data-dismiss="modal"-->
-            <!--                    (click)="aprobarAutorizacion(PROCESO)"-->
-            <!--                    [ngStyle]="{'display': (ROL == 40 && ESTADO != 1) ? 'none' : (ROL == 41 && ESTADO !=2) ? 'none' : (ROL == 42 && ESTADO != 3) ? 'none' : 'block' }">-->
-            <!--              Autorizar-->
-            <!--            </button>-->
+            <button type="button" class="btn btn-secondary"
+                    data-dismiss="modal"
+                    (click)="rechazarAutorizacion(PROCESO)"
+                    [ngStyle]="{'display':
+                    (ROL == 1) ? 'none' :
+                    (ROL == 2 && ESTADO != 2) ? 'none' :
+                    (ROL == 3 && ESTADO != 3) ? 'none' :
+                    (ROL == 4 && ESTADO != 4) ? 'none' :
+                    (ROL == 5 && ESTADO != 5) ? 'none' :
+                    (ROL == 6 && ESTADO != 6) ? 'none' :
+                    'block' }">
+              Rechazar
+            </button>
+            <button type="button" class="btn btn-primary"
+                    data-dismiss="modal"
+                    (click)="aprobarAutorizacion(PROCESO)"
+                    [ngStyle]="{'display':
+                    (ROL == 1) ? 'none' :
+                    (ROL == 2 && ESTADO != 2) ? 'none' :
+                    (ROL == 3 && ESTADO != 3) ? 'none' :
+                    (ROL == 4 && ESTADO != 4) ? 'none' :
+                    (ROL == 5 && ESTADO != 5) ? 'none' :
+                    (ROL == 6 && ESTADO != 6) ? 'none' :
+                    'block' }">
+              Autorizar
+            </button>
 
             <button type="button" class="btn btn-secondary"
                     data-dismiss="modal"
-                    (click)="anularProceso(PROCESO)"
+                    (click)="validarAnulacion(PROCESO)"
                     [ngStyle]="{'display': (ROL == 1 && ESTADO == 2) ? 'block' : 'none'}">
               Anular
             </button>
@@ -132,13 +149,19 @@
                     data-dismiss="modal"
                     (click)="fillModal(PROCESO)"
                     [ngStyle]="{'display':
-                    (ROL == 2 && ESTADO == 1) ? 'none' : (ROL == 1 && ESTADO == 2) ? 'none' : (ROL == 3 && ESTADO ==2) ? 'none' : (ROL == 4 && ESTADO == 3) ? 'none' : (ROL == 3 && ESTADO == 1) ? 'none' : (ROL == 4 && ESTADO ==1) ? 'none' : (ROL == 5 && ESTADO == 1) ? 'none' : (ROL == 6 && ESTADO ==1) ? 'none' : (ROL == 6 && ESTADO == 2) ? 'none' : 'block' }">
+                    (ROL == 1 && ESTADO >= 0 && ESTADO != 2) ? 'block' :
+                    (ROL == 2 && ESTADO >= 0 && ESTADO != 2) ? 'block' :
+                    (ROL == 3 && ESTADO >= 0 && ESTADO != 3 && ESTADO != 2) ? 'block' :
+                    (ROL == 4 && ESTADO >= 0 && ESTADO != 4 && ESTADO != 2) ? 'block' :
+                    (ROL == 5 && ESTADO >= 0 && ESTADO != 5 && ESTADO != 2) ? 'block' :
+                    (ROL == 6 && ESTADO >= 0 && ESTADO != 6 && ESTADO != 2) ? 'block' :
+                    'none' }">
               Historial
             </button>
             <button type="button" class="btn btn-outline-primary"
                     data-dismiss="modal"
                     (click)="getPagosXRpc(PROCESO)"
-                    [ngStyle]="{'display': (ESTADO >= 7) ? 'block' :'none'}">
+                    [ngStyle]="{'display': (ESTADO == 8) ? 'block' :'none'}">
               Pagos
             </button>
             <!--            <button type="button" class="btn btn-warning"-->
@@ -180,7 +203,7 @@
               </button>
             </div>
 
-            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
+            <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
               <i class="fas fa-search"></i>
               <span>  {{'busqueda.busqueda' | translate}}</span>
             </h6>
@@ -268,7 +291,7 @@
                         <button
                           [disabled]="busquedaForm.invalid"
                           type="submit"
-                          class="btn btn-primary float-left btn-sm btn-block"
+                          class="btn btn-primary float-left btn-sm ml-2"
                         >
                           <span>Buscar <i class="fa fa-search"></i></span>
                         </button>
@@ -316,11 +339,15 @@
                   <table mat-table [dataSource]="dataSource" matSort>
                     <!-- ID Column -->
                     <ng-container matColumnDef="Num">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;" mat-sort-header>
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: bolder;color: black;">
                         Número
                       </th>
                       <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.CONS_PROCESO | uppercase}} </td>
+                          style="font-size: 12px;color: #545cd8; font-weight: bold"
+                          > {{row.CONS_PROCESO | uppercase}} <svg *ngIf="(row.ESTADO > 2 && ROL == 2) || (row.ESTADO > 3 && ROL == 3)||(row.ESTADO > 4 && ROL == 4)|| (row.ESTADO > 5 && ROL == 5)||  (row.ESTADO > 6 && ROL == 6)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                      </svg></td>
                     </ng-container>
 
                     <ng-container matColumnDef="Identificacion">
@@ -333,7 +360,8 @@
 
                     <!-- Progress Column -->
                     <ng-container matColumnDef="Nombre">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black" mat-sort-header>
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"
+                          mat-sort-header>
                         Contratista
                       </th>
                       <td mat-cell *matCellDef="let row"
@@ -342,47 +370,53 @@
 
                     <!-- Name Column -->
                     <ng-container matColumnDef="Estado">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black" mat-sort-header>
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"
+                          mat-sort-header>
                         Estado
                       </th>
-                      <td mat-cell *matCellDef="let row" style="font-size: 12px;font-weight: bold" >
+                      <td mat-cell *matCellDef="let row" style="font-size: 12px;font-weight: bold;">
                         <a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :
-                        ((row.ESTADO >= 2 && row.ESTADO < 7) && ROL == 1) ? 'gray' :
-                        (row.ESTADO == 2 && ROL == 2) ? 'gray' :
-                        (row.ESTADO == 3 && ROL == 3) ? 'gray' :
-                        ((row.ESTADO < 4) && ROL == 3) ? 'gray' :
-                        ((row.ESTADO < 5) && ROL == 4) ? 'gray' :
-                        ((row.ESTADO < 6) && ROL == 5) ? 'gray' :
-                        ((row.ESTADO < 7) && ROL == 6) ? 'gray' :
-                        (row.ESTADO == 4 && ROL == 4) ? 'gray' :
-                        (row.ESTADO == 5 && ROL == 5) ? 'gray' :
-                        (row.ESTADO == 6 && ROL == 6) ? 'gray' :
-                        (row.ESTADO == 1) ? 'red' :
-                        (row.ESTADO >= 3 && row.ESTADO <= 7 && ROL == 2) ? 'green' :
-                        (row.ESTADO >= 4 && row.ESTADO <= 7 && ROL == 3) ? 'green' :
-                        (row.ESTADO >= 5 && row.ESTADO <= 7 && ROL == 4) ? 'green' :
-                        (row.ESTADO >= 6 && row.ESTADO <= 7 && ROL == 5) ? 'green' :
-                        (row.ESTADO == 7 && ROL == 6) ? 'green' :
-                        (row.ESTADO == 0) ? 'black' : 'blue' }">
-                          {{((row.ESTADO > 2 && row.ESTADO < 7) && ROL == 1)? 'En flujo':(row.ESTADO == 2 && ROL == 1) ? 'Creado' :(row.ESTADO == 7 && ROL == 1)?'Aprobado':(row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobación' :((row.ESTADO >= 3 && row.ESTADO <= 6) && (ROL == 2 || ROL == 1)) ? 'En flujo'
-                          :(row.ESTADO >= 4 && row.ESTADO <= 6) && ROL == 3 ? 'En flujo'
-                            :((row.ESTADO < 4) && ROL == 3) ? 'Pendiente Aprobación'
-                            :((row.ESTADO < 5) && ROL == 4) ? 'Pendiente Aprobación'
-                            :((row.ESTADO < 6) && ROL == 5) ? 'Pendiente Aprobación'
-                            :((row.ESTADO < 7) && ROL == 6) ? 'Pendiente Aprobación'
-                              :(row.ESTADO >= 5 && row.ESTADO <= 6) && ROL == 4 ? 'En flujo'
-                                :(row.ESTADO >= 6 && row.ESTADO <= 6) && ROL == 5 ? 'En flujo'
-                                  :(row.ESTADO >= 3 && row.ESTADO <= 6) ? 'Pendiente Aprobación' :
-                                    (row.ESTADO == 0) ? 'Rechazado' :
-                                      (row.ESTADO == 1) ? 'Anulado' :
-                                        (row.ESTADO == 7) ? 'Aprobado' : (row.ESTADO == 8) ? 'Liquidado' : ''}}
+                        (row.ESTADO == 1) ? 'gray' :
+                        (row.ESTADO == 2 && ROL != 2) ? 'blue' :
+                        (row.ESTADO == 7) ? 'green' :
+                        (row.ESTADO == 8) ? 'black' :
+                        (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'goldenrod' :
+                        (row.ESTADO != 2 && ROL == 2) ? 'goldenrod' :
+                        (row.ESTADO != 3 && ROL == 3) ? 'goldenrod' :
+                        (row.ESTADO != 4 && ROL == 4) ? 'goldenrod' :
+                        (row.ESTADO != 5 && ROL == 5) ? 'goldenrod' :
+                        (row.ESTADO != 6 && ROL == 6) ? 'goldenrod' :
+                        (row.ESTADO == 2 && ROL == 2) ? 'goldenrod' :
+                        (row.ESTADO == 3 && ROL == 3) ? 'goldenrod' :
+                        (row.ESTADO == 4 && ROL == 4) ? 'goldenrod' :
+                        (row.ESTADO == 5 && ROL == 5) ? 'goldenrod' :
+                        (row.ESTADO == 6 && ROL == 6) ? 'goldenrod' :
+                        'rose' }">
+                          {{(row.ESTADO == 0) ? 'Rechazado' :
+                          (row.ESTADO == 1) ? 'Anulado' :
+                            (row.ESTADO == 2 && ROL != 2) ? 'Creado' :
+                              (row.ESTADO == 7) ? 'Aprobado' :
+                                (row.ESTADO == 8) ? 'Liquidado' :
+                                  (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'En Gestion' :
+                                    (row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobacion' :
+                                    (row.ESTADO == 3 && ROL == 3) ? 'Pendiente Aprobacion' :
+                                    (row.ESTADO == 4 && ROL == 4) ? 'Pendiente Aprobacion' :
+                                    (row.ESTADO == 5 && ROL == 5) ? 'Pendiente Aprobacion' :
+                                    (row.ESTADO == 6 && ROL == 6) ? 'Pendiente Aprobacion' :
+                                      (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 2) ? 'En Gestion' :
+                                      (row.ESTADO != 3 && ROL == 3) ? 'En Gestion' :
+                                      (row.ESTADO != 4 && ROL == 4) ? 'En Gestion' :
+                                      (row.ESTADO != 5 && ROL == 5) ? 'En Gestion' :
+                                      (row.ESTADO != 6 && ROL == 6) ? 'En Gestion' :
+                                        ''}}
                         </a>
                       </td>
                     </ng-container>
 
                     <!-- Name Column -->
                     <ng-container matColumnDef="Fecha">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black" mat-sort-header>
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"
+                          mat-sort-header>
                         Fecha Proceso
                       </th>
                       <td mat-cell *matCellDef="let row"
@@ -391,7 +425,8 @@
 
                     <!-- Name Column -->
                     <ng-container matColumnDef="Creador">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black" mat-sort-header>
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"
+                          mat-sort-header>
                         Creador
                       </th>
                       <td mat-cell *matCellDef="let row"
@@ -412,7 +447,8 @@
 
                     <!-- Fruit Column -->
                     <ng-container matColumnDef="ValorOferta">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black" mat-sort-header>
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"
+                          mat-sort-header>
                         Valor Oferta
                       </th>
                       <td mat-cell *matCellDef="let row"

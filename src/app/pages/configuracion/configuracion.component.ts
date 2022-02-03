@@ -32,6 +32,7 @@ export class ConfiguracionComponent implements OnInit {
   tiposProceso: any;
   hiringTeams!: any[];
   hiringUnit!: any[];
+  private token: string = localStorage.getItem('token')!;
 
   @ViewChild('CloseEntidad') CloseEntidad:any;
   @ViewChild('CloseRol') CloseRol:any;
@@ -91,6 +92,7 @@ export class ConfiguracionComponent implements OnInit {
       salarioMinimo: new FormControl(atob(localStorage.getItem('salarioMinimo')!)),
       topeMaximo: new FormControl(atob(localStorage.getItem('topeMaximo')!)),
       cantidadSalarios: new FormControl(atob(localStorage.getItem('cantidadSalarios')!)),
+      sociedad: new FormControl(atob(localStorage.getItem('sociedad')!)),
     });
 
     this.registerRol = this.fb.group({
@@ -137,9 +139,10 @@ export class ConfiguracionComponent implements OnInit {
     this.secopService.updateConfigApp(dataForm).subscribe((response:any)=>{
       if(response.Values.ResultFields == 'Ok'){
         utils.showAlert('Configuración actualizada','success');
+        this.onUpdateConfig(this.token);
       }
       else{
-        utils.showAlert('No se pudo actualizar la configuración','error');
+        utils.showAlert('No se pudo actualizar la configuración','warning');
       }
     });
   }
@@ -154,14 +157,14 @@ export class ConfiguracionComponent implements OnInit {
     this.authService.getRolxId(atob(localStorage.getItem('token')!),20)
       .subscribe((data: any) => {
         this.roles = data.Values;
-      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
+      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'warning'))
   }
 
   GetUsersLB(){
     this.authService.GetUsersLB(atob(localStorage.getItem('token')!))
       .subscribe((data: any) => {
         this.users = data.Values;
-      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
+      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'warning'))
   }
 
   GetUsersConnect(){
@@ -182,7 +185,7 @@ export class ConfiguracionComponent implements OnInit {
         this.selectEntitys = jsonRetur;
 
         this.infoProcess();
-      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
+      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'warning'))
   }
 
   GetUsersConnection(idUser:number){
@@ -190,7 +193,7 @@ export class ConfiguracionComponent implements OnInit {
       .subscribe((data: any) => {
         this.UsersConnection = data.Values.ResultFields;
         this.infoProcessConnection();
-      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
+      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'warning'))
   }
 
   GetHiringTeams(eqcCod:number){
@@ -572,6 +575,23 @@ export class ConfiguracionComponent implements OnInit {
 
   onCloseEquipo(){
     this.CloseEquipo.nativeElement.click();
+  }
+
+  onUpdateConfig(token: any) {
+    this.authService.getConfigApp(token).subscribe((response: any) => {
+      localStorage.setItem("color", btoa(response.Values.ResultFields[0].CON_COLOR));
+      localStorage.setItem("linkCdp", btoa(response.Values.ResultFields[0].CON_LINK_CDP));
+      localStorage.setItem("linkPagos", btoa(response.Values.ResultFields[0].CON_LINK_PAGOS));
+      localStorage.setItem("linkProceso", btoa(response.Values.ResultFields[0].CON_LINK_CREARPROCESO));
+      localStorage.setItem("estadoProceso", btoa(response.Values.ResultFields[0].CON_LINK_CONSULTARESTADOPROCESO));
+      localStorage.setItem("salarioMinimo", btoa(response.Values.ResultFields[0].CON_SALARIO_MINIMO));
+      localStorage.setItem("topeMaximo", btoa(response.Values.ResultFields[0].CON_TOPE_MAXIMO));
+      localStorage.setItem("cantidadSalarios", btoa(response.Values.ResultFields[0].CON_CANTIDAD_SALARIOS));
+      localStorage.setItem("identificacionSecop", btoa(response.Values.ResultFields[0].CON_LINK_IDENTIFICACIONSECOP));
+      localStorage.setItem("dataSecop", btoa(response.Values.ResultFields[0].CON_LINK_SECOP));
+      localStorage.setItem("sociedad", btoa(response.Values.ResultFields[0].CON_SOCIEDAD));
+      this.router.navigate(['home']);
+    });
   }
 
 }

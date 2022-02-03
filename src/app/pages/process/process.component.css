@@ -26,11 +26,14 @@ td, th {
 table {
   width: 100%;
 }
-:host {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
+
+/*:host {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  align-items: flex-start;*/
+/*}*/
+
+
 
 .mat-column-Num {
   width: 18%;
@@ -128,11 +131,20 @@ tr.hoverOnTable:hover {
 }
 
 .nav-tabs .nav-link.active{
-  color: var(--companyColor);
+  color: var(--labelColor);
+  background-color: #F4F6F9;
+}
+
+.nav-tabs .nav-link{
+  color: lightgray;
 }
 
 a{
   color: #495057;
+}
+
+.bd:hover{
+  border: solid 2px var(--labelColor);
 }
 
 .card-header a.active{
@@ -143,10 +155,18 @@ div.callout{
   border-left-color: var(--companyColor);
 }
 
-button.btn-primary{
+button.btn-outline-primary{
   background-color: var(--companyColor);
-  border-color: var(--companyColor);
+  border-color: var(--sidebarColor);
+  color: var(--sidebarColor);
 }
+
+button.btn-outline-primary:hover{
+  background-color: var(--sidebarColor);
+  border-color: var(--companyColor);
+  color: var(--companyColor);
+}
+
 
 .cdk-global-overlay-wrapper, .cdk-overlay-container {
   z-index: 99999 !important;
@@ -159,3 +179,28 @@ button.btn-primary{
 .hoverCarga:hover{
   color: var(--companyColor);
 }
+
+.iconsBG{
+  font-size: smaller;
+}
+
+.iconsBG:hover{
+  text-decoration: underline;
+  /*color:var(--companyColor);*/
+  color:#000fff;
+  /*font-weight: bold;*/
+}
+
+div_container{
+  overflow: auto;
+}
+
+.borderIcon:hover{
+  color: #06092F;
+  /*font-size: large;*/
+}
+
+.nav-item .nav-link active{
+  color:red;
+}
+
