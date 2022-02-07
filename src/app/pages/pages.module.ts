@@ -68,6 +68,7 @@ import {TreeSelectModule} from "primeng/treeselect";
 import { ConfiguracionComponent } from './configuracion/configuracion.component';
 import { NgxLoadingModule } from 'ngx-loading';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { ModalProcessComponent } from './modal/modal-process/modal-process.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     BusquedaComponent,
     ReportesComponent,
     SampleComponent,
-    ConfiguracionComponent
+    ConfiguracionComponent,
+    ModalProcessComponent
   ],
   imports: [
     CommonModule,
@@ -148,6 +150,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     AutocompleteLibModule
   ],
   // exports:[NgbModule,TranslateModule],
+  // exports:[ModalProcessComponent],
   // providers:[CurrencyPipe]
 })
 

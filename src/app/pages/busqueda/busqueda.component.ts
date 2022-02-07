@@ -14,6 +14,7 @@ import * as pdfMake from "pdfmake/build/pdfmake";
 import {CurrencyPipe, formatCurrency} from '@angular/common';
 import * as func from "../../utils/functions";
 import {ServicesService} from "../../services/services.service";
+import {ModalService} from "../../services/modal/modal.service";
 
 @Component({
   selector: 'app-busqueda',
@@ -81,8 +82,9 @@ export class BusquedaComponent implements OnInit {
   CDPFIELDS: any = [];
   UNSPSCFIELDS: any = [];
   public autorizaciones: any;
+  public modalData!: any;
 
-  constructor(private service: ServicesService,private secopService: SecopService, private fb: FormBuilder,private router:Router,private authService:AuthService,@Inject(LOCALE_ID) public locale: string) {
+  constructor(private service: ServicesService,private secopService: SecopService, private fb: FormBuilder,private router:Router,private authService:AuthService,@Inject(LOCALE_ID) public locale: string,private modal: ModalService,) {
   }
 
   ngOnInit(): void {
@@ -172,6 +174,7 @@ export class BusquedaComponent implements OnInit {
 
   goDetail(row: any) {
     this.secopService.getSelectedProcess(this.token,row.CONS_PROCESO).subscribe((response: any) => {
+      this.modalData = response.Values.ResultFields[0][0];
       this.PROCESO_SELECCIONADO = response.Values.ResultFields[0][0];
       // console.log(response.Values.ResultFields);
       this.CENTRO_GESTOR = response.Values.ResultFields[0][0].CENTRO_GESTOR;
@@ -209,12 +212,9 @@ export class BusquedaComponent implements OnInit {
       this.VAL_OFERTA = response.Values.ResultFields[0][0].VAL_OFERTA;
       this.TIEMPO_DURACION_CONTRATO  = response.Values.ResultFields[0][0].TIEMPO_DURACION_CONTRATO ;
       this.DURACION_CONTRATO = response.Values.ResultFields[0][0].DURACION_CONTRATO;
-
-      console.log(response.Values.ResultFields[1][0]);
-      console.log(response.Values.ResultFields[1].length);
       this.CDPFIELDS = response.Values.ResultFields[1];
       this.UNSPSCFIELDS = response.Values.ResultFields[2];
-
+      this.modal.sendClickEvent();
       // this.autorizaciones = response.Values.ResultFields;
     });
   }

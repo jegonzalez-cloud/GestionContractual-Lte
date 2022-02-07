@@ -10,6 +10,7 @@ import {ServicesService} from "../../services/services.service";
 import {Subscription} from "rxjs";
 import * as utils from "../../utils/functions";
 import * as func from "../../utils/functions";
+import {ModalService} from "../../services/modal/modal.service";
 
 @Component({
   selector: 'app-navbar',
@@ -67,8 +68,9 @@ export class NavbarComponent implements OnInit {
   userImage = "./assets/img/avatar.png";
   nameUser: any;
   logoImage: any;
+  public modalData!: any;
 
-  constructor(private router: Router, private store: Store<AppState>, private authService: AuthService, private secopService: SecopService, private service: ServicesService) {
+  constructor(private router: Router, private store: Store<AppState>, private authService: AuthService, private secopService: SecopService, private service: ServicesService,private modal: ModalService) {
     this.changeVar();
     this.clickEventSubscription = this.service.getClickEvent().subscribe(() => {
       this.getAutorizaciones();
@@ -165,7 +167,7 @@ export class NavbarComponent implements OnInit {
     //   queryParams: {'id': row.CONS_PROCESO}
     // };
     this.secopService.getSelectedProcess(this.token, row).subscribe((response: any) => {
-      //console.log(response.Values.ResultFields);
+      this.modalData = response.Values.ResultFields[0][0];
       this.PROCESO = response.Values.ResultFields[0][0].CONS_PROCESO;
       this.CENTRO_GESTOR = response.Values.ResultFields[0][0].CENTRO_GESTOR;
       this.TIPO_PROCESO = response.Values.ResultFields[0][0].TIPO_PROCESO;
@@ -201,8 +203,7 @@ export class NavbarComponent implements OnInit {
       this.VAL_OFERTA = response.Values.ResultFields[0][0].VAL_OFERTA;
       this.TIEMPO_DURACION_CONTRATO = response.Values.ResultFields[0][0].TIEMPO_DURACION_CONTRATO;
       this.DURACION_CONTRATO = response.Values.ResultFields[0][0].DURACION_CONTRATO;
-      //
-      //   // this.autorizaciones = response.Values.ResultFields;
+      this.modal.sendClickEvent();
     });
   }
 

@@ -38,6 +38,9 @@ import {TooltipPosition} from '@angular/material/tooltip';
 import {concatMap, delay, map, switchMap} from "rxjs/operators";
 import {formatDate, formatPercent} from "@angular/common";
 import {error} from "jquery";
+import {ModalProcessComponent} from "../modal/modal-process/modal-process.component";
+import {ModalService} from "../../services/modal/modal.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-process',
@@ -171,6 +174,9 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   public clasificacionBienes: any;
   public clasificacionBienesAlmacenado: any;
   public modalidad: any;
+  public dataPrueba!: string;
+  public modalData!: any;
+  private clickEventSubscription!: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -183,12 +189,14 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     public dialog: MatDialog,
     private router: Router,
     private renderer: Renderer2,
+    private modal: ModalService,
     @Inject(LOCALE_ID) public locale: string
   ) {
     this.store.select('idioma').subscribe(({idioma}) => {
       this.idioma = idioma;
       this.translate.use(idioma);
     });
+
     this.modalidad = true
   }
 
@@ -198,6 +206,13 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.dataSourceSecop = new MatTableDataSource(this.result);
       this.dataSourceSecop.paginator = this.paginatorSecop;
       this.dataSourceSecop.sort = this.sortSecop;
+    });
+    this.clickEventSubscription = this.modal.getClickEventGetDataProcess().subscribe(() => {
+      this.getdataProcess();
+    });
+    this.clickEventSubscription = this.modal.getClickEventsubjectFillFields().subscribe(() => {
+      this.setFieldsToEdit();
+      this.onFocus();
     });
   }
 
@@ -805,7 +820,11 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   goDetail(row: any) {
+    console.log(this.token, row.CONS_PROCESO)
     this.secopService.getSelectedProcess(this.token, row.CONS_PROCESO).subscribe((response: any) => {
+      // this.modalActive = true;
+
+      this.modalData = response.Values.ResultFields[0][0];
       this.PROCESO = response.Values.ResultFields[0][0].CONS_PROCESO;
       this.CENTRO_GESTOR = response.Values.ResultFields[0][0].CENTRO_GESTOR;
       this.TIPO_PROCESO = response.Values.ResultFields[0][0].TIPO_PROCESO;
@@ -842,6 +861,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.DURACION_CONTRATO = response.Values.ResultFields[0][0].DURACION_CONTRATO;
       this.CDPFIELDS = response.Values.ResultFields[1];
       this.UNSPSCFIELDS = response.Values.ResultFields[2];
+      this.modal.sendClickEvent();
     });
   }
 
@@ -1200,8 +1220,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                                       (dataExcel.CATCONTRATACION == 2) ? 'Asistencial' :
                                         (dataExcel.CATCONTRATACION == 3) ? 'Profesional' :
                                           (dataExcel.CATCONTRATACION == 4) ? 'Profesional Especializado' :
-                                            (dataExcel.CATCONTRATACION == 5) ? 'Tecnico' :
-                                              (dataExcel.CATCONTRATACION == 6) ? 'Tecnologo' : '';
+                                            (dataExcel.CATCONTRATACION == 5) ? 'Técnico' :
+                                              (dataExcel.CATCONTRATACION == 6) ? 'Tecnólogo' : '';
 
                                     if (dataExcel.CATCONTRATACION.toString() != '') {
                                       dataFormulario.push(dataExcel.CATCONTRATACION);

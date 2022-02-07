@@ -1,0 +1,192 @@
+<!-- Button trigger modal -->
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">-->
+<!--  Launch static backdrop modal-->
+<!--</button>-->
+
+<button type="button" [hidden]="true" #openbuttonListadoPagos class="btn btn-info btn-lg" data-toggle="modal"
+        data-target="#myModal">Open
+</button>
+
+<button type="button" [hidden]="true" #openbutton role="dialog" class="btn btn-info btn-lg" data-toggle="modal"
+        data-target="#modal-default">Open
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content" style="width: auto">
+      <div class="modal-header" style="background-color: #F0F2F5;height: 10%;">
+        <h4 class="modal-title"><span style="font-size: larger;font-weight: normal">Proceso N° <a
+          style="color: var(--labelColor);font-weight: lighter;font-size: medium">{{proceso || ''}}</a></span>
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body modal-dialog-scrollable">
+        <div>
+          <div class="callout" style="font-weight: lighter">
+            <h4 style="text-align: start;margin-top: 1%;margin-bottom: 5%">
+              <!--                  <label style="color: var(&#45;&#45;labelColor);font-weight: lighter">Valor Contrato</label>-->
+              <span class="badge badge-pill badge-light "
+                    style="color:var(--labelColor);border: 1px solid;font-weight: normal;font-size: medium"> Información General</span>
+            </h4>
+            <!--                <p><b style="color: var(&#45;&#45;labelColor);font-size: 16px;font-weight: normal">Información General</b></p>-->
+            <div>
+              <p><span class="textSmall">Tipo Proceso : </span> <span class="textSmaller">{{tipo_proceso}}</span></p>
+              <p><span class="textSmall">Tipo Contrato : </span><span class="textSmaller">{{tipo_contrato}}</span></p>
+              <p><span class="textSmall">Justificación Tipo Contrato : </span><span
+                class="textSmaller">{{justificacion_proceso}}</span></p>
+              <p style="word-break: break-all"><span class="textSmall">Nombre Proceso : </span><span
+                class="textSmaller">{{nombre_proceso}}</span></p>
+              <p><span class="textSmall">Unidad Contratación : </span><span
+                class="textSmaller"> {{unidad_contratacion}}</span></p>
+              <p><span class="textSmall">Equipo Contratación : </span><span
+                class="textSmaller">{{equipo_contratacion}}</span></p>
+              <p style="word-break: break-all"><span class="textSmall">Objeto Proceso : </span> <span
+                class="textSmaller">{{descripcion_proceso}}</span></p>
+            </div>
+          </div>
+
+
+          <div class="callout">
+            <h4 style="text-align: start;margin-top: 1%;margin-bottom: 5%">
+              <!--                  <label style="color: var(--labelColor);font-weight: lighter">Valor Contrato</label>-->
+              <span class="badge badge-pill badge-light "
+                    style="color:var(--labelColor);border: 1px solid;font-weight: normal;font-size: medium"> Datos Personales</span>
+            </h4>
+            <p><span class="textSmall">Tipo identificacion Proveedor : </span> <span
+              class="textSmaller">{{tipo_identificacion}}</span></p>
+            <p><span class="textSmall">Cédula Proveedor : </span> <span
+              class="textSmaller">{{identificacion_contratista}}</span></p>
+            <p><span class="textSmall">Nombre Proveedor : </span> <span
+              class="textSmaller">{{nombre_contratista}}</span></p>
+            <p><span class="textSmall">Fecha Nacimiento Proveedor : </span> <span
+              class="textSmaller">{{fecha_nacimiento_contratista | date}}</span></p>
+            <p><span class="textSmall">Genero Proveedor : </span> <span
+              class="textSmaller">{{genero_contratista}}</span></p>
+            <p><span class="textSmall">Email Proveedor : </span> <span class="textSmaller">{{correo_contratista}}</span>
+            </p>
+            <p><span class="textSmall">Dpto Proveedor : </span> <span class="textSmaller">{{dpto_contratista}}</span>
+            </p>
+            <p><span class="textSmall">Ciudad Proveedor : </span> <span
+              class="textSmaller">{{ciudad_contratista}}</span></p>
+            <p><span class="textSmall">Ubicación Proveedor : </span> <span
+              class="textSmaller">{{ubicacion_contratista}}</span></p>
+            <p><span class="textSmall">Categoria Contratación : </span> <span
+              class="textSmaller">{{categoria_contratacion}}</span></p>
+            <p><span class="textSmall">Profesión Proveedor : </span> <span
+              class="textSmaller">{{profesion_contratista}}</span></p>
+          </div>
+
+          <div class="callout">
+            <h4 style="text-align: start;margin-top: 1%;margin-bottom: 5%">
+              <!--                  <label style="color: var(--labelColor);font-weight: lighter">Valor Contrato</label>-->
+              <span class="badge badge-pill badge-light "
+                    style="color:var(--labelColor);border: 1px solid;font-weight: normal;font-size: medium"> Configuración</span>
+            </h4>
+            <p><span class="textSmall">Documentos Tipo : </span> <span class="textSmaller">{{documentos_tipo}}</span>
+            </p>
+            <p><span class="textSmall">Interadministrativos : </span> <span
+              class="textSmaller">{{interadministrativos}}</span></p>
+            <p><span class="textSmall">Definir Lotes : </span> <span class="textSmaller">{{definir_lotes}}</span></p>
+            <p><span class="textSmall">Fecha de Inicio : </span> <span
+              class="textSmaller">{{fecha_inicio | date}}</span></p>
+            <p><span class="textSmall">Fecha de Termino : </span> <span
+              class="textSmaller">{{fecha_termino | date}}</span></p>
+            <p><span class="textSmall">Firma de Contrato : </span> <span
+              class="textSmaller">{{firma_contrato | date}}</span></p>
+            <p><span class="textSmall">Plazo de Ejecución : </span> <span
+              class="textSmaller">{{plazo_ejecucion | date}}</span></p>
+            <p><span class="textSmall">Plan de Pagos : </span> <span class="textSmaller">{{plan_pagos}}</span></p>
+            <p><span class="textSmall">Valor Oferta : </span> <span
+              class="textSmaller">{{valor_oferta | currency}}</span></p>
+            <p><span class="textSmall">Duración Contrato : </span> <span
+              class="textSmaller">{{tiempo_duracion}} {{duracion_contrato}}</span></p>
+          </div>
+                  </div>
+      </div>
+                <div class="modal-footer justify-content-between">
+                  <!--            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                  <button type="button" class="btn btn-outline-secondary"
+                          data-dismiss="modal"
+                          (click)="validarAnulacion(proceso)"
+                          [ngStyle]="{'display': (ROL == 1 && estado == 2) ? 'block' : 'none'}">
+                    Anular
+                  </button>
+                  <button *ngIf="processComponent == 1" type="button" class="btn btn-outline-info"
+                          data-dismiss="modal"
+                          (click)="editarProceso()"
+                          [ngStyle]="{'display': (ROL == 1 && estado == 2) ? 'block' : 'none'}">
+                    Editar
+                  </button>
+                  <button type="button" class="btn btn-outline-warning"
+                          data-dismiss="modal"
+                          (click)="fillModal(proceso)"
+                          [ngStyle]="{'display':
+                              (ROL == 1 && estado == 2) ? 'none' : 'block' }">
+                    Historial
+                  </button>
+                  <button type="button" class="btn btn-outline-primary"
+                          data-dismiss="modal"
+                          (click)="getPagosXRpc(proceso)"
+                          [ngStyle]="{'display': (estado == 8) ? 'block' :'none'}">
+                    Pagos
+                  </button>
+                </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-dialog-scrollable">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #F0F2F5;height: 10%;">
+        <span style="color: var(--labelColor);font-weight: normal;font-size: medium">Listado de Pagos</span>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+<!--        <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;" disabled>-->
+<!--          N° Cuotas <span class="badge rounded-pill bg-secondary">{{cantidadCuotas}}</span>-->
+<!--        </button>-->
+        <span class="badge badge-pill badge-light mb-3"
+              style="color:var(--labelColor);border: 1px solid;font-weight: normal;font-size: small;text-align: start"> N° Cuotas <span class="badge rounded-pill bg-secondary">{{cantidadCuotas}}</span></span>
+        <div class="callout callout-danger" *ngFor="let d of infoPagos">
+          <ul>
+            <li class="textSmall"><span class="badge badge-pill badge-light" style="color:var(--labelColor);border: 1px solid;font-weight: lighter;font-size: small;text-align: end"> Numero de Cuota : <span>{{d[0]}}</span></span></li>
+            <li class="textSmall">Fecha Vencimiento : <span class="textSmaller">{{d[1]}}</span></li>
+            <li class="textSmall">Periodo : <span class="textSmaller">{{d[2]}}</span></li>
+            <li class="textSmall">Valor Cuota : <span class="textSmaller">{{d[3] | currency}}</span></li>
+            <li class="textSmall">Documento Causación : <span class="textSmaller">{{d[4]}}</span></li>
+            <li class="textSmall">Documento Compensa : <span class="textSmaller">{{d[5]}}</span></li>
+            <li class="textSmall">Fecha Compensa : <span class="textSmaller">{{d[6]}}</span></li>
+            <li class="textSmall">Valor Bruto : <span class="textSmaller">{{d[7] | currency}}</span></li>
+            <li class="textSmall">Valor Neto : <span class="textSmaller">{{d[8] | currency}}</span></li>
+            <div *ngIf="d[9] != null" class="mt-3 mb-1">
+              <a style="color: var(--labelColor);cursor:pointer;" (click)="WatchDescuento(d)">
+                <u class="textSmall">Ver Descuentos</u>
+              </a>
+              <div *ngIf="verDescuentos[d[0]]" class="mt-2">
+                <div class="list-group" *ngFor="let i of d[9]">
+                      <span class="list-group-item list-group-item-action" aria-current="true">
+                        <p class="mb-1 textSmall">{{i.concepto}}</p>
+                        <small class="text-muted textSmaller">{{i.valor | currency}}</small>
+                      </span>
+                </div>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button style="text-align: start" class="btn btn-outline-primary btn-sm" (click)="generateReports()">PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+

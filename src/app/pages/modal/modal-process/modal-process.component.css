@@ -1,0 +1,99 @@
+.cursor{
+  cursor: pointer;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}
+
+table {
+  width: 100%;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+a{
+  color: #495057;
+}
+
+.bd:hover{
+  border: solid 2px var(--labelColor);
+}
+
+.card-header a.active{
+  border-top: 3px solid var(--companyColor);
+}
+
+div.callout{
+  border-left-color: var(--companyColor);
+}
+
+button.btn-outline-primary{
+  background-color: var(--companyColor);
+  border-color: var(--sidebarColor);
+  color: var(--sidebarColor);
+}
+
+button.btn-outline-primary:hover{
+  background-color: var(--sidebarColor);
+  border-color: var(--companyColor);
+  color: var(--companyColor);
+}
+
+
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+  z-index: 99999 !important;
+}
+
+.hoverCarga{
+  color: #495057
+}
+
+.hoverCarga:hover{
+  color: var(--companyColor);
+}
+
+.iconsBG{
+  font-size: smaller;
+}
+
+.iconsBG:hover{
+  text-decoration: underline;
+  /*color:var(--companyColor);*/
+  color:#000fff;
+  /*font-weight: bold;*/
+}
+
+div_container{
+  overflow: auto;
+}
+
+.borderIcon:hover{
+  color: #06092F;
+  /*font-size: large;*/
+}
+
+.nav-item .nav-link active{
+  color:red;
+}
+
+.textSmall{
+  font-size: smaller;
+  font-weight: normal;
+  color:var(--labelColor);
+}
+
+.textSmaller{
+  font-size: smaller;
+  font-weight: lighter;
+  color: #828282;
+}

@@ -118,28 +118,6 @@ export function sendSoapData(infoProceso: any, unspsc: any) {
        </con:LineQuestionExternalIntegrationCreate>`
     // }
   }
-  // if(codigoUNSPSC.includes(',')){
-  //   arrayCodigoUNSPSC = codigoUNSPSC.split(',');
-  //   codigoUNSPSC = arrayCodigoUNSPSC[0];
-  //   // for (let i = 0; i < arrayCodigoUNSPSC.length; i++) {
-  //   for (let i = 0; i < unspsc.length; i++) {
-  //     if(i <= unspsc.length -2){
-  //       adicionalUNSPSC +=
-  //         `<con:AdditionalCategory>
-  //         <vor:NewEntities>
-  //         <vor:Items>
-  //         <con:AdditionalCategorizationExternalIntegrationCreate>
-  //         <con:MainCategory>
-  //         <con:Code>`+unspsc[i+1].UNS_CODIGO+`</con:Code>
-  //         <con:Norm>UNSPSC</con:Norm>
-  //         </con:MainCategory>
-  //         </con:AdditionalCategorizationExternalIntegrationCreate>
-  //         </vor:Items>
-  //         </vor:NewEntities>
-  //         </con:AdditionalCategory>`;
-  //     }
-  //   }
-  // }
 
   let duracion = (infoProceso.DURACION_CONTRATO == 'Años') ? 'Years' :
     (infoProceso.DURACION_CONTRATO == 'Meses') ? 'Months' :
@@ -494,15 +472,4 @@ export function onFileChange(ev: any) {
   console.log(ExcelToJSON);
 }
 
-// function setDownload(data:any) {
-//   this.willDownload = true;
-//   setTimeout(() => {
-//     const el = document.querySelector('#download');
-//     el.setAttribute(
-//       'href',
-//       `data:text/json;charset=utf-8,${encodeURIComponent(data)}`
-//     );
-//     el.setAttribute('download', 'xlsxtojson.json');
-//   }, 1000);
-// }
 

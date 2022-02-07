@@ -57,8 +57,8 @@
 
     <section class="content">
       <div class="container-fluid">
-        <div class="card ml-3 mr-3">
-          <div class="card-header mb-3" style="background-color: var(--companyColor)">
+        <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+          <div class="card-header mb-3" style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
             <div class="card-tools">
               <button
                 type="button"
@@ -89,33 +89,33 @@
                       <div class="row">
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
-                            <label class="font-weight-normal text-sm">Fecha de inicio</label>
+                            <label class="font-weight-light text-sm">Fecha de inicio</label>
                             <input
                               formControlName="fechaInicio"
                               type="datetime-local"
                               name="fechaInicio"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
 
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
-                            <label class="font-weight-normal text-sm">Fecha termino</label>
+                            <label class="font-weight-light text-sm">Fecha termino</label>
                             <input
                               formControlName="fechaTermino"
                               type="datetime-local"
                               name="fechaTermino"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
                         <div [hidden]="ROL != '4'" class="col-12 col-sm-12">
                           <div class="form-group">
-                            <label class="font-weight-normal text-sm">Centro Gestor</label>
+                            <label class="font-weight-light text-sm">Centro Gestor</label>
                             <select
                               formControlName="centroGestor"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             >
                               <option></option>
                               <option *ngFor="let ges of gestor" value="{{ ges.USC_GESTOR }}">
@@ -127,7 +127,7 @@
                         <button
                           [disabled]="reportesForm.invalid"
                           type="submit"
-                          class="btn btn-primary float-left btn-sm ml-2"
+                          class="btn btn-outline-primary float-left btn-sm ml-2"
                         >
                           <span>Generar <i class="fa fa-book-open"></i></span>
                         </button>

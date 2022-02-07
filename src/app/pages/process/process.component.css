@@ -204,3 +204,14 @@ div_container{
   color:red;
 }
 
+.textSmall{
+  font-size: smaller;
+  font-weight: normal;
+  color:var(--labelColor);
+}
+
+.textSmaller{
+  font-size: smaller;
+  font-weight: lighter;
+  color: #828282;
+}

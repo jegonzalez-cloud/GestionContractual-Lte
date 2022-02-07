@@ -2,187 +2,176 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" id="background-home">
 
-    <button type="button" [hidden]="true" #openbutton class="btn btn-info btn-lg" data-toggle="modal"
-            data-target="#myModal">Open
-    </button>
+    <app-modal-process [prueba]="modalData"></app-modal-process>
 
-    <div class="modal fade" id="myModal" role="dialog">
-      <div class="modal-dialog modal-dialog-scrollable">
+<!--    <button type="button" [hidden]="true" #openbutton class="btn btn-info btn-lg" data-toggle="modal"-->
+<!--            data-target="#myModal">Open-->
+<!--    </button>-->
 
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <span style="font-weight: bold;font-size: larger ;color: var(--companyColor)">Listado de Pagos</span>
-            <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
-            <!--            <h4 class="modal-title">Modal Header</h4>-->
-          </div>
-          <div class="modal-body">
-            <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>
-            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;" disabled>
-              N° Cuotas <span class="badge rounded-pill bg-secondary">{{cantidadCuotas}}</span>
-            </button>
-            <div class="callout callout-danger" *ngFor="let d of infoPagos">
-              <ul>
-                <li><b>Numero de Cuota</b> : <span>{{d[0]}}</span></li>
-                <li>Fecha Vencimiento : <span>{{d[1]}}</span></li>
-                <li>Periodo : <span>{{d[2]}}</span></li>
-                <li>Valor Cuota : <span>{{d[3] | currency}}</span></li>
-                <li>Documento Causación : <span>{{d[4]}}</span></li>
-                <li>Documento Compensa : <span>{{d[5]}}</span></li>
-                <li>Fecha Compensa : <span>{{d[6]}}</span></li>
-                <li>Valor Bruto : <span>{{d[7] | currency}}</span></li>
-                <li>Valor Neto : <span>{{d[8] | currency}}</span></li>
-                <div *ngIf="d[9] != null" class="mt-3 mb-1">
-                  <a style="color: var(--companyColor);cursor:pointer" (click)="WatchDescuento(d)">
-                    <u>Ver Descuentos</u>
-                  </a>
-                  <div *ngIf="verDescuentos[d[0]]" class="mt-2">
-                    <div class="list-group" *ngFor="let i of d[9]">
-                      <span class="list-group-item list-group-item-action" aria-current="true">
-                        <p class="mb-1">{{i.concepto}}</p>
-                        <small class="text-muted">{{i.valor | currency}}</small>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </ul>
-            </div>
-          </div>
-          <!--          <div class="modal-footer">-->
-          <!--            <button type="button" class="btn btn-danger" id="closeModal" (click)="onSave()">Save</button>-->
-          <!--          </div>-->
-        </div>
-      </div>
-    </div>
+<!--    <div class="modal fade" id="myModal" role="dialog">-->
+<!--      <div class="modal-dialog modal-dialog-scrollable">-->
 
-    <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content" style="width: auto">
-          <div class="modal-header">
-            <h4 class="modal-title"><b style="font-size: larger">Proceso # <a
-              style="color: var(--labelColor)">{{PROCESO}}</a></b>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body modal-dialog-scrollable">
-            <div>
-              <div class="callout callout-danger">
-                <p><b style="color: var(--labelColor);font-size: 16px">Información General</b></p>
-                <p><b>Tipo Proceso :</b> {{TIPO_PROCESO}}</p>
-                <p><b>Tipo Contrato :</b> {{TIPO_CONTRATO}}</p>
-                <p><b>Justificación Tipo Contrato :</b> {{JUST_TIPO_PROCESO}}</p>
-                <p style="word-break: break-all"><b>Nombre Proceso :</b> {{NOMBRE_PROCESO}}</p>
-                <p><b>Unidad Contratación :</b> {{UNI_CONTRATACION}}</p>
-                <p><b>Equipo Contratación :</b> {{EQUIPO_CONTRATACION}}</p>
-                <p style="word-break: break-all"><b>Objeto Proceso :</b> {{DESCRIPCION_PROCESO}}</p>
-              </div>
+<!--        &lt;!&ndash; Modal content&ndash;&gt;-->
+<!--        <div class="modal-content">-->
+<!--          <div class="modal-header">-->
+<!--            <span style="font-weight: bold;font-size: larger ;color: var(&#45;&#45;companyColor)">Listado de Pagos</span>-->
+<!--            <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>-->
+<!--            &lt;!&ndash;            <h4 class="modal-title">Modal Header</h4>&ndash;&gt;-->
+<!--          </div>-->
+<!--          <div class="modal-body">-->
+<!--            <button class="btn btn-primary btn-sm mb-3" (click)="generateReports()">PDF</button>-->
+<!--            <button type="button" class="btn btn-sm btn-primary mb-3" style="position: absolute;left: 76.5%;" disabled>-->
+<!--              N° Cuotas <span class="badge rounded-pill bg-secondary">{{cantidadCuotas}}</span>-->
+<!--            </button>-->
+<!--            <div class="callout callout-danger" *ngFor="let d of infoPagos">-->
+<!--              <ul>-->
+<!--                <li><b>Numero de Cuota</b> : <span>{{d[0]}}</span></li>-->
+<!--                <li>Fecha Vencimiento : <span>{{d[1]}}</span></li>-->
+<!--                <li>Periodo : <span>{{d[2]}}</span></li>-->
+<!--                <li>Valor Cuota : <span>{{d[3] | currency}}</span></li>-->
+<!--                <li>Documento Causación : <span>{{d[4]}}</span></li>-->
+<!--                <li>Documento Compensa : <span>{{d[5]}}</span></li>-->
+<!--                <li>Fecha Compensa : <span>{{d[6]}}</span></li>-->
+<!--                <li>Valor Bruto : <span>{{d[7] | currency}}</span></li>-->
+<!--                <li>Valor Neto : <span>{{d[8] | currency}}</span></li>-->
+<!--                <div *ngIf="d[9] != null" class="mt-3 mb-1">-->
+<!--                  <a style="color: var(&#45;&#45;companyColor);cursor:pointer" (click)="WatchDescuento(d)">-->
+<!--                    <u>Ver Descuentos</u>-->
+<!--                  </a>-->
+<!--                  <div *ngIf="verDescuentos[d[0]]" class="mt-2">-->
+<!--                    <div class="list-group" *ngFor="let i of d[9]">-->
+<!--                      <span class="list-group-item list-group-item-action" aria-current="true">-->
+<!--                        <p class="mb-1">{{i.concepto}}</p>-->
+<!--                        <small class="text-muted">{{i.valor | currency}}</small>-->
+<!--                      </span>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          &lt;!&ndash;          <div class="modal-footer">&ndash;&gt;-->
+<!--          &lt;!&ndash;            <button type="button" class="btn btn-danger" id="closeModal" (click)="onSave()">Save</button>&ndash;&gt;-->
+<!--          &lt;!&ndash;          </div>&ndash;&gt;-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" tabindex="-1">-->
+<!--      <div class="modal-dialog modal-dialog-scrollable">-->
+<!--        <div class="modal-content" style="width: auto">-->
+<!--          <div class="modal-header">-->
+<!--            <h4 class="modal-title"><b style="font-size: larger">Proceso # <a-->
+<!--              style="color: var(&#45;&#45;labelColor)">{{PROCESO}}</a></b>-->
+<!--            </h4>-->
+<!--            <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--              <span aria-hidden="true">&times;</span>-->
+<!--            </button>-->
+<!--          </div>-->
+<!--          <div class="modal-body modal-dialog-scrollable">-->
+<!--            <div>-->
+<!--              <div class="callout callout-danger">-->
+<!--                <p><b style="color: var(&#45;&#45;labelColor);font-size: 16px">Información General</b></p>-->
+<!--                <p><b>Tipo Proceso :</b> {{TIPO_PROCESO}}</p>-->
+<!--                <p><b>Tipo Contrato :</b> {{TIPO_CONTRATO}}</p>-->
+<!--                <p><b>Justificación Tipo Contrato :</b> {{JUST_TIPO_PROCESO}}</p>-->
+<!--                <p style="word-break: break-all"><b>Nombre Proceso :</b> {{NOMBRE_PROCESO}}</p>-->
+<!--                <p><b>Unidad Contratación :</b> {{UNI_CONTRATACION}}</p>-->
+<!--                <p><b>Equipo Contratación :</b> {{EQUIPO_CONTRATACION}}</p>-->
+<!--                <p style="word-break: break-all"><b>Objeto Proceso :</b> {{DESCRIPCION_PROCESO}}</p>-->
+<!--              </div>-->
 
 
-              <div class="callout callout-danger">
-                <p><b style="color: var(--labelColor);font-size: 16px">Datos Personales</b></p>
-                <p><b>Tipo identificacion Proveedor :</b> {{TIP_IDEN_PROV}}</p>
-                <p><b>Cédula Proveedor :</b> {{COD_PROV}}</p>
-                <p><b>Nombre Proveedor :</b> {{NOM_PROV}}</p>
-                <p><b>Fecha Nacimiento Proveedor :</b> {{NACIMIENTO_PROV | date}}</p>
-                <p><b>Genero Proveedor :</b> {{GENERO_PROV}}</p>
-                <p><b>Email Proveedor :</b> {{CORREO_PROV}}</p>
-                <p><b>Dpto Proveedor :</b> {{DPTO_PROV}}</p>
-                <p><b>Ciudad Proveedor :</b> {{CIUDAD_PROV}}</p>
-                <p><b>Ubicación Proveedor :</b> {{UBICACION_PROV}}</p>
-                <p><b>Categoria Contratación :</b> {{CATE_CONTRATACION}}</p>
-                <p><b>Profesión Proveedor :</b> {{PROFESION_PROV}}</p>
-              </div>
+<!--              <div class="callout callout-danger">-->
+<!--                <p><b style="color: var(&#45;&#45;labelColor);font-size: 16px">Datos Personales</b></p>-->
+<!--                <p><b>Tipo identificacion Proveedor :</b> {{TIP_IDEN_PROV}}</p>-->
+<!--                <p><b>Cédula Proveedor :</b> {{COD_PROV}}</p>-->
+<!--                <p><b>Nombre Proveedor :</b> {{NOM_PROV}}</p>-->
+<!--                <p><b>Fecha Nacimiento Proveedor :</b> {{NACIMIENTO_PROV | date}}</p>-->
+<!--                <p><b>Genero Proveedor :</b> {{GENERO_PROV}}</p>-->
+<!--                <p><b>Email Proveedor :</b> {{CORREO_PROV}}</p>-->
+<!--                <p><b>Dpto Proveedor :</b> {{DPTO_PROV}}</p>-->
+<!--                <p><b>Ciudad Proveedor :</b> {{CIUDAD_PROV}}</p>-->
+<!--                <p><b>Ubicación Proveedor :</b> {{UBICACION_PROV}}</p>-->
+<!--                <p><b>Categoria Contratación :</b> {{CATE_CONTRATACION}}</p>-->
+<!--                <p><b>Profesión Proveedor :</b> {{PROFESION_PROV}}</p>-->
+<!--              </div>-->
 
-              <div class="callout callout-danger">
-                <p><b style="color: var(--labelColor);font-size: 16px">Configuración</b></p>
-                <p><b>Documentos Tipo :</b> {{DOCUMENTOS_TIPO}}</p>
-                <p><b>Interadministrativos :</b> {{INTERADMINISTRATIVOS}}</p>
-                <p><b>Definir Lotes :</b> {{DEFINIR_LOTES}}</p>
-                <p><b>Fecha de Inicio :</b> {{FECHA_INICIO | date}}</p>
-                <p><b>Fecha de Termino :</b> {{FECHA_TERMINO | date}}</p>
-                <p><b>Firma de Contrato :</b> {{FIRMA_CONTRATO | date}}</p>
-                <p><b>Plazo de Ejecución :</b> {{PLAZO_EJECUCION | date}}</p>
-                <p><b>Plan de Pagos :</b> {{PLAN_PAGOS}}</p>
-                <p><b>Valor Oferta :</b> {{VAL_OFERTA | currency}}</p>
-                <p><b>Duración Contrato :</b> {{TIEMPO_DURACION_CONTRATO}} {{DURACION_CONTRATO}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <!--            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-            <button type="button" class="btn btn-secondary"
-                    data-dismiss="modal"
-                    (click)="rechazarAutorizacion(PROCESO)"
-                    [ngStyle]="{'display':
-                    (ROL == 1) ? 'none' :
-                    (ROL == 2 && ESTADO != 2) ? 'none' :
-                    (ROL == 3 && ESTADO != 3) ? 'none' :
-                    (ROL == 4 && ESTADO != 4) ? 'none' :
-                    (ROL == 5 && ESTADO != 5) ? 'none' :
-                    (ROL == 6 && ESTADO != 6) ? 'none' :
-                    'block' }">
-              Rechazar
-            </button>
-            <button type="button" class="btn btn-primary"
-                    data-dismiss="modal"
-                    (click)="aprobarAutorizacion(PROCESO)"
-                    [ngStyle]="{'display':
-                    (ROL == 1) ? 'none' :
-                    (ROL == 2 && ESTADO != 2) ? 'none' :
-                    (ROL == 3 && ESTADO != 3) ? 'none' :
-                    (ROL == 4 && ESTADO != 4) ? 'none' :
-                    (ROL == 5 && ESTADO != 5) ? 'none' :
-                    (ROL == 6 && ESTADO != 6) ? 'none' :
-                    'block' }">
-              Autorizar
-            </button>
+<!--              <div class="callout callout-danger">-->
+<!--                <p><b style="color: var(&#45;&#45;labelColor);font-size: 16px">Configuración</b></p>-->
+<!--                <p><b>Documentos Tipo :</b> {{DOCUMENTOS_TIPO}}</p>-->
+<!--                <p><b>Interadministrativos :</b> {{INTERADMINISTRATIVOS}}</p>-->
+<!--                <p><b>Definir Lotes :</b> {{DEFINIR_LOTES}}</p>-->
+<!--                <p><b>Fecha de Inicio :</b> {{FECHA_INICIO | date}}</p>-->
+<!--                <p><b>Fecha de Termino :</b> {{FECHA_TERMINO | date}}</p>-->
+<!--                <p><b>Firma de Contrato :</b> {{FIRMA_CONTRATO | date}}</p>-->
+<!--                <p><b>Plazo de Ejecución :</b> {{PLAZO_EJECUCION | date}}</p>-->
+<!--                <p><b>Plan de Pagos :</b> {{PLAN_PAGOS}}</p>-->
+<!--                <p><b>Valor Oferta :</b> {{VAL_OFERTA | currency}}</p>-->
+<!--                <p><b>Duración Contrato :</b> {{TIEMPO_DURACION_CONTRATO}} {{DURACION_CONTRATO}}</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="modal-footer justify-content-between">-->
+<!--            &lt;!&ndash;            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>&ndash;&gt;-->
+<!--            <button type="button" class="btn btn-secondary"-->
+<!--                    data-dismiss="modal"-->
+<!--                    (click)="rechazarAutorizacion(PROCESO)"-->
+<!--                    [ngStyle]="{'display':-->
+<!--                    (ROL == 1) ? 'none' :-->
+<!--                    (ROL == 2 && ESTADO != 2) ? 'none' :-->
+<!--                    (ROL == 3 && ESTADO != 3) ? 'none' :-->
+<!--                    (ROL == 4 && ESTADO != 4) ? 'none' :-->
+<!--                    (ROL == 5 && ESTADO != 5) ? 'none' :-->
+<!--                    (ROL == 6 && ESTADO != 6) ? 'none' :-->
+<!--                    'block' }">-->
+<!--              Rechazar-->
+<!--            </button>-->
+<!--            <button type="button" class="btn btn-primary"-->
+<!--                    data-dismiss="modal"-->
+<!--                    (click)="aprobarAutorizacion(PROCESO)"-->
+<!--                    [ngStyle]="{'display':-->
+<!--                    (ROL == 1) ? 'none' :-->
+<!--                    (ROL == 2 && ESTADO != 2) ? 'none' :-->
+<!--                    (ROL == 3 && ESTADO != 3) ? 'none' :-->
+<!--                    (ROL == 4 && ESTADO != 4) ? 'none' :-->
+<!--                    (ROL == 5 && ESTADO != 5) ? 'none' :-->
+<!--                    (ROL == 6 && ESTADO != 6) ? 'none' :-->
+<!--                    'block' }">-->
+<!--              Autorizar-->
+<!--            </button>-->
 
-            <button type="button" class="btn btn-secondary"
-                    data-dismiss="modal"
-                    (click)="validarAnulacion(PROCESO)"
-                    [ngStyle]="{'display': (ROL == 1 && ESTADO == 2) ? 'block' : 'none'}">
-              Anular
-            </button>
-            <button type="button" class="btn btn-warning"
-                    data-dismiss="modal"
-                    (click)="fillModal(PROCESO)"
-                    [ngStyle]="{'display':
-                    (ROL == 1 && ESTADO >= 0 && ESTADO != 2) ? 'block' :
-                    (ROL == 2 && ESTADO >= 0 && ESTADO != 2) ? 'block' :
-                    (ROL == 3 && ESTADO >= 0 && ESTADO != 3 && ESTADO != 2) ? 'block' :
-                    (ROL == 4 && ESTADO >= 0 && ESTADO != 4 && ESTADO != 2) ? 'block' :
-                    (ROL == 5 && ESTADO >= 0 && ESTADO != 5 && ESTADO != 2) ? 'block' :
-                    (ROL == 6 && ESTADO >= 0 && ESTADO != 6 && ESTADO != 2) ? 'block' :
-                    'none' }">
-              Historial
-            </button>
-            <button type="button" class="btn btn-outline-primary"
-                    data-dismiss="modal"
-                    (click)="getPagosXRpc(PROCESO)"
-                    [ngStyle]="{'display': (ESTADO == 8) ? 'block' :'none'}">
-              Pagos
-            </button>
-            <!--            <button type="button" class="btn btn-warning"-->
-            <!--                    data-dismiss="modal"-->
-            <!--                    (click)="fillModal(PROCESO)"-->
-            <!--                    [ngStyle]="{'display':-->
-            <!--                    (ROL == 40 && ESTADO == 1) ? 'none' : (ROL == 41 && ESTADO ==2) ? 'none' : (ROL == 42 && ESTADO == 3) ? 'none' : (ROL == 41 && ESTADO == 1) ? 'none' : (ROL == 42 && ESTADO ==1) ? 'none' : 'block' }">-->
-            <!--              Historial-->
-            <!--            </button>-->
-            <!--            <button type="button" class="btn btn-outline-primary"-->
-            <!--                    data-dismiss="modal"-->
-            <!--                    (click)="getPagosXRpc(PROCESO)"-->
-            <!--                    [ngStyle]="{'display': (ESTADO >= 7) ? 'block' :'none'}">-->
-            <!--              Pagos-->
-            <!--            </button>-->
-          </div>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
+<!--            <button type="button" class="btn btn-secondary"-->
+<!--                    data-dismiss="modal"-->
+<!--                    (click)="validarAnulacion(PROCESO)"-->
+<!--                    [ngStyle]="{'display': (ROL == 1 && ESTADO == 2) ? 'block' : 'none'}">-->
+<!--              Anular-->
+<!--            </button>-->
+<!--            <button type="button" class="btn btn-warning"-->
+<!--                    data-dismiss="modal"-->
+<!--                    (click)="fillModal(PROCESO)"-->
+<!--                    [ngStyle]="{'display':-->
+<!--                    (ROL == 1 && ESTADO >= 0 && ESTADO != 2) ? 'block' :-->
+<!--                    (ROL == 2 && ESTADO >= 0 && ESTADO != 2) ? 'block' :-->
+<!--                    (ROL == 3 && ESTADO >= 0 && ESTADO != 3 && ESTADO != 2) ? 'block' :-->
+<!--                    (ROL == 4 && ESTADO >= 0 && ESTADO != 4 && ESTADO != 2) ? 'block' :-->
+<!--                    (ROL == 5 && ESTADO >= 0 && ESTADO != 5 && ESTADO != 2) ? 'block' :-->
+<!--                    (ROL == 6 && ESTADO >= 0 && ESTADO != 6 && ESTADO != 2) ? 'block' :-->
+<!--                    'none' }">-->
+<!--              Historial-->
+<!--            </button>-->
+<!--            <button type="button" class="btn btn-outline-primary"-->
+<!--                    data-dismiss="modal"-->
+<!--                    (click)="getPagosXRpc(PROCESO)"-->
+<!--                    [ngStyle]="{'display': (ESTADO == 8) ? 'block' :'none'}">-->
+<!--              Pagos-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; /.modal-content &ndash;&gt;-->
+<!--      </div>-->
+<!--      &lt;!&ndash; /.modal-dialog &ndash;&gt;-->
+<!--    </div>-->
 
     <section class="content-header">
       <div class="container-fluid"></div>
@@ -191,8 +180,8 @@
 
     <section class="content">
       <div class="container-fluid">
-        <div class="card ml-3 mr-3">
-          <div class="card-header mb-3" style="background-color: var(--companyColor)">
+        <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+          <div class="card-header" style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
             <div class="card-tools">
               <button
                 type="button"
@@ -209,11 +198,6 @@
             </h6>
           </div>
 
-          <!--          <div class="ml-4">-->
-          <!--            <button type="button" class="btn btn-outline-secondary btn-sm">Imprimir</button>-->
-          <!--&lt;!&ndash;            <button type="button" class="btn btn-outline-success btn-sm ml-1">Autorizar</button>&ndash;&gt;-->
-          <!--          </div>-->
-
           <div class="card-body">
             <div class="row">
 
@@ -227,20 +211,20 @@
                       <div class="row">
                         <div class="col-12 col-sm-3">
                           <div class="form-group">
-                            <label class="font-weight-normal text-sm"> Identificación </label>
+                            <label class="font-weight-light text-sm"> Identificación </label>
                             <input
                               formControlName="identificacion"
                               type="number"
-                              class="form-control"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
                         <div class="col-12 col-sm-3">
                           <div class="form-group">
-                            <label class="font-weight-normal text-sm"> Proveedor </label>
+                            <label class="font-weight-light text-sm"> Proveedor </label>
                             <select
                               formControlName="proveedor"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             >
                               <option></option>
                               <option *ngFor="let pro of proveedores" value="{{ pro.NOM_PROV }}">
@@ -251,10 +235,10 @@
                         </div>
                         <div class="col-12 col-sm-3">
                           <div class="form-group">
-                            <label class="font-weight-normal text-sm">Creador del Proceso</label>
+                            <label class="font-weight-light text-sm">Creador del Proceso</label>
                             <select
                               formControlName="creador"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             >
                               <option></option>
                               <option *ngFor="let cre of creador" value="{{ cre.USR_LOGIN }}">
@@ -265,21 +249,21 @@
                         </div>
                         <div class="col-12 col-sm-3">
                           <div class="form-group">
-                            <label class="font-weight-normal text-sm"># Proceso</label>
+                            <label class="font-weight-light text-sm"># Proceso</label>
                             <input
                               type="text"
                               formControlName="proceso"
-                              class="form-control"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
 
                         <div [hidden]="ROL != 4" class="col-12 col-sm-12">
                           <div class="form-group">
-                            <label class="font-weight-normal text-sm">Centro Gestor</label>
+                            <label class="font-weight-light text-sm">Centro Gestor</label>
                             <select
                               formControlName="centroGestor"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             >
                               <option></option>
                               <option *ngFor="let ges of gestor" value="{{ ges.USC_GESTOR }}">
@@ -291,7 +275,7 @@
                         <button
                           [disabled]="busquedaForm.invalid"
                           type="submit"
-                          class="btn btn-primary float-left btn-sm ml-2"
+                          class="btn btn-outline-primary float-left btn-sm ml-2"
                         >
                           <span>Buscar <i class="fa fa-search"></i></span>
                         </button>
@@ -310,24 +294,29 @@
       </div>
     </section>
 
+    <!--  MIS PROCESOS  -->
     <section class="content">
       <div class="container-fluid">
-        <div class="card ml-3 mr-3">
+        <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
           <!--          <div class="card-header" style="background-color: lavender">-->
-          <!--            <div class="card-tools">-->
-          <!--              <button-->
-          <!--                type="button"-->
-          <!--                class="btn btn-tool"-->
-          <!--                data-card-widget="collapse"-->
-          <!--              >-->
-          <!--                <i class="fas fa-minus"></i>-->
-          <!--              </button>-->
-          <!--            </div>-->
+          <div class="card-header" style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
 
-          <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
-          <!--              <b>{{ "administration-CI.panels.menu2" | translate }}</b>-->
-          <!--            </h6>-->
-          <!--          </div>-->
+            <!--            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">-->
+            <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
+              <i class="fas fa-search"></i>
+              <span> Resultado Busqueda</span>
+<!--              <span>{{ "procesos.misProcesos" | translate }}</span>-->
+            </h6>
+          </div>
           <div class="card-body">
             <div>
               <div class="table-responsive">
@@ -335,46 +324,52 @@
                   <mat-label>Filter</mat-label>
                   <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
                 </mat-form-field>
-                <div id="div_container" class="mat-elevation-z8">
+                <div class="example-container mat-elevation-z8">
                   <table mat-table [dataSource]="dataSource" matSort>
+
                     <!-- ID Column -->
                     <ng-container matColumnDef="Num">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header
-                          style="font-size: 14px;font-weight: bolder;color: black;">
+                          style="font-size: 14px;font-weight: normal;color: black;">
                         Número
                       </th>
                       <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;color: #545cd8; font-weight: bold"
-                          > {{row.CONS_PROCESO | uppercase}} <svg *ngIf="(row.ESTADO > 2 && ROL == 2) || (row.ESTADO > 3 && ROL == 3)||(row.ESTADO > 4 && ROL == 4)|| (row.ESTADO > 5 && ROL == 5)||  (row.ESTADO > 6 && ROL == 6)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                      </svg></td>
+                          style="font-size: 12px;color: #545cd8; font-weight: lighter"
+                      > {{row.CONS_PROCESO | uppercase}}
+                        <svg
+                          *ngIf=" (row.ESTADO > 2 && ROL == 2) || (row.ESTADO > 3 && ROL == 3)||(row.ESTADO > 4 && ROL == 4)|| (row.ESTADO > 5 && ROL == 5)||  (row.ESTADO > 6 && ROL == 6)"
+                          xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                          <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                        </svg>
+                      </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Identificacion">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: normal;color: black">
                         Identificación
                       </th>
                       <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;word-break: break-all"> {{row.COD_PROV  | number}} </td>
+                          style="font-size: 12px;word-break: break-all;font-weight: lighter"> {{row.COD_PROV  | number}} </td>
                     </ng-container>
 
                     <!-- Progress Column -->
                     <ng-container matColumnDef="Nombre">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"
-                          mat-sort-header>
-                        Contratista
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: normal;color: black"> Proveedor
                       </th>
                       <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;word-break: break-all"> {{row.NOM_PROV | titlecase}} </td>
+                          style="font-size: 12px;word-break: break-all;font-weight: lighter"> {{row.NOM_PROV | titlecase}} </td>
                     </ng-container>
 
                     <!-- Name Column -->
                     <ng-container matColumnDef="Estado">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"
-                          mat-sort-header>
-                        Estado
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: normal;color: black"> Estado
                       </th>
-                      <td mat-cell *matCellDef="let row" style="font-size: 12px;font-weight: bold;">
+                      <td mat-cell *matCellDef="let row"
+                          style="font-size: 12px;word-break: break-all;;font-weight: lighter">
                         <a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :
                         (row.ESTADO == 1) ? 'gray' :
                         (row.ESTADO == 2 && ROL != 2) ? 'blue' :
@@ -399,69 +394,47 @@
                                 (row.ESTADO == 8) ? 'Liquidado' :
                                   (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'En Gestion' :
                                     (row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobacion' :
-                                    (row.ESTADO == 3 && ROL == 3) ? 'Pendiente Aprobacion' :
-                                    (row.ESTADO == 4 && ROL == 4) ? 'Pendiente Aprobacion' :
-                                    (row.ESTADO == 5 && ROL == 5) ? 'Pendiente Aprobacion' :
-                                    (row.ESTADO == 6 && ROL == 6) ? 'Pendiente Aprobacion' :
-                                      (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 2) ? 'En Gestion' :
-                                      (row.ESTADO != 3 && ROL == 3) ? 'En Gestion' :
-                                      (row.ESTADO != 4 && ROL == 4) ? 'En Gestion' :
-                                      (row.ESTADO != 5 && ROL == 5) ? 'En Gestion' :
-                                      (row.ESTADO != 6 && ROL == 6) ? 'En Gestion' :
-                                        ''}}
-                        </a>
-                      </td>
+                                      (row.ESTADO == 3 && ROL == 3) ? 'Pendiente Aprobacion' :
+                                        (row.ESTADO == 4 && ROL == 4) ? 'Pendiente Aprobacion' :
+                                          (row.ESTADO == 5 && ROL == 5) ? 'Pendiente Aprobacion' :
+                                            (row.ESTADO == 6 && ROL == 6) ? 'Pendiente Aprobacion' :
+                                              (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 2) ? 'En Gestion' :
+                                                (row.ESTADO != 3 && ROL == 3) ? 'En Gestion' :
+                                                  (row.ESTADO != 4 && ROL == 4) ? 'En Gestion' :
+                                                    (row.ESTADO != 5 && ROL == 5) ? 'En Gestion' :
+                                                      (row.ESTADO != 6 && ROL == 6) ? 'En Gestion' :
+                                                        ''}}
+                        </a></td>
                     </ng-container>
 
-                    <!-- Name Column -->
+                    <!-- Fruit Column -->
                     <ng-container matColumnDef="Fecha">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"
-                          mat-sort-header>
-                        Fecha Proceso
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: normal;color: black"> Fecha
                       </th>
                       <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;"> {{row.CREATED | date}} </td>
+                          style="font-size: 12px;;font-weight: lighter"> {{row.CREATED | date}} </td>
                     </ng-container>
 
-                    <!-- Name Column -->
                     <ng-container matColumnDef="Creador">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: normal;color: black"
                           mat-sort-header>
                         Creador
                       </th>
                       <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;">{{row.USR_LOGIN | titlecase}} </td>
+                          style="font-size: 12px;font-weight: lighter">{{row.USR_LOGIN | titlecase}} </td>
                     </ng-container>
 
-                    <!-- Fruit Column -->
-                    <!--                    <ng-container matColumnDef="Equipo">-->
-                    <!--                      <th mat-header-cell *matHeaderCellDef  style="font-size: 14px;font-weight: bolder;color: black"> Equipo </th>-->
-                    <!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.UNI_CONTRATACION | titlecase}} </td>-->
-                    <!--                    </ng-container>-->
-
-                    <!-- Fruit Column -->
-                    <!--                    <ng-container matColumnDef="Equipo">-->
-                    <!--                      <th mat-header-cell *matHeaderCellDef  style="font-size: 14px;font-weight: bolder;color: black"> Equipo </th>-->
-                    <!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.EQUIPO_CONTRATACION | titlecase}} </td>-->
-                    <!--                    </ng-container>-->
-
-                    <!-- Fruit Column -->
                     <ng-container matColumnDef="ValorOferta">
-                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"
-                          mat-sort-header>
-                        Valor Oferta
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                          style="font-size: 14px;font-weight: normal;color: black"> Valor Oferta
                       </th>
                       <td mat-cell *matCellDef="let row"
-                          style="font-size: 12px;color: rosybrown;font-weight: bold"> {{row.VAL_OFERTA | currency}}</td>
+                          style="font-size: 11px;color: rosybrown;font-weight: lighter;text-align: right;"> {{row.VAL_OFERTA | currency}} </td>
                     </ng-container>
 
-                    <!--                    <ng-container matColumnDef="opciones">-->
-                    <!--                      <th mat-header-cell *matHeaderCellDef  style="font-size: 14px;font-weight: bolder;color: black"> Opciones </th>-->
-                    <!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;color: rosybrown;font-weight: bold"> <a routerLink="dashboard">Opciones</a> </td>-->
-                    <!--                    </ng-container>-->
-
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr class="hoverOnTable" (click)="goDetail(row)" data-toggle="modal" data-target="#modal-default"
+                    <tr class="hoverOnTable" (click)="goDetail(row)"
                         mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
                     <!-- Row shown when there is no matching data. -->
@@ -469,7 +442,9 @@
                       <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
                     </tr>
                   </table>
-                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                                 aria-label="Select page of users"></mat-paginator>
                 </div>
               </div>
             </div>
@@ -477,6 +452,175 @@
         </div>
       </div>
     </section>
+    <!--  MIS PROCESOS  -->
+
+<!--    <section class="content">-->
+<!--      <div class="container-fluid">-->
+<!--        <div class="card ml-3 mr-3">-->
+<!--          &lt;!&ndash;          <div class="card-header" style="background-color: lavender">&ndash;&gt;-->
+<!--          &lt;!&ndash;            <div class="card-tools">&ndash;&gt;-->
+<!--          &lt;!&ndash;              <button&ndash;&gt;-->
+<!--          &lt;!&ndash;                type="button"&ndash;&gt;-->
+<!--          &lt;!&ndash;                class="btn btn-tool"&ndash;&gt;-->
+<!--          &lt;!&ndash;                data-card-widget="collapse"&ndash;&gt;-->
+<!--          &lt;!&ndash;              >&ndash;&gt;-->
+<!--          &lt;!&ndash;                <i class="fas fa-minus"></i>&ndash;&gt;-->
+<!--          &lt;!&ndash;              </button>&ndash;&gt;-->
+<!--          &lt;!&ndash;            </div>&ndash;&gt;-->
+
+<!--          &lt;!&ndash;            <h6 class="card-title ml-3" style="color: #545cd8;font-size: larger;margin-bottom: 0">&ndash;&gt;-->
+<!--          &lt;!&ndash;              <b>{{ "administration-CI.panels.menu2" | translate }}</b>&ndash;&gt;-->
+<!--          &lt;!&ndash;            </h6>&ndash;&gt;-->
+<!--          &lt;!&ndash;          </div>&ndash;&gt;-->
+<!--          <div class="card-body">-->
+<!--            <div>-->
+<!--              <div class="table-responsive">-->
+<!--                <mat-form-field appearance="fill">-->
+<!--                  <mat-label>Filter</mat-label>-->
+<!--                  <input matInput (keyup)="applyFilter($event)" placeholder="" #input>-->
+<!--                </mat-form-field>-->
+<!--                <div id="div_container" class="mat-elevation-z8">-->
+<!--                  <table mat-table [dataSource]="dataSource" matSort>-->
+<!--                    &lt;!&ndash; ID Column &ndash;&gt;-->
+<!--                    <ng-container matColumnDef="Num">-->
+<!--                      <th mat-header-cell *matHeaderCellDef mat-sort-header-->
+<!--                          style="font-size: 14px;font-weight: bolder;color: black;">-->
+<!--                        Número-->
+<!--                      </th>-->
+<!--                      <td mat-cell *matCellDef="let row"-->
+<!--                          style="font-size: 12px;color: #545cd8; font-weight: bold"-->
+<!--                          > {{row.CONS_PROCESO | uppercase}} <svg *ngIf="(row.ESTADO > 2 && ROL == 2) || (row.ESTADO > 3 && ROL == 3)||(row.ESTADO > 4 && ROL == 4)|| (row.ESTADO > 5 && ROL == 5)||  (row.ESTADO > 6 && ROL == 6)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">-->
+<!--                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>-->
+<!--                      </svg></td>-->
+<!--                    </ng-container>-->
+
+<!--                    <ng-container matColumnDef="Identificacion">-->
+<!--                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">-->
+<!--                        Identificación-->
+<!--                      </th>-->
+<!--                      <td mat-cell *matCellDef="let row"-->
+<!--                          style="font-size: 12px;word-break: break-all"> {{row.COD_PROV  | number}} </td>-->
+<!--                    </ng-container>-->
+
+<!--                    &lt;!&ndash; Progress Column &ndash;&gt;-->
+<!--                    <ng-container matColumnDef="Nombre">-->
+<!--                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"-->
+<!--                          mat-sort-header>-->
+<!--                        Contratista-->
+<!--                      </th>-->
+<!--                      <td mat-cell *matCellDef="let row"-->
+<!--                          style="font-size: 12px;word-break: break-all"> {{row.NOM_PROV | titlecase}} </td>-->
+<!--                    </ng-container>-->
+
+<!--                    &lt;!&ndash; Name Column &ndash;&gt;-->
+<!--                    <ng-container matColumnDef="Estado">-->
+<!--                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"-->
+<!--                          mat-sort-header>-->
+<!--                        Estado-->
+<!--                      </th>-->
+<!--                      <td mat-cell *matCellDef="let row" style="font-size: 12px;font-weight: bold;">-->
+<!--                        <a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :-->
+<!--                        (row.ESTADO == 1) ? 'gray' :-->
+<!--                        (row.ESTADO == 2 && ROL != 2) ? 'blue' :-->
+<!--                        (row.ESTADO == 7) ? 'green' :-->
+<!--                        (row.ESTADO == 8) ? 'black' :-->
+<!--                        (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'goldenrod' :-->
+<!--                        (row.ESTADO != 2 && ROL == 2) ? 'goldenrod' :-->
+<!--                        (row.ESTADO != 3 && ROL == 3) ? 'goldenrod' :-->
+<!--                        (row.ESTADO != 4 && ROL == 4) ? 'goldenrod' :-->
+<!--                        (row.ESTADO != 5 && ROL == 5) ? 'goldenrod' :-->
+<!--                        (row.ESTADO != 6 && ROL == 6) ? 'goldenrod' :-->
+<!--                        (row.ESTADO == 2 && ROL == 2) ? 'goldenrod' :-->
+<!--                        (row.ESTADO == 3 && ROL == 3) ? 'goldenrod' :-->
+<!--                        (row.ESTADO == 4 && ROL == 4) ? 'goldenrod' :-->
+<!--                        (row.ESTADO == 5 && ROL == 5) ? 'goldenrod' :-->
+<!--                        (row.ESTADO == 6 && ROL == 6) ? 'goldenrod' :-->
+<!--                        'rose' }">-->
+<!--                          {{(row.ESTADO == 0) ? 'Rechazado' :-->
+<!--                          (row.ESTADO == 1) ? 'Anulado' :-->
+<!--                            (row.ESTADO == 2 && ROL != 2) ? 'Creado' :-->
+<!--                              (row.ESTADO == 7) ? 'Aprobado' :-->
+<!--                                (row.ESTADO == 8) ? 'Liquidado' :-->
+<!--                                  (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'En Gestion' :-->
+<!--                                    (row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobacion' :-->
+<!--                                    (row.ESTADO == 3 && ROL == 3) ? 'Pendiente Aprobacion' :-->
+<!--                                    (row.ESTADO == 4 && ROL == 4) ? 'Pendiente Aprobacion' :-->
+<!--                                    (row.ESTADO == 5 && ROL == 5) ? 'Pendiente Aprobacion' :-->
+<!--                                    (row.ESTADO == 6 && ROL == 6) ? 'Pendiente Aprobacion' :-->
+<!--                                      (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 2) ? 'En Gestion' :-->
+<!--                                      (row.ESTADO != 3 && ROL == 3) ? 'En Gestion' :-->
+<!--                                      (row.ESTADO != 4 && ROL == 4) ? 'En Gestion' :-->
+<!--                                      (row.ESTADO != 5 && ROL == 5) ? 'En Gestion' :-->
+<!--                                      (row.ESTADO != 6 && ROL == 6) ? 'En Gestion' :-->
+<!--                                        ''}}-->
+<!--                        </a>-->
+<!--                      </td>-->
+<!--                    </ng-container>-->
+
+<!--                    &lt;!&ndash; Name Column &ndash;&gt;-->
+<!--                    <ng-container matColumnDef="Fecha">-->
+<!--                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"-->
+<!--                          mat-sort-header>-->
+<!--                        Fecha Proceso-->
+<!--                      </th>-->
+<!--                      <td mat-cell *matCellDef="let row"-->
+<!--                          style="font-size: 12px;"> {{row.CREATED | date}} </td>-->
+<!--                    </ng-container>-->
+
+<!--                    &lt;!&ndash; Name Column &ndash;&gt;-->
+<!--                    <ng-container matColumnDef="Creador">-->
+<!--                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"-->
+<!--                          mat-sort-header>-->
+<!--                        Creador-->
+<!--                      </th>-->
+<!--                      <td mat-cell *matCellDef="let row"-->
+<!--                          style="font-size: 12px;">{{row.USR_LOGIN | titlecase}} </td>-->
+<!--                    </ng-container>-->
+
+<!--                    &lt;!&ndash; Fruit Column &ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <ng-container matColumnDef="Equipo">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                      <th mat-header-cell *matHeaderCellDef  style="font-size: 14px;font-weight: bolder;color: black"> Equipo </th>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.UNI_CONTRATACION | titlecase}} </td>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    </ng-container>&ndash;&gt;-->
+
+<!--                    &lt;!&ndash; Fruit Column &ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <ng-container matColumnDef="Equipo">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                      <th mat-header-cell *matHeaderCellDef  style="font-size: 14px;font-weight: bolder;color: black"> Equipo </th>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                      <td mat-cell *matCellDef="let row" style="font-size: 12px;"> {{row.EQUIPO_CONTRATACION | titlecase}} </td>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    </ng-container>&ndash;&gt;-->
+
+<!--                    &lt;!&ndash; Fruit Column &ndash;&gt;-->
+<!--                    <ng-container matColumnDef="ValorOferta">-->
+<!--                      <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black"-->
+<!--                          mat-sort-header>-->
+<!--                        Valor Oferta-->
+<!--                      </th>-->
+<!--                      <td mat-cell *matCellDef="let row"-->
+<!--                          style="font-size: 12px;color: rosybrown;font-weight: bold"> {{row.VAL_OFERTA | currency}}</td>-->
+<!--                    </ng-container>-->
+
+<!--                    &lt;!&ndash;                    <ng-container matColumnDef="opciones">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                      <th mat-header-cell *matHeaderCellDef  style="font-size: 14px;font-weight: bolder;color: black"> Opciones </th>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                      <td mat-cell *matCellDef="let row" style="font-size: 12px;color: rosybrown;font-weight: bold"> <a routerLink="dashboard">Opciones</a> </td>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    </ng-container>&ndash;&gt;-->
+
+<!--                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--                    <tr class="hoverOnTable" (click)="goDetail(row)"-->
+<!--                        mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+
+<!--                    &lt;!&ndash; Row shown when there is no matching data. &ndash;&gt;-->
+<!--                    <tr class="mat-row" *matNoDataRow>-->
+<!--                      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>-->
+<!--                    </tr>-->
+<!--                  </table>-->
+<!--                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </section>-->
 
     <br>
 

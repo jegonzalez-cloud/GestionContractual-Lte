@@ -90,14 +90,17 @@ tr.hoverOnTable:hover {
   cursor: pointer;
 }
 
-/*button.btn-primary{*/
-/*  background-color: var(--companyColor);*/
-/*  border-color: var(--companyColor);*/
-/*}*/
+button.btn-outline-primary{
+  background-color: var(--companyColor);
+  border-color: var(--sidebarColor);
+  color: var(--sidebarColor);
+}
 
-/*tr.hoverOnTable:not(.hoverOnTable):active {*/
-/*  background: #efefef;*/
-/*}*/
+button.btn-outline-primary:hover{
+  background-color: var(--sidebarColor);
+  border-color: var(--companyColor);
+  color: var(--companyColor);
+}
 
 div.callout{
   border-left-color: var(--companyColor);
