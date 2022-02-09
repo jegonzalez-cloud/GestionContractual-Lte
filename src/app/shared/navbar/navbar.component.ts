@@ -113,7 +113,7 @@ export class NavbarComponent implements OnInit {
         showCancelButton: false,
         allowOutsideClick: false,
         showCloseButton: true,
-        confirmButtonColor: 'red',
+        confirmButtonColor: '#B01F00',
         confirmButtonText: 'ACEPTAR!'
       }).then((result) => {
         if (result.isConfirmed) {
