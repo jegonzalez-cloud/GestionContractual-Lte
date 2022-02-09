@@ -43,8 +43,20 @@ button.btn-outline-primary{
   color: var(--sidebarColor);
 }
 
+button.btn-outline-warning{
+  background-color: var(--companyColor);
+  border-color: goldenrod;
+  color: goldenrod;
+}
+
 button.btn-outline-primary:hover{
   background-color: var(--sidebarColor);
+  border-color: var(--companyColor);
+  color: var(--companyColor);
+}
+
+button.btn-outline-warning:hover{
+  background-color: goldenrod;
   border-color: var(--companyColor);
   color: var(--companyColor);
 }

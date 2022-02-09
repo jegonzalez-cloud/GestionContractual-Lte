@@ -4,7 +4,7 @@
 
     <!-- BUTTONS  -->
 
-    <app-modal-process [prueba]="modalData"></app-modal-process>
+<!--    <app-modal-process></app-modal-process>-->
 
     <button type="button" [hidden]="true" #openbuttonErrorCdp class="btn btn-info btn-lg" data-toggle="modal"
             data-target="#modalResultadoCdp">Open
@@ -141,7 +141,7 @@
                           Codigo UNSPSC
                         </label>
                         <div>
-                          <input type="number" [maxLength]="8" class="form-control font-weight-light text-sm"
+                          <input type="text" minlength="8" maxlength="8" class="form-control font-weight-light text-sm"
                                  formControlName="codigoUNSPSC" list="datalistOptions"
                                  id="exampleDataList" placeholder="Ingrese Codigo UNSPSC..."
                                  (keyup)="getCodigosUnspsc($event)" (change)="onBlurFields($event)">
@@ -348,15 +348,7 @@
         <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
           <!--          <div class="card-header" style="background-color: lavender">-->
           <div class="card-header" style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
-            <div class="card-tools">
-              <!--              <button-->
-              <!--                type="button"-->
-              <!--                class="btn btn-tool"-->
-              <!--                data-card-widget="collapse"-->
-              <!--              >-->
-              <!--              </button>-->
-              <!--              <i class="fas fa-minus"></i>-->
-            </div>
+            <div class="card-tools"></div>
             <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
               <span>Seleccione la modalidad! </span>
             </h6>
@@ -480,6 +472,7 @@
                              aria-labelledby="datos-personales-tab">
                           <!--INGRESAR DATA-->
                           <div class="row">
+                            <input type="hidden" #pru>
                             <div class="col-12 col-sm-3">
                               <div class="form-group">
                                 <label class="font-weight-light text-sm">
@@ -1038,11 +1031,11 @@
                 </div>
                 <button
                   [hidden]="createProcessForm.invalid || myForm.invalid || cdpForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray' || validacionCelular == true || validacionCorreo == true || validateDataCdp != 1 || EDITPROCESS != 0"
-                  class="btn btn-primary btn-sm ml-2" type="submit">Crear Proceso
+                  class="btn btn-outline-primary btn-sm ml-2" type="submit">Crear Proceso
                 </button>
                 <button
                   [hidden]="createProcessForm.invalid || myForm.invalid || cdpForm.invalid || validateDataUNSPSC != 1 || iconColor == 'lightgray' || validacionCelular == true || validacionCorreo == true || validateDataCdp != 1 || EDITPROCESS != 1"
-                  class="btn btn-primary btn-sm ml-2" type="button" (click)="modifyProcess()">Modificar Proceso
+                  class="btn btn-outline-primary btn-sm ml-2" type="button" (click)="modifyProcess()">Modificar Proceso
                 </button>
               </form>
             </div>

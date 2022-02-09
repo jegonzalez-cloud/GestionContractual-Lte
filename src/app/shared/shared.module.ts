@@ -8,16 +8,17 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {ModalProcessComponent} from "../pages/modal/modal-process/modal-process.component";
+import {ModalProcessComponent} from "./modal/modal-process/modal-process.component";
 import {PagesModule} from "../pages/pages.module";
 
 @NgModule({
-  declarations: [NavbarComponent, SidebarComponent, FooterComponent],
+  declarations: [NavbarComponent, SidebarComponent, FooterComponent,ModalProcessComponent],
     imports: [CommonModule, TranslateModule, RouterModule, MatTooltipModule],
   exports: [
     NavbarComponent,
     SidebarComponent,
     FooterComponent,
+    ModalProcessComponent,
     TranslateModule,
     RouterModule
   ],

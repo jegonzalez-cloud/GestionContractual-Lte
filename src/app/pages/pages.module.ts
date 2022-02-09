@@ -68,7 +68,7 @@ import {TreeSelectModule} from "primeng/treeselect";
 import { ConfiguracionComponent } from './configuracion/configuracion.component';
 import { NgxLoadingModule } from 'ngx-loading';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
-import { ModalProcessComponent } from './modal/modal-process/modal-process.component';
+// import { ModalProcessComponent } from '../shared/modal/modal-process/modal-process.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +81,7 @@ import { ModalProcessComponent } from './modal/modal-process/modal-process.compo
     ReportesComponent,
     SampleComponent,
     ConfiguracionComponent,
-    ModalProcessComponent
+    // ModalProcessComponent
   ],
   imports: [
     CommonModule,
@@ -98,7 +98,7 @@ import { ModalProcessComponent } from './modal/modal-process/modal-process.compo
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    // SharedModule,
+    SharedModule,
     // BrowserAnimationsModule,
     A11yModule,
     ClipboardModule,

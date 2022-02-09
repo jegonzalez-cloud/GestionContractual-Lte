@@ -15,6 +15,7 @@ import {CurrencyPipe, formatCurrency} from '@angular/common';
 import * as func from "../../utils/functions";
 import {ServicesService} from "../../services/services.service";
 import {ModalService} from "../../services/modal/modal.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-busqueda',
@@ -29,7 +30,6 @@ export class BusquedaComponent implements OnInit {
   private codigoEntidad: string = atob(localStorage.getItem('codigoEntidad')!);
   private username: string = atob(localStorage.getItem('username')!);
   ROL: any = atob(localStorage.getItem('rol')!);
-  info_process: any = [];
   dataSource!: MatTableDataSource<any>;
   busquedaForm!: FormGroup;
   proveedores!: any;
@@ -72,17 +72,14 @@ export class BusquedaComponent implements OnInit {
   CENTRO_GESTOR!: any;
   CODIGO_RPC!: any;
   infoPagos!: any;
-  cantidadCuotas:any;
-  ENTIDAD = atob(localStorage.getItem('entidad')!);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('closebutton') closebutton:any;
   @ViewChild('openbutton') openbutton:any;
-  verDescuentos: any = [];
   CDPFIELDS: any = [];
   UNSPSCFIELDS: any = [];
   public autorizaciones: any;
-  public modalData!: any;
+  private clickEventSubscription!: Subscription;
 
   constructor(private service: ServicesService,private secopService: SecopService, private fb: FormBuilder,private router:Router,private authService:AuthService,@Inject(LOCALE_ID) public locale: string,private modal: ModalService,) {
   }
@@ -93,6 +90,9 @@ export class BusquedaComponent implements OnInit {
     this.getCreadorProceso();
     this.getcentroGestor();
     this.formulario();
+    this.clickEventSubscription = this.modal.getClickEventDataBusqueda().subscribe(() => {
+      this.searchData();
+    });
   }
 
   searchData() {
@@ -135,10 +135,6 @@ export class BusquedaComponent implements OnInit {
     })
   }
 
-  getTableData() {
-
-  }
-
   formulario() {
     this.busquedaForm = this.fb.group({
       token: new FormControl(atob(localStorage.getItem('token')!)),
@@ -168,15 +164,13 @@ export class BusquedaComponent implements OnInit {
       this.dataSource.sort = this.sort;
     } else {
       this.dataSource = new MatTableDataSource();
-      //utils.showAlert('Error de información', 'error');
     }
   }
 
   goDetail(row: any) {
     this.secopService.getSelectedProcess(this.token,row.CONS_PROCESO).subscribe((response: any) => {
-      this.modalData = response.Values.ResultFields[0][0];
+      localStorage.setItem('modalData', JSON.stringify(Object.assign({}, response.Values.ResultFields[0][0])));
       this.PROCESO_SELECCIONADO = response.Values.ResultFields[0][0];
-      // console.log(response.Values.ResultFields);
       this.CENTRO_GESTOR = response.Values.ResultFields[0][0].CENTRO_GESTOR;
       this.PROCESO = response.Values.ResultFields[0][0].CONS_PROCESO;
       this.TIPO_PROCESO = response.Values.ResultFields[0][0].TIPO_PROCESO;
@@ -202,7 +196,6 @@ export class BusquedaComponent implements OnInit {
       this.INTERADMINISTRATIVOS = response.Values.ResultFields[0][0].INTERADMINISTRATIVOS;
       this.DEFINIR_LOTES = response.Values.ResultFields[0][0].DEFINIR_LOTES;
       this.ESTADO = response.Values.ResultFields[0][0].ESTADO;
-
       this.CODIGO_RPC = response.Values.ResultFields[0][0].CODIGO_RPC;
       this.FECHA_INICIO = response.Values.ResultFields[0][0].FECHA_INICIO;
       this.FECHA_TERMINO = response.Values.ResultFields[0][0].FECHA_TERMINO;
@@ -215,159 +208,19 @@ export class BusquedaComponent implements OnInit {
       this.CDPFIELDS = response.Values.ResultFields[1];
       this.UNSPSCFIELDS = response.Values.ResultFields[2];
       this.modal.sendClickEvent();
-      // this.autorizaciones = response.Values.ResultFields;
     });
-  }
-
-  fillModal(numProceso:any) {
-    // console.log(numProceso)
-    this.router.navigate(['home/autorizaciones-det/'+numProceso]);
   }
 
   private validateToken() {
     this.authService.isLogin().subscribe((response:any)=>{
-      // console.log(response);
       if(response.Status == 'Fail' || response.Token == '-1'){
         this.router.navigate(['login']);
       }
     })
   }
 
-  public async getPagosXRpc(proceso:any){
-    this.secopService.getRpcFromProcess(proceso).subscribe((response: any) => {
-      if (response.Status != 'Ok') {
-        utils.showAlert('No se encontro un RPC asociado al proceso', 'error');
-        return;
-      }
-      else{
-        let rpc = response.Values.ResultFields;
-        if (rpc != null && rpc.toString().length == 10) {
-          this.secopService.getPagosXRpc(this.token, rpc).subscribe((response: any) => {
-            if (response.Status != 'Ok') {
-              utils.showAlert('Rpc no encontrado, por favor intente de nuevo!', 'error');
-            } else {
-              this.infoPagos = response.Values.ResultFields;
-              this.cantidadCuotas = this.infoPagos.length
-              utils.showAlert('Consulta exitosa!', 'success');
-              this.onOpen();
-            }
-          });
-        } else {
-          utils.showAlert('No se encontro un codigo Rpc asociado!', 'error');
-        }
-      }
-    });
-  }
-
-  public onSave() {
-    this.closebutton.nativeElement.click();
-  }
-
-  public onOpen(){
-    this.openbutton.nativeElement.click();
-  }
-
   generateReports() {
     func.generarReporte(this.infoPagos, this.locale,this.CENTRO_GESTOR,this.NOM_PROV,this.COD_PROV);
-  }
-
-  WatchDescuento(infopago:any) {
-    if (this.verDescuentos[infopago[0]]) {
-      this.verDescuentos[infopago[0]] = false;
-    } else {
-      this.verDescuentos[infopago[0]] = true;
-    }
-  }
-
-  anularProceso(proceso: string) {
-    this.secopService.updateProcess(proceso, this.ROL, this.entidad, this.codigoEntidad, this.username, 'anulado').subscribe((response: any) => {
-      this.service.sendClickEvent();
-      if (response.Status = 'Ok') {
-        utils.showAlert('Se Anulo el proceso #' + proceso + '!', 'warning');
-        this.getdataProcess();
-      }
-    });
-  }
-
-  getdataProcess() {
-    this.secopService.getDataProcess('0001', 1,this.centroGestor).subscribe((data: any) => {
-      this.info_process = data;
-      this.infoProcess();
-    });
-  }
-
-  async aprobarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'aprobado').subscribe(async (response: any) => {
-      this.service.sendClickEvent();
-      if (response.Status = 'Ok') {
-        utils.showAlert('Se autorizo el proceso #' + proceso + ' correctamente!', 'success');
-        //disparar creacion secop segun rol
-        // if(this.ROL == 44){
-        if (this.ROL == 6) {
-          //console.log('aqui vamos');
-          this.secopService.getUnspscData(this.token, proceso).subscribe((response: any) => {
-            // console.log('aqui estamos');
-            // console.log(this.token);
-            // console.log(response);
-            let usuarioConect = atob(localStorage.getItem('usuarioConect')!);
-            let conectPw = atob(localStorage.getItem('conectPw')!);
-            let arr: Array<any> = [];
-            arr.push(this.PROCESO_SELECCIONADO);
-            arr.push(response.Values.ResultFields);
-            arr.push({"USUARIO_CONNECT": usuarioConect});
-            arr.push({"PASSWORD_CONNECT": conectPw});
-            arr.push({"USC_CODIGO_ENTIDAD": this.codigoEntidad});
-            arr.push({"TOKEN": this.token});
-
-            this.secopService.createSoapProcess(arr).subscribe((response: any) => {
-              console.log(response);
-            });
-            //utils.sendSoapData(this.PROCESO_SELECCIONADO,response.Values.ResultFields);
-          });
-
-        }
-        await this.getAutorizacionesXEntidad();
-      }
-    });
-  }
-
-  rechazarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'rechazado').subscribe((response:any)=>{
-      this.service.sendClickEvent();
-      if(response.Status = 'Ok'){
-        utils.showAlert('Se rechazo el proceso #'+proceso+ '!','warning');
-        this.getAutorizacionesXEntidad();
-      }
-    });
-  }
-
-  async getAutorizacionesXEntidad(){
-    this.secopService.getAutorizacionesXEntidad(this.entidad).subscribe(async (response:any)=>{
-      this.busqueda = response.Values.ResultFields;
-      // console.log(this.autorizaciones);
-      await this.infoProcess();
-    });
-  }
-
-  validarAnulacion(proceso: string) {
-    Swal.fire({
-      title: 'Esta Seguro?',
-      text: "Esta accion no se podrá revertir!",
-      icon: 'warning',
-      showCancelButton: true,
-      allowOutsideClick: false,
-      // confirmButtonColor: 'var(--companyColor)',
-      confirmButtonColor: 'primary',
-      // cancelButtonColor: '#E9ECEF',
-      cancelButtonColor: 'dark',
-      confirmButtonText: 'Si, anular proceso!',
-      cancelButtonText: 'No, deseo revisar!',
-      reverseButtons: true
-    }).then((result: any) => {
-      if (result.isConfirmed) {
-        this.anularProceso(proceso);
-      }
-    });
   }
 
 }

@@ -8,13 +8,15 @@ import Swal from "sweetalert2";
 import {SecopService} from "../../services/secop/secop.service";
 import {ServicesService} from "../../services/services.service";
 import * as func from "../../utils/functions";
+import {Subscription} from "rxjs";
+import {ModalService} from "../../services/modal/modal.service";
 
 @Component({
   selector: 'app-autorizaciones',
   templateUrl: './autorizaciones.component.html',
   styleUrls: ['./autorizaciones.component.css']
 })
-export class AutorizacionesComponent implements OnInit, AfterViewInit {
+export class AutorizacionesComponent implements OnInit {
   displayedColumns: string[] = ['Num','Identificacion', 'Nombre', 'Estado', 'Fecha', 'Creador', 'ValorOferta'];
   //Numeración	ID Secop	Nombre del Proceso	Dependencia	Unidad	Equipo	Valor oferta
   public dataSource!: MatTableDataSource<any>;
@@ -65,19 +67,16 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   CODIGO_RPC: any;
   CENTRO_GESTOR: any;
   infoPagos: any;
-  verDescuentos: any = [];
-  cantidadCuotas:any;
+  private clickEventSubscription!: Subscription;
 
-  constructor(private router: Router,private secopService:SecopService,private service:ServicesService,@Inject(LOCALE_ID) public locale: string) {
-  }
-
-  ngAfterViewInit(): void {
-
+  constructor(private router: Router,private secopService:SecopService,private service:ServicesService,@Inject(LOCALE_ID) public locale: string,private modal: ModalService) {
   }
 
   ngOnInit(): void {
-    // this.autorizaciones = JSON.parse(localStorage.getItem('autorizaciones')!);
     this.getAutorizacionesXEntidad();
+    this.clickEventSubscription = this.modal.getClickEventDataAutorizaciones().subscribe(() => {
+      this.getAutorizacionesXEntidad();
+    });
   }
 
   applyFilter(event: Event) {
@@ -101,6 +100,7 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
 
   goDetail(row: any) {
     this.secopService.getSelectedProcess(this.token,row.CONS_PROCESO).subscribe((response: any) => {
+      localStorage.setItem('modalData', JSON.stringify(Object.assign({}, response.Values.ResultFields[0][0])));
       this.PROCESO_SELECCIONADO = response.Values.ResultFields[0][0];
       this.CENTRO_GESTOR = response.Values.ResultFields[0][0].CENTRO_GESTOR;
       this.PROCESO = response.Values.ResultFields[0][0].CONS_PROCESO;
@@ -127,7 +127,6 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
       this.INTERADMINISTRATIVOS = response.Values.ResultFields[0][0].INTERADMINISTRATIVOS;
       this.DEFINIR_LOTES = response.Values.ResultFields[0][0].DEFINIR_LOTES;
       this.ESTADO = response.Values.ResultFields[0][0].ESTADO;
-
       this.CODIGO_RPC = response.Values.ResultFields[0][0].CODIGO_RPC;
       this.FECHA_INICIO = response.Values.ResultFields[0][0].FECHA_INICIO;
       this.FECHA_TERMINO = response.Values.ResultFields[0][0].FECHA_TERMINO;
@@ -137,115 +136,16 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
       this.VAL_OFERTA = response.Values.ResultFields[0][0].VAL_OFERTA;
       this.TIEMPO_DURACION_CONTRATO  = response.Values.ResultFields[0][0].TIEMPO_DURACION_CONTRATO ;
       this.DURACION_CONTRATO = response.Values.ResultFields[0][0].DURACION_CONTRATO;
-
-      // this.autorizaciones = response.Values.ResultFields;
-    });
-  }
-
-  fillModal(numProceso:any) {
-    // console.log(numProceso)
-    this.router.navigate(['home/autorizaciones-det/'+numProceso]);
-  }
-
-  aprobarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'aprobado').subscribe((response:any)=>{
-      this.service.sendClickEvent();
-      if(response.Status = 'Ok'){
-        utils.showAlert('Se autorizo el proceso #'+proceso+ ' correctamente!','success');
-        //disparar creacion secop segun rol
-        // if(this.ROL == 44){
-        if(this.ROL == 6){
-          //console.log('aqui vamos');
-          this.secopService.getUnspscData(this.token,proceso).subscribe((response:any)=>{
-            // console.log('aqui estamos');
-            // console.log(this.token);
-            // console.log(response);
-            let usuarioConect = atob(localStorage.getItem('usuarioConect')!);
-            let conectPw = atob(localStorage.getItem('conectPw')!);
-            let arr: Array<any> = [];
-            arr.push(this.PROCESO_SELECCIONADO);
-            arr.push(response.Values.ResultFields);
-            arr.push({"USUARIO_CONNECT":usuarioConect});
-            arr.push({"PASSWORD_CONNECT":conectPw});
-            arr.push({"USC_CODIGO_ENTIDAD":this.codigoEntidad});
-            arr.push({"TOKEN":this.token});
-
-            this.secopService.createSoapProcess(arr).subscribe((response:any)=>{
-              console.log(response);
-            });
-            //utils.sendSoapData(this.PROCESO_SELECCIONADO,response.Values.ResultFields);
-          });
-
-        }
-        this.getAutorizacionesXEntidad();
-      }
-    });
-  }
-
-  rechazarAutorizacion(proceso:string){
-    this.secopService.updateProcess(proceso,this.ROL,this.entidad,this.codigoEntidad,this.username,'rechazado').subscribe((response:any)=>{
-      this.service.sendClickEvent();
-      if(response.Status = 'Ok'){
-        utils.showAlert('Se rechazo el proceso #'+proceso+ '!','warning');
-        this.getAutorizacionesXEntidad();
-      }
+      this.modal.sendClickEvent();
     });
   }
 
   getAutorizacionesXEntidad(){
     this.secopService.getAutorizacionesXEntidad(this.entidad).subscribe((response:any)=>{
       this.autorizaciones = response.Values.ResultFields;
-      // console.log(this.autorizaciones);
       this.infoProcess();
     })
   }
-
-  public async getPagosXRpc(proceso:any){
-    this.secopService.getRpcFromProcess(proceso).subscribe((response: any) => {
-      if (response.Status != 'Ok') {
-        utils.showAlert('No se encontro un RPC asociado al proceso', 'error');
-        return;
-      }
-      else{
-        let rpc = response.Values.ResultFields;
-        if (rpc != null && rpc.toString().length == 10) {
-          this.secopService.getPagosXRpc(this.token, rpc).subscribe((response: any) => {
-            if (response.Status != 'Ok') {
-              utils.showAlert('Rpc no encontrado, por favor intente de nuevo!', 'error');
-            } else {
-              this.infoPagos = response.Values.ResultFields;
-              this.cantidadCuotas = this.infoPagos.length
-              utils.showAlert('Consulta exitosa!', 'success');
-              this.onOpen();
-            }
-          });
-        } else {
-          utils.showAlert('No se encontro un codigo Rpc asociado!', 'error');
-        }
-      }
-    });
-  }
-
-  // getPagosXRpc(){
-  //   let rpc = this.CODIGO_RPC;
-  //   rpc = '5600015821'; // FIXME: corregir envio de codigo RPC
-  //   if (rpc && rpc.length == 10 ) {
-  //     this.secopService.getPagosXRpc(this.token,rpc).subscribe((response:any)=>{
-  //       if(response.Status != 'Ok'){
-  //         utils.showAlert('Rpc no encontrado, por favor intente de nuevo!','error');
-  //       }
-  //       else{
-  //         this.infoPagos = response.Values.ResultFields;
-  //         this.cantidadCuotas = this.infoPagos.length
-  //         utils.showAlert('Consulta exitosa!','success');
-  //         this.onOpen();
-  //       }
-  //     });
-  //   }
-  //   else{
-  //     utils.showAlert('No se encontro un codigo Rpc asociado!','error');
-  //   }
-  // }
 
   public onOpen(){
     this.openbutton.nativeElement.click();
@@ -254,14 +154,4 @@ export class AutorizacionesComponent implements OnInit, AfterViewInit {
   generateReports() {
     func.generarReporte(this.infoPagos, this.locale,this.CENTRO_GESTOR,this.NOM_PROV,this.COD_PROV);
   }
-
-  WatchDescuento(infopago:any) {
-    if (this.verDescuentos[infopago[0]]) {
-      this.verDescuentos[infopago[0]] = false;
-    } else {
-      this.verDescuentos[infopago[0]] = true;
-    }
-  }
-
-
 }

@@ -299,9 +299,10 @@ export class ReportesComponent implements OnInit {
       showCloseButton: true,
       icon: 'question',
       confirmButtonText: 'Excel',
-      confirmButtonColor: 'var(--companyColor)',
+      confirmButtonColor: 'green',
       allowOutsideClick: false,
       denyButtonText: 'PDF',
+      denyButtonColor: 'red',
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {

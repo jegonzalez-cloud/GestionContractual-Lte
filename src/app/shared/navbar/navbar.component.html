@@ -1,111 +1,4 @@
-<!-- Modal -->
-<!--<div class="modal fade" id="modal-default1" data-backdrop="static" data-keyboard="false" tabindex="-1">-->
-<!--  <div class="modal-dialog modal-dialog-scrollable">-->
-<!--    <div class="modal-content" style="width: auto">-->
-<!--      <div class="modal-header">-->
-<!--        <h4 class="modal-title"><b style="font-size: larger">Proceso # <a-->
-<!--          style="color: var(&#45;&#45;labelColor)">{{PROCESO}}</a></b>-->
-<!--        </h4>-->
-<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--          <span aria-hidden="true">&times;</span>-->
-<!--        </button>-->
-<!--      </div>-->
-<!--      <div class="modal-body modal-dialog-scrollable">-->
-<!--        <div>-->
-<!--          <div class="callout callout-danger">-->
-<!--            <p><b style="color: var(&#45;&#45;labelColor);font-size: 16px">Información General</b></p>-->
-
-<!--            &lt;!&ndash;            <p style="word-break: break-all"><b>Tipo Proceso :</b> jojojojojooojjojojojojooojjojojojojooojjojojojojooojjojojojojooojjojojojojoooj</p>&ndash;&gt;-->
-
-<!--            <p><b>Tipo Proceso :</b> {{TIPO_PROCESO}}</p>-->
-<!--            <p><b>Tipo Contrato :</b> {{TIPO_CONTRATO}}</p>-->
-<!--            <p><b>Justificación Tipo Contrato :</b> {{JUST_TIPO_PROCESO}}</p>-->
-<!--            <p style="word-break: break-all"><b>Nombre Proceso :</b> {{NOMBRE_PROCESO}}</p>-->
-<!--            <p><b>Unidad Contratación :</b> {{UNI_CONTRATACION}}</p>-->
-<!--            <p><b>Equipo Contratación :</b> {{EQUIPO_CONTRATACION}}</p>-->
-<!--            <p style="word-break: break-all"><b>Objeto Proceso :</b> {{DESCRIPCION_PROCESO}}</p>-->
-<!--          </div>-->
-
-
-<!--          <div class="callout callout-danger">-->
-<!--            <p><b style="color: var(&#45;&#45;labelColor);font-size: 16px">Datos Personales</b></p>-->
-<!--            <p><b>Tipo identificacion Proveedor :</b> {{TIP_IDEN_PROV}}</p>-->
-<!--            <p><b>Cédula Proveedor :</b> {{COD_PROV}}</p>-->
-<!--            <p><b>Nombre Proveedor :</b> {{NOM_PROV}}</p>-->
-<!--            <p><b>Fecha Nacimiento Proveedor :</b> {{NACIMIENTO_PROV | date}}</p>-->
-<!--            <p><b>Genero Proveedor :</b> {{GENERO_PROV}}</p>-->
-<!--            <p><b>Email Proveedor :</b> {{CORREO_PROV}}</p>-->
-<!--            <p><b>Dpto Proveedor :</b> {{DPTO_PROV}}</p>-->
-<!--            <p><b>Ciudad Proveedor :</b> {{CIUDAD_PROV}}</p>-->
-<!--            <p><b>Ubicación Proveedor :</b> {{UBICACION_PROV}}</p>-->
-<!--            <p><b>Categoria Contratación :</b> {{CATE_CONTRATACION}}</p>-->
-<!--            <p><b>Profesión Proveedor :</b> {{PROFESION_PROV}}</p>-->
-<!--          </div>-->
-
-<!--          <div class="callout callout-danger">-->
-<!--            <p><b style="color: var(&#45;&#45;labelColor);font-size: 16px">Configuración</b></p>-->
-<!--            <p><b>Documentos Tipo :</b> {{DOCUMENTOS_TIPO}}</p>-->
-<!--            <p><b>Interadministrativos :</b> {{INTERADMINISTRATIVOS}}</p>-->
-<!--            <p><b>Definir Lotes :</b> {{DEFINIR_LOTES}}</p>-->
-<!--            <p><b>Fecha de Inicio :</b> {{FECHA_INICIO | date}}</p>-->
-<!--            <p><b>Fecha de Termino :</b> {{FECHA_TERMINO | date}}</p>-->
-<!--            <p><b>Firma de Contrato :</b> {{FIRMA_CONTRATO | date}}</p>-->
-<!--            <p><b>Plazo de Ejecución :</b> {{PLAZO_EJECUCION | date}}</p>-->
-<!--            <p><b>Plan de Pagos :</b> {{PLAN_PAGOS}}</p>-->
-<!--            <p><b>Valor Oferta :</b> {{VAL_OFERTA | currency}}</p>-->
-<!--            <p><b>Duración Contrato :</b> {{TIEMPO_DURACION_CONTRATO}} {{DURACION_CONTRATO}}</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="modal-footer justify-content-between">-->
-<!--        &lt;!&ndash;            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>&ndash;&gt;-->
-<!--        &lt;!&ndash;        <button type="button" class="btn btn-secondary"&ndash;&gt;-->
-<!--        &lt;!&ndash;                data-dismiss="modal"&ndash;&gt;-->
-<!--        &lt;!&ndash;                (click)="rechazarAutorizacion(PROCESO)"&ndash;&gt;-->
-<!--        &lt;!&ndash;                [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">&ndash;&gt;-->
-<!--        &lt;!&ndash;          Rechazar&ndash;&gt;-->
-<!--        &lt;!&ndash;        </button>&ndash;&gt;-->
-<!--        &lt;!&ndash;        <button type="button" class="btn btn-primary"&ndash;&gt;-->
-<!--        &lt;!&ndash;                data-dismiss="modal"&ndash;&gt;-->
-<!--        &lt;!&ndash;                (click)="aprobarAutorizacion(PROCESO)"&ndash;&gt;-->
-<!--        &lt;!&ndash;                [ngStyle]="{'display': (ROL == 40 && ESTADO != 2) ? 'none' : (ROL == 41 && ESTADO !=3) ? 'none' : (ROL == 42 && ESTADO != 4) ? 'none' : (ROL == 43 && ESTADO != 5) ? 'none' : (ROL == 44 && ESTADO != 6) ? 'none' : 'block' }">&ndash;&gt;-->
-<!--        &lt;!&ndash;          Autorizar&ndash;&gt;-->
-<!--        &lt;!&ndash;        </button>&ndash;&gt;-->
-
-
-<!--        &lt;!&ndash;        <button type="button" class="btn btn-warning"&ndash;&gt;-->
-<!--        &lt;!&ndash;                data-dismiss="modal"&ndash;&gt;-->
-<!--        &lt;!&ndash;                (click)="fillModal(PROCESO)"&ndash;&gt;-->
-<!--        &lt;!&ndash;                [ngStyle]="{'display': (ROL == 40 && ESTADO > 2) ? 'block' : (ROL == 41 && ESTADO >3) ? 'block' : (ROL == 42 && ESTADO > 4) ? 'block' : (ROL == 43 && ESTADO > 5) ? 'block' : (ROL == 44 && ESTADO > 6) ? 'block' : 'none' }">&ndash;&gt;-->
-<!--        &lt;!&ndash;          Historial&ndash;&gt;-->
-<!--        &lt;!&ndash;        </button>&ndash;&gt;-->
-<!--        <button type="button" class="btn btn-secondary"-->
-<!--                data-dismiss="modal"-->
-<!--                (click)="rechazarAutorizacion(PROCESO)"-->
-<!--                [ngStyle]="{'display': (ROL == 2 && ESTADO != 2) ? 'none' : (ROL == 3 && ESTADO !=3) ? 'none' : (ROL == 4 && ESTADO != 4) ? 'none' : (ROL == 5 && ESTADO != 5) ? 'none' : (ROL == 6 && ESTADO != 6) ? 'none' : 'block' }">-->
-<!--          Rechazar-->
-<!--        </button>-->
-<!--        <button type="button" class="btn btn-primary"-->
-<!--                data-dismiss="modal"-->
-<!--                (click)="aprobarAutorizacion(PROCESO)"-->
-<!--                [ngStyle]="{'display': (ROL == 2 && ESTADO != 2) ? 'none' : (ROL == 3 && ESTADO !=3) ? 'none' : (ROL == 4 && ESTADO != 4) ? 'none' : (ROL == 5 && ESTADO != 5) ? 'none' : (ROL == 6 && ESTADO != 6) ? 'none' : 'block' }">-->
-<!--          Autorizar-->
-<!--        </button>-->
-
-
-<!--        <button type="button" class="btn btn-warning"-->
-<!--                data-dismiss="modal"-->
-<!--                (click)="fillModal(PROCESO)"-->
-<!--                [ngStyle]="{'display': (ROL == 2 && ESTADO > 2) ? 'block' : (ROL == 3 && ESTADO >3) ? 'block' : (ROL == 4 && ESTADO > 4) ? 'block' : (ROL == 5 && ESTADO > 5) ? 'block' : (ROL == 6 && ESTADO > 6) ? 'block' : 'none' }">-->
-<!--          Historial-->
-<!--        </button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    &lt;!&ndash; /.modal-content &ndash;&gt;-->
-<!--  </div>-->
-<!--  &lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-<!--</div>-->
-<!--<app-modal-process [prueba]="modalData"></app-modal-process>-->
+<app-modal-process></app-modal-process>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
   <!-- Left navbar links -->
@@ -121,57 +14,59 @@
   <ul class="navbar-nav ml-auto">
     <!-- Notifications Dropdown Menu -->
     <li *ngIf="ROL != 1" class="nav-item dropdown">
-      <a class="nav-link" data-toggle="dropdown" href="#divNotificaciones">
-        <i class="far fa-bell text-lg"></i>
-        <span *ngIf="cantidadAutorizaciones>0" class="badge badge-danger navbar-badge">{{cantidadAutorizaciones}}</span>
-      </a>
-      <div id="divNotificaciones" [style]="{'height':(cantidadAutorizaciones >= 14) ? '975%' : 'auto' }"
-           class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
-        <div id="notificaciones-sticky-top" class="dropdown-item dropdown-header">{{cantidadAutorizaciones}}
-          Notificaciones
-        </div>
-        <!--        <option
-                                          *ngFor="let dep of departamentos"
-                                          value="{{ dep.DPTO_COD }}"
-                                        >
-                                          {{ dep.DPTO_DESCRIPCION }}
-                                        </option>-->
-        <div *ngFor="let aut of autorizaciones" style="text-align: center">
-          <div class="dropdown-divider"></div>
-          <p class="hoverOnTable" style="cursor: pointer"
-             (click)="goDetail(aut.CONS_PROCESO)">
-            <i class="fas fa-envelope mr-2"></i> <a
-            style="color: black;font-size: small;word-break: break-all;">Se requiere autorizar # </a><a
-            style="font-size: 11px;font-weight: bold;color: #545cd8">{{ aut.CONS_PROCESO}}</a>
-            <!--            <a style="color: gray;font-size: small;word-break: break-all">{{aut.NOMBRE_PROCESO}}</a>-->
-            <!--            <span class="float-right text-muted text-sm">3 mins</span>-->
-          </p>
-        </div>
+          <a class="nav-link" data-toggle="dropdown" href="#divNotificaciones" style="margin-right: -10px">
+            <i class="far fa-bell text-lg"></i>
+            <span *ngIf="cantidadAutorizaciones>0"
+                  class="badge badge-danger navbar-badge">{{cantidadAutorizaciones}}</span>
+          </a>
+          <div id="divNotificaciones" [style]="{'height':(cantidadAutorizaciones >= 14) ? '975%' : 'auto' }"
+               class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
+            <div id="notificaciones-sticky-top" class="dropdown-item dropdown-header">{{cantidadAutorizaciones}}
+              Notificaciones
+            </div>
+            <!--        <option
+                                              *ngFor="let dep of departamentos"
+                                              value="{{ dep.DPTO_COD }}"
+                                            >
+                                              {{ dep.DPTO_DESCRIPCION }}
+                                            </option>-->
+            <div *ngFor="let aut of autorizaciones" style="text-align: center">
+              <div class="dropdown-divider"></div>
+              <p class="hoverOnTable" style="cursor: pointer"
+                 (click)="goDetail(aut.CONS_PROCESO)">
+                <i class="fas fa-envelope mr-2"></i> <a
+                style="color: black;font-size: small;word-break: break-all;">Se requiere autorizar # </a><a
+                style="font-size: 11px;font-weight: bold;color: #545cd8">{{ aut.CONS_PROCESO}}</a>
+                <!--            <a style="color: gray;font-size: small;word-break: break-all">{{aut.NOMBRE_PROCESO}}</a>-->
+                <!--            <span class="float-right text-muted text-sm">3 mins</span>-->
+              </p>
+            </div>
 
-        <!--        <div class="dropdown-divider"></div>-->
-        <!--        <a href="#" class="dropdown-item">-->
-        <!--          <i class="fas fa-users mr-2"></i> 8 friend requests-->
-        <!--          <span class="float-right text-muted text-sm">12 hours</span>-->
-        <!--        </a>-->
-        <!--        <div class="dropdown-divider"></div>-->
-        <!--        <a href="#" class="dropdown-item">-->
-        <!--          <i class="fas fa-file mr-2"></i> 3 new reports-->
-        <!--          <span class="float-right text-muted text-sm">2 days</span>-->
-        <!--        </a>-->
-        <div class="dropdown-divider"></div>
-        <div id="notificaciones-sticky-bot" [routerLink]="['autorizaciones']" class="dropdown-item dropdown-footer"
-        >Ver todas las notificaciones
-        </div>
-      </div>
-    </li>
+            <!--        <div class="dropdown-divider"></div>-->
+            <!--        <a href="#" class="dropdown-item">-->
+            <!--          <i class="fas fa-users mr-2"></i> 8 friend requests-->
+            <!--          <span class="float-right text-muted text-sm">12 hours</span>-->
+            <!--        </a>-->
+            <!--        <div class="dropdown-divider"></div>-->
+            <!--        <a href="#" class="dropdown-item">-->
+            <!--          <i class="fas fa-file mr-2"></i> 3 new reports-->
+            <!--          <span class="float-right text-muted text-sm">2 days</span>-->
+            <!--        </a>-->
+            <div class="dropdown-divider"></div>
+            <div id="notificaciones-sticky-bot" [routerLink]="['autorizaciones']" class="dropdown-item dropdown-footer"
+            >Ver todas las notificaciones
+            </div>
+          </div>
+</li>
     <li class="nav-item">
-      <a class="nav-link" (click)="logOut()" role="button">
-<!--        <i class="fas fa-sign-out-alt log-out text-lg"></i>-->
+      <a class="nav-link" role="button" style="margin-right: -7px">
+        <!-- (click)="logOut()"       -->
+        <!--        <i class="fas fa-sign-out-alt log-out text-lg"></i>-->
         <i class="fa fa-question-circle text-lg" aria-hidden="true"></i>
       </a>
     </li>
     <li class="nav-item">
-      <div class="d-flex" style="height: 100%;margin-right: 3vh">
+      <div class="d-flex" style="height: 100%;margin-right: 3.5vh;margin-left: 2vh">
         <div class="vr" style="border: 0.05px solid #ddd9d9;height: 100%;"></div>
       </div>
     </li>
@@ -182,34 +77,75 @@
           class="img-circle elevation-2"
           alt="User Image"
           style="width:36px"
-          matTooltip="{{ROL == 1 ? 'Creador del Proceso y Contrato' :
-          ROL == 2 ? 'Secretaria Juridica' :
-            ROL == 3 ? 'Ordenador del gasto' :
-              ROL == 4 ? 'Secretaria Privada' :
-                ROL == 5 ? 'Comite de Contratacion' :
-                  ROL == 6 ? 'DADII' : 'Admin'}}"
         />
       </div>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" (click)="logOut()" role="button">
-        <i class="fas fa-sign-out-alt log-out text-lg"></i>
-      </a>
+    <li class="nav-item" style="width:10%">
+      <div class="info mr-3">
+        <a class="nav-link" data-toggle="dropdown" href="#divVersion"><i class="fas fa-caret-down"
+                                                                         style="color:gray"></i></a>
+        <div id="divVersion"
+             class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
+          <div id="version-sticky-top" class="dropdown-item dropdown-header font-weight-normal">
+            <div class="container">
+              <div class="row">
+                <div class="col-12 col-sm-3">
+                  <div class="image mt-0">
+                    <img
+                      src={{userImage}}
+                      class="img-circle elevation-2"
+                      alt="User Image"
+                      style="width:48px;margin-top:20%"
+                    />
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                  <span matTooltip="{{nameUser | titlecase}}">{{nameUser | titlecase}}</span>
+                  <footer
+                    class="blockquote-footer text-center font-weight-lighter"><span style="color: var(--labelColor)">{{entidad | titlecase}}<br><a>{{ROL == 1 ? 'Creador del Proceso y Contrato' :
+                    ROL == 2 ? 'Secretaria Juridica' :
+                      ROL == 3 ? 'Ordenador del gasto' :
+                        ROL == 4 ? 'Secretaria Privada' :
+                          ROL == 5 ? 'Comite de Contratacion' :
+                            ROL == 6 ? 'DADII' : 'Admin'}}</a></span><br>LegalBase Version 3.2.310122
+                  </footer>
+                </div>
+                <div class="col-12 col-sm-3">
+                  <button type="button" (click)="logOut()" class="btn btn-outline-primary" style="margin-top:30%">Salir</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+        </div>
+      </div>
     </li>
     <li class="nav-item ml-2">
       <div class="info mr-3">
-<!--        <a class="d-block text-xs" style="font-weight: bold; color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>-->
-        <a class="d-block font-weight-bold mb-0" style="font-size: x-small;color: var(--labelColor)">{{nameUser | titlecase}}</a>
-        <a class="d-block font-weight-lighter mt-0" style="font-size: x-small;color: var(--labelColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>
+        <!--        <a class="d-block text-xs" style="font-weight: bold; color: var(--companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>-->
+        <a class="d-block font-weight-normal mb-0" style="font-size: smaller;color: var(--labelColor);overflow: hidden; text-overflow: ellipsis; white-space: nowrap;max-width: 150px">{{nameUser | titlecase}} WWWWWWWWWWWWWWWWWWWWW wwwwwwwwww</a>
+        <a class="d-block font-weight-lighter mt-0" style="font-size: x-small;color: var(--labelColor);text-overflow:ellipsis;white-space: nowrap;">{{entidad | titlecase}}</a>
         <!--        <a class="d-block text-sm">{{nameUser | titlecase}}</a>-->
-<!--        <a class="d-block text-xs" style="color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer">ROL</a>-->
+        <!--        <a class="d-block text-xs" style="color: var(--companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer">ROL</a>-->
       </div>
     </li>
+    <!--    <li class="nav-item">-->
+<!--      <a class="nav-link" (click)="logOut()" role="button">-->
+<!--        <i class="fas fa-sign-out-alt log-out text-lg"></i>-->
+<!--      </a>-->
+<!--    </li>-->
     <!-- <li class="nav-item">
           <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
             <i class="fas fa-th-large"></i>
           </a>
         </li> -->
   </ul>
+
 </nav>
 <!-- /.navbar -->
+
+<!-- Button trigger modal -->
+<!--<button type="button" class="btn btn-primary" >-->
+<!--  Launch demo modal-->
+<!--</button>-->

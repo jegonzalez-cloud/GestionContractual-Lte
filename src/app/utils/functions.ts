@@ -472,4 +472,8 @@ export function onFileChange(ev: any) {
   console.log(ExcelToJSON);
 }
 
+export function deleteData(name:string){
+  localStorage.removeItem(name);
+}
+
 

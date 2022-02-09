@@ -9,6 +9,8 @@ export class ModalService {
   apiUrl: string = 'http://localhost:3000';
   private subject = new Subject<any>();
   private subjectGetDataProcess = new Subject<any>();
+  private subjectDataBusqueda = new Subject<any>();
+  private subjectDataAutorizaciones = new Subject<any>();
   private subjectFillFields = new Subject<any>();
   private modals: any[] = [];
 
@@ -28,6 +30,22 @@ export class ModalService {
 
   getClickEventGetDataProcess():Observable<any>{
     return this.subjectGetDataProcess.asObservable();
+  }
+
+  sendClickEventDataBusqueda(){
+    this.subjectDataBusqueda.next();
+  }
+
+  getClickEventDataBusqueda():Observable<any>{
+    return this.subjectDataBusqueda.asObservable();
+  }
+
+  sendClickEventDataAutorizaciones(){
+    this.subjectDataAutorizaciones.next();
+  }
+
+  getClickEventDataAutorizaciones():Observable<any>{
+    return this.subjectDataAutorizaciones.asObservable();
   }
 
   sendClickEventsubjectFillFields(){

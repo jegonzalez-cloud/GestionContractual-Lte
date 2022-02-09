@@ -13,7 +13,7 @@ import {
   FormArray,
   FormBuilder,
   FormControl,
-  FormGroup,
+  FormGroup, MaxValidator,
   Validators,
 } from '@angular/forms';
 import {Store} from '@ngrx/store';
@@ -38,7 +38,7 @@ import {TooltipPosition} from '@angular/material/tooltip';
 import {concatMap, delay, map, switchMap} from "rxjs/operators";
 import {formatDate, formatPercent} from "@angular/common";
 import {error} from "jquery";
-import {ModalProcessComponent} from "../modal/modal-process/modal-process.component";
+import {ModalProcessComponent} from "../../shared/modal/modal-process/modal-process.component";
 import {ModalService} from "../../services/modal/modal.service";
 import {Subscription} from "rxjs";
 
@@ -210,19 +210,14 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.clickEventSubscription = this.modal.getClickEventGetDataProcess().subscribe(() => {
       this.getdataProcess();
     });
-    this.clickEventSubscription = this.modal.getClickEventsubjectFillFields().subscribe(() => {
-      this.setFieldsToEdit();
-      this.onFocus();
+    this.clickEventSubscription = this.modal.getClickEventsubjectFillFields().subscribe(async() => {
+      await this.onFocus();
+      await this.setFieldsToEdit();
     });
   }
 
   ngOnDestroy(): void {
   }
-
-  // @HostListener('window:beforeunload')
-  // onBeforeUnload() {
-  //   return false;
-  // }
 
   ngOnInit(): void {
     let username = atob(localStorage.getItem('username')!);
@@ -271,11 +266,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   getChangeContractValue() {
-    // alert('data');
     this.createProcessForm.controls['valorContrato'].valueChanges.subscribe((data: number) => {
-      console.log(data);
       this.cdpForm.reset();
-      // this.cdpForm.reset();
       if (data > 0) {
         this.valorContrato = false;
         this.valorAcomparar = data;
@@ -315,7 +307,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     let token = atob(localStorage.getItem('token')!);
     let username = atob(localStorage.getItem('username')!);
     this.authService.getDept(token, username).subscribe((data) => {
-      // console.log(data);
     });
   }
 
@@ -574,8 +565,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   getTiposJustificacionContrato() {
-    this.service.getTiposJustificacionContrato(this.createProcessForm.controls['tipoContrato'].value).subscribe((data: any) => {
-      this.tiposJustificacionContrato = data.Values.ResultFields;
+    this.service.getTiposJustificacionContrato(this.createProcessForm.controls['tipoContrato'].value).subscribe(async(data: any) => {
+      this.tiposJustificacionContrato = await data.Values.ResultFields;
       if (this.EDITPROCESS == 1) {
         this.createProcessForm.controls['tipoContrato'].setValue(this.TIPO_CONTRATO);
         this.createProcessForm.controls['justificacionTipoProceso'].setValue(this.JUST_TIPO_PROCESO);
@@ -587,8 +578,9 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   getEquipoContratacion() {
-    this.service.getEquipoContratacion(this.createProcessForm.controls['tipoProceso'].value,this.centroGestor).subscribe((data: any) => {
-      this.equipoContratacion = data.Values.ResultFields;
+    this.service.getEquipoContratacion(this.createProcessForm.controls['tipoProceso'].value,this.centroGestor).subscribe(async(data: any) => {
+      this.equipoContratacion = await data.Values.ResultFields;
+      this.createProcessForm.controls['equipo'].reset();
       if (this.EDITPROCESS == 1) {
         this.createProcessForm.controls['equipo'].setValue(this.EQUIPO_CONTRATACION);
       } else {
@@ -596,40 +588,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       }
     });
   }
-
-  /*validateMount(value: any) {
-    // this.createProcessForm.controls['duracionContrato'].setValue(value.target.value.toString())
-    let valorContrato = this.createProcessForm.controls['valorContrato'].value;
-    let tipoIdentificacion = this.createProcessForm.controls['tipoIdentificacion'].value;
-    let duracionContrato = this.createProcessForm.controls['duracionContrato'].value;
-
-    let validate;
-    switch (tipoIdentificacion) {
-      case 'Cédula':
-        validate = (valorContrato / duracionContrato < this.maxSalary) ? true : false;
-        break;
-      case 'Cédula de Extranjería':
-        validate = (valorContrato / duracionContrato < this.maxSalary) ? true : false;
-        break;
-      case 'Nit':
-        validate = (valorContrato > (this.minSalary * this.cantidadMaximaSalarios)) ? false : true;
-        break;
-      default:
-        validate = false;
-        break;
-    }
-    // console.log(validate);
-    // this.iconColor = (validate === true) ? 'lightgreen' : 'lightgray';
-
-    if (validate === true) {
-      this.iconColor = 'lightgreen';
-      // utils.showAlert('validación! ','success');
-    } else {
-      this.iconColor = 'lightgray';
-      this.validateDataUNSPSC = 0;
-      utils.showAlert('El valor excede los limites establecidos en la tabla de honorarios! ', 'error');
-    }
-  }*/
 
   getDepartamentos() {
     this.service.getDepartamentos('1').subscribe((data: any) => {
@@ -719,7 +677,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       }
 
     } else if (tipoIdentificacion == 'Nit') {
-      console.log(valorContrato, this.minSalary, this.cantidadMaximaSalarios)
       if (valorContrato > (this.minSalary * this.cantidadMaximaSalarios)) {
         this.iconColor = 'lightgreen';
         this.createProcessForm.controls['comite'].setValue('SI');
@@ -774,11 +731,11 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.createProcessForm.controls['categoriaContratacion'].setValue(this.CATE_CONTRATACION);
     this.createProcessForm.controls['profesion'].setValue(this.PROFESION_PROV);
     this.createProcessForm.controls['tipoProceso'].setValue(this.TIPO_PROCESO);
-    this.service.getTiposContrato(this.createProcessForm.controls['tipoProceso'].value).subscribe((data: any) => {
-      this.tiposContrato = data.Values.ResultFields;
+    this.service.getTiposContrato(this.createProcessForm.controls['tipoProceso'].value).subscribe(async (data: any) => {
+      this.tiposContrato = await data.Values.ResultFields;
       this.createProcessForm.controls['tipoContrato'].setValue(this.TIPO_CONTRATO);
-      this.getEquipoContratacion();
-      this.getTiposJustificacionContrato();
+      await this.getEquipoContratacion();
+      await this.getTiposJustificacionContrato();
     });
     // alert(this.UNI_CONTRATACION);
     this.reSetFields();
@@ -791,6 +748,19 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.createProcessForm.controls['valorContrato'].setValue(this.VAL_OFERTA);
     this.valorAcomparar = this.VAL_OFERTA;
 
+    setTimeout(()=>{
+      this.cdpForm.reset();
+      this.cdpForm.get('cdpArray')!.reset();
+      this.deleteCdpItem(1);
+
+      this.ff();
+    }),200;
+
+
+
+  }
+
+  ff(){
     for (let i = 0; i < this.CDPFIELDS.length; i++) {
       this.cdpForm.controls['cdpArray'].get(i.toString())?.setValue({
         'cdp': this.CDPFIELDS[i].CDP_NUMBER,
@@ -820,10 +790,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   goDetail(row: any) {
-    console.log(this.token, row.CONS_PROCESO)
     this.secopService.getSelectedProcess(this.token, row.CONS_PROCESO).subscribe((response: any) => {
-      // this.modalActive = true;
-
+      localStorage.setItem('modalData', JSON.stringify(Object.assign({}, response.Values.ResultFields[0][0])));
       this.modalData = response.Values.ResultFields[0][0];
       this.PROCESO = response.Values.ResultFields[0][0].CONS_PROCESO;
       this.CENTRO_GESTOR = response.Values.ResultFields[0][0].CENTRO_GESTOR;
@@ -870,16 +838,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.createProcessForm.controls['nombreProceso'].setValue(justificacion)
   }
 
-  anularProceso(proceso: string) {
-    this.secopService.updateProcess(proceso, this.ROL, this.entidad, this.codigoEntidad, this.username, 'anulado').subscribe((response: any) => {
-      this.service.sendClickEvent();
-      if (response.Status = 'Ok') {
-        utils.showAlert('Se Anulo el proceso #' + proceso + '!', 'warning');
-        this.getdataProcess();
-      }
-    });
-  }
-
   getdataProcess() {
     this.secopService.getDataProcess('0001', 1, this.centroGestor).subscribe((data: any) => {
       this.info_process = data;
@@ -909,7 +867,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   createItem() {
     return this.fb.group({
-      codigoUNSPSC: new FormControl({value: null, disabled: false}, [Validators.required]),
+      codigoUNSPSC: new FormControl({value: '', disabled: false}, [Validators.pattern(/^[0-9]+$/),Validators.required]),
       proceso: new FormControl({value: null, disabled: false}),
       descripcion: new FormControl({value: '', disabled: false}, [Validators.required]),
       unidad: new FormControl({value: null, disabled: false}, [Validators.required]),
@@ -1015,45 +973,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   getUnidadesUnspsc() {
     this.secopService.getUnidadesUnspsc(this.token).subscribe((response: any) => {
       this.UNIDADESUNSPSC = response.Values.ResultFields;
-    });
-  }
-
-  // getCategoriaProfesion() {
-  //   this.secopService.getCategoriaProfesion(this.token).subscribe((response: any) => {
-  //     this.categoriasProfesion = response.Values.ResultFields;
-  //   })
-  // }
-  //
-  // getProfesionByCategoria() {
-  //   let categoriaProfesion = this.createProcessForm.controls['categoriaProfesion'].value;
-  //   this.secopService.getProfesionByCategoria(this.token, categoriaProfesion).subscribe((response: any) => {
-  //     this.createProcessForm.controls['profesion'].enable();
-  //     this.categoriasSubProfesion = response.Values.ResultFields;
-  //   })
-  // }
-
-  public getPagosXRpc(proceso: any) {
-    this.secopService.getRpcFromProcess(proceso).subscribe((response: any) => {
-      if (response.Status != 'Ok') {
-        utils.showAlert('No se encontro un RPC asociado al proceso', 'error');
-        return;
-      } else {
-        let rpc = response.Values.ResultFields;
-        if (rpc != null && rpc.toString().length == 10) {
-          this.secopService.getPagosXRpc(this.token, rpc).subscribe((response: any) => {
-            if (response.Status != 'Ok') {
-              utils.showAlert('Rpc no encontrado, por favor intente de nuevo!', 'error');
-            } else {
-              this.infoPagos = response.Values.ResultFields;
-              this.cantidadCuotas = this.infoPagos.length
-              utils.showAlert('Consulta exitosa!', 'success');
-              this.onOpen();
-            }
-          });
-        } else {
-          utils.showAlert('No se encontro un codigo Rpc asociado!', 'error');
-        }
-      }
     });
   }
 
@@ -1487,14 +1406,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     return mayoriaEdad;
   }
 
-  WatchDescuento(infopago: any) {
-    if (this.verDescuentos[infopago[0]]) {
-      this.verDescuentos[infopago[0]] = false;
-    } else {
-      this.verDescuentos[infopago[0]] = true;
-    }
-  }
-
   validateEmailMasivo(email: any) {
     const patron = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
     return patron.test(email.toString().toLowerCase());
@@ -1540,15 +1451,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     }
     return resultado;
   }
-
-  // wait(ms: any) {
-  //   console.log('estamos esperando')
-  //   let start = new Date().getTime();
-  //   let end = start;
-  //   while (end < start + ms) {
-  //     end = new Date().getTime();
-  //   }
-  // }
 
   async functionInsertunspsc(size: number, dataExcelCodigo: any, dataExcel: any, response: any, index: any, valorAcomparar: any, codigoUNSPSC: any, dataExcelCdp: any) {
     for (let i = 0; i < size; i++) {
@@ -1619,9 +1521,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                 sociedad: atob(localStorage.getItem('sociedad')!),
               }
               arrayExcelCdp.push(jsonExcelCdp);
-              console.log(jsonExcelCdp)
               this.secopService.insertCdp(arrayExcelCdp).subscribe((response: any) => {
-                // console.log(response);
                 this.createProcessForm.reset();
                 this.myForm.reset();
                 this.cdpForm.reset();
@@ -1638,13 +1538,10 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   async lumpi(dataExcel: any, dataExcelCdp: any, index: any) {
     let sumaValoresCdp = 0;
     for (let i = 0; i < dataExcelCdp.length; i++) {
-      console.log(index);
-      console.log(dataExcelCdp[i].CDP_VALOR);
       if (dataExcelCdp[i].IDREGISTRO == index + 1) {
         sumaValoresCdp += dataExcelCdp[i].CDP_VALOR;
       }
       if (i == dataExcelCdp.length - 1) {
-        console.log(dataExcel.VALORESTIMADO, sumaValoresCdp);
         if (dataExcel.VALORESTIMADO == sumaValoresCdp) {
           await this.lumpi2(dataExcel, dataExcelCdp, index);
         } else {
@@ -1742,10 +1639,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.closebuttonCdp.nativeElement.click();
   }
 
-  fillModal(numProceso: any) {
-    this.router.navigate(['home/autorizaciones-det/' + numProceso]);
-  }
-
   getAllProfesions() {
     this.secopService.getAllProfesions(this.token).subscribe((response: any) => {
       this.allProfesions = response.Values.ResultFields;
@@ -1756,7 +1649,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.createProcessForm.controls['proveedor'].enable();
     this.createProcessForm.controls['ubicacion'].enable();
     let dataForm = Object.assign(this.createProcessForm.value);
-    // console.log(dataForm);
     let dataCdp = localStorage.getItem('dataCdp');
     if (dataCdp != null) {
       let dato = JSON.parse(dataCdp);
@@ -1811,46 +1703,19 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   async getClasificacionBienes() {
     this.secopService.getClasificacionBienes(this.token, 'null').subscribe((response: any) => {
       let jsonRetur: any = [];
-      // console.log(jsonRetur.length);
       this.clasificacionBienes = response.Values.ResultFields;
       this.clasificacionBienesAlmacenado = response.Values.ResultFields;
     });
   }
 
   getCodigosUnspsc(data: any) {
-    // console.log(data.target.value);
-    if (data.target.value.length >= 6) {
+    if (data.target.value.length >= 6 && data.target.value.length <= 8) {
       this.secopService.getClasificacionBienes(this.token, data.target.value).subscribe((response: any) => {
-        // console.log(response.Values.ResultFields);
         this.clasificacionBienes = response.Values.ResultFields;
       });
     } else if (data.target.value.length == 0) {
       this.clasificacionBienes = this.clasificacionBienesAlmacenado;
     }
-  }
-
-  validarAnulacion(proceso: string) {
-    Swal.fire({
-      title: 'Esta Seguro?',
-      text: "Esta accion no se podrá revertir!",
-      icon: 'warning',
-      showCancelButton: true,
-      allowOutsideClick: false,
-      confirmButtonColor: 'primary',
-      // cancelButtonColor: '#E9ECEF',
-      cancelButtonColor: 'dark',
-      confirmButtonText: 'Si, anular proceso!',
-      cancelButtonText: 'No, deseo revisar!',
-      reverseButtons: true
-    }).then((result: any) => {
-      if (result.isConfirmed) {
-        this.anularProceso(proceso);
-      }
-    });
-  }
-
-  sample() {
-    console.log(this.myForm);
   }
 
   procesoManual() {
@@ -1969,6 +1834,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   enableFields(){
     setTimeout(() => {
       this.createProcessForm.controls['valorContrato'].enable();
+      this.createProcessForm.controls['justificacionTipoProceso'].enable();
+      this.createProcessForm.controls['equipo'].enable();
     }, 100);
   }
 

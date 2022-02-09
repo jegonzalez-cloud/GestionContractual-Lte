@@ -10,8 +10,9 @@
 
     <section class="content">
       <div class="container-fluid">
-        <div class="card ml-3 mr-3">
-          <div class="card-header mb-3" style="background-color: var(--companyColor)">
+        <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+          <div class="card-header mb-3"
+               style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
             <div class="card-tools">
               <button
                 type="button"
@@ -22,7 +23,7 @@
               </button>
             </div>
 
-            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
+            <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
               <i class="fa fa-cog"></i>
               <span>  {{'config.config' | translate}}</span>
             </h6>
@@ -47,7 +48,7 @@
                             <input
                               formControlName="cdp"
                               type="text"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
@@ -58,7 +59,7 @@
                             <input
                               formControlName="pagos"
                               type="text"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
@@ -69,7 +70,7 @@
                             <input
                               formControlName="consultarProceso"
                               type="text"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
@@ -80,7 +81,7 @@
                             <input
                               formControlName="identificacionSecop"
                               type="text"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
@@ -91,7 +92,7 @@
                             <input
                               formControlName="dataSecop"
                               type="text"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
@@ -102,7 +103,7 @@
                             <input
                               formControlName="salarioMinimo"
                               currencyMask
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
@@ -113,7 +114,7 @@
                             <input
                               formControlName="cantidadSalarios"
                               type="number"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
@@ -124,7 +125,7 @@
                             <input
                               formControlName="topeMaximo"
                               currencyMask
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
@@ -134,27 +135,27 @@
                             <label class="font-weight-normal text-sm">Sociedad</label>
                             <input
                               formControlName="sociedad"
-                              class="form-control text-sm"
+                              class="form-control font-weight-light text-sm"
                             />
                           </div>
                         </div>
 
-<!--                        <div [hidden]="true" class="col-12 col-sm-6">-->
-<!--                          <div class="form-group">-->
-<!--                            <label class="font-weight-normal text-sm">Color</label>-->
-<!--                            <input style="width:10%" type="color" formControlName="color" class="form-control form-control-color"-->
-<!--                                   id="exampleColorInput" value="#563d7c" title="Escoge tu color">-->
-<!--                          </div>-->
-<!--                        </div>-->
+                        <!--                        <div [hidden]="true" class="col-12 col-sm-6">-->
+                        <!--                          <div class="form-group">-->
+                        <!--                            <label class="font-weight-normal text-sm">Color</label>-->
+                        <!--                            <input style="width:10%" type="color" formControlName="color" class="form-control form-control-color"-->
+                        <!--                                   id="exampleColorInput" value="#563d7c" title="Escoge tu color">-->
+                        <!--                          </div>-->
+                        <!--                        </div>-->
 
-                        <button
-                          [disabled]="configForm.invalid"
-                          type="submit"
-                          class="btn btn-primary float-left btn-sm btn-block"
-                        >
-                          <span>Guardar <i class="fa fa-cog"></i></span>
-                        </button>
                       </div>
+                      <button
+                        [disabled]="configForm.invalid"
+                        type="submit"
+                        class="btn btn-outline-primary float-left btn-sm"
+                      >
+                        <span>Guardar <i class="fa fa-cog"></i></span>
+                      </button>
                     </form>
 
                   </div>
@@ -170,216 +171,217 @@
     </section>
     <br>
 
-<!--    <section class="content">-->
-<!--      <div class="container-fluid">-->
-<!--        <div class="card ml-3 mr-3">-->
-<!--          <div class="card-header mb-3" style="background-color: var(&#45;&#45;companyColor)">-->
-<!--            <div class="card-tools">-->
-<!--              <button-->
-<!--                type="button"-->
-<!--                class="btn btn-tool"-->
-<!--                data-card-widget="collapse"-->
-<!--              >-->
-<!--                <i class="fas fa-minus"></i>-->
-<!--              </button>-->
-<!--            </div>-->
+    <!--    <section class="content">-->
+    <!--      <div class="container-fluid">-->
+    <!--        <div class="card ml-3 mr-3">-->
+    <!--          <div class="card-header mb-3" style="background-color: var(&#45;&#45;companyColor)">-->
+    <!--            <div class="card-tools">-->
+    <!--              <button-->
+    <!--                type="button"-->
+    <!--                class="btn btn-tool"-->
+    <!--                data-card-widget="collapse"-->
+    <!--              >-->
+    <!--                <i class="fas fa-minus"></i>-->
+    <!--              </button>-->
+    <!--            </div>-->
 
-<!--            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">-->
-<!--              <i class="fas fa-building"></i>-->
-<!--              <span>  {{'config.registerEntity' | translate}}</span>-->
-<!--            </h6>-->
-<!--          </div>-->
+    <!--            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">-->
+    <!--              <i class="fas fa-building"></i>-->
+    <!--              <span>  {{'config.registerEntity' | translate}}</span>-->
+    <!--            </h6>-->
+    <!--          </div>-->
 
-<!--          <div class="card-body">-->
-<!--            <div class="row">-->
+    <!--          <div class="card-body">-->
+    <!--            <div class="row">-->
 
-<!--              &lt;!&ndash; ./col &ndash;&gt;-->
-<!--              <div class="col-md-12">-->
-<!--                <div class="card">-->
+    <!--              &lt;!&ndash; ./col &ndash;&gt;-->
+    <!--              <div class="col-md-12">-->
+    <!--                <div class="card">-->
 
-<!--                  <div class="card-body">-->
-<!--                    <div class="col-md-12">-->
-<!--&lt;!&ndash;                      <a role="button" title="Crear Entidad"  class="btn " data-toggle="modal" data-target="#modal-default" #openbutton (click)="onRegisterEntity(0)">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <i class="fas fa-plus-circle"> Crear Nueva Entidad</i>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </a>&ndash;&gt;-->
-<!--                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default" #openbutton (click)="onRegisterEntity(0)">-->
-<!--                        Crear Nueva Entidad <i class="fas fa-plus-circle"></i>-->
-<!--                      </button>-->
-<!--                    </div><br>-->
-<!--                    <div class="table-responsive">-->
-<!--                      <mat-form-field appearance="fill">-->
-<!--                        <mat-label>Filter</mat-label>-->
-<!--                        <input matInput (keyup)="applyFilter($event)" placeholder="" #input>-->
-<!--                      </mat-form-field>-->
-<!--                      &lt;!&ndash; <div id="div_container" class="mat-elevation-z8"> &ndash;&gt;-->
-<!--                      <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8">-->
-<!--                        <ng-container matColumnDef="Id">-->
-<!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
-<!--                            Id-->
-<!--                          </th>-->
-<!--                          <td mat-cell *matCellDef="let row"-->
-<!--                              style="font-size: 12px;color: #545cd8; font-weight: bold;text-align: center"> {{row.USC_COD }} </td>-->
-<!--                        </ng-container>-->
+    <!--                  <div class="card-body">-->
+    <!--                    <div class="col-md-12">-->
+    <!--&lt;!&ndash;                      <a role="button" title="Crear Entidad"  class="btn " data-toggle="modal" data-target="#modal-default" #openbutton (click)="onRegisterEntity(0)">&ndash;&gt;-->
+    <!--&lt;!&ndash;                        <i class="fas fa-plus-circle"> Crear Nueva Entidad</i>&ndash;&gt;-->
+    <!--&lt;!&ndash;                      </a>&ndash;&gt;-->
+    <!--                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default" #openbutton (click)="onRegisterEntity(0)">-->
+    <!--                        Crear Nueva Entidad <i class="fas fa-plus-circle"></i>-->
+    <!--                      </button>-->
+    <!--                    </div><br>-->
+    <!--                    <div class="table-responsive">-->
+    <!--                      <mat-form-field appearance="fill">-->
+    <!--                        <mat-label>Filter</mat-label>-->
+    <!--                        <input matInput (keyup)="applyFilter($event)" placeholder="" #input>-->
+    <!--                      </mat-form-field>-->
+    <!--                      &lt;!&ndash; <div id="div_container" class="mat-elevation-z8"> &ndash;&gt;-->
+    <!--                      <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8">-->
+    <!--                        <ng-container matColumnDef="Id">-->
+    <!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
+    <!--                            Id-->
+    <!--                          </th>-->
+    <!--                          <td mat-cell *matCellDef="let row"-->
+    <!--                              style="font-size: 12px;color: #545cd8; font-weight: bold;text-align: center"> {{row.USC_COD }} </td>-->
+    <!--                        </ng-container>-->
 
-<!--                        <ng-container matColumnDef="Usuario">-->
-<!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
-<!--                            Usuario-->
-<!--                          </th>-->
-<!--                          <td mat-cell *matCellDef="let row"-->
-<!--                              style="font-size: 12px;word-break: break-all;text-align: center"> {{row.USC_USUARIO  | titlecase}} </td>-->
-<!--                        </ng-container>-->
+    <!--                        <ng-container matColumnDef="Usuario">-->
+    <!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
+    <!--                            Usuario-->
+    <!--                          </th>-->
+    <!--                          <td mat-cell *matCellDef="let row"-->
+    <!--                              style="font-size: 12px;word-break: break-all;text-align: center"> {{row.USC_USUARIO  | titlecase}} </td>-->
+    <!--                        </ng-container>-->
 
-<!--                        <ng-container matColumnDef="Password">-->
-<!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
-<!--                            Contraseña-->
-<!--                          </th>-->
-<!--                          <td mat-cell *matCellDef="let row" class="passw"-->
-<!--                              style="font-size: 12px;word-break: break-all;text-align: center"> {{row.USC_PASSWORD  | titlecase}} </td>-->
-<!--                        </ng-container>-->
+    <!--                        <ng-container matColumnDef="Password">-->
+    <!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
+    <!--                            Contraseña-->
+    <!--                          </th>-->
+    <!--                          <td mat-cell *matCellDef="let row" class="passw"-->
+    <!--                              style="font-size: 12px;word-break: break-all;text-align: center"> {{row.USC_PASSWORD  | titlecase}} </td>-->
+    <!--                        </ng-container>-->
 
-<!--                        <ng-container matColumnDef="CodigoEntidad">-->
-<!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
-<!--                            Código Entidad-->
-<!--                          </th>-->
-<!--                          <td mat-cell *matCellDef="let row"-->
-<!--                              style="font-size: 12px;word-break: break-all;text-align: center"> {{row.USC_CODIGO_ENTIDAD  | titlecase}} </td>-->
-<!--                        </ng-container>-->
+    <!--                        <ng-container matColumnDef="CodigoEntidad">-->
+    <!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
+    <!--                            Código Entidad-->
+    <!--                          </th>-->
+    <!--                          <td mat-cell *matCellDef="let row"-->
+    <!--                              style="font-size: 12px;word-break: break-all;text-align: center"> {{row.USC_CODIGO_ENTIDAD  | titlecase}} </td>-->
+    <!--                        </ng-container>-->
 
-<!--                        <ng-container matColumnDef="NombreEntidad">-->
-<!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
-<!--                            Nombre Entidad-->
-<!--                          </th>-->
-<!--                          <td mat-cell *matCellDef="let row"-->
-<!--                              style="font-size: 12px;word-break: break-all" matTooltip="{{row.USC_NOMBRE_ENTIDAD  | titlecase}}"> {{row.USC_NOMBRE_ENTIDAD  | titlecase}} </td>-->
-<!--                        </ng-container>-->
+    <!--                        <ng-container matColumnDef="NombreEntidad">-->
+    <!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
+    <!--                            Nombre Entidad-->
+    <!--                          </th>-->
+    <!--                          <td mat-cell *matCellDef="let row"-->
+    <!--                              style="font-size: 12px;word-break: break-all" matTooltip="{{row.USC_NOMBRE_ENTIDAD  | titlecase}}"> {{row.USC_NOMBRE_ENTIDAD  | titlecase}} </td>-->
+    <!--                        </ng-container>-->
 
-<!--                        <ng-container matColumnDef="Gestor">-->
-<!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
-<!--                            Gestor-->
-<!--                          </th>-->
-<!--                          <td mat-cell *matCellDef="let row"-->
-<!--                              style="font-size: 12px;word-break: break-all;text-align: center"> {{row.USC_GESTOR  | titlecase}} </td>-->
-<!--                        </ng-container>-->
+    <!--                        <ng-container matColumnDef="Gestor">-->
+    <!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
+    <!--                            Gestor-->
+    <!--                          </th>-->
+    <!--                          <td mat-cell *matCellDef="let row"-->
+    <!--                              style="font-size: 12px;word-break: break-all;text-align: center"> {{row.USC_GESTOR  | titlecase}} </td>-->
+    <!--                        </ng-container>-->
 
-<!--                        <ng-container matColumnDef="Acciones">-->
-<!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
-<!--                            Acciones-->
-<!--                          </th>-->
-<!--                          <td mat-cell *matCellDef="let row"-->
-<!--                              style="font-size: 12px;word-break: break-all;text-align: center">-->
-<!--                            &lt;!&ndash; <a class="nav-link" (click)="logOut()" role="button"> &ndash;&gt;-->
-<!--                            <a role="button" title="Editar" data-toggle="modal" data-target="#modal-default" (click)="onRegisterEntity(row.USC_COD)" #openbutton>-->
-<!--                              <i class="far fa-edit"></i>-->
-<!--                            </a>-->
-<!--                          </td>-->
-<!--                        </ng-container>-->
+    <!--                        <ng-container matColumnDef="Acciones">-->
+    <!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;text-align: center">-->
+    <!--                            Acciones-->
+    <!--                          </th>-->
+    <!--                          <td mat-cell *matCellDef="let row"-->
+    <!--                              style="font-size: 12px;word-break: break-all;text-align: center">-->
+    <!--                            &lt;!&ndash; <a class="nav-link" (click)="logOut()" role="button"> &ndash;&gt;-->
+    <!--                            <a role="button" title="Editar" data-toggle="modal" data-target="#modal-default" (click)="onRegisterEntity(row.USC_COD)" #openbutton>-->
+    <!--                              <i class="far fa-edit"></i>-->
+    <!--                            </a>-->
+    <!--                          </td>-->
+    <!--                        </ng-container>-->
 
-<!--                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-<!--                        <tr class="hoverOnTable" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+    <!--                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+    <!--                        <tr class="hoverOnTable" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
 
-<!--                        <tr class="mat-row" *matNoDataRow>-->
-<!--                          <td class="mat-cell" colspan="4">No se encontraron datos con:  "{{input.value}}"</td>-->
-<!--                        </tr>-->
-<!--                      </table>-->
-<!--                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>-->
-<!--                      &lt;!&ndash; </div> &ndash;&gt;-->
-<!--                    </div>-->
+    <!--                        <tr class="mat-row" *matNoDataRow>-->
+    <!--                          <td class="mat-cell" colspan="4">No se encontraron datos con:  "{{input.value}}"</td>-->
+    <!--                        </tr>-->
+    <!--                      </table>-->
+    <!--                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>-->
+    <!--                      &lt;!&ndash; </div> &ndash;&gt;-->
+    <!--                    </div>-->
 
-<!--                    &lt;!&ndash; Modal Registro&ndash;&gt;-->
-<!--                    <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" tabindex="-1">-->
-<!--                      <div class="modal-dialog modal-dialog-scrollable">-->
-<!--                        <div class="modal-content" style="width: auto">-->
-<!--                          <div class="modal-header">-->
-<!--                            <h4 class="modal-title"><b style="font-size: larger">{{titleModal}}</b>-->
-<!--                            </h4>-->
-<!--                            <button #closeButton type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                              <span aria-hidden="true">&times;</span>-->
-<!--                            </button>-->
-<!--                          </div>-->
-<!--                          <div class="modal-body modal-dialog-scrollable">-->
-<!--                            <div class="callout ">-->
-<!--                              <form [formGroup]="registerEntity" (ngSubmit)="sendRegisterEntity()"-->
-<!--                                    (keydown.enter)="$event.preventDefault()">-->
-<!--                                <div class="row">-->
-<!--                                  <div class="col-12 col-sm-6">-->
-<!--                                    <div class="form-group">-->
-<!--                                      <label class="font-weight-normal text-sm">Usuario</label>-->
-<!--                                      <input formControlName="usc_usuario" type="text" class="form-control text-sm"/>-->
-<!--                                      <input formControlName="usc_cod" type="hidden" class="form-control text-sm"/>-->
-<!--                                    </div>-->
-<!--                                  </div>-->
+    <!--                    &lt;!&ndash; Modal Registro&ndash;&gt;-->
+    <!--                    <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" tabindex="-1">-->
+    <!--                      <div class="modal-dialog modal-dialog-scrollable">-->
+    <!--                        <div class="modal-content" style="width: auto">-->
+    <!--                          <div class="modal-header">-->
+    <!--                            <h4 class="modal-title"><b style="font-size: larger">{{titleModal}}</b>-->
+    <!--                            </h4>-->
+    <!--                            <button #closeButton type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+    <!--                              <span aria-hidden="true">&times;</span>-->
+    <!--                            </button>-->
+    <!--                          </div>-->
+    <!--                          <div class="modal-body modal-dialog-scrollable">-->
+    <!--                            <div class="callout ">-->
+    <!--                              <form [formGroup]="registerEntity" (ngSubmit)="sendRegisterEntity()"-->
+    <!--                                    (keydown.enter)="$event.preventDefault()">-->
+    <!--                                <div class="row">-->
+    <!--                                  <div class="col-12 col-sm-6">-->
+    <!--                                    <div class="form-group">-->
+    <!--                                      <label class="font-weight-normal text-sm">Usuario</label>-->
+    <!--                                      <input formControlName="usc_usuario" type="text" class="form-control text-sm"/>-->
+    <!--                                      <input formControlName="usc_cod" type="hidden" class="form-control text-sm"/>-->
+    <!--                                    </div>-->
+    <!--                                  </div>-->
 
-<!--                                  <div class="col-12 col-sm-6">-->
-<!--                                    <div class="form-group">-->
-<!--                                      <label class="font-weight-normal text-sm">Contraseña</label>-->
-<!--                                      <input formControlName="usc_password" type="password" class="form-control text-sm"/>-->
-<!--                                    </div>-->
-<!--                                  </div>-->
+    <!--                                  <div class="col-12 col-sm-6">-->
+    <!--                                    <div class="form-group">-->
+    <!--                                      <label class="font-weight-normal text-sm">Contraseña</label>-->
+    <!--                                      <input formControlName="usc_password" type="password" class="form-control text-sm"/>-->
+    <!--                                    </div>-->
+    <!--                                  </div>-->
 
-<!--                                  <div class="col-12 col-sm-6">-->
-<!--                                    <div class="form-group">-->
-<!--                                      <label class="font-weight-normal text-sm">Código Entidad</label>-->
-<!--                                      <input formControlName="usc_codigo_entidad" type="number" class="form-control text-sm"/>-->
-<!--                                    </div>-->
-<!--                                  </div>-->
+    <!--                                  <div class="col-12 col-sm-6">-->
+    <!--                                    <div class="form-group">-->
+    <!--                                      <label class="font-weight-normal text-sm">Código Entidad</label>-->
+    <!--                                      <input formControlName="usc_codigo_entidad" type="number" class="form-control text-sm"/>-->
+    <!--                                    </div>-->
+    <!--                                  </div>-->
 
-<!--                                  <div class="col-12 col-sm-6">-->
-<!--                                    <div class="form-group">-->
-<!--                                      <label class="font-weight-normal text-sm">Nombre Entidad</label>-->
-<!--                                      <input formControlName="usc_nombre_entidad" type="text" class="form-control text-sm"/>-->
-<!--                                    </div>-->
-<!--                                  </div>-->
+    <!--                                  <div class="col-12 col-sm-6">-->
+    <!--                                    <div class="form-group">-->
+    <!--                                      <label class="font-weight-normal text-sm">Nombre Entidad</label>-->
+    <!--                                      <input formControlName="usc_nombre_entidad" type="text" class="form-control text-sm"/>-->
+    <!--                                    </div>-->
+    <!--                                  </div>-->
 
-<!--                                  <div class="col-12 col-sm-6">-->
-<!--                                    <div class="form-group">-->
-<!--                                      <label class="font-weight-normal text-sm">Gestor</label>-->
-<!--                                      <input formControlName="usc_gestor" type="number" class="form-control text-sm"/>-->
-<!--                                    </div>-->
-<!--                                  </div>-->
+    <!--                                  <div class="col-12 col-sm-6">-->
+    <!--                                    <div class="form-group">-->
+    <!--                                      <label class="font-weight-normal text-sm">Gestor</label>-->
+    <!--                                      <input formControlName="usc_gestor" type="number" class="form-control text-sm"/>-->
+    <!--                                    </div>-->
+    <!--                                  </div>-->
 
-<!--                                  <button-->
-<!--                                    *ngIf="indRegister==0"-->
-<!--                                    [disabled]="registerEntity.invalid"-->
-<!--                                    type="submit"-->
-<!--                                    class="btn btn-primary float-left btn-sm btn-block"-->
-<!--                                  >-->
-<!--                                    <span>Guardar <i class="fas fa-save"></i></span>-->
-<!--                                  </button>-->
+    <!--                                  <button-->
+    <!--                                    *ngIf="indRegister==0"-->
+    <!--                                    [disabled]="registerEntity.invalid"-->
+    <!--                                    type="submit"-->
+    <!--                                    class="btn btn-primary float-left btn-sm btn-block"-->
+    <!--                                  >-->
+    <!--                                    <span>Guardar <i class="fas fa-save"></i></span>-->
+    <!--                                  </button>-->
 
-<!--                                  <button-->
-<!--                                    *ngIf="indRegister!=0"-->
-<!--                                    [disabled]="registerEntity.invalid"-->
-<!--                                    type="submit"-->
-<!--                                    class="btn btn-primary float-left btn-sm btn-block"-->
-<!--                                  >-->
-<!--                                    <span>Actualizar <i class="fas fa-save"></i></span>-->
-<!--                                  </button>-->
+    <!--                                  <button-->
+    <!--                                    *ngIf="indRegister!=0"-->
+    <!--                                    [disabled]="registerEntity.invalid"-->
+    <!--                                    type="submit"-->
+    <!--                                    class="btn btn-primary float-left btn-sm btn-block"-->
+    <!--                                  >-->
+    <!--                                    <span>Actualizar <i class="fas fa-save"></i></span>-->
+    <!--                                  </button>-->
 
-<!--                                </div>-->
-<!--                              </form>-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash; /.modal-content &ndash;&gt;-->
-<!--                      </div>-->
-<!--                      &lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; /.modal &ndash;&gt;-->
-<!--                  </div>-->
-<!--                  &lt;!&ndash; /.card-body &ndash;&gt;-->
-<!--                </div>-->
-<!--                &lt;!&ndash; /.card &ndash;&gt;-->
-<!--              </div>-->
-<!--              &lt;!&ndash; ./col &ndash;&gt;-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </section>-->
+    <!--                                </div>-->
+    <!--                              </form>-->
+    <!--                            </div>-->
+    <!--                          </div>-->
+    <!--                        </div>-->
+    <!--                        &lt;!&ndash; /.modal-content &ndash;&gt;-->
+    <!--                      </div>-->
+    <!--                      &lt;!&ndash; /.modal-dialog &ndash;&gt;-->
+    <!--                    </div>-->
+    <!--                    &lt;!&ndash; /.modal &ndash;&gt;-->
+    <!--                  </div>-->
+    <!--                  &lt;!&ndash; /.card-body &ndash;&gt;-->
+    <!--                </div>-->
+    <!--                &lt;!&ndash; /.card &ndash;&gt;-->
+    <!--              </div>-->
+    <!--              &lt;!&ndash; ./col &ndash;&gt;-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </section>-->
     <section class="content">
       <div class="container-fluid">
-        <div class="card ml-3 mr-3">
-          <div class="card-header mb-3" style="background-color: var(--companyColor)">
+        <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+          <div class="card-header mb-3"
+               style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
             <div class="card-tools">
               <button
                 type="button"
@@ -390,7 +392,7 @@
               </button>
             </div>
 
-            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
+            <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
               <i class="fas fa-building"></i>
               <span>  {{'config.registerEntity' | translate}}</span>
             </h6>
@@ -405,35 +407,39 @@
 
                   <div class="card-body">
                     <div class="col-md-12">
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default" #openbutton (click)="onRegisterEntity(0)">
+                      <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                              data-target="#modal-default-entidad" #openbutton (click)="onRegisterEntity(0)">
                         Crear Nueva Entidad <i class="fas fa-plus-circle"></i>
                       </button>
-                    </div><br>
+                    </div>
+                    <br>
                     <div class="table-responsive">
                       <mat-form-field appearance="fill">
                         <mat-label>Filter</mat-label>
                         <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
                       </mat-form-field>
                       <!-- <div id="div_container" class="mat-elevation-z8"> -->
-                      <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8">
-<!--                        <ng-container matColumnDef="Id">-->
-<!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">-->
-<!--                            Id-->
-<!--                          </th>-->
-<!--                          <td mat-cell *matCellDef="let row"-->
-<!--                              style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.USC_COD }} </td>-->
-<!--                        </ng-container>-->
+                      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                        <!--                        <ng-container matColumnDef="Id">-->
+                        <!--                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">-->
+                        <!--                            Id-->
+                        <!--                          </th>-->
+                        <!--                          <td mat-cell *matCellDef="let row"-->
+                        <!--                              style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.USC_COD }} </td>-->
+                        <!--                        </ng-container>-->
 
                         <ng-container matColumnDef="Connect">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Usuario Connect
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all;color: #545cd8; font-weight: bold"> {{row.USC_USUARIO  | titlecase}} </td>
+                              style="font-size: 12px;word-break: break-all;color: #545cd8; font-weight: lighter"> {{row.USC_USUARIO  | titlecase}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Password">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Contraseña
                           </th>
                           <td mat-cell *matCellDef="let row"
@@ -441,37 +447,42 @@
                         </ng-container>
 
                         <ng-container matColumnDef="CodigoEntidad">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Código Entidad
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all"> {{row.USC_CODIGO_ENTIDAD  | titlecase}} </td>
+                              style="font-size: 12px;word-break: break-all;font-weight: lighter"> {{row.USC_CODIGO_ENTIDAD  | titlecase}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="NombreEntidad">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Nombre Entidad
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all"> {{row.USC_NOMBRE_ENTIDAD  | titlecase}} </td>
+                              style="font-size: 12px;word-break: break-all;font-weight: lighter"> {{row.USC_NOMBRE_ENTIDAD  | titlecase}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Gestor">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Gestor
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all"> {{row.USC_GESTOR  | titlecase}} </td>
+                              style="font-size: 12px;word-break: break-all;font-weight: lighter"> {{row.USC_GESTOR  | titlecase}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Acciones">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Acciones
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all">
+                              style="font-size: 12px;word-break: break-all;font-weight: lighter">
                             <!-- <a class="nav-link" (click)="logOut()" role="button"> -->
-                            <a role="button" title="Editar" data-toggle="modal" data-target="#modal-default" (click)="onRegisterEntity(row.USC_COD)" #openbutton>
+                            <a role="button" title="Editar" data-toggle="modal" data-target="#modal-default"
+                               (click)="onRegisterEntity(row.USC_COD)" #openbutton>
                               <i class="far fa-edit"></i>
                             </a>
                           </td>
@@ -481,22 +492,25 @@
                         <tr class="hoverOnTable" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
                         <tr class="mat-row" *matNoDataRow>
-                          <td class="mat-cell" colspan="4">No se encontraron datos con:  "{{input.value}}"</td>
+                          <td class="mat-cell" colspan="4">No se encontraron datos con: "{{input.value}}"</td>
                         </tr>
                       </table>
-                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" #pagEntitys></mat-paginator>
+                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"
+                                     #pagEntitys></mat-paginator>
                       <!-- </div> -->
                     </div>
 
                     <!-- Modal Registro-->
-                    <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" tabindex="-1">
+                    <div class="modal fade" id="modal-default-entidad" data-backdrop="static" data-keyboard="false"
+                         tabindex="-1">
                       <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content" style="width: auto">
-                          <div class="modal-header">
-                            <h4 class="modal-title"><b style="font-size: larger">{{titleModal}}</b>
+                          <div class="modal-header" style="background-color: #F0F2F5">
+                            <h4 class="modal-title"><span
+                              style="font-size: medium;font-weight: normal">{{titleModal}}</span>
                             </h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close" #CloseEntidad>
-                              <span aria-hidden="true" >&times;</span>
+                              <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
                           <div class="modal-body modal-dialog-scrollable">
@@ -508,58 +522,62 @@
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                       <label class="font-weight-normal text-sm">Usuario</label>
-                                      <input formControlName="usc_usuario" type="text" class="form-control text-sm"/>
-                                      <input formControlName="usc_cod" type="hidden" class="form-control text-sm"/>
+                                      <input formControlName="usc_usuario" type="text"
+                                             class="form-control font-weight-lighter text-sm"/>
+                                      <input formControlName="usc_cod" type="hidden"
+                                             class="form-control font-weight-lighter text-sm"/>
                                     </div>
                                   </div>
 
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                       <label class="font-weight-normal text-sm">Contraseña</label>
-                                      <input formControlName="usc_password" type="password" class="form-control text-sm"/>
+                                      <input formControlName="usc_password" type="password"
+                                             class="form-control font-weight-lighter text-sm"/>
                                     </div>
                                   </div>
 
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                       <label class="font-weight-normal text-sm">Código Entidad</label>
-                                      <input formControlName="usc_codigo_entidad" type="text" class="form-control text-sm"/>
+                                      <input formControlName="usc_codigo_entidad" type="text"
+                                             class="form-control font-weight-lighter text-sm"/>
                                     </div>
                                   </div>
 
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                       <label class="font-weight-normal text-sm">Nombre Entidad</label>
-                                      <input formControlName="usc_nombre_entidad" type="text" class="form-control text-sm"/>
+                                      <input formControlName="usc_nombre_entidad" type="text"
+                                             class="form-control font-weight-lighter text-sm"/>
                                     </div>
                                   </div>
 
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                       <label class="font-weight-normal text-sm">Gestor</label>
-                                      <input formControlName="usc_gestor" type="text" class="form-control text-sm"/>
+                                      <input formControlName="usc_gestor" type="text"
+                                             class="form-control font-weight-lighter text-sm"/>
                                     </div>
                                   </div>
-
-                                  <button
-                                    *ngIf="indRegister==0"
-                                    [disabled]="registerEntity.invalid"
-                                    type="submit"
-                                    class="btn btn-primary float-left btn-sm btn-block"
-                                  >
-                                    <span>Guardar <i class="fas fa-save"></i></span>
-                                  </button>
-
-                                  <button
-                                    *ngIf="indRegister!=0"
-                                    [disabled]="registerEntity.invalid"
-                                    type="submit"
-                                    class="btn btn-primary float-left btn-sm btn-block"
-                                  >
-                                    <span>Actualizar <i class="fas fa-save"></i></span>
-                                  </button>
-
                                 </div>
+                                <button
+                                  *ngIf="indRegister==0"
+                                  [disabled]="registerEntity.invalid"
+                                  type="submit"
+                                  class="btn btn-outline-primary float-left btn-sm"
+                                >
+                                  <span>Guardar <i class="fas fa-save"></i></span>
+                                </button>
+
+                                <button
+                                  *ngIf="indRegister!=0"
+                                  [disabled]="registerEntity.invalid"
+                                  type="submit"
+                                  class="btn btn-outline-primary float-left btn-sm"
+                                >
+                                  <span>Actualizar <i class="fas fa-save"></i></span>
+                                </button>
                               </form>
                             </div>
                           </div>
@@ -584,8 +602,9 @@
 
     <section class="content">
       <div class="container-fluid">
-        <div class="card ml-3 mr-3">
-          <div class="card-header mb-3" style="background-color: var(--companyColor)">
+        <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+          <div class="card-header mb-3"
+               style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
             <div class="card-tools">
               <button
                 type="button"
@@ -596,7 +615,7 @@
               </button>
             </div>
 
-            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
+            <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
               <i class="fas fa-user-plus"></i>
               <span>  {{'config.registerRole' | translate}}</span>
             </h6>
@@ -611,74 +630,84 @@
 
                   <div class="card-body">
                     <div class="col-md-12">
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-Connection" #openbutton (click)="onRegisterConnection(0)">
+                      <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                              data-target="#modal-Connection" #openbutton (click)="onRegisterConnection(0)">
                         Asignar rol a un usuario <i class="fas fa-plus-circle"></i>
                       </button>
-                    </div><br>
+                    </div>
+                    <br>
                     <div class="table-responsive">
                       <mat-form-field appearance="fill">
                         <mat-label>Filter</mat-label>
                         <input matInput (keyup)="applyFilterConnection($event)" placeholder="" #input>
                       </mat-form-field>
                       <!-- <div id="div_container" class="mat-elevation-z8"> -->
-                      <table mat-table [dataSource]="dataConnection"  class="mat-elevation-z8">
+                      <table mat-table [dataSource]="dataConnection" class="mat-elevation-z8">
                         <ng-container matColumnDef="Usuario">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black;">
                             Usuario
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.USR_LOGIN }} </td>
+                              style="font-size: 12px;color: #545cd8; font-weight: lighter"> {{row.USR_LOGIN }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Entidad">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;width:15%">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black;width:15%">
                             Entidad
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all"> {{row.USC_NOMBRE_ENTIDAD  | titlecase}} </td>
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter"> {{row.USC_NOMBRE_ENTIDAD  | titlecase}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Rol">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Rol
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all"> {{row.ROL_DESCRIPCION  | titlecase}} </td>
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter"> {{row.ROL_DESCRIPCION  | titlecase}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Acciones">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Acciones
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all">
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter">
                             <!-- <a class="nav-link" (click)="logOut()" role="button"> -->
-                            <a role="button" title="Editar" data-toggle="modal" data-target="#modal-Connection" (click)="onRegisterConnection(row.USX_COD)" #openbutton>
+                            <a role="button" title="Editar" data-toggle="modal" data-target="#modal-Connection"
+                               (click)="onRegisterConnection(row.USX_COD)" #openbutton>
                               <i class="far fa-edit"></i>
                             </a>
                           </td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumnsConnection"></tr>
-                        <tr class="hoverOnTable" mat-row *matRowDef="let row; columns: displayedColumnsConnection;"></tr>
+                        <tr class="hoverOnTable" mat-row
+                            *matRowDef="let row; columns: displayedColumnsConnection;"></tr>
 
                         <tr class="mat-row" *matNoDataRow>
-                          <td class="mat-cell" colspan="4">No se encontraron datos con:  "{{input.value}}"</td>
+                          <td class="mat-cell" colspan="4">No se encontraron datos con: "{{input.value}}"</td>
                         </tr>
                       </table>
-                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" #pagConnection></mat-paginator>
+                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"
+                                     #pagConnection></mat-paginator>
                       <!-- </div> -->
                     </div>
 
                     <!-- Modal Registro-->
-                    <div class="modal fade" id="modal-Connection" data-backdrop="static" data-keyboard="false" tabindex="-1">
+                    <div class="modal fade" id="modal-Connection" data-backdrop="static" data-keyboard="false"
+                         tabindex="-1">
                       <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content" style="width: auto">
                           <div class="modal-header">
-                            <h4 class="modal-title"><b style="font-size: larger">{{titleModal}}</b>
+                            <h4 class="modal-title"><span style="font-size: medium;font-weight: normal">{{titleModal}}</span>
                             </h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close" #CloseRol>
-                              <span aria-hidden="true" >&times;</span>
+                              <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
                           <div class="modal-body modal-dialog-scrollable">
@@ -703,7 +732,7 @@
                                       <ng-template #itemTemplatea let-item>
                                         <a [innerHTML]="item.name"></a>
                                       </ng-template>
-                                      <input formControlName="usx_cod" type="hidden" class="form-control text-sm"/>
+                                      <input formControlName="usx_cod" type="hidden" class="form-control font-weight-lighter text-sm"/>
                                     </div>
                                   </div>
 
@@ -747,7 +776,7 @@
                                   <div class="col-12 col-sm-12">
                                     <div class="form-group">
                                       <label class="font-weight-normal text-sm">Codigo Usuario Connect</label>
-                                      <input type="number" class="form-control" formControlName="usr_connect">
+                                      <input type="number" class="form-control font-weight-lighter text-sm" formControlName="usr_connect">
                                     </div>
                                   </div>
 
@@ -755,7 +784,7 @@
                                     *ngIf="indRegister==0"
                                     [disabled]="registerRol.invalid"
                                     type="submit"
-                                    class="btn btn-primary float-left btn-sm btn-block"
+                                    class="btn btn-outline-primary float-left btn-sm"
                                   >
                                     <span>Guardar <i class="fas fa-save"></i></span>
                                   </button>
@@ -764,7 +793,7 @@
                                     *ngIf="indRegister!=0"
                                     [disabled]="registerRol.invalid"
                                     type="submit"
-                                    class="btn btn-primary float-left btn-sm btn-block"
+                                    class="btn btn-outline-primary float-left btn-sm"
                                   >
                                     <span>Actualizar <i class="fas fa-save"></i></span>
                                   </button>
@@ -794,8 +823,9 @@
     <br>
     <section class="content">
       <div class="container-fluid">
-        <div class="card ml-3 mr-3">
-          <div class="card-header mb-3" style="background-color: var(--companyColor)">
+        <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+          <div class="card-header mb-3"
+               style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
             <div class="card-tools">
               <button
                 type="button"
@@ -806,7 +836,7 @@
               </button>
             </div>
 
-            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
+            <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
               <i class="fas fa-users"></i>
               <span>  {{'config.registerHiringTeams' | translate}}</span>
             </h6>
@@ -821,54 +851,61 @@
 
                   <div class="card-body">
                     <div class="col-md-12">
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-HiringTeams"  (click)="onRegisterHiringTeams(0)">
+                      <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                              data-target="#modal-HiringTeams" (click)="onRegisterHiringTeams(0)">
                         Registrar Equipo De Contratación<i class="fas fa-plus-circle"></i>
                       </button>
-                    </div><br>
+                    </div>
+                    <br>
                     <div class="table-responsive">
                       <mat-form-field appearance="fill">
                         <mat-label>Filter</mat-label>
                         <input matInput (keyup)="applyFilterHiringTeams($event)" placeholder="" #input>
                       </mat-form-field>
                       <!-- <div id="div_container" class="mat-elevation-z8"> -->
-                      <table mat-table [dataSource]="dataHiringTeams"  class="mat-elevation-z8">
+                      <table mat-table [dataSource]="dataHiringTeams" class="mat-elevation-z8">
                         <ng-container matColumnDef="EquipoContratacion">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black;">
                             Nombre equipo de contratación
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.EQC_NOMBRE }} </td>
+                              style="font-size: 12px;color: #545cd8; font-weight: lighter"> {{row.EQC_NOMBRE }} </td>
                         </ng-container>
                         <ng-container matColumnDef="Entidad">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black;">
                             Entidad
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.USC_NOMBRE_ENTIDAD | titlecase }} </td>
+                              style="font-size: 12px;color: #545cd8; font-weight: lighter"> {{row.USC_NOMBRE_ENTIDAD | titlecase }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="IdIntegracion">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Id Integración equipo de contratación
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all"> {{row.EQC_ID_INTEGRACION  | titlecase}} </td>
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter"> {{row.EQC_ID_INTEGRACION  | titlecase}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="TipoProceso">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Nombre Tipo Proceso
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all"> {{row.TPP_NOMBRE  | titlecase}} </td>
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter"> {{row.TPP_NOMBRE  | titlecase}} </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Estado" >
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                        <ng-container matColumnDef="Estado">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Estado
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all" >
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter">
                             <span *ngIf="row.EQC_ESTADO==1">Activo</span>
                             <span *ngIf="row.EQC_ESTADO==2">Inactivo</span>
                           </td>
@@ -878,38 +915,43 @@
                         </ng-container>
 
                         <ng-container matColumnDef="Acciones">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Acciones
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all">
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter">
                             <!-- <a class="nav-link" (click)="logOut()" role="button"> -->
-                            <a role="button" title="Editar" data-toggle="modal" data-target="#modal-HiringTeams" (click)="onRegisterHiringTeams(row.EQC_COD)" #openbutton>
+                            <a role="button" title="Editar" data-toggle="modal" data-target="#modal-HiringTeams"
+                               (click)="onRegisterHiringTeams(row.EQC_COD)" #openbutton>
                               <i class="far fa-edit"></i>
                             </a>
                           </td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumnsHiringTeams"></tr>
-                        <tr class="hoverOnTable" mat-row *matRowDef="let row; columns: displayedColumnsHiringTeams;"></tr>
+                        <tr class="hoverOnTable" mat-row
+                            *matRowDef="let row; columns: displayedColumnsHiringTeams;"></tr>
 
                         <tr class="mat-row" *matNoDataRow>
-                          <td class="mat-cell" colspan="4">No se encontraron datos con:  "{{input.value}}"</td>
+                          <td class="mat-cell" colspan="4">No se encontraron datos con: "{{input.value}}"</td>
                         </tr>
                       </table>
-                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" #pagHiringTeams></mat-paginator>
+                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"
+                                     #pagHiringTeams></mat-paginator>
                       <!-- </div> -->
                     </div>
 
                     <!-- Modal Registro-->
-                    <div class="modal fade" id="modal-HiringTeams" data-backdrop="static" data-keyboard="false" tabindex="-1">
+                    <div class="modal fade" id="modal-HiringTeams" data-backdrop="static" data-keyboard="false"
+                         tabindex="-1">
                       <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content" style="width: auto">
                           <div class="modal-header">
-                            <h4 class="modal-title"><b style="font-size: larger">{{titleModal}}</b>
+                            <h4 class="modal-title"><span style="font-size: medium;font-weight: normal">{{titleModal}}</span>
                             </h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close" #CloseEquipo>
-                              <span aria-hidden="true" >&times;</span>
+                              <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
                           <div class="modal-body modal-dialog-scrollable">
@@ -940,15 +982,17 @@
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                       <label class="font-weight-normal text-sm">Nombre Equipo Contratación</label>
-                                      <input formControlName="eqc_nombre" type="text" class="form-control text-sm"/>
-                                      <input formControlName="eqc_cod" type="hidden" class="form-control text-sm"/>
+                                      <input formControlName="eqc_nombre" type="text" class="form-control font-weight-lighter text-sm"/>
+                                      <input formControlName="eqc_cod" type="hidden" class="form-control font-weight-lighter text-sm"/>
                                     </div>
                                   </div>
 
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
-                                      <label class="font-weight-normal text-sm" style="text-overflow: ellipsis">Id Integración </label>
-                                      <input formControlName="eqc_id_integracion" type="text" class="form-control text-sm"/>
+                                      <label class="font-weight-normal text-sm" style="text-overflow: ellipsis">Id
+                                        Integración </label>
+                                      <input formControlName="eqc_id_integracion" type="text"
+                                             class="form-control font-weight-lighter text-sm"/>
                                     </div>
                                   </div>
 
@@ -974,7 +1018,7 @@
                                     <div class="form-group">
                                       <label class="font-weight-normal text-sm">Estado</label>
                                       <select
-                                        class="custom-select form-control-border"
+                                        class="custom-select form-control-border font-weight-lighter"
                                         formControlName="eqc_estado"
                                       >
                                         <option value="1">Activo</option>
@@ -988,7 +1032,7 @@
                                     *ngIf="indRegister==0"
                                     [disabled]="registerHiringTeams.invalid"
                                     type="submit"
-                                    class="btn btn-primary float-left btn-sm btn-block"
+                                    class="btn btn-outline-primary float-left btn-sm"
                                   >
                                     <span>Guardar <i class="fas fa-save"></i></span>
                                   </button>
@@ -997,7 +1041,7 @@
                                     *ngIf="indRegister!=0"
                                     [disabled]="registerHiringTeams.invalid"
                                     type="submit"
-                                    class="btn btn-primary float-left btn-sm btn-block"
+                                    class="btn btn-outline-primary float-left btn-sm"
                                   >
                                     <span>Actualizar <i class="fas fa-save"></i></span>
                                   </button>
@@ -1027,8 +1071,9 @@
     <br>
     <section class="content">
       <div class="container-fluid">
-        <div class="card ml-3 mr-3">
-          <div class="card-header mb-3" style="background-color: var(--companyColor)">
+        <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+          <div class="card-header mb-3"
+               style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
             <div class="card-tools">
               <button
                 type="button"
@@ -1039,7 +1084,7 @@
               </button>
             </div>
 
-            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0">
+            <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
               <i class="fas fa-file-signature"></i>
               <span>  {{'config.registerHiringUnit' | translate}}</span>
             </h6>
@@ -1054,74 +1099,84 @@
 
                   <div class="card-body">
                     <div class="col-md-12">
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-HiringUnit"  (click)="onRegisterHiringUnit(0)">
+                      <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                              data-target="#modal-HiringUnit" (click)="onRegisterHiringUnit(0)">
                         Registrar Unidad De Contratación<i class="fas fa-plus-circle"></i>
                       </button>
-                    </div><br>
+                    </div>
+                    <br>
                     <div class="table-responsive">
                       <mat-form-field appearance="fill">
                         <mat-label>Filter</mat-label>
                         <input matInput (keyup)="applyFilterHiringUnit($event)" placeholder="" #input>
                       </mat-form-field>
                       <!-- <div id="div_container" class="mat-elevation-z8"> -->
-                      <table mat-table [dataSource]="dataHiringUnit"  class="mat-elevation-z8">
+                      <table mat-table [dataSource]="dataHiringUnit" class="mat-elevation-z8">
                         <ng-container matColumnDef="USC_COD">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black;">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black;">
                             Dependencia
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;color: #545cd8; font-weight: bold"> {{row.USC_NOMBRE_ENTIDAD  | titlecase }} </td>
+                              style="font-size: 12px;color: #545cd8; font-weight: lighter"> {{row.USC_NOMBRE_ENTIDAD  | titlecase }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="UNI_NUMERO_PROCESO">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Numero Proceso
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all"> {{row.UNI_NUMERO_PROCESO  | titlecase}} </td>
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter"> {{row.UNI_NUMERO_PROCESO  | titlecase}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="UNI_NOMBRE_PROCESO">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Nombre Proceso
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all"> {{row.UNI_NOMBRE_PROCESO  | titlecase}} </td>
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter"> {{row.UNI_NOMBRE_PROCESO  | titlecase}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Acciones">
-                          <th mat-header-cell *matHeaderCellDef style="font-size: 14px;font-weight: bolder;color: black">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
                             Acciones
                           </th>
                           <td mat-cell *matCellDef="let row"
-                              style="font-size: 12px;word-break: break-all">
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter">
                             <!-- <a class="nav-link" (click)="logOut()" role="button"> -->
-                            <a role="button" title="Editar" data-toggle="modal" data-target="#modal-HiringUnit" (click)="onRegisterHiringUnit(row.UNI_COD)" #openbutton>
+                            <a role="button" title="Editar" data-toggle="modal" data-target="#modal-HiringUnit"
+                               (click)="onRegisterHiringUnit(row.UNI_COD)" #openbutton>
                               <i class="far fa-edit"></i>
                             </a>
                           </td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumnsHiringUnit"></tr>
-                        <tr class="hoverOnTable" mat-row *matRowDef="let row; columns: displayedColumnsHiringUnit;"></tr>
+                        <tr class="hoverOnTable" mat-row
+                            *matRowDef="let row; columns: displayedColumnsHiringUnit;"></tr>
 
                         <tr class="mat-row" *matNoDataRow>
-                          <td class="mat-cell" colspan="4">No se encontraron datos con:  "{{input.value}}"</td>
+                          <td class="mat-cell" colspan="4">No se encontraron datos con: "{{input.value}}"</td>
                         </tr>
                       </table>
-                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" #pagHiringUnit></mat-paginator>
+                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"
+                                     #pagHiringUnit></mat-paginator>
                       <!-- </div> -->
                     </div>
 
                     <!-- Modal Registro-->
-                    <div class="modal fade" id="modal-HiringUnit" data-backdrop="static" data-keyboard="false" tabindex="-1">
+                    <div class="modal fade" id="modal-HiringUnit" data-backdrop="static" data-keyboard="false"
+                         tabindex="-1">
                       <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content" style="width: auto">
                           <div class="modal-header">
-                            <h4 class="modal-title"><b style="font-size: larger">{{titleModal}}</b>
+                            <h4 class="modal-title"><span style="font-size: medium;font-weight: normal">{{titleModal}}</span>
                             </h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close" #CloseUnidad>
-                              <span aria-hidden="true" >&times;</span>
+                              <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
                           <div class="modal-body modal-dialog-scrollable">
@@ -1155,7 +1210,8 @@
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                       <label class="font-weight-normal text-sm">Identificacion Unidad</label>
-                                      <input formControlName="uni_numero_proceso" type="text" class="form-control text-sm"/>
+                                      <input formControlName="uni_numero_proceso" type="text"
+                                             class="form-control font-weight-lighter text-sm"/>
                                       <input formControlName="uni_cod" type="hidden" class="form-control text-sm"/>
                                     </div>
                                   </div>
@@ -1163,29 +1219,30 @@
                                   <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                       <label class="font-weight-normal text-sm">Nombre De la Unidad</label>
-                                      <input formControlName="uni_nombre_proceso" type="text" class="form-control text-sm"/>
+                                      <input formControlName="uni_nombre_proceso" type="text"
+                                             class="form-control font-weight-lighter text-sm"/>
                                     </div>
                                   </div>
 
-                                  <button
-                                    *ngIf="indRegister==0"
-                                    [disabled]="registerHiringUnit.invalid"
-                                    type="submit"
-                                    class="btn btn-primary float-left btn-sm btn-block"
-                                  >
-                                    <span>Guardar <i class="fas fa-save"></i></span>
-                                  </button>
-
-                                  <button
-                                    *ngIf="indRegister!=0"
-                                    [disabled]="registerHiringUnit.invalid"
-                                    type="submit"
-                                    class="btn btn-primary float-left btn-sm btn-block"
-                                  >
-                                    <span>Actualizar <i class="fas fa-save"></i></span>
-                                  </button>
-
                                 </div>
+
+                                <button
+                                  *ngIf="indRegister==0"
+                                  [disabled]="registerHiringUnit.invalid"
+                                  type="submit"
+                                  class="btn btn-outline-primary float-left btn-sm"
+                                >
+                                  <span>Guardar <i class="fas fa-save"></i></span>
+                                </button>
+
+                                <button
+                                  *ngIf="indRegister!=0"
+                                  [disabled]="registerHiringUnit.invalid"
+                                  type="submit"
+                                  class="btn btn-outline-primary float-left btn-sm"
+                                >
+                                  <span>Actualizar <i class="fas fa-save"></i></span>
+                                </button>
                               </form>
                             </div>
                           </div>

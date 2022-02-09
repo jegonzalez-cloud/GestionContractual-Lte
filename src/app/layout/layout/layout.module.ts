@@ -20,7 +20,7 @@ import { NgxCurrencyModule } from "ngx-currency";
     SharedModule,
     // DataTablesModule
   ],
-  // exports:[NgbModule],
+  // exports:[SharedModule],
   // providers:[CurrencyPipe]
 })
 export class LayoutModule {}

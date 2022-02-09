@@ -100,26 +100,20 @@ export class NavbarComponent implements OnInit {
 
   async logOut() {
     let token = localStorage.getItem('token')!;
-    // this.authService.logout(token);
     Swal.fire({
       title: 'Loading...'
     });
     Swal.showLoading();
 
-    this.authService.logout(token).subscribe((data) => {
+    this.authService.logout(token).subscribe((data:any) => {
       Swal.close();
       Swal.fire({
         title: '¿Esta seguro de cerrar la sesion?',
-        // text: "No podrás revertir esto!",
         icon: 'warning',
         showCancelButton: false,
         allowOutsideClick: false,
         showCloseButton: true,
-        // confirmButtonColor: 'var(--companyColor)',
-        confirmButtonColor: 'primary',
-        // cancelButtonColor: '#E9ECEF',
-        // cancelButtonColor: '#828282',
-        // cancelButtonText: 'Cancelar',
+        confirmButtonColor: 'red',
         confirmButtonText: 'ACEPTAR!'
       }).then((result) => {
         if (result.isConfirmed) {
@@ -132,20 +126,16 @@ export class NavbarComponent implements OnInit {
 
   getAutorizaciones() {
     this.secopService.getAutorizaciones(this.username, this.codigoEntidad, this.entidad, '').subscribe((response: any) => {
-      // console.log(response.Values.ResultFields);
       if (response.Values.ResultFields != null && response.Values.ResultFields.length > 0) {
         this.cantidadAutorizaciones = response.Values.ResultFields.length;
         this.autorizaciones = response.Values.ResultFields;
-        //console.log(this.autorizaciones)
       } else {
         this.cantidadAutorizaciones = 0;
         this.autorizaciones = null;
       }
-      // localStorage.setItem('autorizaciones',JSON.stringify(response.Values.ResultFields))
     })
     setInterval(() => {
       this.secopService.getAutorizaciones(this.username, this.codigoEntidad, this.entidad, '').subscribe((response: any) => {
-        // console.log(response.Values.ResultFields)
         if (response.Values.ResultFields != null && response.Values.ResultFields.length > 0) {
           this.cantidadAutorizaciones = response.Values.ResultFields.length
           this.autorizaciones = response.Values.ResultFields;
@@ -158,16 +148,9 @@ export class NavbarComponent implements OnInit {
     }, 100000)
   }
 
-
   goDetail(row: any) {
-    //console.log(row);
-    // let row = evento.target.closest('tr').childNodes.item(0).innerHTML
-    // alert('elpupy')
-    // let navigationExtras: NavigationExtras = {
-    //   queryParams: {'id': row.CONS_PROCESO}
-    // };
     this.secopService.getSelectedProcess(this.token, row).subscribe((response: any) => {
-      this.modalData = response.Values.ResultFields[0][0];
+      localStorage.setItem('modalData', JSON.stringify(Object.assign({}, response.Values.ResultFields[0][0])));
       this.PROCESO = response.Values.ResultFields[0][0].CONS_PROCESO;
       this.CENTRO_GESTOR = response.Values.ResultFields[0][0].CENTRO_GESTOR;
       this.TIPO_PROCESO = response.Values.ResultFields[0][0].TIPO_PROCESO;
@@ -193,7 +176,6 @@ export class NavbarComponent implements OnInit {
       this.INTERADMINISTRATIVOS = response.Values.ResultFields[0][0].INTERADMINISTRATIVOS;
       this.DEFINIR_LOTES = response.Values.ResultFields[0][0].DEFINIR_LOTES;
       this.ESTADO = response.Values.ResultFields[0][0].ESTADO;
-
       this.CODIGO_RPC = response.Values.ResultFields[0][0].CODIGO_RPC;
       this.FECHA_INICIO = response.Values.ResultFields[0][0].FECHA_INICIO;
       this.FECHA_TERMINO = response.Values.ResultFields[0][0].FECHA_TERMINO;
@@ -207,69 +189,10 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  aprobarAutorizacion(proceso: string) {
-    this.secopService.updateProcess(proceso, this.ROL, this.entidad, this.codigoEntidad, this.username, 'aprobado').subscribe((response: any) => {
-      this.service.sendClickEvent();
-      if (response.Status = 'Ok') {
-        utils.showAlert('Se autorizo el proceso #' + proceso + ' correctamente!', 'success');
-        if (this.ROL == 6) {
-          this.secopService.getSelectedProcess(this.token, proceso).subscribe((response: any) => {
-            let PROCESO_SELECCIONADO = response.Values.ResultFields[0][0];
-            this.secopService.getUnspscData(this.token, proceso).subscribe((response: any) => {
-              let usuarioConect = atob(localStorage.getItem('usuarioConect')!);
-              let conectPw = atob(localStorage.getItem('conectPw')!);
-              let arr: Array<any> = [];
-              arr.push(PROCESO_SELECCIONADO);
-              arr.push(response.Values.ResultFields);
-              arr.push({"USUARIO_CONNECT": usuarioConect});
-              arr.push({"PASSWORD_CONNECT": conectPw});
-              arr.push({"USC_CODIGO_ENTIDAD": this.codigoEntidad});
-              arr.push({"TOKEN": this.token});
-
-              this.secopService.createSoapProcess(arr).subscribe((response: any) => {
-                console.log(response);
-              });
-              //utils.sendSoapData(this.PROCESO_SELECCIONADO,response.Values.ResultFields);
-            });
-          });
-        }
-        this.getAutorizacionesXEntidad();
-      }
-    });
-  }
-
-  rechazarAutorizacion(proceso: string) {
-    this.secopService.updateProcess(proceso, this.ROL, this.entidad, this.codigoEntidad, this.username, 'rechazado').subscribe((response: any) => {
-      this.service.sendClickEvent();
-      if (response.Status = 'Ok') {
-        utils.showAlert('Se rechazo el proceso #' + proceso + '!', 'warning');
-        this.getAutorizacionesXEntidad();
-      }
-    });
-  }
-
-  getAutorizacionesXEntidad() {
-    this.secopService.getAutorizacionesXEntidad(this.entidad).subscribe((response: any) => {
-      this.autorizaciones = response.Values.ResultFields;
-      // console.log(this.autorizaciones);
-      //this.infoProcess();
-    })
-  }
-
-  fillModal(numProceso: any) {
-    console.log(numProceso)
-    this.router.navigate(['home/autorizaciones-det/' + numProceso]);
-  }
-
   changeVar() {
     let color = atob(localStorage.getItem('color')!);
     let r: any = document.querySelector(':root');
     r.style.setProperty('--companyColor', color);
-  }
-
-  ddd(){
-    console.log('pulsaste')
-    alert(this.ROL)
   }
 
   getUserData() {
@@ -278,7 +201,6 @@ export class NavbarComponent implements OnInit {
     this.entidad = atob(localStorage.getItem('entidad')!);
     this.userImage = "./assets/img/avatar.png";
     this.logoImage = "./assets/img/Logo-helppeople-2021-horizontal.png";
-    //console.log(this.userImage)
     this.nameUser = atob(this.nameUser!);
   }
 }

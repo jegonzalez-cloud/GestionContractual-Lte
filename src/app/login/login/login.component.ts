@@ -79,66 +79,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
-//   BuscarEntidades() {
-//     if (this.loginForm.invalid) {
-//       return;
-//     }
-//
-//     let jsonString = JSON.stringify(Object.assign({}, this.entidades));
-//     let DATA = JSON.parse(jsonString)["DATA"];
-//     console.log(DATA)
-//
-//     if (DATA.length == undefined || DATA.length == null || DATA.length == 0) {
-//       const Toast = Swal.mixin({
-//         toast: true,
-//         position: 'top-end',
-//         showConfirmButton: false,
-//         timer: 3000,
-//         timerProgressBar: true,
-//         didOpen: (toast) => {
-//           toast.addEventListener('mouseenter', Swal.stopTimer);
-//           toast.addEventListener('mouseleave', Swal.resumeTimer);
-//         },
-//       });
-//       Toast.fire({
-//         icon: 'error',
-//         title: 'No tienes entidades asociadas!',
-//       });
-//       console.log('XX');
-//       return;
-//     }
-//
-//     Swal.fire({
-//       title: 'Seleccione una entidad',
-//       input: 'select',
-//       inputOptions: {
-//         Entidades: DATA.map((datos: any) => datos.NOMBRE_DEPENDENCIA),
-//       },
-//       // inputPlaceholder: 'Seleccione una Entidad',
-//       allowOutsideClick: false,
-//       showCloseButton: true,
-//       showCancelButton: false,
-//       confirmButtonColor: '#007BFF',
-//       confirmButtonText: 'Continue',
-//       inputValidator: (value) => {
-//         return new Promise(async (resolve: any) => {
-//           if (value.replace(/\s/g, "") !== '') {
-//             resolve();
-//             // localStorage.setItem('tipoEntidad', this.entidades[0].tipoEntidad);
-// //               localStorage.setItem('entidad', DATA[value].CODIGO_ENTIDAD);
-//             // localStorage.setItem('equipo', JSON.stringify(this.entidades[0].equipo));
-//
-//             localStorage.setItem('dependencia', DATA[value].NOMBRE_DEPENDENCIA);
-//             this.goHome();
-//             // await this.store.dispatch(acciones.cargarDataSecop({username: btoa(usuario), password: btoa(password)}));
-//           } else {
-//             resolve('Por favor seleccione una Entidad!');
-//           }
-//         });
-//       },
-//     });
-//   }
-
   getLogin() {
     if (this.loginForm.invalid) {
       return;
@@ -174,9 +114,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       let userImage = data.Values.UserInfo.UserImageFull;
       this.getEntities(user, token, fullName, userImage);
     }, (error) => console.error(error));
-    // this.authService.getBasicInformation(token).subscribe((data)=>{
-    //   console.log(data)
-    // })
   }
 
   getEntities(user: string, token: string, fullName: string, userImage: string) {
@@ -220,8 +157,6 @@ export class LoginComponent implements OnInit, OnDestroy {
               resolve();
 
               this.authService.getUsuarioConnect(user, dataEntities[value].USC_GESTOR).subscribe((response:any)=>{
-                console.log(response['Values']);
-                console.log(dataEntities[value]);
                 if(response != null && response['Values'].length > 0){
                   localStorage.setItem("username", btoa(user));
                   localStorage.setItem('token', btoa(token));
@@ -247,88 +182,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
     });
   }
-
-//   getEntities(user: string,password:string) {
-//     this.service.getDataSecop(btoa(user), btoa(password)).subscribe((data:any)=>{
-//       let arrayUnidades:any = [];
-//       let arrayEquipos:any = [];
-//       console.log(data)
-//       console.log(data.DATA)
-//       data.DATA.forEach((value:any)=> {
-//         if(localStorage.getItem('unidades') != value.UNIDAD_CONTRATACION){
-//           arrayUnidades.push(value.UNIDAD_CONTRATACION);
-//           localStorage.setItem('unidades',arrayUnidades);
-//         }
-//         if(localStorage.getItem('equipos') != value.EQUIPO_CONTRATACION){
-//           arrayEquipos.push(value.EQUIPO_CONTRATACION);
-//           localStorage.setItem('equipos',arrayEquipos);
-//         }
-//         if(localStorage.getItem('usuarioConnect') != value.USUARIO_CONNECT){
-//           localStorage.setItem('usuarioConnect',btoa(value.USUARIO_CONNECT));
-//         }
-//         if(localStorage.getItem('passwordConnect') != value.PASSWORD_CONNECT){
-//           localStorage.setItem('passwordConnect',btoa(value.PASSWORD_CONNECT));
-//         }
-//         if(localStorage.getItem('codigoEntidad') != value.CODIGO_ENTIDAD){
-//           localStorage.setItem('codigoEntidad',btoa(value.CODIGO_ENTIDAD));
-//         }
-//       });
-//     })
-//
-//     this.service.getDependencias(btoa(user), btoa(password)).subscribe((data:any) => {
-//       let jsonString = JSON.stringify(Object.assign({}, data));
-//       let dataEntities = JSON.parse(jsonString)["DATA"];
-//
-//       if (dataEntities.length == undefined || dataEntities.length == null || dataEntities.length == 0) {
-//         const Toast = Swal.mixin({
-//           toast: true,
-//           position: 'top-end',
-//           showConfirmButton: false,
-//           timer: 3000,
-//           timerProgressBar: true,
-//           didOpen: (toast) => {
-//             toast.addEventListener('mouseenter', Swal.stopTimer);
-//             toast.addEventListener('mouseleave', Swal.resumeTimer);
-//           },
-//         });
-//         Toast.fire({
-//           icon: 'error',
-//           title: 'No tienes entidades asociadas!',
-//         });
-//         return;
-//       }
-//
-//       Swal.fire({
-//         title: 'Seleccione una entidad',
-//         input: 'select',
-//         inputOptions: {
-//           Entidades: dataEntities.map((datos: any) => datos.NOMBRE_DEPENDENCIA),
-//         },
-//         // inputPlaceholder: 'Seleccione una Entidad',
-//         allowOutsideClick: false,
-//         showCloseButton: true,
-//         showCancelButton: false,
-//         confirmButtonColor: '#007BFF',
-//         confirmButtonText: 'Continue',
-//         inputValidator: (value) => {
-//           return new Promise(async (resolve: any) => {
-//             if (value.replace(/\s/g, "") !== '') {
-//               resolve();
-//               // localStorage.setItem('tipoEntidad', this.entidades[0].tipoEntidad);
-// //               localStorage.setItem('entidad', DATA[value].CODIGO_ENTIDAD);
-//               // localStorage.setItem('equipo', JSON.stringify(this.entidades[0].equipo));
-//
-//               localStorage.setItem('dependencia', dataEntities[value].NOMBRE_DEPENDENCIA);
-//               this.goHome();
-//               // await this.store.dispatch(acciones.cargarDataSecop({username: btoa(usuario), password: btoa(password)}));
-//             } else {
-//               resolve('Por favor seleccione una Entidad!');
-//             }
-//           });
-//         },
-//       });
-//     })
-//   }
 
   async getUsuarios() {
     if (this.usuarios === undefined || this.usuarios === null || this.usuarios.length === 0) {
