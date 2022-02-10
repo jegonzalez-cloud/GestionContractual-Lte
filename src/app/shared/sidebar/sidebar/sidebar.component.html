@@ -1,173 +1,205 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4 " style="background-color:var(--sidebarColor);color:var(--labelColor)">
-  <!-- Brand Logo -->
-  <div style="text-align: center;padding: 5% 5% 5% 5%" class="mt-2">
-    <!--      <img-->
-    <!--        [ngStyle]="{'cursor':'pointer'}"-->
-    <!--        [routerLink]="['dashboard']"-->
-    <!--        src="../../../assets/img/bloque28.png"-->
-    <!--        alt="..."-->
-    <!--        width="100%"-->
-    <!--      />-->
-<!--    [ngStyle]="{'cursor':'pointer'}"-->
-    <img
-      src="./assets/img/bloque28.png"
-      alt="..."
-      width="100%"
-    />
-    <!-- TODO: routerlink de pagina de pruebas   [routerLink]="['sample']"-->
-    <!-- <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8"> -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4 " style="background-color:var(--sidebarColor);color:var(--labelColor);margin-top: 4.5%">
+
+  <div style="height: 92%">
+    <div style="text-align: left;padding: 5% 5% 5% 5%;height: 88%;">
+<!--            <img-->
+<!--              [ngStyle]="{'cursor':'pointer'}"-->
+<!--              [routerLink]="['dashboard']"-->
+<!--              src="../../../assets/img/bloque28.png"-->
+<!--              alt="..."-->
+<!--              width="100%"-->
+<!--            />-->
+      <!--    [ngStyle]="{'cursor':'pointer'}"-->
+
+      <!-- TODO: routerlink de pagina de pruebas   [routerLink]="['sample']"-->
+      <!-- <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8"> -->
+      <nav class="mt-2">
+        <ul
+          class="nav nav-pills nav-sidebar nav-child-indent flex-column"
+          data-widget="treeview"
+          role="menu"
+          data-accordion="false"
+        >
+          <!-- Add icons to the links using the .nav-icon class
+                 with font-awesome or any other icon font library -->
+
+          <li *ngIf="rol == 4 || rol == 3" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+            <a routerLink="dashboard" class="nav-link">
+              <i class="nav-icon fa fa-chart-line"></i>
+              <p style="color: #a8a8a8">
+                {{'dashboard.dashboard' | translate}}
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <!--            <ul class="nav nav-treeview">-->
+            <!--              <li class="nav-item">-->
+            <!--                <a routerLink ="process" class="nav-link" style="cursor: pointer">-->
+            <!--                  <i class="far fa-circle nav-icon"></i>-->
+            <!--                  <p class="text-sm">{{'administration-CI.panels.menu1' | translate}}</p>-->
+            <!--                </a>-->
+            <!--              </li>-->
+            <!--            </ul>-->
+          </li>
+
+          <!--        <li *ngIf="rol == 39" class="nav-item" [ngStyle]="{'cursor':'pointer'}">-->
+          <li *ngIf="rol == 1 " class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+            <a routerLink="process" class="nav-link">
+              <i class="nav-icon fa fa-edit"></i>
+              <p style="color: #909090">
+                {{'administration-CI.panels.menu1' | translate}}
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <!--            <ul class="nav nav-treeview">-->
+            <!--              <li class="nav-item">-->
+            <!--                <a routerLink ="process" class="nav-link" style="cursor: pointer">-->
+            <!--                  <i class="far fa-circle nav-icon"></i>-->
+            <!--                  <p class="text-sm">{{'administration-CI.panels.menu1' | translate}}</p>-->
+            <!--                </a>-->
+            <!--              </li>-->
+            <!--            </ul>-->
+          </li>
+          <!--        <li class="nav-item" *ngIf="rol != 39" [ngStyle]="{'cursor':'pointer'}">-->
+          <li class="nav-item" *ngIf="rol != 1 && rol != 7" [ngStyle]="{'cursor':'pointer'}">
+            <a routerLink="autorizaciones" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+              <p style="color: #909090">
+                {{'administration-CI.panels.menu2' | translate}}
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+          </li>
+          <li *ngIf="rol != 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+            <a routerLink="busqueda" class="nav-link">
+              <i class="nav-icon fas fa-search"></i>
+              <p style="color: #909090">
+                {{'administration-CI.panels.menu4' | translate}}
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+          </li>
+          <li *ngIf="rol != 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+            <a routerLink="reportes" class="nav-link">
+              <i class="nav-icon fas fa-book-open"></i>
+              <p style="color: #909090">
+                {{'administration-CI.panels.menu5' | translate}}
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+          </li>
+          <li *ngIf="rol != 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+            <!--            <a routerLink ="reportes" class="nav-link">-->
+            <a
+              href="https://formacion.secop.gov.co/STS/Users/Login/Index?SkinName=CCE&ReturnUrl=%2fSTS%2fusers%2fissue.aspx%3fwa%3dwsignin1.0%26wtrealm%3dhttps%253a%252f%252fmarketplace-formacion.secop.gov.co%252fCO1Marketplace%26wctx%3drm%253d0%2526id%253dpassive%2526ru%253d%25252fCO1Marketplace%25252fCompanies%25252fCompanyConfiguration%25252findex%26wct%3d2021-10-11T14%253a05%253a50Z&wa=wsignin1.0&wtrealm=https%3a%2f%2fmarketplace-formacion.secop.gov.co%2fCO1Marketplace&wctx=rm%3d0%26id%3dpassive%26ru%3d%252fCO1Marketplace%252fCompanies%252fCompanyConfiguration%252findex&wct=2021-10-11T14%3a05%3a50Z"
+              target="_blank" class="nav-link">
+              <i class="nav-icon fas fa-link"></i>
+              <p style="color: #909090">
+                {{'secop.secop' | translate}}
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+          </li>
+          <li *ngIf="rol == 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+            <a routerLink="configuracion" class="nav-link">
+              <i class="nav-icon fa fa-cog"></i>
+              <p style="color: #909090">
+                {{'config.config' | translate}}
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+          </li>
+          <!--        <li class="mt-xl-5"></li>-->
+
+          <!--        <li  style="margin-top: 60%;cursor: pointer">-->
+          <!--          <div class="image mt-0">-->
+          <!--            &lt;!&ndash;        [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;-->
+          <!--            <footer style="position:fixed; bottom: 0; height:40px; background-color:red;">-->
+          <!--              <img-->
+          <!--                src={{logoImage}}-->
+          <!--                alt="Logo Image"-->
+          <!--                width="120px"-->
+          <!--                style="margin-top: 18px;"-->
+          <!--              />-->
+          <!--            </footer>-->
+
+          <!--          </div>-->
+          <!--        </li>-->
+        </ul>
+      </nav>
+    </div>
+<!--    <div style="width: 100%;height: 80%;border:2px solid rosybrown"></div>-->
+    <div style="height: 12%;text-align: center">
+      <img
+        src="./assets/img/Logo-helppeople.ico"
+        alt="..."
+        width="36px"
+      />
+    </div>
+
   </div>
+  <!-- Brand Logo -->
+
   <!-- <a href="../../index3.html" class="brand-link">
       <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8">
       <span class="brand-text font-weight-normal">helppeople</span>
     </a> -->
 
+
   <!-- Sidebar -->
-  <div class="sidebar">
-    <!-- Sidebar user (optional) -->
-<!--    <div class="user-panel mt-0 pb-3 mb-3 d-flex">-->
-<!--      <div class="image mt-0">-->
-<!--&lt;!&ndash;        [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;-->
-<!--        <img-->
-<!--          src={{userImage}}-->
-<!--          class="img-circle elevation-2"-->
-<!--          alt="User Image"-->
-<!--          style="margin-top: 18px;"-->
-<!--        />-->
-<!--      </div>-->
-<!--      <div class="info">-->
-<!--        <a class="d-block text-xs" style="font-weight: bold; color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>-->
-<!--        <a class="d-block text-sm">{{nameUser | titlecase}}</a>-->
-<!--        <a class="d-block text-xs" style="color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{rol == 1 ? 'Creador del Proceso y Contrato' :-->
-<!--          rol == 2 ? 'Secretaria Juridica' :-->
-<!--            rol == 3 ? 'Ordenador del gasto' :-->
-<!--              rol == 4 ? 'Secretaria Privada' :-->
-<!--                rol == 5 ? 'Comite de Contratacion' :-->
-<!--                  rol == 6 ? 'DADII' : 'Admin'}}">-->
-<!--          {{rol == 1 ? 'Creador del Proceso y Contrato' :-->
-<!--          rol == 2 ? 'Secretaria Juridica' :-->
-<!--            rol == 3 ? 'Ordenador del gasto' :-->
-<!--              rol == 4 ? 'Secretaria Privada' :-->
-<!--                rol == 5 ? 'Comite de Contratacion' :-->
-<!--                  rol == 6 ? 'DADII' : 'Admin'}}</a>-->
-<!--      </div>-->
-<!--    </div>-->
+<!--  <div class="sidebar">-->
+<!--    &lt;!&ndash; Sidebar user (optional) &ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="user-panel mt-0 pb-3 mb-3 d-flex">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="image mt-0">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <img&ndash;&gt;-->
+<!--&lt;!&ndash;          src={{userImage}}&ndash;&gt;-->
+<!--&lt;!&ndash;          class="img-circle elevation-2"&ndash;&gt;-->
+<!--&lt;!&ndash;          alt="User Image"&ndash;&gt;-->
+<!--&lt;!&ndash;          style="margin-top: 18px;"&ndash;&gt;-->
+<!--&lt;!&ndash;        />&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="info">&ndash;&gt;-->
+<!--&lt;!&ndash;        <a class="d-block text-xs" style="font-weight: bold; color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>&ndash;&gt;-->
+<!--&lt;!&ndash;        <a class="d-block text-sm">{{nameUser | titlecase}}</a>&ndash;&gt;-->
+<!--&lt;!&ndash;        <a class="d-block text-xs" style="color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{rol == 1 ? 'Creador del Proceso y Contrato' :&ndash;&gt;-->
+<!--&lt;!&ndash;          rol == 2 ? 'Secretaria Juridica' :&ndash;&gt;-->
+<!--&lt;!&ndash;            rol == 3 ? 'Ordenador del gasto' :&ndash;&gt;-->
+<!--&lt;!&ndash;              rol == 4 ? 'Secretaria Privada' :&ndash;&gt;-->
+<!--&lt;!&ndash;                rol == 5 ? 'Comite de Contratacion' :&ndash;&gt;-->
+<!--&lt;!&ndash;                  rol == 6 ? 'DADII' : 'Admin'}}">&ndash;&gt;-->
+<!--&lt;!&ndash;          {{rol == 1 ? 'Creador del Proceso y Contrato' :&ndash;&gt;-->
+<!--&lt;!&ndash;          rol == 2 ? 'Secretaria Juridica' :&ndash;&gt;-->
+<!--&lt;!&ndash;            rol == 3 ? 'Ordenador del gasto' :&ndash;&gt;-->
+<!--&lt;!&ndash;              rol == 4 ? 'Secretaria Privada' :&ndash;&gt;-->
+<!--&lt;!&ndash;                rol == 5 ? 'Comite de Contratacion' :&ndash;&gt;-->
+<!--&lt;!&ndash;                  rol == 6 ? 'DADII' : 'Admin'}}</a>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
 
     <!-- Sidebar Menu -->
-    <nav class="mt-2">
-      <ul
-        class="nav nav-pills nav-sidebar nav-child-indent flex-column"
-        data-widget="treeview"
-        role="menu"
-        data-accordion="false"
-      >
-        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
 
-        <li *ngIf="rol == 4 || rol == 3" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
-          <a routerLink="dashboard" class="nav-link">
-            <i class="nav-icon fa fa-chart-line"></i>
-            <p style="color: #a8a8a8">
-              {{'dashboard.dashboard' | translate}}
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <!--            <ul class="nav nav-treeview">-->
-          <!--              <li class="nav-item">-->
-          <!--                <a routerLink ="process" class="nav-link" style="cursor: pointer">-->
-          <!--                  <i class="far fa-circle nav-icon"></i>-->
-          <!--                  <p class="text-sm">{{'administration-CI.panels.menu1' | translate}}</p>-->
-          <!--                </a>-->
-          <!--              </li>-->
-          <!--            </ul>-->
-        </li>
-
-<!--        <li *ngIf="rol == 39" class="nav-item" [ngStyle]="{'cursor':'pointer'}">-->
-        <li *ngIf="rol == 1 " class="nav-item" [ngStyle]="{'cursor':'pointer'}">
-          <a routerLink="process" class="nav-link">
-            <i class="nav-icon fa fa-edit"></i>
-            <p style="color: #909090">
-              {{'administration-CI.panels.menu1' | translate}}
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <!--            <ul class="nav nav-treeview">-->
-          <!--              <li class="nav-item">-->
-          <!--                <a routerLink ="process" class="nav-link" style="cursor: pointer">-->
-          <!--                  <i class="far fa-circle nav-icon"></i>-->
-          <!--                  <p class="text-sm">{{'administration-CI.panels.menu1' | translate}}</p>-->
-          <!--                </a>-->
-          <!--              </li>-->
-          <!--            </ul>-->
-        </li>
-<!--        <li class="nav-item" *ngIf="rol != 39" [ngStyle]="{'cursor':'pointer'}">-->
-        <li class="nav-item" *ngIf="rol != 1 && rol != 7" [ngStyle]="{'cursor':'pointer'}">
-          <a routerLink="autorizaciones" class="nav-link">
-            <i class="nav-icon fas fa-book"></i>
-            <p style="color: #909090">
-              {{'administration-CI.panels.menu2' | translate}}
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-        </li>
-        <li *ngIf="rol != 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
-          <a routerLink="busqueda" class="nav-link">
-            <i class="nav-icon fas fa-search"></i>
-            <p style="color: #909090">
-              {{'administration-CI.panels.menu4' | translate}}
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-        </li>
-        <li *ngIf="rol != 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
-          <a routerLink="reportes" class="nav-link">
-            <i class="nav-icon fas fa-book-open"></i>
-            <p style="color: #909090">
-              {{'administration-CI.panels.menu5' | translate}}
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-        </li>
-        <li *ngIf="rol != 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
-          <!--            <a routerLink ="reportes" class="nav-link">-->
-          <a
-            href="https://formacion.secop.gov.co/STS/Users/Login/Index?SkinName=CCE&ReturnUrl=%2fSTS%2fusers%2fissue.aspx%3fwa%3dwsignin1.0%26wtrealm%3dhttps%253a%252f%252fmarketplace-formacion.secop.gov.co%252fCO1Marketplace%26wctx%3drm%253d0%2526id%253dpassive%2526ru%253d%25252fCO1Marketplace%25252fCompanies%25252fCompanyConfiguration%25252findex%26wct%3d2021-10-11T14%253a05%253a50Z&wa=wsignin1.0&wtrealm=https%3a%2f%2fmarketplace-formacion.secop.gov.co%2fCO1Marketplace&wctx=rm%3d0%26id%3dpassive%26ru%3d%252fCO1Marketplace%252fCompanies%252fCompanyConfiguration%252findex&wct=2021-10-11T14%3a05%3a50Z"
-            target="_blank" class="nav-link">
-            <i class="nav-icon fas fa-link"></i>
-            <p style="color: #909090">
-              {{'secop.secop' | translate}}
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-        </li>
-        <li *ngIf="rol == 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
-          <a routerLink="configuracion" class="nav-link">
-            <i class="nav-icon fa fa-cog"></i>
-            <p style="color: #909090">
-              {{'config.config' | translate}}
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-        </li>
-
-<!--        <li  style="margin-top: 60%;cursor: pointer">-->
-<!--          <div class="image mt-0">-->
-<!--            &lt;!&ndash;        [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;-->
-<!--            <footer style="position:fixed; bottom: 0; height:40px; background-color:red;">-->
-<!--              <img-->
-<!--                src={{logoImage}}-->
-<!--                alt="Logo Image"-->
-<!--                width="120px"-->
-<!--                style="margin-top: 18px;"-->
-<!--              />-->
-<!--            </footer>-->
-
-<!--          </div>-->
-<!--        </li>-->
-      </ul>
-    </nav>
-    <!-- /.sidebar-menu -->
-  </div>
+<!--    <div style="text-align: center;padding: 5% 5% 5% 5%;margin-top:200px">-->
+<!--      &lt;!&ndash;      <img&ndash;&gt;-->
+<!--      &lt;!&ndash;        [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;-->
+<!--      &lt;!&ndash;        [routerLink]="['dashboard']"&ndash;&gt;-->
+<!--      &lt;!&ndash;        src="../../../assets/img/bloque28.png"&ndash;&gt;-->
+<!--      &lt;!&ndash;        alt="..."&ndash;&gt;-->
+<!--      &lt;!&ndash;        width="100%"&ndash;&gt;-->
+<!--      &lt;!&ndash;      />&ndash;&gt;-->
+<!--      &lt;!&ndash;    [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;-->
+<!--      <img-->
+<!--        src="./assets/img/bloque28.png"-->
+<!--        alt="..."-->
+<!--        width="100%"-->
+<!--      />-->
+<!--      &lt;!&ndash; TODO: routerlink de pagina de pruebas   [routerLink]="['sample']"&ndash;&gt;-->
+<!--      &lt;!&ndash; <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8"> &ndash;&gt;-->
+<!--    </div>-->
+<!--    &lt;!&ndash; /.sidebar-menu &ndash;&gt;-->
+<!--  </div>-->
   <!-- /.sidebar -->
+
+
+
 </aside>

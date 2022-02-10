@@ -302,7 +302,7 @@ export class ReportesComponent implements OnInit {
       confirmButtonColor: 'green',
       allowOutsideClick: false,
       denyButtonText: 'PDF',
-      denyButtonColor: 'red',
+      denyButtonColor: '#B01F00',
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {

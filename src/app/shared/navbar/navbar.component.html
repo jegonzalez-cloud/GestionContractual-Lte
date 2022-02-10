@@ -1,108 +1,329 @@
 <app-modal-process></app-modal-process>
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
-  <!-- Left navbar links -->
-  <ul class="navbar-nav">
-    <li class="nav-item">
-      <a class="nav-link" data-widget="pushmenu" role="button"
-      ><i class="fas fa-bars"></i
-      ></a>
-    </li>
-  </ul>
+<!--<nav class="main-header mat-tab-group-inverted-header navbar navbar-expand navbar-light">-->
+<!--  &lt;!&ndash; Left navbar links &ndash;&gt;-->
+<!--  <ul class="navbar-nav">-->
+<!--    <li class="nav-item">-->
+<!--      <a class="nav-link" data-widget="pushmenu" role="button"-->
+<!--      ><i class="fas fa-bars"></i-->
+<!--      ></a>-->
+<!--    </li>-->
+<!--  </ul>-->
 
   <!-- Right navbar links -->
-  <ul class="navbar-nav ml-auto">
-    <!-- Notifications Dropdown Menu -->
-    <li *ngIf="ROL != 1" class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#divNotificaciones" style="margin-right: -10px">
-            <i class="far fa-bell text-lg"></i>
-            <span *ngIf="cantidadAutorizaciones>0"
-                  class="badge badge-danger navbar-badge">{{cantidadAutorizaciones}}</span>
-          </a>
-          <div id="divNotificaciones" [style]="{'height':(cantidadAutorizaciones >= 14) ? '975%' : 'auto' }"
-               class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
-            <div id="notificaciones-sticky-top" class="dropdown-item dropdown-header">{{cantidadAutorizaciones}}
-              Notificaciones
-            </div>
-            <!--        <option
-                                              *ngFor="let dep of departamentos"
-                                              value="{{ dep.DPTO_COD }}"
-                                            >
-                                              {{ dep.DPTO_DESCRIPCION }}
-                                            </option>-->
-            <div *ngFor="let aut of autorizaciones" style="text-align: center">
-              <div class="dropdown-divider"></div>
-              <p class="hoverOnTable" style="cursor: pointer"
-                 (click)="goDetail(aut.CONS_PROCESO)">
-                <i class="fas fa-envelope mr-2"></i> <a
-                style="color: black;font-size: small;word-break: break-all;">Se requiere autorizar # </a><a
-                style="font-size: 11px;font-weight: bold;color: #545cd8">{{ aut.CONS_PROCESO}}</a>
-                <!--            <a style="color: gray;font-size: small;word-break: break-all">{{aut.NOMBRE_PROCESO}}</a>-->
-                <!--            <span class="float-right text-muted text-sm">3 mins</span>-->
-              </p>
-            </div>
+<!--  <ul class="navbar-nav ml-auto">-->
+<!--    &lt;!&ndash; Notifications Dropdown Menu &ndash;&gt;-->
+<!--    <li *ngIf="ROL != 1" class="nav-item dropdown">-->
+<!--          <a class="nav-link" data-toggle="dropdown" href="#divNotificaciones" style="margin-right: -10px">-->
+<!--            <i class="far fa-bell text-lg"></i>-->
+<!--            <span *ngIf="cantidadAutorizaciones>0"-->
+<!--                  class="badge badge-danger navbar-badge">{{cantidadAutorizaciones}}</span>-->
+<!--          </a>-->
+<!--          <div id="divNotificaciones" [style]="{'height':(cantidadAutorizaciones >= 14) ? '975%' : 'auto' }"-->
+<!--               class="dropdown-menu dropdown-menu-xl dropdown-menu-right">-->
+<!--            <div id="notificaciones-sticky-top" class="dropdown-item dropdown-header">{{cantidadAutorizaciones}}-->
+<!--              Notificaciones-->
+<!--            </div>-->
+<!--            &lt;!&ndash;        <option-->
+<!--                                              *ngFor="let dep of departamentos"-->
+<!--                                              value="{{ dep.DPTO_COD }}"-->
+<!--                                            >-->
+<!--                                              {{ dep.DPTO_DESCRIPCION }}-->
+<!--                                            </option>&ndash;&gt;-->
+<!--            <div *ngFor="let aut of autorizaciones" style="text-align: center">-->
+<!--              <div class="dropdown-divider"></div>-->
+<!--              <p class="hoverOnTable" style="cursor: pointer"-->
+<!--                 (click)="goDetail(aut.CONS_PROCESO)">-->
+<!--                <i class="fas fa-envelope mr-2"></i> <a-->
+<!--                style="color: black;font-size: small;word-break: break-all;">Se requiere autorizar # </a><a-->
+<!--                style="font-size: 11px;font-weight: bold;color: #545cd8">{{ aut.CONS_PROCESO}}</a>-->
+<!--                &lt;!&ndash;            <a style="color: gray;font-size: small;word-break: break-all">{{aut.NOMBRE_PROCESO}}</a>&ndash;&gt;-->
+<!--                &lt;!&ndash;            <span class="float-right text-muted text-sm">3 mins</span>&ndash;&gt;-->
+<!--              </p>-->
+<!--            </div>-->
 
-            <!--        <div class="dropdown-divider"></div>-->
-            <!--        <a href="#" class="dropdown-item">-->
-            <!--          <i class="fas fa-users mr-2"></i> 8 friend requests-->
-            <!--          <span class="float-right text-muted text-sm">12 hours</span>-->
-            <!--        </a>-->
-            <!--        <div class="dropdown-divider"></div>-->
-            <!--        <a href="#" class="dropdown-item">-->
-            <!--          <i class="fas fa-file mr-2"></i> 3 new reports-->
-            <!--          <span class="float-right text-muted text-sm">2 days</span>-->
-            <!--        </a>-->
-            <div class="dropdown-divider"></div>
-            <div id="notificaciones-sticky-bot" [routerLink]="['autorizaciones']" class="dropdown-item dropdown-footer"
-            >Ver todas las notificaciones
-            </div>
-          </div>
-</li>
-    <li class="nav-item">
-      <a class="nav-link" role="button" style="margin-right: -7px">
-        <!-- (click)="logOut()"       -->
-        <!--        <i class="fas fa-sign-out-alt log-out text-lg"></i>-->
-        <i class="fa fa-question-circle text-lg" aria-hidden="true"></i>
-      </a>
-    </li>
-    <li class="nav-item">
-      <div class="d-flex" style="height: 100%;margin-right: 3.5vh;margin-left: 2vh">
-        <div class="vr" style="border: 0.05px solid #ddd9d9;height: 100%;"></div>
-      </div>
-    </li>
-    <li class="nav-item">
-      <div class="image mt-0">
-        <img
-          src={{userImage}}
-          class="img-circle elevation-2"
-          alt="User Image"
-          style="width:36px"
-        />
-      </div>
-    </li>
-    <li class="nav-item" style="width:10%">
-      <div class="mr-3">
-        <a class="nav-link" data-toggle="dropdown" href="#divVersion"><i class="fas fa-caret-down"
-                                                                         style="color:gray"></i></a>
-        <div id="divVersion"
+<!--            &lt;!&ndash;        <div class="dropdown-divider"></div>&ndash;&gt;-->
+<!--            &lt;!&ndash;        <a href="#" class="dropdown-item">&ndash;&gt;-->
+<!--            &lt;!&ndash;          <i class="fas fa-users mr-2"></i> 8 friend requests&ndash;&gt;-->
+<!--            &lt;!&ndash;          <span class="float-right text-muted text-sm">12 hours</span>&ndash;&gt;-->
+<!--            &lt;!&ndash;        </a>&ndash;&gt;-->
+<!--            &lt;!&ndash;        <div class="dropdown-divider"></div>&ndash;&gt;-->
+<!--            &lt;!&ndash;        <a href="#" class="dropdown-item">&ndash;&gt;-->
+<!--            &lt;!&ndash;          <i class="fas fa-file mr-2"></i> 3 new reports&ndash;&gt;-->
+<!--            &lt;!&ndash;          <span class="float-right text-muted text-sm">2 days</span>&ndash;&gt;-->
+<!--            &lt;!&ndash;        </a>&ndash;&gt;-->
+<!--            <div class="dropdown-divider"></div>-->
+<!--            <div id="notificaciones-sticky-bot" [routerLink]="['autorizaciones']" class="dropdown-item dropdown-footer"-->
+<!--            >Ver todas las notificaciones-->
+<!--            </div>-->
+<!--          </div>-->
+<!--</li>-->
+<!--    <li class="nav-item">-->
+<!--      <a class="nav-link" role="button" style="margin-right: -7px">-->
+<!--        &lt;!&ndash; (click)="logOut()"       &ndash;&gt;-->
+<!--        &lt;!&ndash;        <i class="fas fa-sign-out-alt log-out text-lg"></i>&ndash;&gt;-->
+<!--        <i class="fa fa-question-circle text-lg" aria-hidden="true"></i>-->
+<!--      </a>-->
+<!--    </li>-->
+<!--    <li class="nav-item">-->
+<!--      <div class="d-flex" style="height: 100%;margin-right: 3.5vh;margin-left: 2vh">-->
+<!--        <div class="vr" style="border: 0.05px solid #ddd9d9;height: 100%;"></div>-->
+<!--      </div>-->
+<!--    </li>-->
+<!--    <li class="nav-item">-->
+<!--      <div class="image mt-0">-->
+<!--        <img-->
+<!--          src={{userImage}}-->
+<!--          class="img-circle elevation-2"-->
+<!--          alt="User Image"-->
+<!--          style="width:36px"-->
+<!--        />-->
+<!--      </div>-->
+<!--    </li>-->
+<!--    <li class="nav-item" style="width:10%">-->
+<!--      <div class="mr-3">-->
+<!--        <a class="nav-link" data-toggle="dropdown" href="#divVersion"><i class="fas fa-caret-down"-->
+<!--                                                                         style="color:gray"></i></a>-->
+<!--        <div id="divVersion"-->
+<!--             class="dropdown-menu dropdown-menu-xl dropdown-menu-right">-->
+<!--          <div id="version-sticky-top" class="dropdown-header font-weight-normal">-->
+<!--            <div class="container">-->
+<!--              <div class="row">-->
+<!--                <div class="col-12 col-sm-3">-->
+<!--                  <div class="image mt-0">-->
+<!--                    <img-->
+<!--                      src={{userImage}}-->
+<!--                      class="img-circle elevation-2"-->
+<!--                      alt="User Image"-->
+<!--                      style="width:48px;margin-top:20%"-->
+<!--                    />-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="col-12 col-sm-6" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">-->
+<!--                  <span matTooltip="{{nameUser | titlecase}}">{{nameUser | titlecase}}</span>-->
+<!--                  <footer-->
+<!--                    class="blockquote-footer text-center font-weight-lighter">-->
+<!--                    <span-->
+<!--                      style="color: var(&#45;&#45;labelColor);">-->
+<!--                      <a style="overflow: hidden;-->
+<!--                      text-overflow:ellipsis;-->
+<!--                      white-space: nowrap;" matTooltip="{{entidad|titlecase}}">{{entidad | titlecase}}</a>-->
+<!--                      <br>-->
+<!--                      <a>{{ROL == 1 ? 'Creador del Proceso y Contrato' :-->
+<!--                    ROL == 2 ? 'Secretaria Juridica' :-->
+<!--                      ROL == 3 ? 'Ordenador del gasto' :-->
+<!--                        ROL == 4 ? 'Secretaria Privada' :-->
+<!--                          ROL == 5 ? 'Comite de Contratacion' :-->
+<!--                            ROL == 6 ? 'DADII' : 'Admin'}}</a></span><br>LegalBase Version 3.2.310122-->
+<!--                  </footer>-->
+<!--                </div>-->
+<!--                <div class="col-12 col-sm-3">-->
+<!--                  <button type="button" (click)="logOut()" class="btn btn-outline-primary" style="margin-top:30%">Salir</button>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="dropdown-divider"></div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </li>-->
+<!--    <li class="nav-item ml-2">-->
+<!--      <div class="info mr-3">-->
+<!--        &lt;!&ndash;        <a class="d-block text-xs" style="font-weight: bold; color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>&ndash;&gt;-->
+<!--        <a class="d-block font-weight-normal mb-0" style="font-size: smaller;color: var(&#45;&#45;labelColor);overflow: hidden; text-overflow: ellipsis; white-space: nowrap;max-width: 150px">{{nameUser | titlecase}}</a>-->
+<!--        <a class="d-block font-weight-lighter mt-0" style="font-size: x-small;color: var(&#45;&#45;labelColor);overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 150px" >{{entidad | titlecase}}</a>-->
+<!--        &lt;!&ndash;        <a class="d-block text-sm">{{nameUser | titlecase}}</a>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <a class="d-block text-xs" style="color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer">ROL</a>&ndash;&gt;-->
+<!--      </div>-->
+<!--    </li>-->
+<!--    &lt;!&ndash;    <li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;      <a class="nav-link" (click)="logOut()" role="button">&ndash;&gt;-->
+<!--&lt;!&ndash;        <i class="fas fa-sign-out-alt log-out text-lg"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;      </a>&ndash;&gt;-->
+<!--&lt;!&ndash;    </li>&ndash;&gt;-->
+<!--    &lt;!&ndash; <li class="nav-item">-->
+<!--          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">-->
+<!--            <i class="fas fa-th-large"></i>-->
+<!--          </a>-->
+<!--        </li> &ndash;&gt;-->
+<!--  </ul>-->
+
+<!--</nav>-->
+
+<!-- /.navbar -->
+<!--<nav class="navbar navbar-light bg-light">-->
+<!--  <div class="container-fluid">-->
+<!--    <a class="navbar-brand" href="#">-->
+<!--      <img src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">-->
+<!--      Bootstrap-->
+<!--    </a>-->
+<!--  </div>-->
+<!--</nav>-->
+
+<!-- Button trigger modal -->
+<!--<button type="button" class="btn btn-primary" >-->
+<!--  Launch demo modal-->
+<!--</button>-->
+
+<nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+  <div class="container barra">
+    <a href="https://www.valledelcauca.gov.co/" style="margin-right:80px !important;">
+      <img
+        [ngStyle]="{'cursor':'pointer'}"
+        src="../../../assets/img/bloque28.png"
+        alt="..."
+        width="136px"
+      />
+      <span class="brand-text font-weight-light">AdminLTE 3</span>
+    </a>
+<!--    <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--      <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
+<!--    <div class="collapse navbar-collapse order-3" id="navbarCollapse">-->
+
+<!--      <ul class="navbar-nav">-->
+<!--        <li class="nav-item">-->
+<!--          <a href="index3.html" class="nav-link">Home</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a href="#" class="nav-link">Contact</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item dropdown">-->
+<!--          <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>-->
+<!--          <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">-->
+<!--            <li><a href="#" class="dropdown-item">Some action </a></li>-->
+<!--            <li><a href="#" class="dropdown-item">Some other action</a></li>-->
+<!--            <li class="dropdown-divider"></li>-->
+
+<!--            <li class="dropdown-submenu dropdown-hover">-->
+<!--              <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Hover for action</a>-->
+<!--              <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">-->
+<!--                <li>-->
+<!--                  <a tabindex="-1" href="#" class="dropdown-item">level 2</a>-->
+<!--                </li>-->
+
+<!--                <li class="dropdown-submenu">-->
+<!--                  <a id="dropdownSubMenu3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">level 2</a>-->
+<!--                  <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">-->
+<!--                    <li><a href="#" class="dropdown-item">3rd level</a></li>-->
+<!--                    <li><a href="#" class="dropdown-item">3rd level</a></li>-->
+<!--                  </ul>-->
+<!--                </li>-->
+
+<!--                <li><a href="#" class="dropdown-item">level 2</a></li>-->
+<!--                <li><a href="#" class="dropdown-item">level 2</a></li>-->
+<!--              </ul>-->
+<!--            </li>-->
+
+<!--          </ul>-->
+<!--        </li>-->
+<!--      </ul>-->
+
+<!--      <form class="form-inline ml-0 ml-md-3">-->
+<!--        <div class="input-group input-group-sm">-->
+<!--          <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">-->
+<!--          <div class="input-group-append">-->
+<!--            <button class="btn btn-navbar" type="submit">-->
+<!--              <i class="fas fa-search"></i>-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+
+    <ul class="navbar-nav ml-auto">
+      <!-- Notifications Dropdown Menu -->
+      <li *ngIf="ROL != 1" class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#divNotificaciones" style="margin-right: -10px">
+          <i class="far fa-bell text-lg"></i>
+          <span *ngIf="cantidadAutorizaciones>0"
+                class="badge badge-danger navbar-badge">{{cantidadAutorizaciones}}</span>
+        </a>
+        <div id="divNotificaciones" [style]="{'height':(cantidadAutorizaciones >= 14) ? '975%' : 'auto' }"
              class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
-          <div id="version-sticky-top" class="dropdown-header font-weight-normal">
-            <div class="container">
-              <div class="row">
-                <div class="col-12 col-sm-3">
-                  <div class="image mt-0">
-                    <img
-                      src={{userImage}}
-                      class="img-circle elevation-2"
-                      alt="User Image"
-                      style="width:48px;margin-top:20%"
-                    />
+          <div id="notificaciones-sticky-top" class="dropdown-item dropdown-header">{{cantidadAutorizaciones}}
+            Notificaciones
+          </div>
+          <!--        <option
+                                            *ngFor="let dep of departamentos"
+                                            value="{{ dep.DPTO_COD }}"
+                                          >
+                                            {{ dep.DPTO_DESCRIPCION }}
+                                          </option>-->
+          <div *ngFor="let aut of autorizaciones" style="text-align: center">
+            <div class="dropdown-divider"></div>
+            <p class="hoverOnTable" style="cursor: pointer"
+               (click)="goDetail(aut.CONS_PROCESO)">
+              <i class="fas fa-envelope mr-2"></i> <a
+              style="color: black;font-size: small;word-break: break-all;">Se requiere autorizar # </a><a
+              style="font-size: 11px;font-weight: bold;color: #545cd8">{{ aut.CONS_PROCESO}}</a>
+              <!--            <a style="color: gray;font-size: small;word-break: break-all">{{aut.NOMBRE_PROCESO}}</a>-->
+              <!--            <span class="float-right text-muted text-sm">3 mins</span>-->
+            </p>
+          </div>
+
+          <!--        <div class="dropdown-divider"></div>-->
+          <!--        <a href="#" class="dropdown-item">-->
+          <!--          <i class="fas fa-users mr-2"></i> 8 friend requests-->
+          <!--          <span class="float-right text-muted text-sm">12 hours</span>-->
+          <!--        </a>-->
+          <!--        <div class="dropdown-divider"></div>-->
+          <!--        <a href="#" class="dropdown-item">-->
+          <!--          <i class="fas fa-file mr-2"></i> 3 new reports-->
+          <!--          <span class="float-right text-muted text-sm">2 days</span>-->
+          <!--        </a>-->
+          <div class="dropdown-divider"></div>
+          <div id="notificaciones-sticky-bot" [routerLink]="['autorizaciones']" class="dropdown-item dropdown-footer"
+          >Ver todas las notificaciones
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" role="button" style="margin-right: -7px">
+          <!-- (click)="logOut()"       -->
+          <!--        <i class="fas fa-sign-out-alt log-out text-lg"></i>-->
+          <i class="fa fa-question-circle text-lg" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <div class="d-flex" style="height: 100%;margin-right: 3.5vh;margin-left: 2vh">
+          <div class="vr" style="border: 0.05px solid #ddd9d9;height: 100%;"></div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <div class="image mt-0">
+          <img
+            src={{userImage}}
+            class="img-circle elevation-2"
+            alt="User Image"
+            style="width:36px"
+          />
+        </div>
+      </li>
+      <li class="nav-item" style="width:10%">
+        <div class="mr-3">
+          <a class="nav-link" data-toggle="dropdown" href="#divVersion"><i class="fas fa-caret-down"
+                                                                           style="color:gray"></i></a>
+          <div id="divVersion"
+               class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
+            <div id="version-sticky-top" class="dropdown-header font-weight-normal">
+              <div class="container">
+                <div class="row">
+                  <div class="col-12 col-sm-3">
+                    <div class="image mt-0">
+                      <img
+                        src={{userImage}}
+                        class="img-circle elevation-2"
+                        alt="User Image"
+                        style="width:48px;margin-top:20%"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div class="col-12 col-sm-6" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
-                  <span matTooltip="{{nameUser | titlecase}}">{{nameUser | titlecase}}</span>
-                  <footer
-                    class="blockquote-footer text-center font-weight-lighter">
+                  <div class="col-12 col-sm-6" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                    <span matTooltip="{{nameUser | titlecase}}">{{nameUser | titlecase}}</span>
+                    <footer
+                      class="blockquote-footer text-center font-weight-lighter">
                     <span
                       style="color: var(--labelColor);">
                       <a style="overflow: hidden;
@@ -110,49 +331,43 @@
                       white-space: nowrap;" matTooltip="{{entidad|titlecase}}">{{entidad | titlecase}}</a>
                       <br>
                       <a>{{ROL == 1 ? 'Creador del Proceso y Contrato' :
-                    ROL == 2 ? 'Secretaria Juridica' :
-                      ROL == 3 ? 'Ordenador del gasto' :
-                        ROL == 4 ? 'Secretaria Privada' :
-                          ROL == 5 ? 'Comite de Contratacion' :
-                            ROL == 6 ? 'DADII' : 'Admin'}}</a></span><br>LegalBase Version 3.2.310122
-                  </footer>
+                        ROL == 2 ? 'Secretaria Juridica' :
+                          ROL == 3 ? 'Ordenador del gasto' :
+                            ROL == 4 ? 'Secretaria Privada' :
+                              ROL == 5 ? 'Comite de Contratacion' :
+                                ROL == 6 ? 'DADII' : 'Admin'}}</a></span><br>LegalBase Version 3.2.310122
+                    </footer>
+                  </div>
+                  <div class="col-12 col-sm-3">
+                    <button type="button" (click)="logOut()" class="btn btn-outline-primary" style="margin-top:30%">Salir</button>
+                  </div>
                 </div>
-                <div class="col-12 col-sm-3">
-                  <button type="button" (click)="logOut()" class="btn btn-outline-primary" style="margin-top:30%">Salir</button>
-                </div>
+
               </div>
-
             </div>
+            <div class="dropdown-divider"></div>
           </div>
-          <div class="dropdown-divider"></div>
         </div>
-      </div>
-    </li>
-    <li class="nav-item ml-2">
-      <div class="info mr-3">
-        <!--        <a class="d-block text-xs" style="font-weight: bold; color: var(--companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>-->
-        <a class="d-block font-weight-normal mb-0" style="font-size: smaller;color: var(--labelColor);overflow: hidden; text-overflow: ellipsis; white-space: nowrap;max-width: 150px">{{nameUser | titlecase}}</a>
-        <a class="d-block font-weight-lighter mt-0" style="font-size: x-small;color: var(--labelColor);overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 150px" >{{entidad | titlecase}}</a>
-        <!--        <a class="d-block text-sm">{{nameUser | titlecase}}</a>-->
-        <!--        <a class="d-block text-xs" style="color: var(--companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer">ROL</a>-->
-      </div>
-    </li>
-    <!--    <li class="nav-item">-->
-<!--      <a class="nav-link" (click)="logOut()" role="button">-->
-<!--        <i class="fas fa-sign-out-alt log-out text-lg"></i>-->
-<!--      </a>-->
-<!--    </li>-->
-    <!-- <li class="nav-item">
-          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-            <i class="fas fa-th-large"></i>
-          </a>
-        </li> -->
-  </ul>
-
+      </li>
+      <li class="nav-item ml-2">
+        <div class="info mr-3">
+          <!--        <a class="d-block text-xs" style="font-weight: bold; color: var(--companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>-->
+          <a class="d-block font-weight-normal mb-0" style="font-size: smaller;color: var(--labelColor);overflow: hidden; text-overflow: ellipsis; white-space: nowrap;max-width: 150px">{{nameUser | titlecase}}</a>
+          <a class="d-block font-weight-lighter mt-0" style="font-size: x-small;color: var(--labelColor);overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 150px" >{{entidad | titlecase}}</a>
+          <!--        <a class="d-block text-sm">{{nameUser | titlecase}}</a>-->
+          <!--        <a class="d-block text-xs" style="color: var(--companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer">ROL</a>-->
+        </div>
+      </li>
+      <!--    <li class="nav-item">-->
+      <!--      <a class="nav-link" (click)="logOut()" role="button">-->
+      <!--        <i class="fas fa-sign-out-alt log-out text-lg"></i>-->
+      <!--      </a>-->
+      <!--    </li>-->
+      <!-- <li class="nav-item">
+            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+              <i class="fas fa-th-large"></i>
+            </a>
+          </li> -->
+    </ul>
+  </div>
 </nav>
-<!-- /.navbar -->
-
-<!-- Button trigger modal -->
-<!--<button type="button" class="btn btn-primary" >-->
-<!--  Launch demo modal-->
-<!--</button>-->
