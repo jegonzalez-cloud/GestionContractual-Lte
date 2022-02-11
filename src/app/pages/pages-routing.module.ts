@@ -17,6 +17,8 @@ import {SampleComponent} from "./sample/sample.component";
 import {ConfiguracionComponent} from "./configuracion/configuracion.component";
 import {ConfiguracionGuard} from "../guards/configuracion/configuracion.guard";
 
+const rol = atob(localStorage.getItem('rol')!);
+console.log(rol);
 // ProcessComponent
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate:[DashboardGuard] },
@@ -29,7 +31,7 @@ const routes: Routes = [
   { path: 'configuracion', component: ConfiguracionComponent,canActivate:[ConfiguracionGuard]},
 //   { path: 'newRfc', component: NewRFCComponent },
 //   { path: 'detailRfc/:rfcCode', component: DetailRfcComponent },
-  { path: '**', redirectTo: 'busqueda', pathMatch: 'full' },
+  { path: '**', redirectTo: (rol == '1') ? 'busqueda' : 'autorizaciones', pathMatch: 'full' },
   // { path: '', component: PagesComponent,canLoad:[AuthGuard] },
 ];
 

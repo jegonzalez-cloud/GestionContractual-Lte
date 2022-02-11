@@ -87,6 +87,7 @@ div_container{
 
 tr.hoverOnTable:hover {
   background: aliceblue;
+  /*background: rgba(6,9,47,0.05);*/
   cursor: pointer;
 }
 

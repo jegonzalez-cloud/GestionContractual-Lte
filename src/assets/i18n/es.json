@@ -27,7 +27,7 @@
     "historial": "Historial de autorizaciones"
   },
   "reportes":{
-    "reportes":"Reportes"
+    "reportes":"Generador de reportes"
   },
   "dashboard":{
     "dashboard":"Dashboard"
@@ -57,7 +57,7 @@
       "menu2": "Autorizaciones",
       "menu3": "Contratos",
       "menu4": "Busqueda",
-      "menu5": "Reportes",
+      "menu5": "Generador de reportes",
       "dashboard": "Dashboard"
     },
     "table": {

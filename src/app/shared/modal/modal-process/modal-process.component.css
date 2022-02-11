@@ -109,3 +109,13 @@ div_container{
   font-weight: lighter;
   color: #828282;
 }
+
+.reorder{
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.hoverObjeto:hover{
+  height: fit-content;
+}

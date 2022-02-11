@@ -1,4 +1,22 @@
-.main-sidebar{
+.main-sidebar {
   background-color: #343a40;
   /*z-index: -999;*/
 }
+
+.barraLateral {
+  background-color: var(--sidebarColor);
+  color: var(--labelColor);
+  margin-top: 57px;
+}
+
+/*@media only screen and (min-device-width: 992px) and (max-device-width: 1280px) {*/
+/*  .barraLateral {*/
+/*    margin-top: 57px*/
+/*  }*/
+/*}*/
+
+/*@media only screen and (min-device-width: 1281px) and (max-device-width: 1600px) {*/
+/*  .barraLateral {*/
+/*    margin-top: 57px*/
+/*  }*/
+/*}*/

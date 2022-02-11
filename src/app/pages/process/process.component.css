@@ -143,8 +143,8 @@ a{
   color: #495057;
 }
 
-.bd:hover{
-  border: solid 2px var(--labelColor);
+.bd img:hover{
+  /*border: solid 2px var(--labelColor);*/
 }
 
 .card-header a.active{

@@ -80,6 +80,7 @@ export class BusquedaComponent implements OnInit {
   UNSPSCFIELDS: any = [];
   public autorizaciones: any;
   private clickEventSubscription!: Subscription;
+  public busquedaActiva!:boolean;
 
   constructor(private service: ServicesService,private secopService: SecopService, private fb: FormBuilder,private router:Router,private authService:AuthService,@Inject(LOCALE_ID) public locale: string,private modal: ModalService,) {
   }
@@ -106,9 +107,11 @@ export class BusquedaComponent implements OnInit {
       this.busqueda = response.Values.ResultFields;
       this.infoProcess();
       if(this.busqueda != null){
-        utils.showAlert('Busqueda Exitosa!','success');
+        // utils.showAlert('Busqueda Exitosa!','success');
+        this.busquedaActiva = true;
       }
       else{
+        this.busquedaActiva = false;
         utils.showAlert('No se encontraron registros!','warning');
       }
 

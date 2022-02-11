@@ -13,7 +13,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" tabindex="-1">
-  <div class="modal-dialog modal-dialog-scrollable">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable" style="width: fit-content">
     <div class="modal-content" style="width: auto">
       <div class="modal-header" style="background-color: #F0F2F5;height: 10%;">
         <h4 class="modal-title"><span style="font-size: larger;font-weight: normal">Proceso N° <a
@@ -24,8 +24,8 @@
         </button>
       </div>
       <div class="modal-body modal-dialog-scrollable">
-        <div>
-          <div class="callout" style="font-weight: lighter">
+        <div class="reorder">
+          <div class="callout hoverObjeto" style="font-weight: lighter;max-width: 50%;width:40%;margin-right: 1.5% ;word-break: break-all;overflow: hidden;text-overflow: ellipsis;">
             <h4 style="text-align: start;margin-top: 1%;margin-bottom: 5%">
               <!--                  <label style="color: var(&#45;&#45;labelColor);font-weight: lighter">Valor Contrato</label>-->
               <span class="badge badge-pill badge-light "
@@ -43,13 +43,13 @@
                 class="textSmaller"> {{unidad_contratacion}}</span></p>
               <p><span class="textSmall">Equipo Contratación : </span><span
                 class="textSmaller">{{equipo_contratacion}}</span></p>
-              <p style="word-break: break-all"><span class="textSmall">Objeto Proceso : </span> <span
+              <p><span class="textSmall">Objeto Proceso : </span> <span
                 class="textSmaller">{{descripcion_proceso}}</span></p>
             </div>
           </div>
 
 
-          <div class="callout">
+          <div class="callout" style="font-weight: lighter;margin-right: 1.5%;max-width: 40%;width:40%">
             <h4 style="text-align: start;margin-top: 1%;margin-bottom: 5%">
               <!--                  <label style="color: var(--labelColor);font-weight: lighter">Valor Contrato</label>-->
               <span class="badge badge-pill badge-light "
@@ -79,7 +79,7 @@
               class="textSmaller">{{profesion_contratista}}</span></p>
           </div>
 
-          <div class="callout">
+          <div class="callout" style="font-weight: lighter;max-width: 30%;width:30%">
             <h4 style="text-align: start;margin-top: 1%;margin-bottom: 5%">
               <!--                  <label style="color: var(--labelColor);font-weight: lighter">Valor Contrato</label>-->
               <span class="badge badge-pill badge-light "
@@ -163,7 +163,7 @@
                           data-dismiss="modal"
                           (click)="getPagosXRpc(proceso)"
                           [ngStyle]="{'display': (estado == 8) ? 'block' :'none'}">
-                    Pagos
+                    Pagos Realizados
                   </button>
                 </div>
         </div>

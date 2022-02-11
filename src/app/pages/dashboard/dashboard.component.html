@@ -23,7 +23,7 @@
             </div>
 
             <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
-              <i class="fas fa-chart-line"></i>
+<!--              <i class="fas fa-chart-line"></i>-->
               <span>  {{'dashboard.dashboard' | translate}}</span>
             </h6>
           </div>
@@ -117,7 +117,7 @@
 
                     <div class="table-responsive">
                       <mat-form-field appearance="fill">
-                        <mat-label>Filter</mat-label>
+                        <mat-label>Filtro</mat-label>
                         <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
                       </mat-form-field>
                       <div class="mat-elevation-z8">
@@ -161,7 +161,7 @@
                           </ng-container>
 
                           <tr mat-header-row *matHeaderRowDef="displayedColumnsGrafica1"></tr>
-                          <tr class="hoverOnTable" data-toggle="modal" data-target="#modal-default"
+                          <tr class="hoverOnTable"
                               mat-row *matRowDef="let row; columns: displayedColumnsGrafica1;"></tr>
 
                           <!-- Row shown when there is no matching data. -->
@@ -265,7 +265,7 @@
 
                     <div class="table-responsive">
                       <mat-form-field appearance="fill">
-                        <mat-label>Filter</mat-label>
+                        <mat-label>Filtro</mat-label>
                         <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
                       </mat-form-field>
                       <div id="div_container" class="mat-elevation-z8">
@@ -300,7 +300,7 @@
                           </ng-container>
 
                           <tr mat-header-row *matHeaderRowDef="displayedColumnsGrafica4"></tr>
-                          <tr class="hoverOnTable" data-toggle="modal" data-target="#modal-default"
+                          <tr class="hoverOnTable"
                               mat-row *matRowDef="let row; columns: displayedColumnsGrafica4;"></tr>
 
                           <!-- Row shown when there is no matching data. -->
@@ -434,7 +434,7 @@
 
                     <div class="table-responsive">
                       <mat-form-field appearance="fill">
-                        <mat-label>Filter</mat-label>
+                        <mat-label>Filtro</mat-label>
                         <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
                       </mat-form-field>
                       <div id="div_container1" class="mat-elevation-z8">
@@ -478,7 +478,7 @@
                           </ng-container>
 
                           <tr mat-header-row *matHeaderRowDef="displayedColumnsGrafica3"></tr>
-                          <tr class="hoverOnTable" data-toggle="modal" data-target="#modal-default"
+                          <tr class="hoverOnTable"
                               mat-row *matRowDef="let row; columns: displayedColumnsGrafica3;"></tr>
 
                           <!-- Row shown when there is no matching data. -->
