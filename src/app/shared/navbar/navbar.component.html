@@ -292,13 +292,15 @@
         </div>
       </li>
       <li class="nav-item">
+
         <div class="image mt-0">
-          <img
-            src={{userImage}}
-            class="img-circle elevation-2"
-            alt="User Image"
-            style="width:36px"
-          />
+          <ngx-avatar name="{{nameUser}}" [round]="true" size="36" src="{{userImage}}"></ngx-avatar>
+<!--          <img-->
+<!--            src={{userImage}}-->
+<!--            class="img-circle elevation-2"-->
+<!--            alt="User Image"-->
+<!--            style="width:36px"-->
+<!--          />-->
         </div>
       </li>
       <li class="nav-item" style="width:10%">
@@ -306,21 +308,22 @@
           <a class="nav-link" data-toggle="dropdown" href="#divVersion"><i class="fas fa-caret-down"
                                                                            style="color:gray"></i></a>
           <div id="divVersion"
-               class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
+               class="dropdown-menu dropdown-menu-md dropdown-menu-right">
             <div id="version-sticky-top" class="dropdown-header font-weight-normal">
               <div class="container">
                 <div class="row">
-                  <div class="col-12 col-sm-3">
-                    <div class="image mt-0">
-                      <img
-                        src={{userImage}}
-                        class="img-circle elevation-2"
-                        alt="User Image"
-                        style="width:48px;margin-top:20%"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12 col-sm-6" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+<!--                  <div class="col-12 col-sm-3">-->
+<!--                    <div class="image mt-0">-->
+<!--                      <ngx-avatar name="{{nameUser}}" [round]="true" size="36"></ngx-avatar>-->
+<!--&lt;!&ndash;                      <img&ndash;&gt;-->
+<!--&lt;!&ndash;                        src={{userImage}}&ndash;&gt;-->
+<!--&lt;!&ndash;                        class="img-circle elevation-2"&ndash;&gt;-->
+<!--&lt;!&ndash;                        alt="User Image"&ndash;&gt;-->
+<!--&lt;!&ndash;                        style="width:48px;margin-top:20%"&ndash;&gt;-->
+<!--&lt;!&ndash;                      />&ndash;&gt;-->
+<!--                    </div>-->
+<!--                  </div>-->
+                  <div class="col-12 col-sm-9" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                     <span matTooltip="{{nameUser | titlecase}}">{{nameUser | titlecase}}</span>
                     <footer
                       class="blockquote-footer text-center font-weight-lighter">

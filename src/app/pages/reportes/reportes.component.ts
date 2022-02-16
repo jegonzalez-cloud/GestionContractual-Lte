@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Inject, LOCALE_ID, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import * as moment from 'moment';
 import {SecopService} from "../../services/secop/secop.service";
@@ -6,6 +6,30 @@ import * as pdfMake from "pdfmake/build/pdfmake";
 import * as XLSX from 'xlsx';
 import * as utils from "../../utils/functions";
 import Swal from "sweetalert2";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from '@angular/material/sort';
+import {ModalService} from "../../services/modal/modal.service";
+import {ApexChart, ApexNonAxisChartSeries, ApexResponsive, ChartComponent} from "ng-apexcharts";
+import {map} from "rxjs/operators";
+import {from} from "rxjs";
+
+export interface UserData {
+  CONS_PROCESO: string;
+  COD_PROV: string;
+  NOM_PROV: string;
+  ESTADO: string;
+  CREATED: string;
+  USR_LOGIN: string;
+  VAL_OFERTA: string;
+}
+
+export type ChartOptions = {
+  series: ApexNonAxisChartSeries | any;
+  chart: ApexChart | any;
+  responsive: ApexResponsive[] | any;
+  labels: any;
+};
 
 @Component({
   selector: 'app-reportes',
@@ -13,21 +37,68 @@ import Swal from "sweetalert2";
   styleUrls: ['./reportes.component.css']
 })
 export class ReportesComponent implements OnInit {
+  @ViewChild("chart") chart!: ChartComponent;
+  public chartOptions!: Partial<ChartOptions> | any;
+  // displayedColumnsGrafica1: string[] = ['Dependencia', 'Cantidad', 'Estado', 'Valor Total'];
+  dataSourceGrafica1!: MatTableDataSource<any>;
   reportesForm!: FormGroup;
   CENTROGESTOR = atob(localStorage.getItem('centroGestor')!);
   ENTIDAD = atob(localStorage.getItem('entidad')!);
-  ROL = atob(localStorage.getItem('rol')!);
+  ROL: any = atob(localStorage.getItem('rol')!);
+  private token: string = localStorage.getItem('token')!;
+  reporteActivo: any;
   RESPONSE: any = null;
   gestor: any;
   hideTable: boolean = true;
-  fileName = 'Reporte_'+ moment().format().slice(0, -6) + '.xlsx';
+  fileName = 'Reporte_' + moment().format().slice(0, -6) + '.xlsx';
 
-  constructor(private fb: FormBuilder, private secopService: SecopService) {
+  //TABLE
+  // displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
+  displayedColumns: string[] = ['CONS_PROCESO', 'COD_PROV', 'NOM_PROV', 'ESTADO', 'CREATED', 'USR_LOGIN', 'VAL_OFERTA'];
+  dataSource!: MatTableDataSource<UserData>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  private pendiente!:number;
+
+  //END TABLE
+  private creado!: number;
+  private anulado!: number;
+  private rechazado!: number;
+  private aprobado!: number;
+  private liquidado!: number;
+
+  constructor(private fb: FormBuilder, private secopService: SecopService, @Inject(LOCALE_ID) public locale: string, private modal: ModalService) {
+    // this.fillChart();
+    //   this.cleanChart();
+    this.chartOptions = {
+      series: [],
+      chart: {},
+      responsive: [],
+      labels: []
+    };
+    // Create 100 users
+    // const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
+    //
+    // // Assign the data to the data source for the table to render
+    // this.dataSource = new MatTableDataSource(users);
   }
 
   ngOnInit(): void {
     this.createForm();
     this.getcentroGestor();
+  }
+
+  ngAfterViewInit() {
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   createForm() {
@@ -37,21 +108,102 @@ export class ReportesComponent implements OnInit {
       codigoEntidad: new FormControl(atob(localStorage.getItem('codigoEntidad')!)),
       centroGestor: new FormControl({value: '', disabled: false}),
       fechaInicio: new FormControl({value: null, disabled: false}),
-      fechaTermino: new FormControl({value: null, disabled: false})
+      fechaTermino: new FormControl({value: null, disabled: false}),
+      proceso: new FormControl({value: null, disabled: false}),
+      estadoProceso: new FormControl({value: null, disabled: false}),
+      creadorProceso: new FormControl({value: null, disabled: false}),
+      fechaCreacion: new FormControl({value: null, disabled: false}),
+      valorMinimo: new FormControl({value: null, disabled: false}),
+      valorMaximo: new FormControl({value: null, disabled: false})
     });
   }
 
+  goDetail(row: any) {
+    this.secopService.getSelectedProcess(this.token, row.CONS_PROCESO).subscribe((response: any) => {
+      localStorage.setItem('modalData', JSON.stringify(Object.assign({}, response.Values.ResultFields[0][0])));
+      this.modal.sendClickEvent();
+    });
+  }
 
   searchReports() {
+    // console.log(this.reportesForm);
     let username = this.reportesForm.controls['username'].value;
-    let centroGestor = (this.ROL != '42') ? this.CENTROGESTOR : this.reportesForm.controls['centroGestor'].value;
+    let centroGestor = (this.ROL != '4') ? this.CENTROGESTOR : this.reportesForm.controls['centroGestor'].value;
     let result = moment().format().slice(0, -15);
-    let fechaInicio = (this.reportesForm.controls['fechaInicio'].value == null) ? result : moment(this.reportesForm.controls['fechaInicio'].value).format().slice(0, -15);
-    let fechaTermino = (this.reportesForm.controls['fechaTermino'].value == null) ? result : moment(this.reportesForm.controls['fechaTermino'].value).format().slice(0, -15);
-    this.secopService.getReportsData(fechaInicio, fechaTermino, this.ROL, centroGestor, username).subscribe((response: any) => {
-      this.RESPONSE = response.Values.ResultFields;
-      this.fileName = 'Reporte_'+this.CENTROGESTOR+'_' + moment().format().slice(0, -6) + '.xlsx';
-      this.validateData();
+    // let fechaInicio = (this.reportesForm.controls['fechaInicio'].value == null) ? result : moment(this.reportesForm.controls['fechaInicio'].value).format().slice(0, -15);
+    // let fechaTermino = (this.reportesForm.controls['fechaTermino'].value == null) ? result : moment(this.reportesForm.controls['fechaTermino'].value).format().slice(0, -15);
+    let fechaInicio = this.reportesForm.controls['fechaInicio'].value;
+    let fechaTermino = this.reportesForm.controls['fechaTermino'].value;
+    let proceso = this.reportesForm.controls['proceso'].value;
+    let estadoProceso = this.reportesForm.controls['estadoProceso'].value;
+    let creadorProceso = this.reportesForm.controls['creadorProceso'].value;
+    let fechaCreacion = this.reportesForm.controls['fechaCreacion'].value;
+    let valorMinimo = this.reportesForm.controls['valorMinimo'].value;
+    let valorMaximo = this.reportesForm.controls['valorMaximo'].value;
+    if (valorMinimo != null && valorMaximo == null) {
+      utils.showAlert('Por favor ingrese un valor maximo', 'warning');
+      return;
+    } else if (valorMinimo == null && valorMaximo != null) {
+      utils.showAlert('Por favor ingrese un valor minimo', 'warning');
+      return;
+    }
+    this.secopService.getReportsData(fechaInicio, fechaTermino, this.ROL, centroGestor, username, proceso, estadoProceso, creadorProceso, fechaCreacion, valorMinimo, valorMaximo).subscribe((response: any) => {
+      let creado = 0;
+      let anulado = 0;
+      let rechazado = 0;
+      let pendiente = 0;
+      let aprobado = 0;
+      let liquidado = 0;
+      if (response.Status == 'Ok') {
+        this.RESPONSE = response.Values.ResultFields;
+        this.RESPONSE.filter((element:any, index:any) => {
+          if(element['ESTADO'] == 2){
+            creado += 1;
+          }
+          if(element['ESTADO'] == 1){
+            anulado += 1;
+          }
+          if(element['ESTADO'] == 0){
+            rechazado += 1;
+          }
+          if(element['ESTADO'] == 7){
+            aprobado += 1;
+          }
+          if(element['ESTADO'] == 8){
+            liquidado += 1;
+          }
+          if(element['ESTADO'] > 2 && element['ESTADO'] < 7){
+            pendiente += 1;
+          }
+        });
+        // console.log('Creado - ',creado);
+        // console.log('Anulado - ',anulado);
+        // console.log('Rechazado - ',rechazado);
+        // console.log('Aprobado - ',aprobado);
+        // console.log('Liquidado - ',liquidado);
+        //"Anulado", "Aprobado", "Creado", "Liquidado", "Pendiente"
+        let dataGraph: any[] = [];
+        dataGraph.push({Anulado:anulado});
+        dataGraph.push({Aprobado:aprobado});
+        dataGraph.push({Creado:creado});
+        dataGraph.push({Liquidado:liquidado});
+        dataGraph.push({Rechazado:rechazado});
+
+        // console.log('total - ',dataGraph);
+        this.fileName = 'Reporte_' + this.CENTROGESTOR + '_' + moment().format().slice(0, -6) + '.xlsx';
+        // this.validateData();
+        this.dataSource = new MatTableDataSource(this.RESPONSE);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.reporteActivo = true;
+        this.fillChart(dataGraph);
+      } else {
+        this.cleanChart();
+        utils.showAlert('No se encontraron registros!', 'warning')
+        this.reporteActivo = false;
+      }
+
+
     })
   }
 
@@ -87,7 +239,7 @@ export class ReportesComponent implements OnInit {
                 margin: [30, 40],
               },
               {
-                qr: ' Fecha de generacion: ' + moment().format().slice(0, -6) + '\nCentro Gestor: ' +CENTROGESTOR,
+                qr: ' Fecha de generacion: ' + moment().format().slice(0, -6) + '\nCentro Gestor: ' + CENTROGESTOR,
                 fit: '67',
                 margin: [160, 30, 0, 50]
               },
@@ -162,7 +314,7 @@ export class ReportesComponent implements OnInit {
   fillContentReport(response: any) {
     let body = [];
     let header = {
-      text: 'Reporte Estandar '+
+      text: 'Reporte Estandar ' +
         '\n' +
         '\n', alignment: 'center', bold: true, fontSize: 16
     };
@@ -313,6 +465,40 @@ export class ReportesComponent implements OnInit {
         utils.showAlert('Formato generado en pdf!', 'success');
       }
     })
+  }
+
+  fillChart(dataGraph:any[]){
+    // console.log(Object.values(dataGraph[0]))
+    this.chartOptions = {
+      series: [Object.values(dataGraph[0])[0], Object.values(dataGraph[1])[0], Object.values(dataGraph[2])[0], Object.values(dataGraph[3])[0], Object.values(dataGraph[4])[0]],
+      chart: {
+        width: 380,
+        type: "pie"
+      },
+      labels: [Object.keys(dataGraph[0]), Object.keys(dataGraph[1]), Object.keys(dataGraph[2]), Object.keys(dataGraph[3]), Object.keys(dataGraph[4])],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    };
+  }
+
+  cleanChart(){
+    this.chartOptions = {
+      series: [],
+      chart: {},
+      responsive: [],
+      labels: []
+    };
   }
 
 }

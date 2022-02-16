@@ -109,8 +109,8 @@ export class SecopService {
     return this.httpClient.get(`${environment.apiTestUrl}contratos/getSearchDataTable?identificacion=${identificacion}&proveedor=${proveedor}&creador=${creador}&proceso=${proceso}&centroGestor=${centroGestor}`);
   }
 
-  public getReportsData(fechaInicio: string, fechaTermino: string, rol:string,centroGestor:string,username:string) {
-    return this.httpClient.get(`${environment.apiTestUrl}contratos/getReportsData?fechaInicio=${fechaInicio}&fechaTermino=${fechaTermino}&rol=${rol}&centroGestor=${centroGestor}&username=${username}`);
+  public getReportsData(fechaInicio: string, fechaTermino: string, rol:string,centroGestor:string,username:string, proceso:string, estadoProceso:string, creadorProceso:string, fechaCreacion:string, valorMinimo:string, valorMaximo:string) {
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getReportsData?fechaInicio=${fechaInicio}&fechaTermino=${fechaTermino}&rol=${rol}&centroGestor=${centroGestor}&username=${username}&proceso=${proceso}&estadoProceso=${estadoProceso}&creadorProceso=${creadorProceso}&fechaCreacion=${fechaCreacion}&valorMinimo=${valorMinimo}&valorMaximo=${valorMaximo}`);
   }
 
   public getDataDashboard(token:string,centroGestor:string,fechaInicio: string, fechaTermino: string, referencia:string,asociacion:string) {

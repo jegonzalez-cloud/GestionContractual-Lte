@@ -8,8 +8,9 @@
 
     <section class="content">
       <div class="container-fluid">
-        <div class="card ml-3 mr-3">
-          <div class="card-header mb-3" style="background-color: var(--companyColor)">
+        <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+          <div class="card-header mb-3"
+               style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
             <div class="card-tools">
               <button
                 type="button"
@@ -20,9 +21,9 @@
               </button>
             </div>
 
-            <h6 class="card-title ml-3" style="color: #fff;font-size: larger;margin-bottom: 0;">
-              <i class="fas fa-text-width"></i>
-              <b>  {{'autorizaciones.historial' | translate}}</b>
+            <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
+<!--              <i class="fas fa-text-width"></i>-->
+              <span>  {{'autorizaciones.historial' | translate}}</span>
             </h6>
           </div>
 
@@ -47,14 +48,14 @@
                     </h3>
                     <form [formGroup]="tablaForm" (ngSubmit)="updateTabla()"
                           (keydown.enter)="$event.preventDefault()">
-                      <div [hidden]="ISMASIVE" class="row">
+                      <div class="row">
                         <div class="col-12 col-sm-4">
                           <div class="form-group">
                             <select
                               formControlName="archivo"
                               class="form-control text-sm"
                             >
-                              <option selected>Autorizaciones</option>
+                              <option selected value="Autorizaciones">Autorizaciones</option>
                               <option *ngIf="estado_proceso >= 6">Informe Secretaría</option>
                               <option *ngIf="estado_proceso >= 7">Informe DADII</option>
                             </select>
@@ -128,13 +129,13 @@
 
                   </div>
                   <!-- /.card-header -->
-                  <div *ngIf="!ISMASIVE" class="card-body">
+                  <div class="card-body">
                     <dl class="row" *ngFor="let det of response">
                       <dt class="line col-sm-3"><i style="color: #0052B4" class="fa fa-calendar-day"
-                                                   aria-hidden="true"> </i> <a style="color: black;font-size: 13px;">
+                                                   aria-hidden="true"> </i> <a class="font-weight-normal text-sm" style="color: var(--labelColor)">
                         {{det.CREATED}}</a>
                       </dt>
-                      <dd class="col-sm-9">El usuario <a class="color">{{det.USR_LOGIN | uppercase}}</a> correspondiente
+                      <dd class="col-sm-9 font-weight-light text-sm">El usuario <a class="color">{{det.USR_LOGIN | uppercase}}</a> correspondiente
                         a <a
                           class="color">{{det.NOMBRE_USUARIO | uppercase}}</a><b> {{(det.AUTORIZACION_ESTADO == 0) ? 'rechazó' : (det.AUTORIZACION_ESTADO == 1) ? 'anulo' : 'autorizó'}}</b>
                         el proceso número

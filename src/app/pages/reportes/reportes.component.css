@@ -1,3 +1,108 @@
+/*button.btn-outline-primary{*/
+/*  background-color: var(--companyColor);*/
+/*  border-color: var(--sidebarColor);*/
+/*  color: var(--sidebarColor);*/
+/*}*/
+
+/*button.btn-outline-primary:hover{*/
+/*  background-color: var(--sidebarColor);*/
+/*  border-color: var(--companyColor);*/
+/*  color: var(--companyColor);*/
+/*}*/
+
+@media (min-width: 992px) {
+  #intro {}
+}
+
+.cursor{
+  cursor: pointer;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}
+
+table {
+  width: 100%;
+}
+
+div_container{
+  overflow: auto;
+}
+
+.mat-column-CONS_PROCESO {
+  width: 18%;
+  border-right: 1px solid lightgray;
+  /*padding-right: 1%;*/
+  text-align: left;
+}
+.mat-column-NOM_PROV {
+  /*white-space: nowrap;*/
+  /*width: 5%;*/
+  /*overflow: hidden;*/
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  /*text-overflow: ellipsis;*/
+  width: 20%;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mat-column-COD_PROV {
+  /*white-space: nowrap;*/
+  /*width: 5%;*/
+  /*overflow: hidden;*/
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  /*text-overflow: ellipsis;*/
+  width: 10%;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mat-column-ESTADO {
+  width: 8%;
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  /*text-align: center;*/
+  /*align-content: center;*/
+}
+.mat-column-CREATED {
+  width: 17%;
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  /*text-align: center;*/
+  /*align-content: center;*/
+}
+.mat-column-VAL_OFERTA {
+  width: 30%;
+  /*border-right: 1px solid lightgray;*/
+  padding-left: 1%;
+  text-align: right;
+  /*align-content: center;*/
+}
+.mat-column-USR_LOGIN {
+  width: 15%;
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  text-align: left;
+  /*align-content: center;*/
+}
+
+tr.hoverOnTable:hover {
+  background: aliceblue;
+  /*background: rgba(6,9,47,0.05);*/
+  cursor: pointer;
+}
+
 button.btn-outline-primary{
   background-color: var(--companyColor);
   border-color: var(--sidebarColor);
@@ -8,4 +113,17 @@ button.btn-outline-primary:hover{
   background-color: var(--sidebarColor);
   border-color: var(--companyColor);
   color: var(--companyColor);
+}
+
+div.callout{
+  border-left-color: var(--companyColor);
+}
+
+#chart {
+  /*width: 45%;*/
+  /*height: auto;*/
+  margin-top:  3%;
+  margin-bottom: 3%;
+  margin-left: 37%;
+  /*display: inline-block;*/
 }

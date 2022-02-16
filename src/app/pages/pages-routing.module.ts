@@ -18,7 +18,6 @@ import {ConfiguracionComponent} from "./configuracion/configuracion.component";
 import {ConfiguracionGuard} from "../guards/configuracion/configuracion.guard";
 
 const rol = atob(localStorage.getItem('rol')!);
-console.log(rol);
 // ProcessComponent
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate:[DashboardGuard] },

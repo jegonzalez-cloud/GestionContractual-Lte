@@ -10,10 +10,11 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {ModalProcessComponent} from "./modal/modal-process/modal-process.component";
 import {PagesModule} from "../pages/pages.module";
+import {AvatarModule} from "ngx-avatar";
 
 @NgModule({
   declarations: [NavbarComponent, SidebarComponent, FooterComponent,ModalProcessComponent],
-    imports: [CommonModule, TranslateModule, RouterModule, MatTooltipModule],
+    imports: [CommonModule, TranslateModule, RouterModule, MatTooltipModule, AvatarModule],
   exports: [
     NavbarComponent,
     SidebarComponent,

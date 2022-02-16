@@ -1787,9 +1787,9 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       centroGestor: new FormControl(atob(localStorage.getItem('centroGestor')!)),
       //*****************************************************************************************************************
       tipoIdentificacion: new FormControl(null, [Validators.required]),
-      identificacion: new FormControl({value: '', disabled: true}, [Validators.required]),
-      proveedor: new FormControl({value: '', disabled: true}, [Validators.required]),
-      ubicacion: new FormControl({value: '', disabled: true}, [Validators.required]),
+      identificacion: new FormControl({value: '', disabled: false}, [Validators.required]),
+      proveedor: new FormControl({value: '', disabled: false}, [Validators.required]),
+      ubicacion: new FormControl({value: '', disabled: false}, [Validators.required]),
       fechaNacimiento: new FormControl({value: '', disabled: true}, [Validators.required]),
       genero: new FormControl(null, [Validators.required]),
       departamento: new FormControl(null, [Validators.required]),

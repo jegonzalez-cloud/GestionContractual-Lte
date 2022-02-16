@@ -25,6 +25,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import {ModalProcessComponent} from "./shared/modal/modal-process/modal-process.component";
 import {PagesModule} from "./pages/pages.module";
 //import { DataTablesModule } from 'angular-datatables';
+import { AvatarModule } from 'ngx-avatar'
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +40,7 @@ import {PagesModule} from "./pages/pages.module";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    AvatarModule,
     //DataTablesModule,
     TranslateModule.forRoot({
       loader: {

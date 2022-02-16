@@ -475,5 +475,3 @@ export function onFileChange(ev: any) {
 export function deleteData(name:string){
   localStorage.removeItem(name);
 }
-
-

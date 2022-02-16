@@ -63,6 +63,7 @@ export class ModalProcessComponent implements OnInit {
   public cantidadCuotas: any;
   public verDescuentos: any = [];
   public dataModal: any;
+  public infoModal: any;
 
   @ViewChild('openbutton') openbutton: any;
   @ViewChild('openbuttonListadoPagos') openbuttonListadoPagos: any;
@@ -93,6 +94,7 @@ export class ModalProcessComponent implements OnInit {
 
   rellenarModal(dataModal:any){
     setTimeout(() => {
+      this.infoModal = dataModal;
       this.PROCESO_SELECCIONADO = dataModal.CONS_PROCESO;
       this.proceso = dataModal.CONS_PROCESO;
       this.tipo_proceso = dataModal.TIPO_PROCESO;
@@ -218,7 +220,7 @@ export class ModalProcessComponent implements OnInit {
             let usuarioConect = atob(localStorage.getItem('usuarioConect')!);
             let conectPw = atob(localStorage.getItem('conectPw')!);
             let arr: Array<any> = [];
-            arr.push(this.PROCESO_SELECCIONADO);
+            arr.push(this.infoModal);
             arr.push(response.Values.ResultFields);
             arr.push({"USUARIO_CONNECT":usuarioConect});
             arr.push({"PASSWORD_CONNECT":conectPw});
