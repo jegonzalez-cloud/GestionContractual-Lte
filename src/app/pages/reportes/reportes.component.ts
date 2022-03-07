@@ -61,31 +61,21 @@ export class ReportesComponent implements OnInit {
   private pendiente!:number;
 
   //END TABLE
-  private creado!: number;
-  private anulado!: number;
-  private rechazado!: number;
-  private aprobado!: number;
-  private liquidado!: number;
+  public CREADOR_PROCESO:any;
 
   constructor(private fb: FormBuilder, private secopService: SecopService, @Inject(LOCALE_ID) public locale: string, private modal: ModalService) {
-    // this.fillChart();
-    //   this.cleanChart();
     this.chartOptions = {
       series: [],
       chart: {},
       responsive: [],
       labels: []
     };
-    // Create 100 users
-    // const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
-    //
-    // // Assign the data to the data source for the table to render
-    // this.dataSource = new MatTableDataSource(users);
   }
 
   ngOnInit(): void {
     this.createForm();
     this.getcentroGestor();
+    this.getCreadorProceso();
   }
 
   ngAfterViewInit() {
@@ -500,5 +490,13 @@ export class ReportesComponent implements OnInit {
       labels: []
     };
   }
+
+  getCreadorProceso() {
+    this.secopService.getCreadorProceso(this.CENTROGESTOR, this.ROL).subscribe((response: any) => {
+      this.CREADOR_PROCESO = response.Values.ResultFields;
+    })
+  }
+
+
 
 }

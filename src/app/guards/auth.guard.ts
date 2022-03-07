@@ -7,49 +7,56 @@ import {catchError, map, take} from "rxjs/operators";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanLoad {
+export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router, private authServ: AuthService) {
+  constructor(private router: Router, private authService: AuthService) {
   }
 
   canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ) {
-    return this.authServ.isLogin().pipe(
-      map((data: any) => {
-        if (data.Status != 'Ok' && data != '' && data.length != 0) {
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): boolean {
+    let rol: any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
+    this.authService.isLogin().subscribe((response: any) => {
+      if (response.Status == 'Fail') {
+        this.router.navigate(['login']);
+        localStorage.clear();
+        return false;
+      } else {
+        if (rol == '' || rol == null) {
+          this.router.navigate(['login']);
           localStorage.clear();
-          this.router.navigate(['/login']);
           return false;
-        } else {
+        } else if (rol == 7) {
+          this.router.navigate(['configuracion']);
+          return true;
+        }else {
           return true;
         }
-      }), catchError((err: any) => {
-        return of(false)
-      }));
+      }
+    });
+    return true;
   }
 
-  canLoad() {
-    // return this.authServ.isLogin().subscribe((data:any)=>{
-    //   console.log('nice')
-    //   return true;
-    // },error => {
-    //   console.log(error)
-    //   return false;
-    // })
-    return this.authServ.isLogin().pipe(
-      map((data: any) => {
-        if (data.Status != "Ok" && data != "" && data.length != 0) {
-          localStorage.clear();
-          this.router.navigate(['/login']);
-          return false;
-        } else {
-          return true;
-        }
-      }, take(1)), catchError((err: any) => {
-        console.log(err)
-        return of(false)
-      }));
-  }
+  // canLoad() {
+  //   // return this.authServ.isLogin().subscribe((data:any)=>{
+  //   //   console.log('nice')
+  //   //   return true;
+  //   // },error => {
+  //   //   console.log(error)
+  //   //   return false;
+  //   // })
+  //   return this.authServ.isLogin().pipe(
+  //     map((data: any) => {
+  //       if (data.Status != "Ok" && data != "" && data.length != 0) {
+  //         localStorage.clear();
+  //         this.router.navigate(['/login']);
+  //         return false;
+  //       } else {
+  //         return true;
+  //       }
+  //     }, take(1)), catchError((err: any) => {
+  //       console.log(err)
+  //       return of(false)
+  //     }));
+  // }
 }

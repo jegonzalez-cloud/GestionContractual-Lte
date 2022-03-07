@@ -13,9 +13,9 @@ import {DashboardGuard} from "../guards/dashboard/dashboard.guard";
 import {BusquedaGuard} from "../guards/busqueda/busqueda.guard";
 import {AuthGuard} from "../guards/auth.guard";
 import {ReportesComponent} from "./reportes/reportes.component";
-import {SampleComponent} from "./sample/sample.component";
 import {ConfiguracionComponent} from "./configuracion/configuracion.component";
 import {ConfiguracionGuard} from "../guards/configuracion/configuracion.guard";
+import {AutorizacionesDetGuard} from "../guards/autorizaciones-det/autorizaciones-det.guard";
 
 const rol = atob(localStorage.getItem('rol')!);
 // ProcessComponent
@@ -24,13 +24,12 @@ const routes: Routes = [
   { path: 'busqueda', component: BusquedaComponent, canActivate:[BusquedaGuard] },
   { path: 'process', component: ProcessComponent, canActivate:[ProcesosGuard] },
   { path: 'autorizaciones', component: AutorizacionesComponent, canActivate:[AutorizacionesGuard] },
-  { path: 'autorizaciones-det/:id', component: AutorizacionesDetailComponent },
-  { path: 'reportes', component: ReportesComponent,canLoad:[AuthGuard] },
-  { path: 'sample', component: SampleComponent},
+  { path: 'autorizaciones-det/:id', component: AutorizacionesDetailComponent, canActivate:[AutorizacionesDetGuard]},
+  { path: 'reportes', component: ReportesComponent,canActivate:[AuthGuard] },
   { path: 'configuracion', component: ConfiguracionComponent,canActivate:[ConfiguracionGuard]},
 //   { path: 'newRfc', component: NewRFCComponent },
 //   { path: 'detailRfc/:rfcCode', component: DetailRfcComponent },
-  { path: '**', redirectTo: (rol == '1') ? 'busqueda' : 'autorizaciones', pathMatch: 'full' },
+  { path: '**', redirectTo: (rol == '1') ? 'reportes' : (rol == '7') ? 'configuracion' : 'autorizaciones', pathMatch: 'full' },
   // { path: '', component: PagesComponent,canLoad:[AuthGuard] },
 ];
 

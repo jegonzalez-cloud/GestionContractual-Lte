@@ -95,14 +95,16 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (data.Token != '-1') {
           this.getBasicinformation(dataCredential.Username, dataCredential.Password, data.Token);
           this.show = false;
-        } else {
           this.loading = false;
+        } else {
           utils.showAlert('Credenciales Incorrectas!', 'warning');
           this.show = false;
+          this.loading = false;
         }
       }, (error) => {
-        utils.showAlert('Credenciales Incorrectas!', 'warning')
+        utils.showAlert('Credenciales Incorrectas!', 'warning');
         this.show = false;
+        this.loading = false;
       })
 
   }
@@ -169,7 +171,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                   localStorage.setItem('centroGestor', btoa(dataEntities[value].USC_GESTOR));
                   localStorage.setItem('rol', btoa(dataEntities[value].ROL_ID));
                   localStorage.setItem('usuarioConect', btoa(dataEntities[value].USC_USUARIO));
-                  this.goHome(btoa(token));
+                  this.goHome(btoa(token),dataEntities[value].ROL_ID);
                 }
               },(error:any) => {
                 console.log(error);
@@ -210,7 +212,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  goHome(token: any) {
+  goHome(token: any,rol:any) {
     this.authService.getConfigApp(token).subscribe((response: any) => {
       localStorage.setItem("color", btoa(response.Values.ResultFields[0].CON_COLOR));
       localStorage.setItem("linkCdp", btoa(response.Values.ResultFields[0].CON_LINK_CDP));
@@ -220,10 +222,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       localStorage.setItem("salarioMinimo", btoa(response.Values.ResultFields[0].CON_SALARIO_MINIMO));
       localStorage.setItem("topeMaximo", btoa(response.Values.ResultFields[0].CON_TOPE_MAXIMO));
       localStorage.setItem("cantidadSalarios", btoa(response.Values.ResultFields[0].CON_CANTIDAD_SALARIOS));
-      localStorage.setItem("identificacionSecop", btoa(response.Values.ResultFields[0].CON_LINK_IDENTIFICACIONSECOP));
+      localStorage.setItem("identificacionSap", btoa(response.Values.ResultFields[0].CON_LINK_IDENTIFICACIONSAP));
       localStorage.setItem("dataSecop", btoa(response.Values.ResultFields[0].CON_LINK_SECOP));
       localStorage.setItem("sociedad", btoa(response.Values.ResultFields[0].CON_SOCIEDAD));
-      this.router.navigate(['home']);
+      this.getParametros(token,rol);
+      // this.router.navigate(['home']);
     });
   }
 
@@ -234,5 +237,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     localStorage.setItem('lang', useIdioma);
     this.store.dispatch(cargarIdioma({idioma: useIdioma}));
+  }
+
+  getParametros(token: any,rol:any){
+    this.authService.getParametros(token,rol)
+      .subscribe((data: any) => {
+        if(data.Status == 'Ok'){
+          localStorage.setItem("Parametros", btoa(JSON.stringify(data.Values.ResultFields)));
+          this.router.navigate(['home']);
+        }
+        else{
+          utils.showAlert('no se lograron cargar los parametros','warning');
+        }
+      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
   }
 }

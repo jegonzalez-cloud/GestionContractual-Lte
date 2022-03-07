@@ -6,6 +6,11 @@
   }
 }
 
+#background-home{
+  max-height: max-content;
+  height: 696px;
+}
+
 .colorLabels{
 
 }

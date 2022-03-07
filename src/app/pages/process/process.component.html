@@ -4,11 +4,6 @@
 
     <!-- BUTTONS  -->
 
-<!--    <app-modal-process></app-modal-process>-->
-
-    <button type="button" [hidden]="true" #openbuttonErrorCdp class="btn btn-info btn-lg" data-toggle="modal"
-            data-target="#modalResultadoCdp">Open
-    </button>
     <!-- END BUTTONS  -->
 
     <!-- MODAL CARGA MASIVA  -->
@@ -52,7 +47,7 @@
                   </div>
                   <div>
                     <!--                    <p class="font-weight-light">Descarga el formato  <a class="iconsBG" title="Excel" href='./assets/img/excel-homologacion-gestion-prueba.xlsx' download="formato_carga_masiva_legalBase.xlsx"><i class="far fa-file-excel" style="color:var(&#45;&#45;companyColor)"></i></a></p>-->
-                    <a class="iconsBG" title="Excel" href='./assets/img/excel-homologacion-gestion-prueba.xlsx'
+                    <a class="iconsBG" title="Excel" href='./assets/img/FormatoCarga-legalBase.xlsx'
                        download="formato_carga_masiva_legalBase.xlsx"><a>Descarga el formato </a><i
                       class="far fa-file-excel"></i></a>
                   </div>
@@ -791,8 +786,7 @@
                                   <option
                                     *ngFor="let equ of equipoContratacion"
                                     value="{{ equ.EQC_ID_INTEGRACION }}"
-                                  >
-                                    {{ equ.EQC_NOMBRE }}
+                                  >{{ equ.EQC_NOMBRE }}
                                   </option>
                                 </select>
                               </div>

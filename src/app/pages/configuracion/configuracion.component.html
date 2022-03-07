@@ -77,9 +77,9 @@
 
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
-                            <label class="font-weight-normal text-sm">Link Consultar Identicación Secop</label>
+                            <label class="font-weight-normal text-sm">Link Consultar Identicación Sap</label>
                             <input
-                              formControlName="identificacionSecop"
+                              formControlName="identificacionSap"
                               type="text"
                               class="form-control font-weight-light text-sm"
                             />
@@ -1279,6 +1279,230 @@
       </div>
     </section>
     <br>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card ml-3 mr-3" style="box-shadow: unset !important;background-color: transparent">
+          <div class="card-header mb-3"
+               style="background-color: var(--companyColor);box-shadow: 1px 1px 5px lightgray;">
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+
+            <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
+              <!--              <i class="fas fa-file-signature"></i>-->
+              <span>  {{'config.params' | translate}}</span>
+            </h6>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+
+              <!-- ./col -->
+              <div class="col-md-12">
+                <div class="card">
+
+                  <div class="card-body">
+                    <div class="col-md-12">
+                      <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                              data-target="#modal-params" (click)="onRegisterParameter(0)">
+                        <!--                        Registrar Unidad De Contratación<i class="fas fa-plus-circle"></i>-->
+                        Registrar Parametros
+                      </button>
+                    </div>
+                    <br>
+                    <div class="table-responsive">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Filtro</mat-label>
+                        <input matInput (keyup)="applyFilterParameter($event)" placeholder="" #input>
+                      </mat-form-field>
+                      <!-- <div id="div_container" class="mat-elevation-z8"> -->
+                      <table mat-table [dataSource]="dataParams" class="mat-elevation-z8">
+                        <ng-container matColumnDef="Nombre">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
+                            Nombre
+                          </th>
+                          <td mat-cell *matCellDef="let row"
+                              style="font-size: 12px;color: #545cd8; font-weight: lighter">{{row.PAR_NOMBRE | titlecase}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Descripcion">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
+                            Descripcion
+                          </th>
+                          <td mat-cell *matCellDef="let row"
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter;">{{row.PAR_DESC | titlecase}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Estado">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black;text-align: center">
+                            Estado
+                          </th>
+                          <td mat-cell *matCellDef="let row"
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter;text-align: center">{{row.PAR_ESTADO | titlecase}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Entidad">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
+                            Entidad
+                          </th>
+                          <td mat-cell *matCellDef="let row"
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter">{{row.PAR_ENTIDAD | titlecase}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Acciones">
+                          <th mat-header-cell *matHeaderCellDef
+                              style="font-size: 14px;font-weight: normal;color: black">
+                            Acciones
+                          </th>
+                          <td mat-cell *matCellDef="let row"
+                              style="font-size: 12px;word-break: break-all; font-weight: lighter">
+                            <!-- <a class="nav-link" (click)="logOut()" role="button"> -->
+                            <a role="button" title="Editar" data-toggle="modal" data-target="#modal-params"
+                               (click)="onRegisterParameter(row)" #openbutton>
+                              <i class="far fa-edit"></i>
+                            </a>
+                          </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsParams"></tr>
+                        <tr class="hoverOnTable" mat-row
+                            *matRowDef="let row; columns: displayedColumnsParams;"></tr>
+
+                        <tr class="mat-row" *matNoDataRow>
+                          <td class="mat-cell" colspan="4">No se encontraron datos con: "{{input.value}}"</td>
+                        </tr>
+                      </table>
+                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"
+                                     #pagParams></mat-paginator>
+                      <!-- </div> -->
+                    </div>
+
+                    <!-- Modal Registro-->
+                    <div class="modal fade" id="modal-params" data-backdrop="static" data-keyboard="false"
+                         tabindex="-1">
+                      <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content" style="width: auto">
+                          <div class="modal-header">
+                            <h4 class="modal-title"><span style="font-size: medium;font-weight: normal">{{titleModal}}</span>
+                            </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" #CloseParametro>
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body modal-dialog-scrollable">
+                            <div class="callout ">
+                              <form [formGroup]="registerParameter" (ngSubmit)="sendRegisterParameter()"
+                                    (keydown.enter)="$event.preventDefault()">
+                                <div class="row">
+                                  <input formControlName="par_id" type="hidden" class="form-control text-sm"/>
+
+                                  <div class="col-12 col-sm-4">
+                                    <div class="form-group">
+                                      <label class="font-weight-normal text-sm">Nombre</label>
+                                      <!-- <input formControlName="usc_cod" type="text" class="form-control text-sm"/> -->
+                                        <input formControlName="par_nombre" type="text"
+                                               placeholder="Ingrese Nombre Del Parametro"
+                                               class="form-control font-weight-lighter text-sm"/>
+<!--                                        <input formControlName="par_nombre" type="hidden" class="form-control text-sm"/>-->
+                                      </div>
+<!--                                      <ng-autocomplete-->
+<!--                                        [data]="selectEntitys"-->
+<!--                                        [searchKeyword]="keyword"-->
+<!--                                        placeholder="Ingrese Nombre Del Parametro"-->
+<!--                                        [itemTemplate]="itemTemplateHiringUnit"-->
+<!--                                        formControlName="usc_cod"-->
+<!--                                      >-->
+<!--                                      </ng-autocomplete>-->
+
+
+<!--                                      <ng-template #itemTemplateHiringUnit let-item>-->
+<!--                                        <a [innerHTML]="item.name"></a>-->
+<!--                                      </ng-template>-->
+
+<!--                                    </div>-->
+                                  </div>
+
+                                  <div class="col-12 col-sm-4">
+                                    <div class="form-group">
+                                      <label class="font-weight-normal text-sm">Estado</label>
+                                      <input formControlName="par_estado" type="text"
+                                             placeholder="Ingrese Estado Del Parametro"
+                                             class="form-control font-weight-lighter text-sm"/>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-12 col-sm-4">
+                                    <div class="form-group">
+                                      <label class="font-weight-normal text-sm">Centro Gestor</label>
+                                      <input formControlName="par_centro_gestor" type="text"
+                                             placeholder="Ingrese Centro Gestor"
+                                             class="form-control font-weight-lighter text-sm"/>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-12 col-sm-12">
+                                    <div class="form-group">
+                                      <label class="font-weight-normal text-sm">Descripcion</label>
+                                      <textarea  formControlName="par_descripcion" type="text"
+                                             placeholder="Ingrese Descripcion Del Parametro"
+                                                 class="form-control font-weight-lighter text-sm"></textarea>
+<!--                                      <input formControlName="par_descripcion" type="hidden" class="form-control text-sm"/>-->
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                                <button
+                                  *ngIf="indRegister==0"
+                                  [disabled]="registerParameter.invalid"
+                                  type="submit"
+                                  class="btn btn-outline-primary float-left btn-sm"
+                                >
+                                  <!--                                  <span>Guardar <i class="fas fa-save"></i></span>-->
+                                  <span>Guardar</span>
+                                </button>
+
+                                <button
+                                  *ngIf="indRegister!=0"
+                                  [disabled]="registerParameter.invalid"
+                                  type="submit"
+                                  class="btn btn-outline-primary float-left btn-sm"
+                                >
+                                  <!--                                  <span>Actualizar <i class="fas fa-save"></i></span>-->
+                                  <span>Actualizar</span>
+                                </button>
+                              </form>
+                            </div>
+                          </div>
+
+                        </div>
+                        <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- ./col -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
 <ngx-loading [show]="show"></ngx-loading>

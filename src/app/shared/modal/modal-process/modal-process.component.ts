@@ -1,12 +1,23 @@
-import {Component, Input, OnInit, SimpleChanges, ViewChild, Inject, LOCALE_ID,} from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+  Inject,
+  LOCALE_ID,
+  DoCheck,
+  OnChanges, OnDestroy, HostListener,
+} from '@angular/core';
 import {Subscription} from "rxjs";
 import {ModalService} from "../../../services/modal/modal.service";
 import Swal from "sweetalert2";
 import * as utils from "../../../utils/functions";
 import {SecopService} from "../../../services/secop/secop.service";
 import {ServicesService} from "../../../services/services.service";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 import * as func from "../../../utils/functions";
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-modal-process',
@@ -73,19 +84,20 @@ export class ModalProcessComponent implements OnInit {
   private autorizaciones: any;
 
   constructor(private modal: ModalService, private secopService: SecopService, private service: ServicesService, private router: Router, @Inject(LOCALE_ID) public locale: string) {
+    router.events.pipe(filter(filtro=>filtro instanceof NavigationEnd)).subscribe((response:any)=>{
+      if (response.url == '/home/process' || response.url == '/process') {
+        this.component = 1;
+      }
+      else if(response.url == '/home/busqueda') {
+        this.component = 2;
+      }
+      else if(response.url == '/home/autorizaciones') {
+        this.component = 3;
+      }
+    })
   }
 
   ngOnInit(): void {
-    this.component = 0;
-    if (this.router.url == '/home/process') {
-      this.component = 1;
-    }
-    else if(this.router.url == '/home/busqueda') {
-      this.component = 2;
-    }
-    else if(this.router.url == '/home/autorizaciones') {
-      this.component = 3;
-    }
     this.clickEventSubscription = this.modal.getClickEvent().subscribe(() => {
       let dataModal = JSON.parse(localStorage.getItem('modalData')!);
       this.rellenarModal(dataModal);

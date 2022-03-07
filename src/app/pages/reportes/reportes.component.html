@@ -127,10 +127,8 @@
                                   <select
                                     formControlName="creadorProceso"
                                     class="form-control font-weight-light text-sm custom-select">
-                                    <option selected>Choose...</option>
-                                    <option value="jegonzalez">jegonzalez</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option selected></option>
+                                    <option *ngFor="let creador of CREADOR_PROCESO">{{creador.USR_LOGIN}}</option>
                                   </select>
                                 </div>
                               </div>
@@ -214,6 +212,24 @@
                                     currencyMask
                                     class="form-control font-weight-light text-sm"
                                   />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="ROL == 4" class="col-sm-6">
+                          <div class="card">
+                            <div class="card-header bg-light">
+                              Dependencia
+                            </div>
+                            <div class="card-body row">
+                              <div class="col-12 col-sm-12">
+                                <div class="form-group">
+                                  <label class="font-weight-light text-sm">Centro Gestor</label>
+                                  <select class="form-control font-weight-light text-sm custom-select" formControlName="centroGestor">
+                                    <option value=""></option>
+                                    <option *ngFor="let ges of gestor" value="{{ ges.USC_GESTOR }}">{{ ges.USC_GESTOR }}</option>
+                                  </select>
                                 </div>
                               </div>
                             </div>

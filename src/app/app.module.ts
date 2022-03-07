@@ -17,7 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 
 import { NgxCurrencyModule } from "ngx-currency";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
@@ -26,6 +26,7 @@ import {ModalProcessComponent} from "./shared/modal/modal-process/modal-process.
 import {PagesModule} from "./pages/pages.module";
 //import { DataTablesModule } from 'angular-datatables';
 import { AvatarModule } from 'ngx-avatar'
+import {SecopInterceptorService} from "./interceptors/secop-interceptor.service";
 
 @NgModule({
   declarations: [AppComponent],
@@ -58,7 +59,13 @@ import { AvatarModule } from 'ngx-avatar'
       //autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
   ],
-  providers: [],
+  providers: [
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: SecopInterceptorService,
+    //   multi: true
+    // }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

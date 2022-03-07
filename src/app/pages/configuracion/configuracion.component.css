@@ -43,6 +43,12 @@ div.callout{
   /*padding-right: 1%;*/
   text-align: left;
 }
+.mat-column-Nombre {
+  width: 15%;
+  border-right: 1px solid lightgray;
+  /*padding-right: 1%;*/
+  text-align: left;
+}
 .mat-column-Usuario {
   width: 5%;
   border-right: 1px solid lightgray;
@@ -215,7 +221,7 @@ div.callout{
   border-right: 1px solid lightgray;
   padding-left: 1%;
   /*text-overflow: ellipsis;*/
-  width: 10%;
+  width: 5%;
   max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -236,6 +242,21 @@ div.callout{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+
+.mat-column-Descripcion {
+  /*white-space: nowrap;*/
+  /*width: 5%;*/
+  /*overflow: hidden;*/
+  border-right: 1px solid lightgray;
+  padding-left: 1%;
+  padding-right: 1%;
+  /*text-overflow: ellipsis;*/
+  width: 25%;
+  /*overflow: hidden;*/
+  /*text-overflow: ellipsis;*/
+  /*white-space: nowrap;*/
 }
 
 

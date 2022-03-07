@@ -64,7 +64,8 @@ export class AuthService {
   public logout(token: string) {
     this.data = {token: token};
     return this.http
-      .post(`${environment.apiTestUrl}security/CancelTokens`, this.data);
+      // .post(`${environment.apiTestUrl}security/CancelTokens`, this.data);
+      .get(`${environment.apiTestUrl}security/CancelTokensLegalBase?token=${token}`);
   }
 
   public userError() {
@@ -150,5 +151,9 @@ export class AuthService {
 
     return this.http
       .post(`${environment.apiTestUrl}Contratos/updateUserRol`, datos)
+  }
+
+  public getParametros(token: any, rol: any) {
+    return this.http.get(`${environment.apiTestUrl}Contratos/getParametros?token=${token}&rol=${rol}`);
   }
 }

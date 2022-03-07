@@ -127,3 +127,8 @@ div.callout{
   margin-left: 37%;
   /*display: inline-block;*/
 }
+
+#background-home{
+  max-height: max-content;
+  height: 100vh;
+}

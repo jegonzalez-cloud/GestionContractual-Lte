@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {SecopService} from "../../services/secop/secop.service";
 import * as utils from "../../utils/functions";
@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import { ServicesService } from 'src/app/services/services.service';
+import {ServicesService} from 'src/app/services/services.service';
 
 @Component({
   selector: 'app-configuracion',
@@ -21,55 +21,66 @@ export class ConfiguracionComponent implements OnInit {
   registerEntity!: FormGroup;
   registerHiringTeams!: FormGroup;
   registerHiringUnit!: FormGroup;
+  registerParameter!: FormGroup;
   roles!: any;
   users!: any;
   entitys!: any;
   selectEntitys!: any[];
   show: boolean = false;
-  indRegister:number = 0;
-  titleModal:string = "";
+  indRegister: number = 0;
+  titleModal: string = "";
   UsersConnection!: any[];
   tiposProceso: any;
   hiringTeams!: any[];
   hiringUnit!: any[];
+  params!: any[];
   private token: string = localStorage.getItem('token')!;
+  private centroGestor: string = atob(localStorage.getItem('centroGestor')!);
+  private rol: string = atob(localStorage.getItem('rol')!);
 
-  @ViewChild('CloseEntidad') CloseEntidad:any;
-  @ViewChild('CloseRol') CloseRol:any;
-  @ViewChild('CloseUnidad') CloseUnidad:any;
-  @ViewChild('CloseEquipo') CloseEquipo:any;
+  @ViewChild('CloseEntidad') CloseEntidad: any;
+  @ViewChild('CloseRol') CloseRol: any;
+  @ViewChild('CloseUnidad') CloseUnidad: any;
+  @ViewChild('CloseEquipo') CloseEquipo: any;
+  @ViewChild('CloseParametro') CloseParametro: any;
 
   public dataSource!: MatTableDataSource<any>;
   @ViewChild('pagEntitys') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   // displayedColumns: string[] = ['Id','Usuario','Password','CodigoEntidad','NombreEntidad','Gestor','Acciones'];
-  displayedColumns: string[] = ['Connect','Password','CodigoEntidad','NombreEntidad','Gestor','Acciones'];
+  displayedColumns: string[] = ['Connect', 'Password', 'CodigoEntidad', 'NombreEntidad', 'Gestor', 'Acciones'];
 
   public dataConnection!: MatTableDataSource<any>;
   @ViewChild('pagConnection') paginatorConnection!: MatPaginator;
 
   @ViewChild(MatSort) sortConnection!: MatSort;
-  displayedColumnsConnection: string[] = ['Usuario','Entidad','Rol','Acciones'];
+  displayedColumnsConnection: string[] = ['Usuario', 'Entidad', 'Rol', 'Acciones'];
 
   public dataHiringTeams!: MatTableDataSource<any>;
 
   @ViewChild('pagHiringTeams') paginatorHiringTeams!: MatPaginator;
   @ViewChild(MatSort) sortHiringTeams!: MatSort;
-  displayedColumnsHiringTeams: string[] = ['EquipoContratacion','IdIntegracion','TipoProceso','Entidad','Estado','Acciones'];
+  displayedColumnsHiringTeams: string[] = ['EquipoContratacion', 'IdIntegracion', 'TipoProceso', 'Entidad', 'Estado', 'Acciones'];
 
   public dataHiringUnit!: MatTableDataSource<any>;
   @ViewChild('pagHiringUnit') paginatorHiringUnit!: MatPaginator;
   @ViewChild(MatSort) sortHiringUnit!: MatSort;
-  displayedColumnsHiringUnit: string[] = ['USC_COD','UNI_NUMERO_PROCESO','UNI_NOMBRE_PROCESO','Acciones'];
+  displayedColumnsHiringUnit: string[] = ['USC_COD', 'UNI_NUMERO_PROCESO', 'UNI_NOMBRE_PROCESO', 'Acciones'];
 
-  constructor(private fb: FormBuilder,private secopService:SecopService,private authService: AuthService,private router: Router,private service: ServicesService,) { }
+  public dataParams!: MatTableDataSource<any>;
+  @ViewChild('pagParams') paginatorParams!: MatPaginator;
+  @ViewChild(MatSort) sortParams!: MatSort;
+  displayedColumnsParams: string[] = ['Nombre', 'Descripcion', 'Estado', 'Entidad', 'Acciones'];
+
+  constructor(private fb: FormBuilder, private secopService: SecopService, private authService: AuthService, private router: Router, private service: ServicesService,) {
+  }
 
   ngOnInit(): void {
     this.createForm();
     this.getInformation();
   }
 
-  getInformation(){
+  getInformation() {
     this.getRolxId();
     this.GetUsersLB();
     this.GetUsersConnect();
@@ -77,17 +88,18 @@ export class ConfiguracionComponent implements OnInit {
     this.GetUsersConnection(0);
     this.GetHiringTeams(0);
     this.GetHiringUnit(0);
+    this.getParametros();
   }
 
   createForm() {
     this.configForm = this.fb.group({
       token: new FormControl(localStorage.getItem('token')!),
-      color: new FormControl(atob(localStorage.getItem( 'color')!)),
+      color: new FormControl(atob(localStorage.getItem('color')!)),
       cdp: new FormControl(atob(localStorage.getItem('linkCdp')!)),
       pagos: new FormControl(atob(localStorage.getItem('linkPagos')!)),
       consultarProceso: new FormControl(atob(localStorage.getItem('linkProceso')!)),
       estadoContrato: new FormControl(atob(localStorage.getItem('estadoProceso')!)),
-      identificacionSecop: new FormControl(atob(localStorage.getItem('identificacionSecop')!)),
+      identificacionSap: new FormControl(atob(localStorage.getItem('identificacionSap')!)),
       dataSecop: new FormControl(atob(localStorage.getItem('dataSecop')!)),
       salarioMinimo: new FormControl(atob(localStorage.getItem('salarioMinimo')!)),
       topeMaximo: new FormControl(atob(localStorage.getItem('topeMaximo')!)),
@@ -97,52 +109,60 @@ export class ConfiguracionComponent implements OnInit {
 
     this.registerRol = this.fb.group({
       usx_cod: new FormControl('',),
-      usr_login: new FormControl('',[Validators.required]),
-      usc_cod: new FormControl('',[Validators.required]),
-      rol_id: new FormControl('',[Validators.required]),
+      usr_login: new FormControl('', [Validators.required]),
+      usc_cod: new FormControl('', [Validators.required]),
+      rol_id: new FormControl('', [Validators.required]),
       usr_connect: new FormControl('',)
     });
 
     this.registerEntity = this.fb.group({
       usc_cod: new FormControl(''),
-      usc_usuario: new FormControl('',[Validators.required]),
-      usc_password: new FormControl('',[Validators.required]),
-      usc_codigo_entidad: new FormControl('',[Validators.required]),
-      usc_nombre_entidad: new FormControl('',[Validators.required]),
-      usc_gestor: new FormControl('',[Validators.required])
+      usc_usuario: new FormControl('', [Validators.required]),
+      usc_password: new FormControl('', [Validators.required]),
+      usc_codigo_entidad: new FormControl('', [Validators.required]),
+      usc_nombre_entidad: new FormControl('', [Validators.required]),
+      usc_gestor: new FormControl('', [Validators.required])
     });
 
     this.registerHiringTeams = this.fb.group({
       eqc_cod: new FormControl(''),
-      tpp_cod: new FormControl('',[Validators.required]),
-      eqc_nombre: new FormControl('',[Validators.required]),
-      eqc_estado: new FormControl('',[Validators.required]),
-      eqc_id_integracion: new FormControl('',[Validators.required]),
-      eqc_usc_cod: new FormControl('',[Validators.required]),
+      tpp_cod: new FormControl('', [Validators.required]),
+      eqc_nombre: new FormControl('', [Validators.required]),
+      eqc_estado: new FormControl('', [Validators.required]),
+      eqc_id_integracion: new FormControl('', [Validators.required]),
+      eqc_usc_cod: new FormControl('', [Validators.required]),
     });
 
     this.registerHiringUnit = this.fb.group({
       uni_cod: new FormControl(''),
-      usc_cod: new FormControl('',[Validators.required]),
-      uni_numero_proceso: new FormControl('',[Validators.required]),
-      uni_nombre_proceso: new FormControl('',[Validators.required])
+      usc_cod: new FormControl('', [Validators.required]),
+      uni_numero_proceso: new FormControl('', [Validators.required]),
+      uni_nombre_proceso: new FormControl('', [Validators.required])
+    });
+
+    this.registerParameter = this.fb.group({
+      par_id: new FormControl(''),
+      par_nombre: new FormControl(''),
+      par_descripcion: new FormControl('', [Validators.required]),
+      par_estado: new FormControl('', [Validators.required]),
+      par_centro_gestor: new FormControl('', [Validators.required])
     });
     // console.log(this.configForm.controls['color'].value);
   }
 
-  saveColor(){
+  saveColor() {
     let color = this.configForm.controls['color'].value;
-    localStorage.setItem('color',btoa(color));
-    let r:any = document.querySelector(':root');
+    localStorage.setItem('color', btoa(color));
+    let r: any = document.querySelector(':root');
     r.style.setProperty('--companyColor', color);
     let dataForm = Object.assign(this.configForm.value);
-    this.secopService.updateConfigApp(dataForm).subscribe((response:any)=>{
-      if(response.Values.ResultFields == 'Ok'){
-        utils.showAlert('Configuración actualizada','success');
+    console.log(dataForm);
+    this.secopService.updateConfigApp(dataForm).subscribe((response: any) => {
+      if (response.Values.ResultFields == 'Ok') {
+        utils.showAlert('Configuración actualizada', 'success');
         this.onUpdateConfig(this.token);
-      }
-      else{
-        utils.showAlert('No se pudo actualizar la configuración','warning');
+      } else {
+        utils.showAlert('No se pudo actualizar la configuración', 'warning');
       }
     });
   }
@@ -153,31 +173,31 @@ export class ConfiguracionComponent implements OnInit {
     })
   }
 
-  getRolxId(){
-    this.authService.getRolxId(atob(localStorage.getItem('token')!),20)
+  getRolxId() {
+    this.authService.getRolxId(atob(localStorage.getItem('token')!), 20)
       .subscribe((data: any) => {
         this.roles = data.Values;
       }, (error) => utils.showAlert('Credenciales Incorrectas!', 'warning'))
   }
 
-  GetUsersLB(){
+  GetUsersLB() {
     this.authService.GetUsersLB(atob(localStorage.getItem('token')!))
       .subscribe((data: any) => {
         this.users = data.Values;
       }, (error) => utils.showAlert('Credenciales Incorrectas!', 'warning'))
   }
 
-  GetUsersConnect(){
-    var jsonRetur:any = [];
+  GetUsersConnect() {
+    var jsonRetur: any = [];
     this.authService.GetUsersConnect(atob(localStorage.getItem('token')!))
       .subscribe((data: any) => {
         this.entitys = data.Values.ResultFields;
         let resultEntitys = data.Values.ResultFields;
-        resultEntitys.forEach((value:any)=> {
+        resultEntitys.forEach((value: any) => {
           jsonRetur.push(
             {
-              "id":  value.USC_COD,
-              "name":  value.USC_NOMBRE_ENTIDAD,
+              "id": value.USC_COD,
+              "name": value.USC_NOMBRE_ENTIDAD,
             }
           );
         });
@@ -188,16 +208,16 @@ export class ConfiguracionComponent implements OnInit {
       }, (error) => utils.showAlert('Credenciales Incorrectas!', 'warning'))
   }
 
-  GetUsersConnection(idUser:number){
-    this.authService.GetUsersConnection(atob(localStorage.getItem('token')!),idUser)
+  GetUsersConnection(idUser: number) {
+    this.authService.GetUsersConnection(atob(localStorage.getItem('token')!), idUser)
       .subscribe((data: any) => {
         this.UsersConnection = data.Values.ResultFields;
         this.infoProcessConnection();
       }, (error) => utils.showAlert('Credenciales Incorrectas!', 'warning'))
   }
 
-  GetHiringTeams(eqcCod:number){
-    this.authService.GetHiringTeams(atob(localStorage.getItem('token')!),eqcCod)
+  GetHiringTeams(eqcCod: number) {
+    this.authService.GetHiringTeams(atob(localStorage.getItem('token')!), eqcCod)
       .subscribe((data: any) => {
         this.hiringTeams = data.Values.ResultFields;
 
@@ -205,8 +225,8 @@ export class ConfiguracionComponent implements OnInit {
       }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
   }
 
-  GetHiringUnit(usc_cod:number){
-    this.authService.GetHiringUnit(atob(localStorage.getItem('token')!),usc_cod)
+  GetHiringUnit(usc_cod: number) {
+    this.authService.GetHiringUnit(atob(localStorage.getItem('token')!), usc_cod)
       .subscribe((data: any) => {
         this.hiringUnit = data.Values.ResultFields;
 
@@ -214,7 +234,17 @@ export class ConfiguracionComponent implements OnInit {
       }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
   }
 
-  registerUserRol(){
+  getParametros() {
+    this.authService.getParametros(this.token, this.rol)
+      .subscribe((data: any) => {
+        // console.log(data);
+        this.params = data.Values.ResultFields;
+
+        this.infoProcessParams();
+      }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
+  }
+
+  registerUserRol() {
     this.show = true;
     let json = {
       TOKEN: atob(localStorage.getItem('token')!),
@@ -227,7 +257,7 @@ export class ConfiguracionComponent implements OnInit {
 
     console.log(json)
     //ind => bandera para identificar si se va a registrar o actualizar
-    if(this.indRegister != 0){
+    if (this.indRegister != 0) {
       //actualiza
       this.authService.updateUserRol(json)
         .subscribe((data: any) => {
@@ -235,12 +265,12 @@ export class ConfiguracionComponent implements OnInit {
           this.show = false;
           this.getInformation();
           this.onCloseRol();
-        }, (error) =>{
+        }, (error) => {
           utils.showAlert('Credenciales Incorrectas!', 'error')
           this.show = false;
         });
 
-    }else{
+    } else {
       //registra
       this.authService.insertUserRol(json)
         .subscribe((data: any) => {
@@ -248,18 +278,18 @@ export class ConfiguracionComponent implements OnInit {
           this.show = false;
           this.getInformation();
           this.onCloseRol();
-        }, (error) =>{
+        }, (error) => {
           utils.showAlert('Credenciales Incorrectas!', 'error')
           this.show = false;
         });
     }
   }
 
-  onRegisterEntity(ind:number){
+  onRegisterEntity(ind: number) {
     this.indRegister = ind;
-    if(this.indRegister != 0){
+    if (this.indRegister != 0) {
       this.titleModal = "Actualización de entidad";
-      this.authService.getUserConectxId(atob(localStorage.getItem('token')!),this.indRegister)
+      this.authService.getUserConectxId(atob(localStorage.getItem('token')!), this.indRegister)
         .subscribe((data: any) => {
           let result = data.Values.ResultFields;
           this.registerEntity.controls['usc_usuario'].setValue(result[0].USC_USUARIO);
@@ -269,13 +299,13 @@ export class ConfiguracionComponent implements OnInit {
           this.registerEntity.controls['usc_nombre_entidad'].setValue(result[0].USC_NOMBRE_ENTIDAD);
           this.registerEntity.controls['usc_gestor'].setValue(result[0].USC_GESTOR);
         }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
-    }else{
+    } else {
       this.titleModal = "Registro de entidad",
         this.registerEntity.reset();
     }
   }
 
-  sendRegisterEntity(){
+  sendRegisterEntity() {
     this.show = true;
     let json = {
       TOKEN: atob(localStorage.getItem('token')!),
@@ -288,7 +318,7 @@ export class ConfiguracionComponent implements OnInit {
     };
 
     //ind => bandera para identificar si se va a registrar o actualizar
-    if(this.indRegister != 0){
+    if (this.indRegister != 0) {
       //actualiza
       this.authService.updateUserConnect(json)
         .subscribe((data: any) => {
@@ -296,11 +326,11 @@ export class ConfiguracionComponent implements OnInit {
           utils.showAlert('Entidad Actualizada Correctamente!', 'success')
           this.getInformation();
           this.onCloseEntidad();
-        }, (error) =>{
+        }, (error) => {
           this.show = false;
           utils.showAlert('Credenciales Incorrectas!', 'error')
         });
-    }else{
+    } else {
       //registra
       this.authService.insertUserConnect(json)
         .subscribe((data: any) => {
@@ -308,23 +338,23 @@ export class ConfiguracionComponent implements OnInit {
           utils.showAlert('Entidad Creada Correctamente!', 'success')
           this.getInformation();
           this.onCloseEntidad();
-        }, (error) =>{
+        }, (error) => {
           this.show = false;
           utils.showAlert('Credenciales Incorrectas!', 'error')
         });
     }
   }
 
-  onRegisterHiringTeams(ind:number){
+  onRegisterHiringTeams(ind: number) {
     this.indRegister = ind;
     this.show = true;
-    if(this.indRegister != 0){
+    if (this.indRegister != 0) {
       this.titleModal = "Actualización Equipo Contratación";
-      this.authService.GetHiringTeams(atob(localStorage.getItem('token')!),this.indRegister)
+      this.authService.GetHiringTeams(atob(localStorage.getItem('token')!), this.indRegister)
         .subscribe((data: any) => {
           let result = data.Values.ResultFields;
           let valUscCod = this.selectEntitys.find(x => x.id == result[0].EQC_USC_COD);
-          let valTpp_cod =  this.tiposProceso.find((item: { TPP_COD: any; }) => item.TPP_COD == result[0].TPP_COD);
+          let valTpp_cod = this.tiposProceso.find((item: { TPP_COD: any; }) => item.TPP_COD == result[0].TPP_COD);
           this.registerHiringTeams.controls['eqc_cod'].setValue(result[0].EQC_COD);
           this.registerHiringTeams.controls['tpp_cod'].setValue(valTpp_cod.TPP_COD);
           this.registerHiringTeams.controls['eqc_nombre'].setValue(result[0].EQC_NOMBRE);
@@ -337,7 +367,7 @@ export class ConfiguracionComponent implements OnInit {
           this.show = false;
         });
 
-    }else{
+    } else {
       this.titleModal = "Registro Equipo Contratación",
         this.registerHiringTeams.reset();
 
@@ -347,7 +377,7 @@ export class ConfiguracionComponent implements OnInit {
 
   }
 
-  sendRegisterHiringTeams(){
+  sendRegisterHiringTeams() {
     this.show = true;
     let json = {
       TOKEN: atob(localStorage.getItem('token')!),
@@ -360,7 +390,7 @@ export class ConfiguracionComponent implements OnInit {
     };
 
     //ind => bandera para identificar si se va a registrar o actualizar
-    if(this.indRegister != 0){
+    if (this.indRegister != 0) {
       //actualiza
       this.authService.updateHiringTeams(json)
         .subscribe((data: any) => {
@@ -368,11 +398,11 @@ export class ConfiguracionComponent implements OnInit {
           utils.showAlert('Equipo Contratación Actualizada Correctamente!', 'success')
           this.getInformation();
           this.onCloseEquipo();
-        }, (error) =>{
+        }, (error) => {
           this.show = false;
           utils.showAlert('Credenciales Incorrectas!', 'error')
         });
-    }else{
+    } else {
       //registra
       this.authService.insertHiringTeams(json)
         .subscribe((data: any) => {
@@ -380,18 +410,18 @@ export class ConfiguracionComponent implements OnInit {
           utils.showAlert('Equipo Contratación Creada Correctamente!', 'success')
           this.getInformation();
           this.onCloseEquipo();
-        }, (error) =>{
+        }, (error) => {
           this.show = false;
           utils.showAlert('Credenciales Incorrectas!', 'error')
         });
     }
   }
 
-  onRegisterHiringUnit(ind:number){
+  onRegisterHiringUnit(ind: number) {
     this.indRegister = ind;
-    if(this.indRegister != 0){
+    if (this.indRegister != 0) {
       this.titleModal = "Actualización Unidad De Contratación";
-      this.authService.GetHiringUnit(atob(localStorage.getItem('token')!),this.indRegister)
+      this.authService.GetHiringUnit(atob(localStorage.getItem('token')!), this.indRegister)
         .subscribe((data: any) => {
           let result = data.Values.ResultFields;
           console.log(result)
@@ -404,14 +434,14 @@ export class ConfiguracionComponent implements OnInit {
 
         }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
 
-    }else{
+    } else {
       this.titleModal = "Registro Unidad De Contratación",
         this.registerHiringUnit.reset();
     }
 
   }
 
-  sendRegisterHiringUnit(){
+  sendRegisterHiringUnit() {
     this.show = true;
     let json = {
       TOKEN: atob(localStorage.getItem('token')!),
@@ -422,7 +452,7 @@ export class ConfiguracionComponent implements OnInit {
     };
 
     //ind => bandera para identificar si se va a registrar o actualizar
-    if(this.indRegister != 0){
+    if (this.indRegister != 0) {
       //actualiza
       this.authService.updateHiringUnit(json)
         .subscribe((data: any) => {
@@ -430,11 +460,11 @@ export class ConfiguracionComponent implements OnInit {
           utils.showAlert('Unidad De Contratación Actualizada Correctamente!', 'success')
           this.getInformation();
           this.onCloseUnidad();
-        }, (error) =>{
+        }, (error) => {
           this.show = false;
           utils.showAlert('Credenciales Incorrectas!', 'error')
         });
-    }else{
+    } else {
       //registra
       this.authService.insertHiringUnit(json)
         .subscribe((data: any) => {
@@ -442,10 +472,76 @@ export class ConfiguracionComponent implements OnInit {
           utils.showAlert('Unidad De Contratación Creada Correctamente!', 'success')
           this.getInformation();
           this.onCloseUnidad();
-        }, (error) =>{
+        }, (error) => {
           this.show = false;
           utils.showAlert('Credenciales Incorrectas!', 'error')
         });
+    }
+  }
+
+  onRegisterParameter(ind: any) {
+    this.indRegister = ind;
+    if (this.indRegister != 0) {
+      this.titleModal = "Actualización de parametros";
+      this.secopService.getCentroGestorByEntity(this.token, ind.PAR_ENTIDAD).subscribe((response: any) => {
+        this.registerParameter.controls['par_id'].setValue(ind.PAR_ID);
+        this.registerParameter.controls['par_nombre'].setValue(ind.PAR_NOMBRE);
+        this.registerParameter.controls['par_descripcion'].setValue(ind.PAR_DESC);
+        this.registerParameter.controls['par_estado'].setValue(ind.PAR_ESTADO);
+        this.registerParameter.controls['par_centro_gestor'].setValue(response.Values);
+      });
+    } else {
+      this.titleModal = "Registro de parametros",
+        this.registerParameter.reset();
+    }
+  }
+
+  sendRegisterParameter() {
+    this.show = true;
+    let json = {
+      TOKEN: atob(localStorage.getItem('token')!),
+      par_id: this.registerParameter.controls['par_id'].value,
+      par_nombre: this.registerParameter.controls['par_nombre'].value,
+      par_descripcion: this.registerParameter.controls['par_descripcion'].value,
+      par_estado: this.registerParameter.controls['par_estado'].value,
+      par_centro_gestor: this.registerParameter.controls['par_centro_gestor'].value
+    };
+
+    //ind => bandera para identificar si se va a registrar o actualizar
+    if (this.indRegister != 0) {
+      this.secopService.validateCentroGestor(this.token, json.par_centro_gestor).subscribe((response: any) => {
+        if (response.Values != '0') {
+          this.secopService.updateParameter(json).subscribe((response: any) => {
+            this.getInformation();
+            utils.showAlert('Parametro actualizado exitosamente', 'success');
+          }, (error) => {
+            this.show = false;
+            utils.showAlert('Error al crear el parametro!', 'warning');
+          });
+        } else {
+          utils.showAlert('El centro gestor no existe', 'warning');
+        }
+        this.onCloseParametro();
+        this.show = false;
+      })
+
+    } else {
+      this.secopService.insertParameter(json).subscribe((response: any) => {
+        this.secopService.validateCentroGestor(this.token, json.par_centro_gestor).subscribe((response: any) => {
+          if (response.Values != '0') {
+            this.getInformation();
+            utils.showAlert('Parametro creado exitosamente', 'success');
+          } else {
+            utils.showAlert('El centro gestor no existe', 'warning');
+          }
+          this.onCloseParametro();
+          this.show = false;
+        })
+
+      }, (error) => {
+        this.show = false;
+        utils.showAlert('Error al crear el parametro!', 'warning')
+      });
     }
   }
 
@@ -518,32 +614,46 @@ export class ConfiguracionComponent implements OnInit {
     }
   }
 
+  applyFilterParameter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataParams.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataParams.paginator) {
+      this.dataParams.paginator.firstPage();
+    }
+  }
+
   infoProcessHiringUnit(): void {
     if (this.hiringUnit.length > 0) {
       this.dataHiringUnit = new MatTableDataSource(this.hiringUnit!);
       this.dataHiringUnit.paginator = this.paginatorHiringUnit;
       this.dataHiringUnit.sort = this.sortHiringUnit;
     }
-    // else {
-    //   utils.showAlert('Error de información', 'error');
-    // }
   }
 
-  onRegisterConnection(ind:number){
+  infoProcessParams(): void {
+    if (this.params.length > 0) {
+      this.dataParams = new MatTableDataSource(this.params!);
+      this.dataParams.paginator = this.paginatorParams;
+      this.dataParams.sort = this.sortParams;
+    }
+  }
+
+  onRegisterConnection(ind: number) {
     this.show = true;
     this.indRegister = ind;
-    if(this.indRegister != 0){
+    if (this.indRegister != 0) {
       this.titleModal = "Actualización de rol a un usuario",
-        this.authService.GetUsersConnection(atob(localStorage.getItem('token')!),this.indRegister)
+        this.authService.GetUsersConnection(atob(localStorage.getItem('token')!), this.indRegister)
           .subscribe((data: any) => {
             let result = data.Values.ResultFields;
 
             let valUscCod = this.selectEntitys.find(x => x.id == result[0].USC_COD);
-            let valRolId =  this.roles.find((item: { id: any; }) => item.id == result[0].ROL_ID);
-            let valUsrLogin =  this.users.find((item: { id: any; }) => item.id == result[0].USR_LOGIN);
+            let valRolId = this.roles.find((item: { id: any; }) => item.id == result[0].ROL_ID);
+            let valUsrLogin = this.users.find((item: { id: any; }) => item.id == result[0].USR_LOGIN);
 
-            console.log(result)
-            console.log(valUscCod)
+            // console.log(result)
+            // console.log(valUscCod)
 
             this.registerRol.controls['usr_login'].setValue(valUsrLogin);
             this.registerRol.controls['usx_cod'].setValue(result[0].USX_COD);
@@ -553,7 +663,7 @@ export class ConfiguracionComponent implements OnInit {
             this.show = false;
           }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
 
-    }else{
+    } else {
       this.titleModal = "Asignación de rol a un usuario",
         this.registerRol.reset();
       this.show = false;
@@ -561,19 +671,23 @@ export class ConfiguracionComponent implements OnInit {
 
   }
 
-  onCloseEntidad(){
+  onCloseEntidad() {
     this.CloseEntidad.nativeElement.click();
   }
 
-  onCloseRol(){
+  onCloseRol() {
     this.CloseRol.nativeElement.click();
   }
 
-  onCloseUnidad(){
+  onCloseUnidad() {
     this.CloseUnidad.nativeElement.click();
   }
 
-  onCloseEquipo(){
+  onCloseParametro() {
+    this.CloseParametro.nativeElement.click();
+  }
+
+  onCloseEquipo() {
     this.CloseEquipo.nativeElement.click();
   }
 
@@ -587,7 +701,7 @@ export class ConfiguracionComponent implements OnInit {
       localStorage.setItem("salarioMinimo", btoa(response.Values.ResultFields[0].CON_SALARIO_MINIMO));
       localStorage.setItem("topeMaximo", btoa(response.Values.ResultFields[0].CON_TOPE_MAXIMO));
       localStorage.setItem("cantidadSalarios", btoa(response.Values.ResultFields[0].CON_CANTIDAD_SALARIOS));
-      localStorage.setItem("identificacionSecop", btoa(response.Values.ResultFields[0].CON_LINK_IDENTIFICACIONSECOP));
+      localStorage.setItem("identificacionSap", btoa(response.Values.ResultFields[0].CON_LINK_IDENTIFICACIONSAP));
       localStorage.setItem("dataSecop", btoa(response.Values.ResultFields[0].CON_LINK_SECOP));
       localStorage.setItem("sociedad", btoa(response.Values.ResultFields[0].CON_SOCIEDAD));
       this.router.navigate(['home']);
@@ -595,3 +709,4 @@ export class ConfiguracionComponent implements OnInit {
   }
 
 }
+

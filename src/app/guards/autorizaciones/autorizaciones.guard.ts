@@ -1,30 +1,36 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import { Observable } from 'rxjs';
+import {AuthService} from "../../services/auth/auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutorizacionesGuard implements CanActivate {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private authService:AuthService) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean{
 
     let rol:any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
-    console.log(rol);
-    // if(rol == '' || rol < 40 && rol > 44){
-    if(rol == '' || rol < 2 || rol > 6){
-      console.log('No tiene permisos');
-      this.router.navigate(['busqueda']);
-      return false;
-    }
-    else{
-      return true;
-    }
-
+    this.authService.isLogin().subscribe((response:any)=>{
+      if(response.Status == 'Fail'){
+        this.router.navigate(['login']);
+        localStorage.clear();
+        return false;
+      }
+      else{
+        if(rol == '' || rol < 2 || rol > 6){
+          this.router.navigate(['busqueda']);
+          return false;
+        }
+        else{
+          return true;
+        }
+      }
+    });
+    return true;
   }
-
 }

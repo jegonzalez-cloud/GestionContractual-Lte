@@ -171,11 +171,11 @@
     <a href="https://www.valledelcauca.gov.co/" style="margin-right:80px !important;">
       <img
         [ngStyle]="{'cursor':'pointer'}"
-        src="../../../assets/img/bloque28.png"
+        src="./assets/img/bloque28.png"
         alt="..."
         width="136px"
       />
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+<!--      <span class="brand-text font-weight-light">AdminLTE 3</span>-->
     </a>
 <!--    <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">-->
 <!--      <span class="navbar-toggler-icon"></span>-->
@@ -253,11 +253,11 @@
                                           </option>-->
           <div *ngFor="let aut of autorizaciones" style="text-align: center">
             <div class="dropdown-divider"></div>
-            <p class="hoverOnTable" style="cursor: pointer"
+            <p class="hoverOnTable" style="cursor: pointer;padding: 1%"
                (click)="goDetail(aut.CONS_PROCESO)">
-              <i class="fas fa-envelope mr-2"></i> <a
-              style="color: black;font-size: small;word-break: break-all;">Se requiere autorizar # </a><a
-              style="font-size: 11px;font-weight: bold;color: #545cd8">{{ aut.CONS_PROCESO}}</a>
+              <i class="far fa-envelope mr-2"></i> <a
+              style="color: var(--labelColor);font-size: small;word-break: break-all;font-weight: lighter">Se requiere autorizar # </a><a
+              style="font-size: 11px;font-weight: bold;color: darkgray">{{ aut.CONS_PROCESO}}</a>
               <!--            <a style="color: gray;font-size: small;word-break: break-all">{{aut.NOMBRE_PROCESO}}</a>-->
               <!--            <span class="float-right text-muted text-sm">3 mins</span>-->
             </p>
@@ -338,7 +338,7 @@
                           ROL == 3 ? 'Ordenador del gasto' :
                             ROL == 4 ? 'Secretaria Privada' :
                               ROL == 5 ? 'Comite de Contratacion' :
-                                ROL == 6 ? 'DADII' : 'Admin'}}</a></span><br>LegalBase Version 3.2.310122
+                                ROL == 6 ? 'DADII' : 'Admin'}}</a></span><br>LegalBase Version 21.3.3
                     </footer>
                   </div>
                   <div class="col-12 col-sm-3">

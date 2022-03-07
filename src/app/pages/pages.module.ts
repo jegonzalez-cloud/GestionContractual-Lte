@@ -62,7 +62,6 @@ import { BusquedaComponent } from './busqueda/busqueda.component';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import { ReportesComponent } from './reportes/reportes.component';
 import { NgApexchartsModule } from "ng-apexcharts";
-import { SampleComponent } from './sample/sample.component';
 // import {NzTreeSelectModule} from "ng-zorro-antd/tree-select";
 import {TreeSelectModule} from "primeng/treeselect";
 import { ConfiguracionComponent } from './configuracion/configuracion.component';
@@ -79,7 +78,6 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     AutorizacionesDetailComponent,
     BusquedaComponent,
     ReportesComponent,
-    SampleComponent,
     ConfiguracionComponent,
     // ModalProcessComponent
   ],

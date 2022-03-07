@@ -475,3 +475,20 @@ export function onFileChange(ev: any) {
 export function deleteData(name:string){
   localStorage.removeItem(name);
 }
+
+export function validarParametros(data:any){
+  let dataArray:any = [];
+  data.forEach((obj:any)=>{
+    Object.entries(obj).forEach(([key, value]) => {
+      if(key == 'PAR_NOMBRE'){
+        if(value == 'VALIDAR_CDP'){
+          console.log('SI VALIDO CDP');
+          dataArray.push(value);
+        }
+        // console.log(`${key} ${value}`);
+      }
+
+    });
+  });
+  return dataArray;
+}

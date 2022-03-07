@@ -145,7 +145,7 @@ export class NavbarComponent implements OnInit {
         }
         // localStorage.setItem('autorizaciones', JSON.stringify(response.Values.ResultFields))
       })
-    }, 100000)
+    }, 150000)
   }
 
   goDetail(row: any) {

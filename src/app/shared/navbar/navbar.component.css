@@ -25,7 +25,7 @@ log-out:hover{
 #notificaciones-sticky-top{
   position: sticky;
   top: 0;
-  background: #e6e6e6;
+  background: #ffffff;
   font-weight: bold;
 }
 
@@ -33,7 +33,7 @@ log-out:hover{
 #notificaciones-sticky-bot{
   position: sticky;
   bottom: 0;
-  background: #e6e6e6;
+  background: #ffffff;
   cursor: pointer;
   color: #545cd8;
 }

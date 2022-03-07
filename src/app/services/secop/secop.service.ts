@@ -238,4 +238,40 @@ export class SecopService {
     return this.httpClient.get(`${environment.apiTestUrl}contratos/getClasificacionBienes?token=${token}&codigo=${codigo}`);
   }
 
+  public insertParameter(data:any){
+    return this.httpClient.post(`${environment.apiTestUrl}contratos/insertParameter`, data);
+  }
+
+  public getCentroGestorByEntity(token:any,entidad:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getCentroGestorByEntity?token=${token}&entidad=${entidad}`);
+  }
+
+  public validateCentroGestor(token:any,centroGestor:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/validateCentroGestor?token=${token}&centroGestor=${centroGestor}`);
+  }
+
+  public updateParameter(data:any){
+    return this.httpClient.post(`${environment.apiTestUrl}contratos/updateParameter`, data);
+  }
+
+  public getDataLineChart(token:any,centroGestor:any,fechaInicio:any,fechaTermino:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getDataLineChart?token=${token}&centroGestor=${centroGestor}&fechaInicio=${fechaInicio}&fechaTermino=${fechaTermino}`);
+  }
+
+  public getDataProcesosXestadoChart(token:any,centroGestor:any,fechaInicio:any,fechaTermino:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getDataProcesosXestadoChart?token=${token}&centroGestor=${centroGestor}&fechaInicio=${fechaInicio}&fechaTermino=${fechaTermino}`);
+  }
+
+  public getDataProcesosXdependenciaChart(token:any,fechaInicio:any,fechaTermino:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getDataProcesosXdependenciaChart?token=${token}&fechaInicio=${fechaInicio}&fechaTermino=${fechaTermino}`);
+  }
+
+  public getDataCuadrosEstado(token:any,centroGestor:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getDataCuadrosEstado?token=${token}&centroGestor=${centroGestor}`);
+  }
+
+  public getDataInfoProveedor(documento:string,gval:string){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getDataInfoProveedor?documento=${documento}&sociedad=${gval}`);
+  }
+
 }

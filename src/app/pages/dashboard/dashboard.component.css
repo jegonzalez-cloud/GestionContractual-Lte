@@ -73,3 +73,12 @@ button.btn-outline-primary:hover{
   /*text-align: left;*/
   /*margin-left: -20px;*/
 }
+
+.chartGraph{
+  display:inline-block;
+  width: 47.7%;
+}
+
+.ui-datepicker-calendar {
+  display: none;
+}

@@ -40,7 +40,8 @@
     "registerRole": "Roles de usuarios",
     "registerEntity": "Entidades",
     "registerHiringTeams": "Equipo De Contratación",
-    "registerHiringUnit": "Unidad De Contratación"
+    "registerHiringUnit": "Unidad De Contratación",
+    "params": "Parametros"
   },
   "administration-CI": {
     "titles": {

@@ -107,3 +107,7 @@ div.callout{
   border-left-color: var(--companyColor);
 }
 
+#background-home{
+  max-height: max-content;
+  height: 696px;
+}

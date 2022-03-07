@@ -116,7 +116,7 @@ export class BusquedaComponent implements OnInit {
       }
 
     },(error:any) => {
-      utils.showAlert('Busqueda Errornea!!','Error');
+      utils.showAlert('Busqueda Erronea!!','Error');
     })
   }
 
@@ -225,5 +225,4 @@ export class BusquedaComponent implements OnInit {
   generateReports() {
     func.generarReporte(this.infoPagos, this.locale,this.CENTRO_GESTOR,this.NOM_PROV,this.COD_PROV);
   }
-
 }
