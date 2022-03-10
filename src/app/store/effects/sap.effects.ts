@@ -20,7 +20,7 @@ export class SapEffects {
             let jsonString = JSON.stringify(Object.assign({}, data))
             let y = JSON.parse(JSON.stringify(Object.assign({}, data)))[0].cdp[action.data].monto
             let x = JSON.parse(jsonString)[0].cdp[action.data].monto
-            console.log(x)
+            // console.log(x)
           }),
           map((data: any) => acciones.cargarSapSuccess({ sap: JSON.parse(JSON.stringify(Object.assign({}, data)))[0].cdp[action.data].monto })),
           catchError((err) => of(acciones.cargarSapError({ payload: err })))

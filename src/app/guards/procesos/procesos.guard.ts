@@ -9,28 +9,17 @@ import {AuthService} from "../../services/auth/auth.service";
 export class ProcesosGuard implements CanActivate {
 
   constructor(private router:Router,private authService:AuthService) {
+    // console.log('proceso')
   }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     let rol:any = atob(localStorage.getItem('rol')!);
-    this.authService.isLogin().subscribe((response:any)=>{
-      if(response.Status == 'Fail'){
-        this.router.navigate(['login']);
-        localStorage.clear();
-        return false;
-      }
-      else{
-        if(rol != 1){
-          this.router.navigate(['busqueda']);
-          return false;
-        }
-        else{
-          return true;
-        }
-      }
-    });
+    if(rol != 1){
+      this.router.navigate(['busqueda']);
+      return false;
+    }
     return true;
   }
 

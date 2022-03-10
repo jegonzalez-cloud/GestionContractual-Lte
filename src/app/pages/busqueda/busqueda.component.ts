@@ -127,8 +127,14 @@ export class BusquedaComponent implements OnInit {
   }
 
   getCreadorProceso() {
-    this.secopService.getCreadorProceso(this.entidad, this.ROL).subscribe((response: any) => {
-      this.creador = response.Values.ResultFields;
+    this.secopService.getCreadorProceso(this.centroGestor, this.ROL).subscribe((response: any) => {
+      if(response.Status == 'Ok'){
+        this.creador = response.Values.ResultFields;
+      }
+      else{
+        utils.showAlert('Error get creador proceso','warning');
+      }
+
     })
   }
 

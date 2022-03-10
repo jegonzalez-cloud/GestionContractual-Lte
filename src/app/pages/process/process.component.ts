@@ -321,7 +321,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.secopService.getDataInfoProveedor(search_value, 'GVAL').subscribe((response: any) => {
         if (response.Status == 'Ok') {
           if (response.Values.ResultFields != 'El proveedor no existe') {
-            console.log(response.Values.ResultFields);
+            // console.log(response.Values.ResultFields);
             this.createProcessForm.controls['proveedor'].setValue(response.Values.ResultFields.Name);
             this.createProcessForm.controls['ubicacion'].setValue(response.Values.ResultFields.Direccion);
             this.createProcessForm.controls['correo'].setValue(response.Values.ResultFields.Correo);
@@ -526,7 +526,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
             }
           }
         }).catch((error: any) => {
-          console.log(error);
+          // console.log(error);
+          utils.showAlert(error,'warning');
         });
         if (i == longitud - 1) {
           this.verificarErroresCdp(this.cdpError.length);
@@ -774,7 +775,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     });
     // alert(this.UNI_CONTRATACION);
     this.reSetFields();
-    console.log('sample')
+    // console.log('sample')
     this.createProcessForm.controls['equipo'].setValue('Equipo de contratación directa');
     // this.createProcessForm.controls['equipo'].setValue('CO1.PROC_TEAM.204101');
     this.createProcessForm.controls['unidad'].setValue(this.UNI_CONTRATACION);
@@ -1117,9 +1118,9 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
 
   async validateDataExcel(jsonData: any, keyCount: number, dataFormulario: any, i: number) {
     //this.centroGestor = '1158';
-    console.log(keyCount)
+    // console.log(keyCount)
     return await new Promise((resolve, reject) => {
-      if (keyCount == 24) {
+      if (keyCount == 23) {
         let dataExcel = jsonData.DATA[i];
         let codigoUNSPSC: any = [];
         let dataExcelCodigo = jsonData.UNSPSC;
@@ -1205,13 +1206,13 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                                                         dataFormulario.push(response.Values.ResultFields);
                                                         if (dataExcel.NOMBREPROCESO != null && dataExcel.NOMBREPROCESO.toString().length != 0) {
                                                           dataFormulario.push(dataExcel.NOMBREPROCESO);
-                                                          this.secopService.validateUnidadContratacion(dataExcel.UNIDADCONTRATACION).subscribe((response: any) => {
+                                                          this.secopService.validateUnidadContratacion(dataExcel.UNIDADCONTRATACION,this.centroGestor).subscribe((response: any) => {
                                                             if (response.Status == 'Ok') {
                                                               dataFormulario.push(dataExcel.UNIDADCONTRATACION);
-                                                              this.secopService.validateEquipoContratacion(dataExcel.EQUIPOCONTRATACION).subscribe(async (response: any) => {
+                                                              this.secopService.validateEquipoContratacion(dataExcel.EQUIPOCONTRATACION,this.centroGestor).subscribe(async (response: any) => {
                                                                 if (response.Status == 'Ok') {
-                                                                  dataFormulario.push(dataExcel.EQUIPOCONTRATACION);
-                                                                  // dataFormulario.push(response.Values.ResultFields);
+                                                                  // dataFormulario.push(dataExcel.EQUIPOCONTRATACION);
+                                                                  dataFormulario.push(response.Values.ResultFields);
                                                                   if (dataExcel.OBJETOPROCESO != null && dataExcel.OBJETOPROCESO.toString().length != 0) {
                                                                     dataFormulario.push(dataExcel.OBJETOPROCESO);
                                                                     // if (this.validarFirmasPosteriores(moment(dataExcel.FIRMACONTRATO, "YYYYMMDD").format().slice(0, -6)) == 1) {
@@ -1259,11 +1260,11 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                                                                                     resolve('error duracion contrato ' + (i + 1));
                                                                                   } else if (responseDuracion == 1) {
                                                                                     //no comite
-                                                                                    console.log('comite:No');
+                                                                                    // console.log('comite:No');
                                                                                     comite = 'NO';
                                                                                   } else if (responseDuracion == 2) {
                                                                                     //comite
-                                                                                    console.log('comite:Si');
+                                                                                    // console.log('comite:Si');
                                                                                     comite = 'SI';
                                                                                   }
                                                                                   dataFormulario.push(dataExcel.DURACIONCONTRATO);
@@ -1575,7 +1576,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
               }
             }
           }).catch((error: any) => {
-            console.log(error);
+            // console.log(error);
+            utils.showAlert(error,'warning');
           });
         } else {
           let arrayExcelCdp = [];
@@ -1633,7 +1635,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
           let proId = response?.proId;
           if (proId != null && proId != undefined) {
             this.secopService.updateProcessMasive(proId).subscribe((response: any) => {
-              console.log(this.procesosExitosos);
+              // console.log(this.procesosExitosos);
               this.procesosExitosos.push(proId);
             });
           }

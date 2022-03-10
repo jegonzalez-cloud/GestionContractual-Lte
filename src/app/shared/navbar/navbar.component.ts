@@ -78,7 +78,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAutorizaciones();
+    if(this.ROL != 7){this.getAutorizaciones();}
     this.getUserData();
     this.store.select('idioma').subscribe(({idioma}) => {
       this.lenguaje = idioma;

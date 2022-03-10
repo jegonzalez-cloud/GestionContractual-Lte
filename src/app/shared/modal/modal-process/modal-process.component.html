@@ -142,7 +142,7 @@
                   <button *ngIf="component == 1" type="button" class="btn btn-outline-info"
                           data-dismiss="modal"
                           (click)="editarProceso()"
-                          [ngStyle]="{'display': (ROL == 1 && estado == 2) ? 'block' : 'none'}">
+                          [ngStyle]="{'display': (ROL == 1 && (estado == 2 || estado == 5)) ? 'block' : 'none'}">
                     Editar
                   </button>
                   <button type="button" class="btn btn-outline-warning"

@@ -240,7 +240,7 @@ export class ModalProcessComponent implements OnInit {
             arr.push({"TOKEN":this.token});
 
             this.secopService.createSoapProcess(arr).subscribe((response:any)=>{
-              console.log(response);
+              // console.log(response);
             });
             //utils.sendSoapData(this.PROCESO_SELECCIONADO,response.Values.ResultFields);
           });

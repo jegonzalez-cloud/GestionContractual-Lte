@@ -117,7 +117,7 @@ export class ReportesComponent implements OnInit {
 
   searchReports() {
     // console.log(this.reportesForm);
-    let username = this.reportesForm.controls['username'].value;
+    let username = this.reportesForm.controls['username'].value == null ? atob(localStorage.getItem('username')!) : this.reportesForm.controls['username'].value ;
     let centroGestor = (this.ROL != '4') ? this.CENTROGESTOR : this.reportesForm.controls['centroGestor'].value;
     let result = moment().format().slice(0, -15);
     // let fechaInicio = (this.reportesForm.controls['fechaInicio'].value == null) ? result : moment(this.reportesForm.controls['fechaInicio'].value).format().slice(0, -15);
@@ -493,8 +493,17 @@ export class ReportesComponent implements OnInit {
 
   getCreadorProceso() {
     this.secopService.getCreadorProceso(this.CENTROGESTOR, this.ROL).subscribe((response: any) => {
-      this.CREADOR_PROCESO = response.Values.ResultFields;
+      if(response.Status == 'Ok'){
+        this.CREADOR_PROCESO = response.Values.ResultFields;
+      }
+      else{
+        utils.showAlert('Error get creador proceso','warning');
+      }
     })
+  }
+
+  resetForm(){
+    this.reportesForm.reset();
   }
 
 

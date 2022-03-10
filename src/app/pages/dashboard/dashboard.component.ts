@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import * as moment from 'moment';
 import * as $ from 'jquery'
 import {ChartType, LegendItem} from "chart.js";
@@ -92,6 +92,20 @@ export type ChartOptionsPie = {
   labelsPie: any;
 };
 
+export type ChartOptionsProcesosXasociacion = {
+  seriesPie: ApexNonAxisChartSeries | any;
+  chartPie: ApexChart | any;
+  responsivePie: ApexResponsive[] | any;
+  labelsPie: any;
+};
+
+export type ChartOptionsProcesosXreferencia = {
+  seriesPie: ApexNonAxisChartSeries | any;
+  chartPie: ApexChart | any;
+  responsivePie: ApexResponsive[] | any;
+  labelsPie: any;
+};
+
 export const MY_FORMATS = {
   parse: {
     dateInput: 'YYYY'
@@ -131,11 +145,11 @@ export type ChartOptionsProcesosXdependencia = {
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
 
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS}
   ]
 })
 
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
   public chartOptionsDepen!: Partial<ChartOptionsDepen> | any;
@@ -143,6 +157,8 @@ export class DashboardComponent implements OnInit {
   public chartOptionsProcesosXmes!: Partial<ChartOptionsProcesosXmes> | any;
   public chartOptionsEstadosProceso!: Partial<ChartOptionsEstadosProceso> | any;
   public chartOptionsProcesosXdependencia!: Partial<ChartOptionsProcesosXdependencia> | any;
+  public chartOptionsProcesosXasociacion!: Partial<ChartOptionsProcesosXasociacion> | any;
+  public chartOptionsProcesosXreferencia!: Partial<ChartOptionsProcesosXreferencia> | any;
   // url: string = 'https://marketplace-formacion.secop.gov.co/CO1Marketplace/Companies/CompanyConfiguration/index';
   displayedColumnsGrafica1: string[] = ['Dependencia', 'Cantidad', 'Estado', 'Valor Total'];
   displayedColumnsGrafica4: string[] = ['Asociacion', 'Cantidad', 'Valor Total'];
@@ -151,6 +167,8 @@ export class DashboardComponent implements OnInit {
   dataSourceProcesosXmes!: MatTableDataSource<any>;
   dataSourceEstadosProceso!: MatTableDataSource<any>;
   dataSourceProcesosXdependencia!: MatTableDataSource<any>;
+  dataSourceProcesosXasociacion!: MatTableDataSource<any>;
+  dataSourceProcesosXreferencia!: MatTableDataSource<any>;
   dataSourceGrafica1!: MatTableDataSource<any>;
   dataSourceGrafica3!: MatTableDataSource<any>;
   dataSourceGrafica4!: MatTableDataSource<any>;
@@ -164,6 +182,7 @@ export class DashboardComponent implements OnInit {
   ROL: any = atob(localStorage.getItem('rol')!);
   reporte4Form!: FormGroup;
   reporte4FormAsociacion!: FormGroup;
+  reporte4FormReferencia!: FormGroup;
   dashboardForm!: FormGroup;
   reportesXmesForm!: FormGroup;
   reportesXestadoForm!: FormGroup;
@@ -176,6 +195,8 @@ export class DashboardComponent implements OnInit {
   dataProcesosXdependencia_centro_gestor: any;
   dataProcesosXestado_estado: any;
   dataProcesosXestado_valor: any;
+  dataProcesosXasociacion: any;
+  dataProcesosXreferencia: any;
   dataSeries!: any;
   dataSeriesValor!: any;
   dataAsociacion!: any;
@@ -194,12 +215,13 @@ export class DashboardComponent implements OnInit {
   dataProcesosXestado_cantidad!: any[];
   fechaInicial = new FormControl(moment());
   fechaTerminal = new FormControl(moment());
+  arrayNameAsociacion!: any;
+  arrayQuantityAsociacion!: any;
+  arrayNameReferencia!: any;
+  arrayQuantityReferencia!: any;
+  private tipo!: string;
 
   constructor(private secopService: SecopService, private fb: FormBuilder) {
-  }
-
-  ngOnInit(): void {
-    console.log('claro que si');
     this.chartOptions = {
       series: [],
       chart: {},
@@ -266,16 +288,41 @@ export class DashboardComponent implements OnInit {
       responsive: [],
       labels: []
     };
+    this.chartOptionsProcesosXasociacion = {
+      series: [],
+      chart: {},
+      responsive: [],
+      labels: []
+    };
+    this.chartOptionsProcesosXreferencia = {
+      series: [],
+      chart: {},
+      responsive: [],
+      labels: []
+    };
+  }
+
+  ngOnInit(): void {
     this.createForm();
     this.createFormAsociacion();
     this.createFormOpcional();
+    // this.getReferenciasInProcess();
+    // this.getAsociacionInProcess();
     this.getcentroGestor();
-    this.getReferenciasInProcess();
-    this.getAsociacionInProcess();
-    this.getDataLineChart();
-    this.getDataProcesosXestadoChart();
-    this.getDataProcesosXdependenciaChart();
     this.getDataCuadrosEstado();
+
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.getDataLineChart();
+      this.getDataProcesosXestadoChart();
+      // this.getDataAsociacionReferencia();
+      this.getDataProcesosXdependenciaChart();
+      this.getDataAsociacion();
+      this.getDataReferencia();
+    }, 500);
+
   }
 
   applyFilter(event: Event) {
@@ -336,14 +383,14 @@ export class DashboardComponent implements OnInit {
   }
 
   createForm() {
-    this.reporte4Form = this.fb.group({
-      token: new FormControl(atob(localStorage.getItem('token')!)),
-      centroGestor: new FormControl({value: '', disabled: false}, [Validators.required]),
-      fechaInicio: new FormControl({value: null, disabled: false}, [Validators.required]),
-      fechaTermino: new FormControl({value: null, disabled: false}, [Validators.required]),
-      referencia: new FormControl({value: '', disabled: false}),
-      asociacion: new FormControl({value: '', disabled: false})
-    });
+    // this.reporte4Form = this.fb.group({
+    //   token: new FormControl(atob(localStorage.getItem('token')!)),
+    //   centroGestor: new FormControl({value: '', disabled: false}, [Validators.required]),
+    //   fechaInicio: new FormControl({value: null, disabled: false}, [Validators.required]),
+    //   fechaTermino: new FormControl({value: null, disabled: false}, [Validators.required]),
+    //   referencia: new FormControl({value: '', disabled: false}),
+    //   asociacion: new FormControl({value: '', disabled: false})
+    // });
 
     this.reportesXmesForm = this.fb.group({
       fechaInicioXmes: new FormControl({value: null, disabled: false}, [Validators.required]),
@@ -367,11 +414,17 @@ export class DashboardComponent implements OnInit {
   createFormAsociacion() {
     this.reporte4FormAsociacion = this.fb.group({
       token: new FormControl(atob(localStorage.getItem('token')!)),
-      centroGestor: new FormControl({value: '', disabled: false}, [Validators.required]),
+      centroGestor: new FormControl({value: '', disabled: false}),
       fechaInicio: new FormControl({value: null, disabled: false}, [Validators.required]),
       fechaTermino: new FormControl({value: null, disabled: false}, [Validators.required]),
-      referencia: new FormControl({value: '', disabled: false}),
       asociacion: new FormControl({value: '', disabled: false})
+    });
+    this.reporte4FormReferencia = this.fb.group({
+      token: new FormControl(atob(localStorage.getItem('token')!)),
+      centroGestor: new FormControl({value: '', disabled: false}),
+      fechaInicio: new FormControl({value: null, disabled: false}, [Validators.required]),
+      fechaTermino: new FormControl({value: null, disabled: false}, [Validators.required]),
+      referencia: new FormControl({value: '', disabled: false})
     });
   }
 
@@ -388,44 +441,47 @@ export class DashboardComponent implements OnInit {
   }
 
   infoProcess(id: number): void {
-    if (this.dataReport != null && this.dataReport.length > 0 || this.dataProcesosXmes != null) {
+    if (this.dataReport != null && this.dataReport.length > 0 || this.dataProcesosXmes != null || this.dataSourceProcesosXasociacion != null) {
       if (id == 1) {
         this.dataSourceGrafica1 = new MatTableDataSource(this.dataReport!);
         this.dataSourceGrafica1.paginator = this.paginator;
         this.dataSourceGrafica1.sort = this.sort;
-      }
-      if (id == 3) {
+      } else if (id == 3) {
         this.dataSourceGrafica3 = new MatTableDataSource(this.dataReport!);
         this.dataSourceGrafica3.paginator = this.paginator;
         this.dataSourceGrafica3.sort = this.sort;
-      }
-      if (id == 4) {
+      } else if (id == 4) {
         this.dataSourceGrafica4 = new MatTableDataSource(this.dataReport!);
         this.dataSourceGrafica4.paginator = this.paginator;
         this.dataSourceGrafica4.sort = this.sort;
-      }
-      if (id == 5) {
+      } else if (id == 5) {
         this.dataSourceProcesosXmes = new MatTableDataSource(this.dataProcesosXmes!);
         this.dataSourceProcesosXmes.paginator = this.paginator;
         this.dataSourceProcesosXmes.sort = this.sort;
-      }
-      if (id == 6) {
+      } else if (id == 6) {
         this.dataSourceEstadosProceso = new MatTableDataSource(this.dataProcesosXmes!);
         this.dataSourceEstadosProceso.paginator = this.paginator;
         this.dataSourceEstadosProceso.sort = this.sort;
-      }
-      if (id == 7) {
+      } else if (id == 7) {
         this.dataSourceProcesosXdependencia = new MatTableDataSource(this.dataProcesosXdependencia_valor!);
         this.dataSourceProcesosXdependencia.paginator = this.paginator;
         this.dataSourceProcesosXdependencia.sort = this.sort;
+      } else if (id == 8) {
+        this.dataSourceProcesosXasociacion = new MatTableDataSource(this.dataProcesosXasociacion!);
+        this.dataSourceProcesosXasociacion.paginator = this.paginator;
+        this.dataSourceProcesosXasociacion.sort = this.sort;
+      } else if (id == 9) {
+        this.dataSourceProcesosXreferencia = new MatTableDataSource(this.dataProcesosXreferencia!);
+        this.dataSourceProcesosXreferencia.paginator = this.paginator;
+        this.dataSourceProcesosXreferencia.sort = this.sort;
       } else {
         this.dataSource = new MatTableDataSource(this.dataReport!);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       }
-      this.reporte4Form.controls['centroGestor'].setValue('');
-      this.reporte4Form.controls['fechaInicio'].setValue(null);
-      this.reporte4Form.controls['fechaTermino'].setValue(null);
+      // this.reporte4Form.controls['centroGestor'].setValue('');
+      // this.reporte4Form.controls['fechaInicio'].setValue(null);
+      // this.reporte4Form.controls['fechaTermino'].setValue(null);
       this.dashboardForm.controls['fechaInicio'].setValue(null);
       this.dashboardForm.controls['fechaTermino'].setValue(null);
       this.fillCharts(id);
@@ -813,6 +869,68 @@ export class DashboardComponent implements OnInit {
           }
         ]
       };
+    } else if (id == 8) {
+      this.chartOptionsProcesosXasociacion = {
+        series: this.arrayQuantityAsociacion,
+        chart: {
+          width: 500,
+          type: "donut"
+        },
+        title: {
+          text: "Procesos por asociacion",
+          align: "center",
+          style: {
+            fontWeight: 1
+          }
+        },
+        labels: this.arrayNameAsociacion,
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 100
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ]
+      };
+    } else if (id == 9) {
+      this.chartOptionsProcesosXreferencia = {
+        series: this.arrayQuantityReferencia,
+        chart: {
+          width: 500,
+          type: "donut"
+        },
+        theme: {
+          mode: 'light',
+          palette: 'palette2',
+        },
+        title: {
+          text: "Procesos por referencia",
+          align: "center",
+          style: {
+            fontWeight: 1
+          }
+        },
+        labels: this.arrayNameReferencia,
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 100
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ]
+      };
     }
   }
 
@@ -860,12 +978,11 @@ export class DashboardComponent implements OnInit {
     const centro_gestor = this.reportesXmesForm.get('centroGestor')?.value != null ? this.reportesXmesForm.get('centroGestor')?.value : '';
     const fechaInicio = this.reportesXmesForm.get('fechaInicioXmes')?.value != null ? this.reportesXmesForm.get('fechaInicioXmes')?.value : '';
     const fechaTermino = this.reportesXmesForm.get('fechaTerminoXmes')?.value != null ? this.reportesXmesForm.get('fechaTerminoXmes')?.value : '';
-    this.secopService.getDataLineChart(this.tokenEncrypt, centro_gestor, fechaInicio, fechaTermino).subscribe((response: any) => {
+    this.secopService.getDataLineChart(this.tokenEncrypt, centro_gestor, fechaInicio, fechaTermino).subscribe(async (response: any) => {
       this.arrayData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
       if (response.Status != 'Ok') {
-        showAlert('No se encontraron registros','warning');
-      }
-      else {
+        showAlert('No se encontraron registros', 'warning');
+      } else {
         // showAlert('Filtro aplicado correctamente','success');
         this.dataProcesosXmes = response.Values.ResultFields;
         this.dataProcesosXmes.forEach((e: any) => {
@@ -919,7 +1036,7 @@ export class DashboardComponent implements OnInit {
     let fechaTermino = this.reportesXestadoForm.get('fechaTerminoXestado')?.value != null ? this.reportesXestadoForm.get('fechaTerminoXestado')?.value : '';
     fechaInicio = (fechaInicio == '') ? '' : moment(fechaInicio).format("YYYY-MM-DD");
     fechaTermino = (fechaTermino == '') ? '' : moment(fechaTermino).format("YYYY-MM-DD");
-    this.secopService.getDataProcesosXestadoChart(this.tokenEncrypt, centro_gestor,fechaInicio,fechaTermino).subscribe((response: any) => {
+    this.secopService.getDataProcesosXestadoChart(this.tokenEncrypt, centro_gestor, fechaInicio, fechaTermino).subscribe((response: any) => {
       if (response.Status != 'Ok') {
         utilidades.showAlert('No se encontraron registros', 'warning');
       } else {
@@ -945,7 +1062,7 @@ export class DashboardComponent implements OnInit {
     let fechaTermino = this.reportesXdependenciaForm.get('fechaTerminoXdependencia')?.value != null ? this.reportesXdependenciaForm.get('fechaTerminoXdependencia')?.value : '';
     fechaInicio = fechaInicio == '' ? '' : moment(fechaInicio).format("YYYY-MM-DD");
     fechaTermino = fechaTermino == '' ? '' : moment(fechaTermino).format("YYYY-MM-DD");
-    this.secopService.getDataProcesosXdependenciaChart(this.tokenEncrypt,fechaInicio,fechaTermino).subscribe((response: any) => {
+    this.secopService.getDataProcesosXdependenciaChart(this.tokenEncrypt, fechaInicio, fechaTermino).subscribe((response: any) => {
       // console.log(response);
       this.dataProcesosXdependencia_cantidad = [];
       this.dataProcesosXdependencia_valor = [];
@@ -974,8 +1091,8 @@ export class DashboardComponent implements OnInit {
     const centro_gestor = this.ROL == 4 ? '' : this.centroGestor;
     this.secopService.getDataCuadrosEstado(this.tokenEncrypt, centro_gestor).subscribe((response: any) => {
       const dataResponse = response.Values.ResultFields;
-      console.log(dataResponse);
-      console.log(dataResponse[0].CANTIDAD);
+      // console.log(dataResponse);
+      // console.log(dataResponse[0].CANTIDAD);
       this.procesos_abiertos! = dataResponse[0].CANTIDAD;
       this.procesos_espera! = dataResponse[1].CANTIDAD;
       this.procesos_vencen_hoy = dataResponse[2].CANTIDAD;
@@ -1002,19 +1119,63 @@ export class DashboardComponent implements OnInit {
     return word[0].toUpperCase() + word.substr(1).toLowerCase();
   }
 
-  chosenYearHandler(normalizedYear: Moment, datepicker: MatDatepicker<any>,option:number) {
+  chosenYearHandler(normalizedYear: Moment, datepicker: MatDatepicker<any>, option: number) {
     const ctrlValue = this.fechaInicial.value;
     ctrlValue.year(normalizedYear.year());
     let date = moment(ctrlValue).format('YYYY-MM-DD');
-    if(option == 1){
+    if (option == 1) {
       this.fechaInicial.setValue(ctrlValue);
       this.reportesXmesForm.get('fechaInicioXmes')?.setValue(date);
-    }
-    else if(option == 2){
+    } else if (option == 2) {
       this.fechaTerminal.setValue(ctrlValue);
       this.reportesXmesForm.get('fechaTerminoXmes')?.setValue(date);
     }
     datepicker.close();
   }
 
+  getDataAsociacion() {
+    let fechaInicio = this.reporte4FormAsociacion.get('fechaInicio')?.value != null ? this.reporte4FormAsociacion.get('fechaInicio')?.value : '';
+    let fechaTermino = this.reporte4FormAsociacion.get('fechaTermino')?.value != null ? this.reporte4FormAsociacion.get('fechaTermino')?.value : '';
+    let centroGestor  = this.reporte4FormAsociacion.get('centroGestor')?.value != null ? this.reporte4FormAsociacion.get('centroGestor')?.value : '';
+    fechaInicio = fechaInicio == '' ? '' : moment(fechaInicio).format("YYYY-MM-DD");
+    fechaTermino = fechaTermino == '' ? '' : moment(fechaTermino).format("YYYY-MM-DD");
+
+    this.secopService.getDataAsociacionReferencia(this.tokenEncrypt, 'ASOCIACION', fechaInicio, fechaTermino, centroGestor).subscribe((response: any) => {
+      this.arrayNameAsociacion = [];
+      this.arrayQuantityAsociacion = [];
+      if (response.Status == 'Ok') {
+        this.dataSourceProcesosXasociacion = response.Values.ResultFields;
+        for (let i = 0; i < response.Values.ResultFields.length; i++) {
+          this.arrayNameAsociacion.push(response.Values.ResultFields[i].ASOCIACION);
+          this.arrayQuantityAsociacion.push(response.Values.ResultFields[i].CANTIDAD);
+        }
+      } else {
+        utilidades.showAlert('No se encontraron registros', 'warning');
+      }
+      this.infoProcess(8);
+    });
+  }
+
+  getDataReferencia() {
+    let fechaInicio = this.reporte4FormReferencia.get('fechaInicio')?.value != null ? this.reporte4FormReferencia.get('fechaInicio')?.value : '';
+    let fechaTermino = this.reporte4FormReferencia.get('fechaTermino')?.value != null ? this.reporte4FormReferencia.get('fechaTermino')?.value : '';
+    let centroGestor = this.reporte4FormReferencia.get('centroGestor')?.value != null ? this.reporte4FormReferencia.get('centroGestor')?.value : '';
+    fechaInicio = fechaInicio == '' ? '' : moment(fechaInicio).format("YYYY-MM-DD");
+    fechaTermino = fechaTermino == '' ? '' : moment(fechaTermino).format("YYYY-MM-DD");
+
+    this.secopService.getDataAsociacionReferencia(this.tokenEncrypt, 'REFERENCIA', fechaInicio, fechaTermino, centroGestor).subscribe((response: any) => {
+      this.arrayNameReferencia = [];
+      this.arrayQuantityReferencia = [];
+      if (response.Status == 'Ok') {
+        this.dataSourceProcesosXreferencia = response.Values.ResultFields;
+        for (let i = 0; i < response.Values.ResultFields.length; i++) {
+          this.arrayNameReferencia.push(response.Values.ResultFields[i].REFERENCIA);
+          this.arrayQuantityReferencia.push(response.Values.ResultFields[i].CANTIDAD);
+        }
+      } else {
+        utilidades.showAlert('No se encontraron registros', 'warning');
+      }
+      this.infoProcess(9);
+    });
+  }
 }

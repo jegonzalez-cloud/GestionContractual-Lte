@@ -8,31 +8,21 @@ import {AuthService} from "../../services/auth/auth.service";
 })
 export class BusquedaGuard implements CanActivate {
   constructor(private router: Router,private authService: AuthService) {
+    // console.log('busqueda')
   }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-    let rol: any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
-    this.authService.isLogin().subscribe((response: any) => {
-      if (response.Status == 'Fail') {
-        this.router.navigate(['login']);
-        localStorage.clear();
-        return false;
-      }
-      else{
-        if (rol == '' || rol == null) {
-          this.router.navigate(['login']);
-          localStorage.clear();
-          return false;
-        } else if (rol == 7) {
-          this.router.navigate(['configuracion']);
-          return true;
-        } else {
-          return true;
-        }
-      }
-    });
+    const rol: any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
+    if (rol == '' || rol == null) {
+      this.router.navigate(['login']);
+      localStorage.clear();
+      return false;
+    } else if (rol == 7) {
+      this.router.navigate(['configuracion']);
+      return true;
+    }
     return true;
   }
 }

@@ -8,29 +8,19 @@ import {AuthService} from "../../services/auth/auth.service";
 })
 export class AutorizacionesGuard implements CanActivate {
 
-  constructor(private router: Router,private authService:AuthService) { }
+  constructor(private router: Router,private authService:AuthService) {
+    // console.log('Autorizaciones Det')
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean{
 
     let rol:any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
-    this.authService.isLogin().subscribe((response:any)=>{
-      if(response.Status == 'Fail'){
-        this.router.navigate(['login']);
-        localStorage.clear();
-        return false;
-      }
-      else{
-        if(rol == '' || rol < 2 || rol > 6){
-          this.router.navigate(['busqueda']);
-          return false;
-        }
-        else{
-          return true;
-        }
-      }
-    });
+    if(rol == '' || rol < 2 || rol > 6){
+      this.router.navigate(['busqueda']);
+      return false;
+    }
     return true;
   }
 }

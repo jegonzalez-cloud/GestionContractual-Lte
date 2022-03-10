@@ -197,6 +197,115 @@
                   ></apx-chart>
                 </div>
               </div>
+              <div class="ml-4 mr-3 card chartGraph">
+                <div class="card-body">
+                  <form [formGroup]="reporte4FormAsociacion" (ngSubmit)="getDataAsociacion()" (keydown.enter)="$event.preventDefault()">
+                    <div class="row justify-content-md-center">
+                      <div class="col-sm-3 mr-1">
+                        <div class="input-group mb-2">
+                          <mat-form-field appearance="fill">
+                            <mat-label class="font-weight-lighter text-xs">Fecha Inicio</mat-label>
+                            <input class="font-weight-lighter text-xs" formControlName="fechaInicio" matInput [matDatepicker]="pickerInicioAsociacion">
+                            <mat-datepicker-toggle matSuffix [for]="pickerInicioAsociacion"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerInicioAsociacion></mat-datepicker>
+                          </mat-form-field>
+<!--                          <input formControlName="fechaInicioXestado" type="date" class="font-weight-lighter text-xs form-control form-control-sm date-own" placeholder="Fecha Inicio">-->
+                        </div>
+                      </div>
+                      <div class="col-sm-3 mr-1">
+                        <div class="input-group mb-2">
+                          <mat-form-field appearance="fill">
+                            <mat-label class="font-weight-lighter text-xs">Fecha Termino</mat-label>
+                            <input class="font-weight-lighter text-xs" formControlName="fechaTermino" matInput [matDatepicker]="pickerTerminoAsociacion">
+                            <mat-datepicker-toggle matSuffix [for]="pickerTerminoAsociacion"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerTerminoAsociacion></mat-datepicker>
+                          </mat-form-field>
+<!--                          <input formControlName="fechaTerminoXestado" type="date" class="font-weight-lighter text-xs form-control form-control-sm date-own" placeholder="Fecha Termino">-->
+                        </div>
+                      </div>
+                      <div *ngIf="ROL == 4" class="col-sm-3 mr-1">
+                        <div class="input-group mb-2">
+                          <mat-form-field appearance="fill">
+                            <mat-label class="font-weight-lighter text-xs">Centro Gestor</mat-label>
+                            <mat-select class="font-weight-lighter text-xs" formControlName="centroGestor">
+                              <mat-option></mat-option>
+                              <mat-option class="font-weight-lighter text-xs" *ngFor="let ges of gestor" value="{{ ges.USC_GESTOR }}">{{ges.USC_GESTOR}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <!--                          <input formControlName="centroGestor" type="week" class="font-weight-lighter text-xs form-control form-control-sm date-own" placeholder="Centro Gestor">-->
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <button [disabled]="reporte4FormAsociacion.invalid" type="submit" class="mt-2 btn btn-md btn-outline-primary">Filtrar <i class="fa fa-filter"></i></button>
+                      </div>
+                      <!--                  <input class="form-control form-control-sm col-sm-3 mr-3 ml-4" type="date" placeholder="Fecha Inicio">-->
+                      <!--                  <input class="form-control form-control-sm col-sm-3 mr-3" type="date" placeholder="Fecha Termino">-->
+                    </div>
+                  </form>
+                    <apx-chart
+                      [series]="chartOptionsProcesosXasociacion.series"
+                      [chart]="chartOptionsProcesosXasociacion.chart"
+                      [labels]="chartOptionsProcesosXasociacion.labels"
+                      [responsive]="chartOptionsProcesosXasociacion.responsive"
+                      [title]="chartOptionsProcesosXasociacion.title"
+                    ></apx-chart>
+                </div>
+              </div>
+              <div class="card chartGraph">
+                <div class="card-body">
+                  <form [formGroup]="reporte4FormReferencia" (ngSubmit)="getDataReferencia()" (keydown.enter)="$event.preventDefault()">
+                    <div class="row justify-content-md-center">
+                      <div class="col-sm-3 mr-1">
+                        <div class="input-group mb-2">
+                          <mat-form-field appearance="fill">
+                            <mat-label class="font-weight-lighter text-xs">Fecha Inicio</mat-label>
+                            <input class="font-weight-lighter text-xs" formControlName="fechaInicio" matInput [matDatepicker]="pickerInicioReferencia">
+                            <mat-datepicker-toggle matSuffix [for]="pickerInicioReferencia"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerInicioReferencia></mat-datepicker>
+                          </mat-form-field>
+<!--                          <input formControlName="fechaInicioXestado" type="date" class="font-weight-lighter text-xs form-control form-control-sm date-own" placeholder="Fecha Inicio">-->
+                        </div>
+                      </div>
+                      <div class="col-sm-3 mr-1">
+                        <div class="input-group mb-2">
+                          <mat-form-field appearance="fill">
+                            <mat-label class="font-weight-lighter text-xs">Fecha Termino</mat-label>
+                            <input class="font-weight-lighter text-xs" formControlName="fechaTermino" matInput [matDatepicker]="pickerTerminoReferencia">
+                            <mat-datepicker-toggle matSuffix [for]="pickerTerminoReferencia"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerTerminoReferencia></mat-datepicker>
+                          </mat-form-field>
+<!--                          <input formControlName="fechaTerminoXestado" type="date" class="font-weight-lighter text-xs form-control form-control-sm date-own" placeholder="Fecha Termino">-->
+                        </div>
+                      </div>
+                      <div *ngIf="ROL == 4" class="col-sm-3 mr-1">
+                        <div class="input-group mb-2">
+                          <mat-form-field appearance="fill">
+                            <mat-label class="font-weight-lighter text-xs">Centro Gestor</mat-label>
+                            <mat-select class="font-weight-lighter text-xs" formControlName="centroGestor">
+                              <mat-option></mat-option>
+                              <mat-option class="font-weight-lighter text-xs" *ngFor="let ges of gestor" value="{{ ges.USC_GESTOR }}">{{ges.USC_GESTOR}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <!--                          <input formControlName="centroGestor" type="week" class="font-weight-lighter text-xs form-control form-control-sm date-own" placeholder="Centro Gestor">-->
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <button [disabled]="reporte4FormReferencia.invalid" type="submit" class="mt-2 btn btn-md btn-outline-primary">Filtrar <i class="fa fa-filter"></i></button>
+                      </div>
+                      <!--                  <input class="form-control form-control-sm col-sm-3 mr-3 ml-4" type="date" placeholder="Fecha Inicio">-->
+                      <!--                  <input class="form-control form-control-sm col-sm-3 mr-3" type="date" placeholder="Fecha Termino">-->
+                    </div>
+                  </form>
+                    <apx-chart
+                      [series]="chartOptionsProcesosXreferencia.series"
+                      [chart]="chartOptionsProcesosXreferencia.chart"
+                      [labels]="chartOptionsProcesosXreferencia.labels"
+                      [responsive]="chartOptionsProcesosXreferencia.responsive"
+                      [title]="chartOptionsProcesosXreferencia.title"
+                      [theme]="chartOptionsProcesosXreferencia.theme"
+                    ></apx-chart>
+                </div>
+              </div>
               <div [hidden]="ROL != 4" class="card ml-4 mr-3">
                 <div class="card-body">
                   <form [formGroup]="reportesXdependenciaForm" (ngSubmit)="getDataProcesosXdependenciaChart()" (keydown.enter)="$event.preventDefault()">
@@ -243,6 +352,9 @@
               </div>
             </div>
           </section>
+
+
+
 
           <!--     PRIMERA TABLA     -->
 <!--          <div class="card-body">-->

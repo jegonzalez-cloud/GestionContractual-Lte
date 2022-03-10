@@ -69,7 +69,7 @@ export class AuthService {
   }
 
   public userError() {
-    console.log('error');
+    // console.log('error');
   }
 
   getUsuarioConnect(user:string,centroGestor:string){

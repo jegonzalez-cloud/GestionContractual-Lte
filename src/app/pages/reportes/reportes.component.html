@@ -128,7 +128,7 @@
                                     formControlName="creadorProceso"
                                     class="form-control font-weight-light text-sm custom-select">
                                     <option selected></option>
-                                    <option *ngFor="let creador of CREADOR_PROCESO">{{creador.USR_LOGIN}}</option>
+                                    <option *ngFor="let creador of CREADOR_PROCESO">{{creador.NOMBRE_COMPLETO}}</option>
                                   </select>
                                 </div>
                               </div>
@@ -434,6 +434,14 @@
                       >
                         <!--                          <span>Generar <i class="fa fa-book-open"></i></span>-->
                         <span>Exportar</span>
+                      </button>
+                      <button
+                        (click)="resetForm()"
+                        type="button"
+                        class="btn btn-outline-secondary float-left btn-sm ml-2"
+                      >
+                        <!--                          <span>Generar <i class="fa fa-book-open"></i></span>-->
+                        <span>Limpiar</span>
                       </button>
                     </form>
 

@@ -17,7 +17,7 @@ import {ConfiguracionComponent} from "./configuracion/configuracion.component";
 import {ConfiguracionGuard} from "../guards/configuracion/configuracion.guard";
 import {AutorizacionesDetGuard} from "../guards/autorizaciones-det/autorizaciones-det.guard";
 
-const rol = atob(localStorage.getItem('rol')!);
+const rol =  atob(localStorage.getItem('rol')!);
 // ProcessComponent
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate:[DashboardGuard] },
@@ -26,10 +26,11 @@ const routes: Routes = [
   { path: 'autorizaciones', component: AutorizacionesComponent, canActivate:[AutorizacionesGuard] },
   { path: 'autorizaciones-det/:id', component: AutorizacionesDetailComponent, canActivate:[AutorizacionesDetGuard]},
   { path: 'reportes', component: ReportesComponent,canActivate:[AuthGuard] },
-  { path: 'configuracion', component: ConfiguracionComponent,canActivate:[ConfiguracionGuard]},
+  { path: 'configuracion', component: ConfiguracionComponent, canActivate:[ConfiguracionGuard]},
 //   { path: 'newRfc', component: NewRFCComponent },
 //   { path: 'detailRfc/:rfcCode', component: DetailRfcComponent },
-  { path: '**', redirectTo: (rol == '1') ? 'reportes' : (rol == '7') ? 'configuracion' : 'autorizaciones', pathMatch: 'full' },
+  { path: '**', redirectTo: (rol == '7') ? 'configuracion' : (rol == '1') ? 'reportes' : (rol == '2' || rol == '3' || rol == '4' || rol == '5' || rol == '6') ? 'autorizaciones' : 'busqueda', pathMatch: 'full' },
+  // { path: '**', redirectTo: 'busqueda', pathMatch: 'full' },
   // { path: '', component: PagesComponent,canLoad:[AuthGuard] },
 ];
 

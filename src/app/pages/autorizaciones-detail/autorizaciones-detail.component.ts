@@ -72,7 +72,7 @@ export class AutorizacionesDetailComponent implements OnInit {
       // console.log(this.myParam)
       let username = atob(localStorage.getItem('username')!);
       this.secopService.getAutorizacionesXProceso(this.myParam).subscribe((response: any) => {
-        // console.log(response)
+        console.log(response)
         if(response.Status == 'Ok'){
           this.PROCESO = response.Values.ResultFields[0].CONS_PROCESO;
           this.NOMBRE_CONTRATISTA = response.Values.ResultFields[0].NOM_PROV;
@@ -102,7 +102,7 @@ export class AutorizacionesDetailComponent implements OnInit {
     // if (this.ROL == 42) {
     if (this.ROL == 4) {
       this.secopService.getReferencias().subscribe((response: any) => {
-        console.log(response);
+        // console.log(response);
         this.REFERENCIAS = response.Values.ResultFields;
       })
     }
@@ -112,7 +112,7 @@ export class AutorizacionesDetailComponent implements OnInit {
     // if (this.ROL == 42) {
     if (this.ROL == 4) {
       this.secopService.getAsociacion().subscribe((response: any) => {
-        console.log(response);
+        // console.log(response);
         this.ASOCIACION = response.Values.ResultFields;
       })
     }
@@ -591,7 +591,7 @@ export class AutorizacionesDetailComponent implements OnInit {
   }
 
   fillContent(response: any) {
-    console.log('aca');
+    // console.log('aca');
     let body = [];
     let header = {
       text: 'Historial de Autorizaciones' +

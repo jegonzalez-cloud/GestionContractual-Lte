@@ -9,6 +9,7 @@ import {AuthService} from "../../services/auth/auth.service";
 export class AutorizacionesDetGuard implements CanActivate {
 
   constructor(private router: Router,private authService:AuthService) {
+    // console.log('Autorizaciones')
   }
 
   canActivate(
@@ -16,26 +17,14 @@ export class AutorizacionesDetGuard implements CanActivate {
     state: RouterStateSnapshot): boolean{
 
     let rol:any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
-    this.authService.isLogin().subscribe((response:any)=>{
-      if(response.Status == 'Fail'){
-        this.router.navigate(['login']);
-        localStorage.clear();
-        return false;
-      }
-      else{
-        if(rol == ''){
-          this.router.navigate(['busqueda']);
-          return false;
-        }
-        else if(rol == 7){
-          this.router.navigate(['configuracion']);
-          return false;
-        }
-        else{
-          return true;
-        }
-      }
-    });
+    if(rol == ''){
+      this.router.navigate(['busqueda']);
+      return false;
+    }
+    else if(rol == 7){
+      this.router.navigate(['configuracion']);
+      return false;
+    }
     return true;
   }
 

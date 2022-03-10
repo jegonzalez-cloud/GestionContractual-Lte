@@ -156,7 +156,7 @@ export class ConfiguracionComponent implements OnInit {
     let r: any = document.querySelector(':root');
     r.style.setProperty('--companyColor', color);
     let dataForm = Object.assign(this.configForm.value);
-    console.log(dataForm);
+    // console.log(dataForm);
     this.secopService.updateConfigApp(dataForm).subscribe((response: any) => {
       if (response.Values.ResultFields == 'Ok') {
         utils.showAlert('Configuración actualizada', 'success');
@@ -255,7 +255,7 @@ export class ConfiguracionComponent implements OnInit {
       USR_CONNECT: this.registerRol.controls['usr_connect'].value,
     };
 
-    console.log(json)
+    // console.log(json)
     //ind => bandera para identificar si se va a registrar o actualizar
     if (this.indRegister != 0) {
       //actualiza
@@ -424,8 +424,8 @@ export class ConfiguracionComponent implements OnInit {
       this.authService.GetHiringUnit(atob(localStorage.getItem('token')!), this.indRegister)
         .subscribe((data: any) => {
           let result = data.Values.ResultFields;
-          console.log(result)
-          console.log(this.indRegister)
+          // console.log(result)
+          // console.log(this.indRegister)
           let valUscCod = this.selectEntitys.find(x => x.id == result[0].USC_COD);
           this.registerHiringUnit.controls['usc_cod'].setValue(valUscCod);
           this.registerHiringUnit.controls['uni_cod'].setValue(result[0].UNI_COD);

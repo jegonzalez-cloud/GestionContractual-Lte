@@ -154,7 +154,7 @@ export class SecopService {
   }
 
   public createSoapProcess(data: any) {
-    console.log(data)
+    // console.log(data)
     return this.httpClient.post(`${environment.apiTestUrl}contratos/createSoapProcess`, data);
   }
 
@@ -202,12 +202,12 @@ export class SecopService {
     return this.httpClient.get(`${environment.apiTestUrl}contratos/getRpcFromProcess?proceso=${proceso}`);
   }
 
-  public validateUnidadContratacion(unidad:any){
-    return this.httpClient.get(`${environment.apiTestUrl}contratos/validateUnidadContratacion?unidad=${unidad}`);
+  public validateUnidadContratacion(unidad:any,centroGestor:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/validateUnidadContratacion?unidad=${unidad}&centroGestor=${centroGestor}`);
   }
 
-  public validateEquipoContratacion(equipo:any){
-    return this.httpClient.get(`${environment.apiTestUrl}contratos/validateEquipoContratacion?equipo=${equipo}`);
+  public validateEquipoContratacion(equipo:any,centroGestor:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/validateEquipoContratacion?equipo=${equipo}&centroGestor=${centroGestor}`);
   }
 
   public validateUnidadUNSPSC(codigoUnidad:any){
@@ -273,5 +273,10 @@ export class SecopService {
   public getDataInfoProveedor(documento:string,gval:string){
     return this.httpClient.get(`${environment.apiTestUrl}contratos/getDataInfoProveedor?documento=${documento}&sociedad=${gval}`);
   }
+
+  public getDataAsociacionReferencia(token:string,tipo:string,fechaInicio:any,fechaTermino:any,centroGestor:string){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getDataAsociacionReferencia?token=${token}&tipo=${tipo}&fechaInicio=${fechaInicio}&fechaTermino=${fechaTermino}&centroGestor=${centroGestor}`);
+  }
+
 
 }

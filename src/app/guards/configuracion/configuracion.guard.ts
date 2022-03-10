@@ -9,30 +9,19 @@ import {AuthService} from "../../services/auth/auth.service";
 })
 export class ConfiguracionGuard implements CanActivate {
 
-  rol: any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
-
   constructor(private router: Router, private authService: AuthService) {
+    // console.log('configuracion')
   }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-    setTimeout(()=>{
-      this.authService.isLogin().subscribe((response: any) => {
-        if (response.Status == 'Fail') {
-          this.router.navigate(['login']);
-          localStorage.clear();
-          return false;
-        } else {
-          if (this.rol == '' || (this.rol != 7)) {
-            this.router.navigate(['busqueda']);
-            return false;
-          } else {
-            return true;
-          }
-        }
-      });
-    },10);
+
+    const rol: any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
+    if (rol != 7) {
+      this.router.navigate(['busqueda']);
+      return false;
+    }
     return true;
   }
 

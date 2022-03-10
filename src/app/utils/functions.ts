@@ -238,8 +238,8 @@ export function sendSoapData(infoProceso: any, unspsc: any) {
     if (xmlhttp.readyState == 4) {
       let parser = new DOMParser();
       let XMLString = parser.parseFromString(xmlhttp.responseText, "text/xml");
-      console.log(XMLString)
-      console.log(XMLString.getElementsByTagName("s:Header")[0].getElementsByTagName("h:Success")[0].innerHTML)
+      // console.log(XMLString)
+      // console.log(XMLString.getElementsByTagName("s:Header")[0].getElementsByTagName("h:Success")[0].innerHTML)
       if (XMLString.getElementsByTagName("s:Header")[0].getElementsByTagName("h:Success")[0].innerHTML == null || XMLString.getElementsByTagName("s:Header")[0].getElementsByTagName("h:Success")[0].innerHTML == 'false') {
         showAlert('No se logro crear el proceso en el Secop!', 'error');
       } else {
@@ -464,12 +464,12 @@ export function onFileChange(ev: any) {
         return initial;
       }, {});
       //const dataString = JSON.stringify(jsonData);
-      console.log(jsonData);
+      // console.log(jsonData);
       //setDownload(dataString);
     };
     reader.readAsBinaryString(file);
   }
-  console.log(ExcelToJSON);
+  // console.log(ExcelToJSON);
 }
 
 export function deleteData(name:string){
@@ -482,7 +482,7 @@ export function validarParametros(data:any){
     Object.entries(obj).forEach(([key, value]) => {
       if(key == 'PAR_NOMBRE'){
         if(value == 'VALIDAR_CDP'){
-          console.log('SI VALIDO CDP');
+          // console.log('SI VALIDO CDP');
           dataArray.push(value);
         }
         // console.log(`${key} ${value}`);

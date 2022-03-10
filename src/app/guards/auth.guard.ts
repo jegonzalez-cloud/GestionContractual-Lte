@@ -10,30 +10,21 @@ import {catchError, map, take} from "rxjs/operators";
 export class AuthGuard implements CanActivate {
 
   constructor(private router: Router, private authService: AuthService) {
+    // console.log('Auth')
   }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
     let rol: any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
-    this.authService.isLogin().subscribe((response: any) => {
-      if (response.Status == 'Fail') {
-        this.router.navigate(['login']);
-        localStorage.clear();
-        return false;
-      } else {
-        if (rol == '' || rol == null) {
-          this.router.navigate(['login']);
-          localStorage.clear();
-          return false;
-        } else if (rol == 7) {
-          this.router.navigate(['configuracion']);
-          return true;
-        }else {
-          return true;
-        }
-      }
-    });
+    if (rol == '' || rol == null) {
+      this.router.navigate(['login']);
+      localStorage.clear();
+      return false;
+    } else if (rol == 7) {
+      this.router.navigate(['configuracion']);
+      return true;
+    }
     return true;
   }
 
