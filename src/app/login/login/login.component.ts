@@ -224,6 +224,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       localStorage.setItem("cantidadSalarios", btoa(response.Values.ResultFields[0].CON_CANTIDAD_SALARIOS));
       localStorage.setItem("identificacionSap", btoa(response.Values.ResultFields[0].CON_LINK_IDENTIFICACIONSAP));
       localStorage.setItem("dataSecop", btoa(response.Values.ResultFields[0].CON_LINK_SECOP));
+      localStorage.setItem("crearProveedor", btoa(response.Values.ResultFields[0].CON_LINK_CREARPROVEEDORSAP));
       localStorage.setItem("sociedad", btoa(response.Values.ResultFields[0].CON_SOCIEDAD));
       this.getParametros(token,rol);
       // this.router.navigate(['home']);

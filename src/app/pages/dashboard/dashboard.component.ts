@@ -653,6 +653,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           type: "pie"
         },
         labelsPie: this.dataAsociacion,
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shade: 'dark',
+            gradientToColors: [ '#FDD835'],
+            shadeIntensity: 1,
+            type: 'horizontal',
+            opacityFrom: 1,
+            opacityTo: 1,
+            stops: [0, 100, 100, 100]
+          },
+        },
         responsivePie: [
           {
             breakpoint: 480,
@@ -735,7 +747,87 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       };
     } else if (id == 6) {
       this.chartOptionsEstadosProceso = {
-        series: [
+        series: [{
+          name: "Cantidad Contratos",
+          data: [
+            this.dataProcesosXestado_cantidad[0], this.dataProcesosXestado_cantidad[1],
+            this.dataProcesosXestado_cantidad[2], this.dataProcesosXestado_cantidad[3],
+            this.dataProcesosXestado_cantidad[4], this.dataProcesosXestado_cantidad[5]
+          ]
+        }],
+        chart: {
+          type: 'bar',
+          height: 380
+        },
+        plotOptions: {
+          bar: {
+            barHeight: '70%',
+            distributed: true,
+            horizontal: true,
+            borderRadius: 10,
+            dataLabels: {
+              position: 'bottom'
+            },
+          }
+        },
+        colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#804000'
+        ],
+        dataLabels: {
+          enabled: true,
+          textAnchor: 'start',
+          style: {
+            colors: ['#fff']
+          },
+          formatter: (val:any, opt:any)=> {
+            return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+          },
+          offsetX: 0,
+          dropShadow: {
+            enabled: true
+          }
+        },
+        stroke: {
+          width: 1,
+          colors: ['#fff']
+        },
+        xaxis: {
+          categories: [
+            this.titleCaseWord(this.dataProcesosXestado_estado[0]), this.titleCaseWord(this.dataProcesosXestado_estado[1]),
+            this.titleCaseWord(this.dataProcesosXestado_estado[2]), this.titleCaseWord(this.dataProcesosXestado_estado[3]),
+            this.titleCaseWord(this.dataProcesosXestado_estado[4]), this.titleCaseWord(this.dataProcesosXestado_estado[5]),
+          ]
+        },
+        yaxis: {
+          labels: {
+            show: false
+          }
+        },
+        fill: {
+          type: "gradient"
+        },
+        title: {
+          text: 'Cantidad de Contratos por estado',
+          align: 'center',
+          floating: true,
+          style: {
+            fontWeight: 1
+          }
+        },
+        tooltip: {
+          theme: 'dark',
+          x: {
+            show: false
+          },
+          y: {
+            title: {
+              formatter: function () {
+                return ''
+              }
+            }
+          }
+        }
+      };
+        /*series: [
           {
             name: "Cantidad Contratos",
             // name: "Valor contrato",
@@ -752,11 +844,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         },
         plotOptions: {
           bar: {
-            horizontal: true
+            horizontal: true,
+            dataLabels: {
+              position: 'bottom'
+            },
           }
         },
         dataLabels: {
-          enabled: false
+          enabled: true
         },
         fill: {
           // colors: ['#40A31D'],
@@ -769,6 +864,29 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             fontWeight: 1
           }
         },
+        legend: {
+          position: "bottom",
+          verticalAlign: "top",
+          containerMargin: {
+            left: 35,
+            right: 60
+          }
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              plotOptions: {
+                bar: {
+                  horizontal: false
+                }
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ],
         xaxis: {
           categories: [
             this.titleCaseWord(this.dataProcesosXestado_estado[0]), this.titleCaseWord(this.dataProcesosXestado_estado[1]),
@@ -776,7 +894,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             this.titleCaseWord(this.dataProcesosXestado_estado[4]), this.titleCaseWord(this.dataProcesosXestado_estado[5]),
           ]
         }
-      };
+      };*/
     } else if (id == 7) {
       this.chartOptionsProcesosXdependencia = {
         // series: [44, 55, 13, 43, 22,44, 55, 13, 43, 22,44, 55, 13, 43, 22],
@@ -844,6 +962,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           enabled: true,
           enabledOnSeries: [1]
         },
+        fill: {
+          type: "gradient"
+        },
         // labels: ["1147","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","u","v","w","x","y","z"],
         labels: this.dataProcesosXdependencia_centro_gestor,
         xaxis: {
@@ -883,6 +1004,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             fontWeight: 1
           }
         },
+        fill: {
+          type: "gradient"
+        },
         labels: this.arrayNameAsociacion,
         responsive: [
           {
@@ -903,12 +1027,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         series: this.arrayQuantityReferencia,
         chart: {
           width: 500,
-          type: "donut"
+          type: "pie"
         },
         theme: {
-          mode: 'light',
+          mode: 'ligth',
           palette: 'palette2',
         },
+        // fill: {
+        //   type: "gradient"
+        // },
         title: {
           text: "Procesos por referencia",
           align: "center",
@@ -917,19 +1044,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           }
         },
         labels: this.arrayNameReferencia,
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 100
-              },
-              legend: {
-                position: "bottom"
-              }
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            legend: {
+              position: 'bottom',
+              offsetX: -10,
+              offsetY: 0
             }
           }
-        ]
+        }],
       };
     }
   }

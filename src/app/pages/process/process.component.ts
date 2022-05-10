@@ -48,8 +48,10 @@ import {async, Subscription} from "rxjs";
   styleUrls: ['./process.component.css']
 })
 export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
+
   private idioma!: string;
   createProcessForm!: FormGroup;
+  usuarioSapForm!: FormGroup;
   departments: any = [];
   info_process: any = [];
   page: number = 0;
@@ -144,6 +146,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('closebuttonCdp') closebuttonCdp: any;
   @ViewChild('openbutton') openbutton: any;
   @ViewChild('openbuttonErrorCdp') openbuttonErrorCdp: any;
+  @ViewChild('openFormularioSap') openFormularioSap: any;
+  @ViewChild('mydiv', { static: false }) mydiv: ElementRef | any;
   // @ViewChild("myDiv") divView: ElementRef;
   CENTRO_GESTOR: any;
   progressValue: number = 0;
@@ -178,6 +182,11 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   public modalData!: any;
   public dataArrayParams!: any;
   private clickEventSubscription!: Subscription;
+  public tipoIdentificacionSap!: any[];
+  public tipoPersonaSap!: any[];
+  public tratamientoPersonaSap!: any[];
+  public claseImpuestoSap!: any[];
+  public numberPattern : any = /^[0-9]+$/;
 
   constructor(
     private fb: FormBuilder,
@@ -212,12 +221,14 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.getdataProcess();
     });
     this.clickEventSubscription = this.modal.getClickEventsubjectFillFields().subscribe(async () => {
-      await this.onFocus();
-      await this.setFieldsToEdit();
+      this.onFocus();
+      this.setFieldsToEdit();
     });
+
   }
 
   ngOnDestroy(): void {
+    this.clickEventSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -242,6 +253,27 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.cdpForm = this.fb.group({
       cdpArray: this.fb.array([this.createCdpItem()])
     });
+
+    this.usuarioSapForm = this.fb.group({
+      razonSocial : new FormControl({value: '', disabled: false}, ),
+      indicativo : new FormControl({value: '', disabled: false}, ),
+      nit : new FormControl({value: '', disabled: false}, ),
+      nombreProveedor: new FormControl({value: '', disabled: false}, [Validators.minLength(3),Validators.required]),
+      apellidoProveedor: new FormControl({value: '', disabled: false}, [Validators.minLength(3),Validators.required]),
+      tipoIdentificacion : new FormControl({value: null, disabled: false}, [Validators.required]),
+      identificacion: new FormControl({value: '', disabled: false}, [Validators.minLength(6),Validators.required]),
+      digitoVerificacion: new FormControl({value: '-', disabled: true}, [Validators.required,Validators.maxLength(1)]),
+      tipoPersona: new FormControl({value: null, disabled: false}, [Validators.required]),
+      tratamientoPersona: new FormControl({value: null, disabled: false}, [Validators.required]),
+      direccion: new FormControl({value: '', disabled: false}, [Validators.minLength(8),Validators.required]),
+      departamento: new FormControl({value: null, disabled: false}, [Validators.required]),
+      municipio: new FormControl({value: null, disabled: false}, [Validators.required]),
+      telefono: new FormControl({value: null, disabled: false}, [Validators.minLength(10),Validators.required]),
+      celular: new FormControl({value: null, disabled: false}, [Validators.minLength(10),Validators.required]),
+      correo: new FormControl({value: null, disabled: false}, [Validators.required,Validators.email]),
+      claseImpuesto: new FormControl({value: null, disabled: false}, [Validators.required]),
+      actividadEconomica: new FormControl({value: '', disabled: false}, [Validators.minLength(3),Validators.required]),
+    });
     //*************** TABLAS PROCESOS ********************
     this.getdataProcess();
     //****************************************************
@@ -253,6 +285,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     this.getClasificacionBienes();
     this.getUnidadesUnspsc();
     this.getAllProfesions();
+    //this.getTipoIdentificacionSap();
     // this.getCategoriaProfesion();
     // this.fillEntidad();
   }
@@ -313,32 +346,79 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     });
   }
 
-  onKeydownEvent(event: HTMLInputElement): void {
+ onKeydownEvent(event: HTMLInputElement | any): void {
     let search_item = event.value.length;
     let search_value = event.value;
 
     if (search_item > 4) {
-      this.secopService.getDataInfoProveedor(search_value, 'GVAL').subscribe((response: any) => {
+      this.secopService.getDataInfoProveedor(search_value, 'GVAL').subscribe(async(response: any) => {
         if (response.Status == 'Ok') {
           if (response.Values.ResultFields != 'El proveedor no existe') {
-            // console.log(response.Values.ResultFields);
+            //console.log(response.Values.ResultFields);
             this.createProcessForm.controls['proveedor'].setValue(response.Values.ResultFields.Name);
             this.createProcessForm.controls['ubicacion'].setValue(response.Values.ResultFields.Direccion);
             this.createProcessForm.controls['correo'].setValue(response.Values.ResultFields.Correo);
             this.createProcessForm.controls['celular'].setValue(response.Values.ResultFields.Celular);
-            // this.createProcessForm.controls['departamento'].setValue(response.Values.ResultFields.Departamento);
-            // this.createProcessForm.controls['municipio'].setValue(response.Values.ResultFields.Ciudad);
+            await this.secopService.getDepartamentoPorNombre(response.Values.ResultFields.Departamento).subscribe(async(r:any)=>{
+              let departamento = await r.Values.ResultFields;
+              this.createProcessForm.controls['departamento'].setValue(departamento);
+              await this.getMunicipios();
+
+              //TODO: {{ isNaN(response.Values.ResultFields.Ciudad) }}
+              // Se crea la siguiente  validacion para determinar cuando la
+              // respuesta del servicio getDataInfoProveedor en el campo ciudad
+              // nos retorna un codigo o el nombre de la ciudad
+
+              if(isNaN(response.Values.ResultFields.Ciudad)){
+                await this.secopService.getMunicipioPorNombre(response.Values.ResultFields.Ciudad).subscribe(async(r:any)=>{
+                  let municipio = r.Values.ResultFields;
+                  await this.createProcessForm.controls['municipio'].setValue(municipio);
+                });
+              }
+              else{
+                setTimeout(()=>{
+                  this.createProcessForm.controls['municipio'].setValue(response.Values.ResultFields.Ciudad);
+                },100);
+              }
+            });
           } else {
+            utils.showAlert('El contratista no existe', 'warning');
             this.createProcessForm.controls['proveedor'].setValue(null);
             this.createProcessForm.controls['ubicacion'].setValue(null);
             this.createProcessForm.controls['correo'].setValue(null);
             this.createProcessForm.controls['celular'].setValue(null);
-            utils.showAlert('El contratista no existe', 'warning');
+            setTimeout(()=>{
+              // utils.showAlert('Error consultando datos', 'warning');
+              Swal.close();
+              Swal.fire({
+                title: '¿Desea crear el Contratista?',
+                icon: 'question',
+                showCancelButton: true,
+                allowOutsideClick: false,
+                showCloseButton: true,
+                confirmButtonColor: '#022b6b',
+                confirmButtonText: 'Si, crear',
+                cancelButtonText: 'Cancelar',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.usuarioSapForm.reset();
+                  this.openFormularioSap.nativeElement.click();
+                  this.getTipoIdentificacionSap();
+                  this.getTipoPersonaSap();
+                  this.getTratamientoPersonaSap();
+                  this.getClaseImpuestoSap();
+                  this.usuarioSapForm.get('identificacion')?.setValue(this.createProcessForm.get('identificacion')?.value);
+                }
+              })
+            },1500);
           }
         } else {
-          utils.showAlert('Error consultando datos', 'warning');
+
+
         }
 
+      },(error:any)=>{
+        console.log(error)
       });
       // this.secopService
       //   .searchDataSecop('nit', search_value)
@@ -631,11 +711,19 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     });
   }
 
-  getMunicipios() {
+  async getMunicipios() {
     let dpto = this.createProcessForm.controls['departamento'].value
-    this.service.getMunicipios(dpto).subscribe(async (data: any) => {
+    await this.service.getMunicipios(dpto).subscribe(async (data: any) => {
       this.municipios = await data.Values.ResultFields;
       this.createProcessForm.controls['municipio'].setValue('');
+    });
+  }
+
+  async getMunicipiosSap() {
+    let dpto = this.usuarioSapForm.controls['departamento'].value
+    this.service.getMunicipios(dpto).subscribe(async (data: any) => {
+      this.municipios = await data.Values.ResultFields;
+      this.usuarioSapForm.controls['municipio'].setValue('');
     });
   }
 
@@ -695,9 +783,7 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   validateMoney(tiempoTotal: any) {
     let tipoIdentificacion = this.createProcessForm.controls['tipoIdentificacion'].value;
     let valorContrato = this.createProcessForm.controls['valorContrato'].value;
-
     if (tipoIdentificacion == 'Cédula' || tipoIdentificacion == 'Cédula de Extranjería') {
-
       if (this.createProcessForm.controls['indDuracionContrato'].value) {
         if ((valorContrato / tiempoTotal) > this.maxSalary) {
           this.iconColor = 'lightgray';
@@ -791,11 +877,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       this.cdpForm.reset();
       this.cdpForm.get('cdpArray')!.reset();
       this.deleteCdpItem(1);
-
       this.ff();
     }), 200;
-
-
   }
 
   ff() {
@@ -1117,8 +1200,6 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   async validateDataExcel(jsonData: any, keyCount: number, dataFormulario: any, i: number) {
-    //this.centroGestor = '1158';
-    // console.log(keyCount)
     return await new Promise((resolve, reject) => {
       if (keyCount == 23) {
         let dataExcel = jsonData.DATA[i];
@@ -1204,7 +1285,8 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                                                     this.secopService.getJustificacionTipoProceso(dataExcel.JUSTIFICACIONTIPOPROCESO).subscribe((response: any) => {
                                                       if (response.Status == 'Ok' && response.Values.ResultFields.length > 0) {
                                                         dataFormulario.push(response.Values.ResultFields);
-                                                        if (dataExcel.NOMBREPROCESO != null && dataExcel.NOMBREPROCESO.toString().length != 0) {
+                                                        //if (dataExcel.NOMBREPROCESO != null && dataExcel.NOMBREPROCESO.toString().length != 0) {
+                                                        //if (true) {
                                                           dataFormulario.push(dataExcel.NOMBREPROCESO);
                                                           this.secopService.validateUnidadContratacion(dataExcel.UNIDADCONTRATACION,this.centroGestor).subscribe((response: any) => {
                                                             if (response.Status == 'Ok') {
@@ -1348,10 +1430,10 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
                                                               resolve('error unidad contratacion ' + (i + 1));
                                                             }
                                                           });
-                                                        } else {
-                                                          this.procesosError.push('Proceso N°' + (i + 1) + ' - nombre proceso');
+                                                        /*} else {
+                                                          this.procesosError.push('Proceso N°' + (i + 1) + ' - `nombre proceso`');
                                                           resolve('error nombre proceso ' + (i + 1));
-                                                        }
+                                                        }*/
                                                       } else {
                                                         this.procesosError.push('Proceso N°' + (i + 1) + ' - justificacion Proceso');
                                                         resolve('error justificacion Proceso ' + (i + 1));
@@ -1444,6 +1526,15 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
     } else {
       this.validacionCorreo = false;
     }
+  }
+
+  validarCorreoSap() {
+    if (this.usuarioSapForm.controls['correo'].invalid) {
+      //console.log('invalid');
+      return false
+    }
+    //console.log('valid');
+    return;
   }
 
   ValidarMayoriaEdad() {
@@ -1937,4 +2028,77 @@ export class ProcessComponent implements OnDestroy, OnInit, AfterViewInit {
       }
     }
   }
+
+  createContratistaSap(){
+    this.usuarioSapForm.get('razonSocial')?.setValue(this.usuarioSapForm.get('nombreProveedor')?.value+' '+this.usuarioSapForm.get('apellidoProveedor')?.value);
+    this.usuarioSapForm.get('indicativo')?.setValue('');
+    this.usuarioSapForm.get('nit')?.setValue(this.usuarioSapForm.get('identificacion')?.value);
+    this.getExistenciaProveedorSap(this.usuarioSapForm.get('identificacion')?.value);
+  }
+
+  changeTipoIdentificacionSap(event:any){
+    this.usuarioSapForm.get('digitoVerificacion')?.reset();
+    this.usuarioSapForm.get('digitoVerificacion')?.disable();
+    if(event.value == '31'){
+      this.usuarioSapForm.get('digitoVerificacion')?.enable();
+    }
+  }
+
+  getTipoIdentificacionSap(){
+    this.sapService.getTipoIdentificacionSap(this.token).subscribe((response:any)=>{
+      //console.log(response.Values.ResultFields);
+      this.tipoIdentificacionSap = response.Values.ResultFields;
+    });
+  }
+
+  getTipoPersonaSap(){
+    this.sapService.getTipoPersonaSap(this.token).subscribe((response:any)=>{
+      //console.log(response.Values.ResultFields);
+      this.tipoPersonaSap = response.Values.ResultFields;
+    });
+  }
+
+  getTratamientoPersonaSap(){
+    this.sapService.getTratamientoPersonaSap(this.token).subscribe((response:any)=>{
+      //console.log(response.Values.ResultFields);
+      this.tratamientoPersonaSap = response.Values.ResultFields;
+    });
+  }
+
+  getClaseImpuestoSap(){
+    this.sapService.getClaseImpuestoSap(this.token).subscribe((response:any)=>{
+      //console.log(response.Values.ResultFields);
+      this.claseImpuestoSap = response.Values.ResultFields;
+    });
+  }
+
+  numberValidation(evento: any,longitud:number) {
+    //console.log(this.usuarioSapForm.get('celular')?.invalid);
+    if (isNaN(evento.key) || evento.target.value.length == longitud || evento.key == '.' || evento.key == ',') {
+      return false;
+    }
+    return;
+  }
+
+  getExistenciaProveedorSap(identificacion:any){
+    this.sapService.getExistenciaProveedorSap(this.token,identificacion).subscribe((response:any)=>{
+      //console.log(response)
+      if(response.Status == 'Ok' && response.Values.ResultFields[0].CANTIDAD == '0'){
+        this.sapService.createProveedorSap(Object.assign({}, this.usuarioSapForm.value)).subscribe((response:any)=>{
+          if(response.Status == 'Ok' && response.Values == '200'){
+            utils.showAlert('Usuario creado exitosamente','success');
+            let identificacion = {value:this.createProcessForm.get('identificacion')?.value.toString()};
+            this.onKeydownEvent(identificacion);
+          }
+          else{
+            utils.showAlert('No se pudo crear el usuario','warning');
+          }
+        });
+      }
+      else{
+        utils.showAlert('El usuario ya existe','warning');
+      }
+    });
+  }
+
 }

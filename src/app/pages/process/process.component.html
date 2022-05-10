@@ -4,6 +4,11 @@
 
     <!-- BUTTONS  -->
 
+    <button type="button" [hidden]="true" #openFormularioSap role="dialog" class="btn btn-info btn-lg"
+            data-toggle="modal"
+            data-target="#modal-formulario-sap">Open
+    </button>
+
     <!-- END BUTTONS  -->
 
     <!-- MODAL CARGA MASIVA  -->
@@ -28,6 +33,7 @@
                   <div class="custom-file">
                     <input type="file" style="cursor:pointer" (change)="readExcell($event)" class="custom-file-input"
                            id="validatedFile" accept=".xlsx, .xls" required="true"/>
+                    <button type="reset">limpiar</button>
                     <label class="custom-file-label font-weight-lighter" for="validatedFile">{{filename}}</label>
                     <div class="invalid-feedback">Error</div>
                     <div class="progress mt-1">
@@ -47,7 +53,7 @@
                   </div>
                   <div>
                     <!--                    <p class="font-weight-light">Descarga el formato  <a class="iconsBG" title="Excel" href='./assets/img/excel-homologacion-gestion-prueba.xlsx' download="formato_carga_masiva_legalBase.xlsx"><i class="far fa-file-excel" style="color:var(&#45;&#45;companyColor)"></i></a></p>-->
-                    <a class="iconsBG" title="Excel" href='./assets/img/FormatoCarga-legalBase.xlsx'
+                    <a class="iconsBG" title="Excel" href='./assets/img/excel-homologacion-28-04-2022.xlsx'
                        download="formato_carga_masiva_legalBase.xlsx"><a>Descarga el formato </a><i
                       class="far fa-file-excel"></i></a>
                   </div>
@@ -330,6 +336,332 @@
       </div>
       <!-- /.modal-dialog -->
     </div>
+
+    <div class="modal fade" id="modal-formulario-sap" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: #F0F2F5;">
+            <span style="color: var(--labelColor);font-weight: normal;font-size: medium">Creacion de Contratista</span>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="usuarioSapForm" (ngSubmit)="createContratistaSap()"
+                  (keydown.enter)="$event.preventDefault()">
+              <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <button class="nav-link active" id="datos_generales_tab" data-toggle="tab"
+                          data-target="#datos_generales" type="button" role="tab" aria-controls="datos_generales"
+                          aria-selected="true">Datos Generales
+                  </button>
+                  <button class="nav-link" id="datos_direccion_tab" data-toggle="tab" data-target="#datos_direccion"
+                          type="button" role="tab" aria-controls="datos_direccion" aria-selected="false">Datos Dirección
+                  </button>
+                  <button class="nav-link" id="datos_comunicacion_tab" data-toggle="tab"
+                          data-target="#datos_comunicacion"
+                          type="button" role="tab" aria-controls="datos_comunicacion" aria-selected="false">Datos
+                    Comunicación
+                  </button>
+                  <button class="nav-link" id="datos_impuestos_tab" data-toggle="tab" data-target="#datos_impuestos"
+                          type="button" role="tab" aria-controls="datos_impuestos" aria-selected="false">Datos Impuestos
+                  </button>
+                </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active p-4" id="datos_generales" role="tabpanel"
+                     aria-labelledby="datos_generales_tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-3">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm">
+                          Tipo Identificación
+                        </label>
+                        <select #tipoIdenSap class="form-control font-weight-lighter text-sm"
+                                [class.is-valid]="this.usuarioSapForm.get('tipoIdentificacion')?.valid && this.usuarioSapForm.get('tipoIdentificacion')?.value != null"
+                                [class.is-invalid]="this.usuarioSapForm.get('tipoIdentificacion')?.invalid && this.usuarioSapForm.get('tipoIdentificacion')?.value != null"
+                                (change)="changeTipoIdentificacionSap(tipoIdenSap)"
+                                formControlName="tipoIdentificacion">
+                          <option></option>
+                          <option *ngFor="let data of tipoIdentificacionSap" value="{{data.ID_TIPO}}">{{data.TIPO_DOC}}</option>
+                        </select>
+                        <div *ngIf="this.usuarioSapForm.get('tipoIdentificacion')?.invalid" class="invalid-feedback">
+                          Por favor seleccione un tipo identificacion valido.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-sm-3">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm"> Número de identificación </label>
+                        <input
+                          formControlName="identificacion"
+                          type="number"
+                          class="form-control font-weight-lighter"
+                          [class.is-valid]="this.usuarioSapForm.get('identificacion')?.valid && this.usuarioSapForm.get('identificacion')?.value != null"
+                          [class.is-invalid]="this.usuarioSapForm.get('identificacion')?.invalid && this.usuarioSapForm.get('identificacion')?.value != null"
+                        />
+                        <div *ngIf="this.usuarioSapForm.get('identificacion')?.invalid" class="invalid-feedback">
+                          Por favor digite una identificacion valido.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-sm-3">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm"> Digito de verificación </label>
+                        <input
+                          maxlength="1"
+                          formControlName="digitoVerificacion"
+                          type="number"
+                          (keypress)="numberValidation($event,1)"
+                          class="form-control font-weight-lighter"
+                          [class.is-valid]="this.usuarioSapForm.get('digitoVerificacion')?.valid && this.usuarioSapForm.get('digitoVerificacion')?.value != null"
+                          [class.is-invalid]="this.usuarioSapForm.get('digitoVerificacion')?.invalid && this.usuarioSapForm.get('digitoVerificacion')?.value != null"
+                        />
+                        <div *ngIf="this.usuarioSapForm.get('digitoVerificacion')?.invalid" class="invalid-feedback">
+                          Por favor digite un digito de verificacion valido.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-sm-3">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm">
+                          Tipo de persona
+                        </label>
+                        <select class="form-control font-weight-lighter text-sm"
+                                [class.is-valid]="this.usuarioSapForm.get('tipoPersona')?.valid && this.usuarioSapForm.get('tipoPersona')?.value != null"
+                                [class.is-invalid]="this.usuarioSapForm.get('tipoPersona')?.invalid && this.usuarioSapForm.get('tipoPersona')?.value != null"
+                                formControlName="tipoPersona">
+                          <option></option>
+                          <option *ngFor="let data of tipoPersonaSap" value="{{data.CODIGO}}">{{data.TIPO_PERSONA}}</option>
+                        </select>
+                        <div *ngIf="this.usuarioSapForm.get('tipoPersona')?.invalid" class="invalid-feedback">
+                          Por favor seleccione un tipo persona valido.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-sm-3">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm">
+                          Tratamiento persona
+                        </label>
+                        <select class="form-control font-weight-lighter text-sm"
+                                [class.is-valid]="this.usuarioSapForm.get('tratamientoPersona')?.valid && this.usuarioSapForm.get('tratamientoPersona')?.value != null"
+                                [class.is-invalid]="this.usuarioSapForm.get('tratamientoPersona')?.invalid && this.usuarioSapForm.get('tratamientoPersona')?.value != null"
+                                formControlName="tratamientoPersona">
+                          <option></option>
+                          <option *ngFor="let data of tratamientoPersonaSap" value="{{data.TRATAMIENTO_PERSONA}}">{{data.TRATAMIENTO_PERSONA}}</option>
+                        </select>
+                        <div *ngIf="this.usuarioSapForm.get('tratamientoPersona')?.invalid" class="invalid-feedback">
+                          Por favor seleccione un tratamiento valido.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-sm-3">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm"> Nombres del proveedor </label>
+                        <input
+                          type="text"
+                          class="form-control font-weight-lighter"
+                          [class.is-valid]="this.usuarioSapForm.get('nombreProveedor')?.valid && this.usuarioSapForm.get('nombreProveedor')?.value != null"
+                          [class.is-invalid]="this.usuarioSapForm.get('nombreProveedor')?.invalid && this.usuarioSapForm.get('nombreProveedor')?.value != null"
+                          formControlName="nombreProveedor"
+                        />
+                        <div *ngIf="this.usuarioSapForm.get('nombreProveedor')?.invalid" class="invalid-feedback">
+                          Por favor digite un nombre valido.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-sm-3">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm"> Apellidos del proveedor </label>
+                        <input
+                          type="text"
+                          class="form-control font-weight-lighter"
+                          [class.is-valid]="this.usuarioSapForm.get('apellidoProveedor')?.valid && this.usuarioSapForm.get('apellidoProveedor')?.value != null"
+                          [class.is-invalid]="this.usuarioSapForm.get('apellidoProveedor')?.invalid && this.usuarioSapForm.get('apellidoProveedor')?.value != null"
+                          formControlName="apellidoProveedor"
+                        />
+                        <div *ngIf="this.usuarioSapForm.get('apellidoProveedor')?.invalid" class="invalid-feedback">
+                          Por favor digite una apellido valido.
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="tab-pane fade p-4" id="datos_direccion" role="tabpanel"
+                     aria-labelledby="datos_direccion_tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-4">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm"> Direccion del proveedor </label>
+                        <input
+                          type="text"
+                          class="form-control font-weight-lighter"
+                          [class.is-valid]="this.usuarioSapForm.get('direccion')?.valid && this.usuarioSapForm.get('direccion')?.value != null"
+                          [class.is-invalid]="this.usuarioSapForm.get('direccion')?.invalid && this.usuarioSapForm.get('direccion')?.value != null"
+                          formControlName="direccion"
+                        />
+                        <div *ngIf="this.usuarioSapForm.get('direccion')?.invalid" class="invalid-feedback">
+                          Por favor digite una direccion valido.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm">Departamento</label>
+                        <!--(change)="getMunicipiosSap()"-->
+                        <select
+                          (change)="getMunicipiosSap()"
+                          formControlName="departamento"
+                          class="form-control font-weight-lighter text-sm"
+                          [class.is-valid]="this.usuarioSapForm.get('departamento')?.valid && this.usuarioSapForm.get('departamento')?.value != null"
+                          [class.is-invalid]="this.usuarioSapForm.get('departamento')?.invalid && this.usuarioSapForm.get('departamento')?.value != null"
+                        >
+                          <option value=""></option>
+                          <option
+                            *ngFor="let dep of departamentos"
+                            value="{{ dep.DPTO_COD }}"
+                          >
+                            {{ dep.DPTO_DESCRIPCION }}
+                          </option>
+                        </select>
+                        <div *ngIf="this.usuarioSapForm.get('departamento')?.invalid" class="invalid-feedback">
+                          Por favor seleccione un departamento valido.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm">Municipio</label>
+                        <select
+                          formControlName="municipio"
+                          name="municipio"
+                          class="form-control font-weight-lighter text-sm"
+                          [class.is-valid]="this.usuarioSapForm.get('municipio')?.valid && this.usuarioSapForm.get('municipio')?.value != null"
+                          [class.is-invalid]="this.usuarioSapForm.get('municipio')?.invalid && this.usuarioSapForm.get('municipio')?.value != null"
+                        >
+                          <option value=""></option>
+                          <option
+                            *ngFor="let mun of municipios"
+                            value="{{ mun.CIU_DESCRIPCION }}"
+                          >
+                            {{ mun.CIU_DESCRIPCION }}
+                          </option>
+                        </select>
+                        <div *ngIf="this.usuarioSapForm.get('municipio')?.invalid" class="invalid-feedback">
+                          Por favor seleccione un municipio valido.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="tab-pane fade p-4" id="datos_comunicacion" role="tabpanel"
+                     aria-labelledby="datos_comunicacion_tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-4">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm"> Telefono </label>
+                        <input
+                          (keypress)="numberValidation($event,10)"
+                          type="text"
+                          class="form-control font-weight-lighter"
+                          formControlName="telefono"
+                          [class.is-valid]="this.usuarioSapForm.get('telefono')?.valid && this.usuarioSapForm.get('telefono')?.value != null"
+                          [class.is-invalid]="this.usuarioSapForm.get('telefono')?.invalid && this.usuarioSapForm.get('telefono')?.value != null"
+                        />
+                        <div *ngIf="this.usuarioSapForm.get('telefono')?.hasError('telefono')" class="invalid-feedback">
+                          Por favor digite un telefono valido.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm"> Celular </label>
+                        <input
+                          formControlName="celular"
+                          (keypress)="numberValidation($event,10)"
+                          type="text"
+                          [class.is-valid]="this.usuarioSapForm.get('celular')?.valid && this.usuarioSapForm.get('celular')?.value != null"
+                          [class.is-invalid]="this.usuarioSapForm.get('celular')?.invalid && this.usuarioSapForm.get('celular')?.value != null"
+                          class="form-control font-weight-lighter"
+                        />
+                        <div *ngIf="this.usuarioSapForm.get('celular')?.hasError('minLength')" class="invalid-feedback">
+                          Por favor digite un celular valido.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                      <div class="form-group has-validation">
+                        <label class="font-weight-light text-sm"> Correo </label>
+                        <input
+                          (keyup)="validarCorreoSap()"
+                          type="email"
+                          [class.is-valid]="!this.usuarioSapForm.get('correo')?.hasError('email') && this.usuarioSapForm.get('correo')?.value != null"
+                          [class.is-invalid]="this.usuarioSapForm.get('correo')?.hasError('email')"
+                          class="form-control font-weight-lighter"
+                          formControlName="correo"
+                        />
+                        <div *ngIf="this.usuarioSapForm.get('correo')?.hasError('email')" id="validationServerUsernameFeedback" class="invalid-feedback">
+                          Por favor digite un correo valido.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade p-4" id="datos_impuestos" role="tabpanel"
+                     aria-labelledby="datos_impuestos_tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm">
+                          Clase de impuesto
+                        </label>
+                        <select class="form-control font-weight-lighter text-sm" formControlName="claseImpuesto"
+                                [class.is-valid]="this.usuarioSapForm.get('claseImpuesto')?.valid && this.usuarioSapForm.get('claseImpuesto')?.value != null"
+                                [class.is-invalid]="this.usuarioSapForm.get('claseImpuesto')?.invalid && this.usuarioSapForm.get('claseImpuesto')?.value != null">
+                          <option></option>
+                          <option *ngFor="let data of claseImpuestoSap" value="{{data.ID_CLASE}}">{{data.CLASE_IMPUESTO}}</option>
+                        </select>
+                        <div *ngIf="this.usuarioSapForm.get('claseImpuesto')?.invalid" class="invalid-feedback">
+                          Por favor seleccione una clase valida.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                        <label class="font-weight-light text-sm"> Actividad ecónomica </label>
+                        <input
+                          (keypress)="numberValidation($event,3)"
+                          type="text"
+                          class="form-control font-weight-lighter"
+                          formControlName="actividadEconomica"
+                          [class.is-valid]="this.usuarioSapForm.get('actividadEconomica')?.valid && this.usuarioSapForm.get('actividadEconomica')?.value != null"
+                          [class.is-invalid]="this.usuarioSapForm.get('actividadEconomica')?.invalid && this.usuarioSapForm.get('actividadEconomica')?.value != null"
+                        />
+                        <div *ngIf="this.usuarioSapForm.get('actividadEconomica')?.invalid" class="invalid-feedback">
+                          Por favor digite una actividad economica valida.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" [disabled]="usuarioSapForm.invalid"  style="text-align: start" class="btn btn-outline-primary btn-sm" (click)="createContratistaSap()" data-dismiss="modal">Crear</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- /.modal -->
 
     <!-- Content Header (Page header) -->
@@ -359,7 +691,8 @@
                            (click)="procesoManual();resetFieldsProcess()" style="cursor:pointer">
                         <p class="mb-0 text-center font-weight-normal" style="color:black">Creacion Manual
                           de Procesos</p>
-                        <footer class="text-center font-weight-lighter">Este servicio permite completar un formulario para ejecutar los procesos uno a uno<cite
+                        <footer class="text-center font-weight-lighter">Este servicio permite completar un formulario
+                          para ejecutar los procesos uno a uno<cite
                             title="Source Title"></cite></footer>
 
                         <img
@@ -1115,10 +1448,10 @@
                             style="font-size: 12px;word-break: break-all;;font-weight: lighter">
                           <a [ngStyle]="{'color': (row.ESTADO == 0) ? 'red' :
                         (row.ESTADO == 1) ? 'gray' :
-                        (row.ESTADO == 2 && ROL != 2) ? 'blue' :
+                        (row.ESTADO == 2 || row.ESTADO == 5 && ROL != 2) ? 'blue' :
                         (row.ESTADO == 7) ? 'green' :
                         (row.ESTADO == 8) ? 'black' :
-                        (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'goldenrod' :
+                        (row.ESTADO > 2 && row.ESTADO < 7 && row.ESTADO != 5 && ROL == 1) ? 'goldenrod' :
                         (row.ESTADO != 2 && ROL == 2) ? 'goldenrod' :
                         (row.ESTADO != 3 && ROL == 3) ? 'goldenrod' :
                         (row.ESTADO != 4 && ROL == 4) ? 'goldenrod' :
@@ -1132,10 +1465,10 @@
                         'rose' }">
                             {{(row.ESTADO == 0) ? 'Rechazado' :
                             (row.ESTADO == 1) ? 'Anulado' :
-                              (row.ESTADO == 2 && ROL != 2) ? 'Creado' :
+                              (row.ESTADO == 2 || row.ESTADO == 5 && ROL != 2) ? 'Creado' :
                                 (row.ESTADO == 7) ? 'Aprobado' :
                                   (row.ESTADO == 8) ? 'Liquidado' :
-                                    (row.ESTADO > 2 && row.ESTADO < 7 && ROL == 1) ? 'En Gestion' :
+                                    (row.ESTADO > 2 && row.ESTADO < 7 && row.ESTADO != 5 && ROL == 1) ? 'En Gestion' :
                                       (row.ESTADO == 2 && ROL == 2) ? 'Pendiente Aprobacion' :
                                         (row.ESTADO == 3 && ROL == 3) ? 'Pendiente Aprobacion' :
                                           (row.ESTADO == 4 && ROL == 4) ? 'Pendiente Aprobacion' :

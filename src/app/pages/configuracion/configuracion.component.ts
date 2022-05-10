@@ -101,6 +101,7 @@ export class ConfiguracionComponent implements OnInit {
       estadoContrato: new FormControl(atob(localStorage.getItem('estadoProceso')!)),
       identificacionSap: new FormControl(atob(localStorage.getItem('identificacionSap')!)),
       dataSecop: new FormControl(atob(localStorage.getItem('dataSecop')!)),
+      crearProveedor: new FormControl(atob(localStorage.getItem('crearProveedor')!)),
       salarioMinimo: new FormControl(atob(localStorage.getItem('salarioMinimo')!)),
       topeMaximo: new FormControl(atob(localStorage.getItem('topeMaximo')!)),
       cantidadSalarios: new FormControl(atob(localStorage.getItem('cantidadSalarios')!)),
@@ -703,6 +704,7 @@ export class ConfiguracionComponent implements OnInit {
       localStorage.setItem("cantidadSalarios", btoa(response.Values.ResultFields[0].CON_CANTIDAD_SALARIOS));
       localStorage.setItem("identificacionSap", btoa(response.Values.ResultFields[0].CON_LINK_IDENTIFICACIONSAP));
       localStorage.setItem("dataSecop", btoa(response.Values.ResultFields[0].CON_LINK_SECOP));
+      localStorage.setItem("crearProveedor", btoa(response.Values.ResultFields[0].CON_LINK_CREARPROVEEDORSAP));
       localStorage.setItem("sociedad", btoa(response.Values.ResultFields[0].CON_SOCIEDAD));
       this.router.navigate(['home']);
     });

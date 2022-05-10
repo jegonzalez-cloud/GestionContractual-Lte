@@ -12,9 +12,8 @@ export class ModalService {
   private subjectDataBusqueda = new Subject<any>();
   private subjectDataAutorizaciones = new Subject<any>();
   private subjectFillFields = new Subject<any>();
-  private modals: any[] = [];
 
-  constructor(private http:HttpClient) { }
+  constructor() { }
 
   sendClickEvent(){
     this.subject.next();

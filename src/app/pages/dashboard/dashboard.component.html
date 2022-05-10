@@ -197,7 +197,7 @@
                   ></apx-chart>
                 </div>
               </div>
-              <div class="ml-4 mr-3 card chartGraph">
+              <div class="ml-4 mr-3 card chartGraph" [hidden]="ROL != 4">
                 <div class="card-body">
                   <form [formGroup]="reporte4FormAsociacion" (ngSubmit)="getDataAsociacion()" (keydown.enter)="$event.preventDefault()">
                     <div class="row justify-content-md-center">
@@ -251,7 +251,7 @@
                     ></apx-chart>
                 </div>
               </div>
-              <div class="card chartGraph">
+              <div class="card chartGraph" [hidden]="ROL != 4">
                 <div class="card-body">
                   <form [formGroup]="reporte4FormReferencia" (ngSubmit)="getDataReferencia()" (keydown.enter)="$event.preventDefault()">
                     <div class="row justify-content-md-center">

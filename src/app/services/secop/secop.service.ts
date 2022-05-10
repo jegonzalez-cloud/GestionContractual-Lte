@@ -35,13 +35,13 @@ export class SecopService {
     // return this.httpClient.get(`${environment.apiSecopProviders}&$where=${col} like '%25${param}%25'`);
   }
 
-  public getLastConsecutive(type: any) {
+  /*public getLastConsecutive(type: any) {
     return this.httpClient.get(`${environment.apiTestUrl}contratos/lastConsecutive?type=${type}`);
-  }
+  }*/
 
-  public searchDataProcess(pro_id: any, state: any) {
+  /*public searchDataProcess(pro_id: any, state: any) {
     return this.httpClient.get(`${environment.apiTestUrl}contratos/searchProcess?pro_id=${pro_id}&state=${state}`);
-  }
+  }*/
 
   public getDepartmentsCont(token: any) {
     return this.httpClient.get(`${environment.apiTestUrl}contratos/GetDepartmentsCont?token=${token}`);
@@ -170,8 +170,17 @@ export class SecopService {
     return this.httpClient.get(`${environment.apiTestUrl}contratos/getDepartamento?codigo=${codigo}`);
   }
 
+  public getDepartamentoPorNombre(nombre:any){
+    console.log(nombre)
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getDepartamentoPorNombre?nombre=${nombre}`);
+  }
+
   public getMunicipio(codigo:any){
     return this.httpClient.get(`${environment.apiTestUrl}contratos/getMunicipio?codigo=${codigo}`);
+  }
+
+  public getMunicipioPorNombre(nombre:any){
+    return this.httpClient.get(`${environment.apiTestUrl}contratos/getMunicipioPorNombre?nombre=${nombre}`);
   }
 
   public getCatProfesion(codigo:any){
