@@ -130,5 +130,5 @@ div.callout{
 
 #background-home{
   max-height: max-content;
-  height: 100vh;
+  /*height: 100vh;*/
 }

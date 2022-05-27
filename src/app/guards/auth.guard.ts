@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['login']);
       localStorage.clear();
       return false;
-    } else if (rol == 7) {
+    } else if (rol == 7 || rol == 8) {
       this.router.navigate(['configuracion']);
       return true;
     }

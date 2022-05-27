@@ -18,7 +18,7 @@ export class ConfiguracionGuard implements CanActivate {
     state: RouterStateSnapshot): boolean {
 
     const rol: any = (localStorage.getItem('rol') !== null) ? atob(localStorage.getItem('rol')!) : '';
-    if (rol != 7) {
+    if (rol != 7 && rol != 8) {
       this.router.navigate(['busqueda']);
       return false;
     }

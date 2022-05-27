@@ -315,13 +315,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
+
       this.getDataLineChart();
       this.getDataProcesosXestadoChart();
       // this.getDataAsociacionReferencia();
-      this.getDataProcesosXdependenciaChart();
       this.getDataAsociacion();
       this.getDataReferencia();
     }, 500);
+    setTimeout(()=>{
+      this.getDataProcesosXdependenciaChart();
+    },1000)
 
   }
 
@@ -648,10 +651,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     } else if (id == 4) {
       this.chartOptionsPie = {
         seriesPie: this.dataSeries,
-        chartPie: {
-          width: 500,
-          type: "pie"
-        },
         labelsPie: this.dataAsociacion,
         fill: {
           type: 'gradient',
@@ -670,7 +669,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             breakpoint: 480,
             options: {
               chart: {
-                width: 200
+                width: 200,
               },
               legend: {
                 position: "bottom"
@@ -897,38 +896,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       };*/
     } else if (id == 7) {
       this.chartOptionsProcesosXdependencia = {
-        // series: [44, 55, 13, 43, 22,44, 55, 13, 43, 22,44, 55, 13, 43, 22],
-        // chart: {
-        //   width: 380,
-        //   type: "pie"
-        // },
-        // fill: {
-        //   type: "gradient",
-        //   colors: ['#2E93fA', '#66DA26', '#546E7A', '#E91E63', '#FF9800',	'#4ECDC4'	,'#C7F464'	,'#81D4FA',	'#546E7A',	'#FD6A6A']
-        // },
-        // theme: {
-        //   monochrome: {
-        //     enabled: false
-        //   }
-        // },
-        // title: {
-        //   text: "Cantidad de procesos por dependencia",
-        //   align: "center",
-        //   style: {
-        //     fontWeight: 1
-        //   }
-        // },
-        // labels: ["A", "B", "C", "D", "E","F", "G", "H", "I", "J","K", "L", "M", "N", "O"],
-        // responsive: [
-        //   {
-        //     breakpoint: 480,
-        //     options: {
-        //       chart: {
-        //         width: 200
-        //       },
-        //     }
-        //   }
-        // ]
         series: [
           {
             name: "Valor Contratos",
@@ -945,7 +912,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         ],
         chart: {
           height: 350,
-          width: screen.width * 0.834,
+          // width: screen.width * 0.834,
+          width: screen.width * 0.4,
           type: "line"
         },
         stroke: {
@@ -995,7 +963,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         series: this.arrayQuantityAsociacion,
         chart: {
           width: 500,
-          type: "donut"
+          type: "donut",
+          offsetX:0,
+          toolbar: {
+            show: true,
+            offsetX: 0,
+            offsetY: 0,
+            tools: {
+              download: true,
+              selection: true,
+              zoom: true,
+              zoomin: true,
+              zoomout: true,
+              pan: true,
+              reset: true
+            },
+            autoSelected: 'zoom'
+          },
         },
         title: {
           text: "Procesos por asociacion",
@@ -1013,7 +997,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             breakpoint: 480,
             options: {
               chart: {
-                width: 100
+                width: 200
               },
               legend: {
                 position: "bottom"
@@ -1027,7 +1011,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         series: this.arrayQuantityReferencia,
         chart: {
           width: 500,
-          type: "pie"
+          type: "pie",
+          offsetX: 0,
+          toolbar: {
+            show: true,
+            offsetX: 0,
+            offsetY: 0,
+            tools: {
+              download: true,
+              selection: true,
+              zoom: true,
+              zoomin: true,
+              zoomout: true,
+              pan: true,
+              reset: true
+            },
+            autoSelected: 'zoom'
+          },
         },
         theme: {
           mode: 'ligth',

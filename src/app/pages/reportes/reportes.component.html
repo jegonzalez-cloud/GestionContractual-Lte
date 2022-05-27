@@ -23,7 +23,7 @@
         <th>CDP</th>
         <th>RPC</th>
         <th>estado de la contratación</th>
-        <th>cuotas canceladas</th>
+<!--        <th>cuotas canceladas</th>-->
       </tr>
       <tr *ngFor="let R of RESPONSE">
         // This is the binding part.
@@ -45,8 +45,8 @@
         <td>{{R.CATE_CONTRATACION}}</td>
         <td>{{R.CDP}}</td>
         <td>{{R.CODIGO_RPC}}</td>
-        <td>{{R.ESTADO1}}</td>
-        <td>Cuotas Canceladas:</td>
+        <td>{{R.DESC_ESTADO}}</td>
+<!--        <td>Cuotas Canceladas:</td>-->
       </tr>
     </table>
 
@@ -115,6 +115,7 @@
                                     <option selected value=""></option>
                                     <option value="1">Anulado</option>
                                     <option value="7">Aprobado</option>
+                                    <option value="2">Creado</option>
                                     <option value="8">Liquidado</option>
                                     <option value="3">Pendiente</option>
                                     <option value="0">Rechazado</option>
@@ -293,130 +294,6 @@
                         </div>
                       </div>
 
-                      <!--                      -->
-                      <!--                      <div class="row">-->
-                      <!--                        <div class="card bg-light">-->
-                      <!--                          <div class="card-header bg-light">-->
-                      <!--                            Featured-->
-                      <!--                          </div>-->
-                      <!--                          <div class="card-body row">-->
-                      <!--                            <div class="col-12 col-sm-4">-->
-                      <!--                              <div class="form-group">-->
-                      <!--                                <label class="font-weight-light text-sm"># Proceso</label>-->
-                      <!--                                <input-->
-                      <!--                                  formControlName="fechaInicio"-->
-                      <!--                                  type="text"-->
-                      <!--                                  class="form-control font-weight-light text-sm"-->
-                      <!--                                />-->
-                      <!--                              </div>-->
-                      <!--                            </div>-->
-                      <!--                            <div class="col-12 col-sm-4">-->
-                      <!--                              <div class="form-group">-->
-                      <!--                                <label class="font-weight-light text-sm">Estado Proceso</label>-->
-                      <!--                                <select-->
-                      <!--                                  formControlName="fechaInicio"-->
-                      <!--                                  class="form-control font-weight-light text-sm custom-select">-->
-                      <!--                                  <option selected>Choose...</option>-->
-                      <!--                                  <option value="1">One</option>-->
-                      <!--                                  <option value="2">Two</option>-->
-                      <!--                                  <option value="3">Three</option>-->
-                      <!--                                </select>-->
-                      <!--                              </div>-->
-                      <!--                            </div>-->
-                      <!--                            <div class="col-12 col-sm-4">-->
-                      <!--                              <div class="form-group">-->
-                      <!--                                <label class="font-weight-light text-sm">Creador Proceso</label>-->
-                      <!--                                <select-->
-                      <!--                                  formControlName="fechaInicio"-->
-                      <!--                                  class="form-control font-weight-light text-sm custom-select">-->
-                      <!--                                  <option selected>Choose...</option>-->
-                      <!--                                  <option value="1">One</option>-->
-                      <!--                                  <option value="2">Two</option>-->
-                      <!--                                  <option value="3">Three</option>-->
-                      <!--                                </select>-->
-                      <!--                              </div>-->
-                      <!--                            </div>-->
-                      <!--                          </div>-->
-                      <!--                        </div>-->
-                      <!--                        <div class="card bg-light">-->
-                      <!--                          <div class="card-header bg-light">-->
-                      <!--                            Featured-->
-                      <!--                          </div>-->
-                      <!--                          <div class="card-body row">-->
-                      <!--                            <div class="col-12 col-sm-4">-->
-                      <!--                              <div class="form-group">-->
-                      <!--                                <label class="font-weight-light text-sm">Identificacion Contratista</label>-->
-                      <!--                                <input-->
-                      <!--                                  formControlName="fechaInicio"-->
-                      <!--                                  type="text"-->
-                      <!--                                  class="form-control font-weight-light text-sm"-->
-                      <!--                                />-->
-                      <!--                              </div>-->
-                      <!--                            </div>-->
-                      <!--                            <div class="col-12 col-sm-4">-->
-                      <!--                              <div class="form-group">-->
-                      <!--                                <label class="font-weight-light text-sm">Nombre Contratista</label>-->
-                      <!--                                <input-->
-                      <!--                                  formControlName="fechaInicio"-->
-                      <!--                                  type="text"-->
-                      <!--                                  class="form-control font-weight-light text-sm"-->
-                      <!--                                />-->
-                      <!--                              </div>-->
-                      <!--                            </div>-->
-                      <!--                            <div class="col-12 col-sm-4">-->
-                      <!--                              <div class="form-group">-->
-                      <!--                                <label class="font-weight-light text-sm">Fecha creacion</label>-->
-                      <!--                                <input-->
-                      <!--                                  formControlName="fechaInicio"-->
-                      <!--                                  type="datetime-local"-->
-                      <!--                                  class="form-control font-weight-light text-sm"-->
-                      <!--                                />-->
-                      <!--                              </div>-->
-                      <!--                            </div>-->
-                      <!--                          </div>-->
-                      <!--                        </div>-->
-                      <!--                        -->
-
-
-                      <!--                        <div class="row" style="margin-left: 0.1%;margin-right: 0.2%">-->
-                      <!--                          <div class="col-12 col-sm-6">-->
-                      <!--                            <div class="form-group">-->
-                      <!--                              <label class="font-weight-light text-sm">Valor Proceso</label>-->
-                      <!--                              <input-->
-                      <!--                                formControlName="fechaInicio"-->
-                      <!--                                type="text"-->
-                      <!--                                class="form-control font-weight-light text-sm"-->
-                      <!--                              />-->
-                      <!--                            </div>-->
-                      <!--                          </div>-->
-                      <!--                          <div class="col-12 col-sm-6">-->
-                      <!--                            <div class="form-group">-->
-                      <!--                              <label class="font-weight-light text-sm">Valor Proceso</label>-->
-                      <!--                              <input-->
-                      <!--                                formControlName="fechaInicio"-->
-                      <!--                                type="text"-->
-                      <!--                                class="form-control font-weight-light text-sm"-->
-                      <!--                              />-->
-                      <!--                            </div>-->
-                      <!--                          </div>-->
-                      <!--                        </div>-->
-
-                      <!--                        <div [hidden]="ROL != '4'" class="col-12 col-sm-12">-->
-                      <!--                          <div class="form-group">-->
-                      <!--                            <label class="font-weight-light text-sm">Centro Gestor</label>-->
-                      <!--                            <select-->
-                      <!--                              formControlName="centroGestor"-->
-                      <!--                              class="form-control font-weight-light text-sm"-->
-                      <!--                            >-->
-                      <!--                              <option></option>-->
-                      <!--                              <option *ngFor="let ges of gestor" value="{{ ges.USC_GESTOR }}">-->
-                      <!--                                {{ges.USC_GESTOR}}-->
-                      <!--                              </option>-->
-                      <!--                            </select>-->
-                      <!--                          </div>-->
-                      <!--                        </div>-->
-
-                      <!--                      </div>-->
                       <button
                         style="margin-left: 0.1%"
                         [disabled]="reportesForm.invalid"

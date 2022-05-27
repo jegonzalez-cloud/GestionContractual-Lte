@@ -36,7 +36,7 @@ export class ConfiguracionComponent implements OnInit {
   params!: any[];
   private token: string = localStorage.getItem('token')!;
   private centroGestor: string = atob(localStorage.getItem('centroGestor')!);
-  private rol: string = atob(localStorage.getItem('rol')!);
+  public rol: any = atob(localStorage.getItem('rol')!);
 
   @ViewChild('CloseEntidad') CloseEntidad: any;
   @ViewChild('CloseRol') CloseRol: any;
@@ -78,6 +78,7 @@ export class ConfiguracionComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.getInformation();
+    this.rol = atob(localStorage.getItem('rol')!);
   }
 
   getInformation() {
@@ -662,7 +663,13 @@ export class ConfiguracionComponent implements OnInit {
             this.registerRol.controls['rol_id'].setValue(valRolId);
             this.registerRol.controls['usr_connect'].setValue(result[0].USX_CODIGO_USUARIO_CONNECT);
             this.show = false;
-          }, (error) => utils.showAlert('Credenciales Incorrectas!', 'error'))
+          }, (error) => {
+            this.authService.logout(atob(localStorage.getItem('token')!)).subscribe((response)=>{
+              console.log("Logout");
+              this.router.navigate(['login']);
+            });
+            //utils.showAlert('Credenciales Incorrectas!', 'error');
+          })
 
     } else {
       this.titleModal = "Asignación de rol a un usuario",

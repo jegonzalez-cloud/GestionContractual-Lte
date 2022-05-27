@@ -34,8 +34,13 @@
   /*display: inline-block;*/
 }
 
-@media (min-width: 992px) {
-  #intro {
+@media (max-height: 800px) {
+  /*#intro {*/
+  /*}*/
+
+  .button_proxdep{
+    width: max-content;
+    display: inline-block;
   }
 }
 

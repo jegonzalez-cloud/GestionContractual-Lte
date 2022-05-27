@@ -22,7 +22,7 @@
             </div>
 
             <h6 class="card-title ml-3" style="color: var(--labelColor);font-size: larger;margin-bottom: 0">
-<!--              <i class="fas fa-text-width"></i>-->
+              <!--              <i class="fas fa-text-width"></i>-->
               <span>  {{'autorizaciones.historial' | translate}}</span>
             </h6>
           </div>
@@ -59,21 +59,21 @@
                               <option *ngIf="estado_proceso >= 6">Informe Secretaría</option>
                               <option *ngIf="estado_proceso >= 7">Informe DADII</option>
                             </select>
-<!--                            <select-->
-<!--                              formControlName="archivo"-->
-<!--                              class="form-control text-sm"-->
-<!--                            >-->
-<!--                              <option selected>Autorizaciones</option>-->
-<!--                              <option >Informe Secretaría</option>-->
-<!--                              <option >Informe DADII</option>-->
-<!--                            </select>-->
+                            <!--                            <select-->
+                            <!--                              formControlName="archivo"-->
+                            <!--                              class="form-control text-sm"-->
+                            <!--                            >-->
+                            <!--                              <option selected>Autorizaciones</option>-->
+                            <!--                              <option >Informe Secretaría</option>-->
+                            <!--                              <option >Informe DADII</option>-->
+                            <!--                            </select>-->
                           </div>
                         </div>
                         <div class="col-12 col-sm-3">
                           <div class="form-group">
-<!--                            <button type="button" class="btn btn-outline-success ml-1">Imprimir</button>-->
+                            <!--                            <button type="button" class="btn btn-outline-success ml-1">Imprimir</button>-->
                             <i class="fa fa-print impresion" (click)="generatePdf()"></i>
-<!--                            <i class="fa fa-cloud" style="font-size:60px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>-->
+                            <!--                            <i class="fa fa-cloud" style="font-size:60px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>-->
                           </div>
                         </div>
                       </div>
@@ -132,23 +132,26 @@
                   <div class="card-body">
                     <dl class="row" *ngFor="let det of response">
                       <dt class="line col-sm-3"><i style="color: #0052B4" class="fa fa-calendar-day"
-                                                   aria-hidden="true"> </i> <a class="font-weight-normal text-sm" style="color: var(--labelColor)">
+                                                   aria-hidden="true"> </i> <a class="font-weight-normal text-sm"
+                                                                               style="color: var(--labelColor)">
                         {{det.CREATED}}</a>
                       </dt>
-                      <dd class="col-sm-9 font-weight-light text-sm">El usuario <a class="color">{{det.USR_LOGIN | uppercase}}</a> correspondiente
+                      <dd class="col-sm-9 font-weight-light text-sm">El usuario <a
+                        class="color">{{det.USR_LOGIN | uppercase}}</a> designado
                         a <a
-                          class="color">{{det.NOMBRE_USUARIO | uppercase}}</a><b> {{(det.AUTORIZACION_ESTADO == 0) ? 'rechazó' : (det.AUTORIZACION_ESTADO == 1) ? 'anulo' : 'autorizó'}}</b>
+                          class="color">{{det.NOMBRE_USUARIO | uppercase}}</a><b> {{(det.AUTORIZACION_ESTADO == 0) ? 'rechazó' : (det.AUTORIZACION_ESTADO == 1) ? 'anulo' : 'aprobó'}}</b>
                         el proceso número
                         <a class="color">{{det.CONS_PROCESO}}</a>
-                        relacionado a la <a class="color">{{det.TIPO_CONTRATO | uppercase}}</a> con
-                        plazo <a
+                        relacionado a la <a class="color">{{det.TIPO_CONTRATO2 | uppercase}}</a> con
+                        plazo a <a
                           class="color"> {{det.TIEMPO_DURACION_CONTRATO}} {{det.DURACION_CONTRATO | uppercase}}</a> y
                         valor <a
-                          class="color">{{det.VAL_OFERTA | currency}}</a>
+                          class="color">{{det.VAL_OFERTA | currency}}</a> correspondiente a <a
+                          class="color">{{det.NOM_PROV | uppercase}}</a>, identificado con <span
+                          class="color">{{det.TIP_IDEN_PROV | uppercase}}</span> número <span class="color">{{det.COD_PROV}}</span>.
                       </dd>
                       <dt class="line col-sm-3"></dt>
-                      <dd class="col-sm-9">Correspondiente a la política <a
-                        class="color">{{det.TIPO_PROCESO | uppercase}}.</a></dd>
+                      <dd class="col-sm-9"></dd>
                       <dt class="line col-sm-3"></dt>
                       <dd class="col-sm-9">
                         Observación: {{det.NOMBRE_USUARIO | titlecase}} {{(det.AUTORIZACION_ESTADO != 0) ? 'aprobó' : 'rechazó'}}</dd>
@@ -164,7 +167,8 @@
 
                   <div *ngIf="ISMASIVE" class="jumbotron jumbotron-fluid m-3 p-3">
                     <div class="container">
-                      <h1 class="display-4">El Proceso N° <span style="color:var(--companyColor)">{{myParam}}</span></h1>
+                      <h1 class="display-4">El Proceso N° <span style="color:var(--companyColor)">{{myParam}}</span>
+                      </h1>
                       <p class="lead">Fue creado de forma masiva!.</p>
                     </div>
                   </div>

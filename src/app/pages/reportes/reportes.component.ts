@@ -13,6 +13,8 @@ import {ModalService} from "../../services/modal/modal.service";
 import {ApexChart, ApexNonAxisChartSeries, ApexResponsive, ChartComponent} from "ng-apexcharts";
 import {map} from "rxjs/operators";
 import {from} from "rxjs";
+import {CurrencyPipe, formatCurrency} from "@angular/common";
+import {Format} from "@angular-devkit/build-angular/src/extract-i18n/schema";
 
 export interface UserData {
   CONS_PROCESO: string;
@@ -58,7 +60,6 @@ export class ReportesComponent implements OnInit {
   dataSource!: MatTableDataSource<UserData>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  private pendiente!:number;
 
   //END TABLE
   public CREADOR_PROCESO:any;
@@ -147,6 +148,7 @@ export class ReportesComponent implements OnInit {
       if (response.Status == 'Ok') {
         this.RESPONSE = response.Values.ResultFields;
         this.RESPONSE.filter((element:any, index:any) => {
+          console.log(element['ESTADO']);
           if(element['ESTADO'] == 2){
             creado += 1;
           }
@@ -163,6 +165,7 @@ export class ReportesComponent implements OnInit {
             liquidado += 1;
           }
           if(element['ESTADO'] > 2 && element['ESTADO'] < 7){
+            console.log('aca ENTRO');
             pendiente += 1;
           }
         });
@@ -171,12 +174,14 @@ export class ReportesComponent implements OnInit {
         // console.log('Rechazado - ',rechazado);
         // console.log('Aprobado - ',aprobado);
         // console.log('Liquidado - ',liquidado);
+        console.log('Pendiente - ',pendiente);
         //"Anulado", "Aprobado", "Creado", "Liquidado", "Pendiente"
         let dataGraph: any[] = [];
         dataGraph.push({Anulado:anulado});
         dataGraph.push({Aprobado:aprobado});
         dataGraph.push({Creado:creado});
         dataGraph.push({Liquidado:liquidado});
+        dataGraph.push({Pendiente:pendiente});
         dataGraph.push({Rechazado:rechazado});
 
         // console.log('total - ',dataGraph);
@@ -322,6 +327,10 @@ export class ReportesComponent implements OnInit {
                 text: [{text: response[i].CENTRO_GESTOR + ' '},
                 ],
               }],
+              [{text: 'Proceso #:', fillColor: '#eeeeee'}, {
+                text: [{text: response[i].CONS_PROCESO + ' '},
+                ],
+              }],
               [{text: 'Nombre:', fillColor: '#eeeeee'}, {
                 text: [{text: response[i].NOM_PROV + ' '},
                 ],
@@ -338,8 +347,12 @@ export class ReportesComponent implements OnInit {
                 text: [{text: response[i].GENERO_PROV + ' '},
                 ],
               }],
+              // [{text: 'Edad:', fillColor: '#eeeeee'}, {
+              //   text: [{text: this.getEdad(response[i].NACIMIENTO_PROV) + ' '},
+              //   ],
+              // }],
               [{text: 'Edad:', fillColor: '#eeeeee'}, {
-                text: [{text: this.getEdad(response[i].NACIMIENTO_PROV) + ' '},
+                text: [{text: response[i].FECHA_NACIMIENTO + ' '},
                 ],
               }],
               [{text: 'Profesión:', fillColor: '#eeeeee'}, {
@@ -371,12 +384,16 @@ export class ReportesComponent implements OnInit {
                 ],
               }],
               [{text: 'Valor del contrato:', fillColor: '#eeeeee'}, {
-                text: [{text: response[i].VAL_OFERTA + ' '},
+                text: [{text: ' '+ formatCurrency((response[i].VAL_OFERTA), this.locale,'$')},
                 ],
 
               }],
               [{text: 'Plazo del contrato:', fillColor: '#eeeeee'}, {
                 text: [{text: moment(response[i].PLAZO_EJECUCION).format().slice(0, -15) + ' '},
+                ],
+              }],
+              [{text: 'Creador:', fillColor: '#eeeeee'}, {
+                text: [{text: response[i].USR_LOGIN + ' '},
                 ],
               }],
               [{text: 'Categoría de Contratación:', fillColor: '#eeeeee'}, {
@@ -392,13 +409,13 @@ export class ReportesComponent implements OnInit {
                 ],
               }],
               [{text: 'Estado de la contratación:', fillColor: '#eeeeee'}, {
-                text: [{text: response[i].ESTADO1 + ' '},
+                text: [{text: response[i].DESC_ESTADO + ' '},
                 ],
               }],
-              [{text: 'Cuotas canceladas:', fillColor: '#eeeeee'}, {
-                text: [{text: ' '},
-                ],
-              }],
+              // [{text: 'Cuotas canceladas:', fillColor: '#eeeeee'}, {
+              //   text: [{text: ' '},
+              //   ],
+              // }],
             ]
           },
           text: '', pageBreak: (i == response.length - 1) ? '' : 'after',
@@ -460,12 +477,30 @@ export class ReportesComponent implements OnInit {
   fillChart(dataGraph:any[]){
     // console.log(Object.values(dataGraph[0]))
     this.chartOptions = {
-      series: [Object.values(dataGraph[0])[0], Object.values(dataGraph[1])[0], Object.values(dataGraph[2])[0], Object.values(dataGraph[3])[0], Object.values(dataGraph[4])[0]],
+      series: [Object.values(dataGraph[0])[0], Object.values(dataGraph[1])[0], Object.values(dataGraph[2])[0], Object.values(dataGraph[3])[0], Object.values(dataGraph[4])[0], Object.values(dataGraph[5])[0]],
       chart: {
-        width: 380,
-        type: "pie"
+        // width: 380,
+        width: screen.width * 0.30,
+        type: "donut",
+        toolbar: {
+          show: true,
+          offsetX: 0,
+          offsetY: 0,
+          tools: {
+            download: true,
+            selection: true,
+            zoom: true,
+            zoomin: true,
+            zoomout: true,
+            pan: true,
+            reset: true
+          },
+        },
       },
-      labels: [Object.keys(dataGraph[0]), Object.keys(dataGraph[1]), Object.keys(dataGraph[2]), Object.keys(dataGraph[3]), Object.keys(dataGraph[4])],
+      fill: {
+        type: "gradient"
+      },
+      labels: [Object.keys(dataGraph[0]), Object.keys(dataGraph[1]), Object.keys(dataGraph[2]), Object.keys(dataGraph[3]), Object.keys(dataGraph[4]), Object.keys(dataGraph[5])],
       responsive: [
         {
           breakpoint: 480,

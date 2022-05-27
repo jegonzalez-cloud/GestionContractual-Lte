@@ -21,7 +21,7 @@ export class AutorizacionesDetGuard implements CanActivate {
       this.router.navigate(['busqueda']);
       return false;
     }
-    else if(rol == 7){
+    else if(rol == 7 || rol == 8){
       this.router.navigate(['configuracion']);
       return false;
     }

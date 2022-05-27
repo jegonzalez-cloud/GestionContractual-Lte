@@ -3,13 +3,13 @@
 
   <div style="height: 92%">
     <div style="text-align: left;padding: 5% 5% 5% 5%;height: 88%;">
-<!--            <img-->
-<!--              [ngStyle]="{'cursor':'pointer'}"-->
-<!--              [routerLink]="['dashboard']"-->
-<!--              src="../../../assets/img/bloque28.png"-->
-<!--              alt="..."-->
-<!--              width="100%"-->
-<!--            />-->
+      <!--            <img-->
+      <!--              [ngStyle]="{'cursor':'pointer'}"-->
+      <!--              [routerLink]="['dashboard']"-->
+      <!--              src="../../../assets/img/bloque28.png"-->
+      <!--              alt="..."-->
+      <!--              width="100%"-->
+      <!--            />-->
       <!--    [ngStyle]="{'cursor':'pointer'}"-->
 
       <!-- TODO: routerlink de pagina de pruebas   [routerLink]="['sample']"-->
@@ -61,7 +61,7 @@
             <!--            </ul>-->
           </li>
           <!--        <li class="nav-item" *ngIf="rol != 39" [ngStyle]="{'cursor':'pointer'}">-->
-          <li class="nav-item" *ngIf="rol != 1 && rol != 7" [ngStyle]="{'cursor':'pointer'}">
+          <li class="nav-item" *ngIf="rol != 1 && rol != 7 && rol != 8" [ngStyle]="{'cursor':'pointer'}">
             <a routerLink="autorizaciones" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p style="color: #909090">
@@ -70,16 +70,16 @@
               </p>
             </a>
           </li>
-<!--          <li *ngIf="rol != 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">-->
-<!--            <a routerLink="busqueda" class="nav-link">-->
-<!--              <i class="nav-icon fas fa-search"></i>-->
-<!--              <p style="color: #909090">-->
-<!--                {{'administration-CI.panels.menu4' | translate}}-->
-<!--                <i class="right fas fa-angle-left"></i>-->
-<!--              </p>-->
-<!--            </a>-->
-<!--          </li>-->
-          <li *ngIf="rol != 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+          <!--          <li *ngIf="rol != 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">-->
+          <!--            <a routerLink="busqueda" class="nav-link">-->
+          <!--              <i class="nav-icon fas fa-search"></i>-->
+          <!--              <p style="color: #909090">-->
+          <!--                {{'administration-CI.panels.menu4' | translate}}-->
+          <!--                <i class="right fas fa-angle-left"></i>-->
+          <!--              </p>-->
+          <!--            </a>-->
+          <!--          </li>-->
+          <li *ngIf="rol != 7 && rol != 8" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
             <a routerLink="reportes" class="nav-link">
               <i class="nav-icon fas fa-book-open"></i>
               <p style="color: #909090">
@@ -100,7 +100,7 @@
               </p>
             </a>
           </li>
-          <li *ngIf="rol == 7" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
+          <li *ngIf="rol == 7 || rol == 8" class="nav-item" [ngStyle]="{'cursor':'pointer'}">
             <a routerLink="configuracion" class="nav-link">
               <i class="nav-icon fa fa-cog"></i>
               <p style="color: #909090">
@@ -128,7 +128,7 @@
         </ul>
       </nav>
     </div>
-<!--    <div style="width: 100%;height: 80%;border:2px solid rosybrown"></div>-->
+    <!--    <div style="width: 100%;height: 80%;border:2px solid rosybrown"></div>-->
     <div style="height: 12%;text-align: center">
       <a style="cursor:pointer" href="https://helppeoplecloud.com/" target="_blank">
         <img
@@ -149,59 +149,58 @@
 
 
   <!-- Sidebar -->
-<!--  <div class="sidebar">-->
-<!--    &lt;!&ndash; Sidebar user (optional) &ndash;&gt;-->
-<!--&lt;!&ndash;    <div class="user-panel mt-0 pb-3 mb-3 d-flex">&ndash;&gt;-->
-<!--&lt;!&ndash;      <div class="image mt-0">&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;        [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;        <img&ndash;&gt;-->
-<!--&lt;!&ndash;          src={{userImage}}&ndash;&gt;-->
-<!--&lt;!&ndash;          class="img-circle elevation-2"&ndash;&gt;-->
-<!--&lt;!&ndash;          alt="User Image"&ndash;&gt;-->
-<!--&lt;!&ndash;          style="margin-top: 18px;"&ndash;&gt;-->
-<!--&lt;!&ndash;        />&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;      <div class="info">&ndash;&gt;-->
-<!--&lt;!&ndash;        <a class="d-block text-xs" style="font-weight: bold; color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>&ndash;&gt;-->
-<!--&lt;!&ndash;        <a class="d-block text-sm">{{nameUser | titlecase}}</a>&ndash;&gt;-->
-<!--&lt;!&ndash;        <a class="d-block text-xs" style="color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{rol == 1 ? 'Creador del Proceso y Contrato' :&ndash;&gt;-->
-<!--&lt;!&ndash;          rol == 2 ? 'Secretaria Juridica' :&ndash;&gt;-->
-<!--&lt;!&ndash;            rol == 3 ? 'Ordenador del gasto' :&ndash;&gt;-->
-<!--&lt;!&ndash;              rol == 4 ? 'Secretaria Privada' :&ndash;&gt;-->
-<!--&lt;!&ndash;                rol == 5 ? 'Comite de Contratacion' :&ndash;&gt;-->
-<!--&lt;!&ndash;                  rol == 6 ? 'DADII' : 'Admin'}}">&ndash;&gt;-->
-<!--&lt;!&ndash;          {{rol == 1 ? 'Creador del Proceso y Contrato' :&ndash;&gt;-->
-<!--&lt;!&ndash;          rol == 2 ? 'Secretaria Juridica' :&ndash;&gt;-->
-<!--&lt;!&ndash;            rol == 3 ? 'Ordenador del gasto' :&ndash;&gt;-->
-<!--&lt;!&ndash;              rol == 4 ? 'Secretaria Privada' :&ndash;&gt;-->
-<!--&lt;!&ndash;                rol == 5 ? 'Comite de Contratacion' :&ndash;&gt;-->
-<!--&lt;!&ndash;                  rol == 6 ? 'DADII' : 'Admin'}}</a>&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+  <!--  <div class="sidebar">-->
+  <!--    &lt;!&ndash; Sidebar user (optional) &ndash;&gt;-->
+  <!--&lt;!&ndash;    <div class="user-panel mt-0 pb-3 mb-3 d-flex">&ndash;&gt;-->
+  <!--&lt;!&ndash;      <div class="image mt-0">&ndash;&gt;-->
+  <!--&lt;!&ndash;&lt;!&ndash;        [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;&ndash;&gt;-->
+  <!--&lt;!&ndash;        <img&ndash;&gt;-->
+  <!--&lt;!&ndash;          src={{userImage}}&ndash;&gt;-->
+  <!--&lt;!&ndash;          class="img-circle elevation-2"&ndash;&gt;-->
+  <!--&lt;!&ndash;          alt="User Image"&ndash;&gt;-->
+  <!--&lt;!&ndash;          style="margin-top: 18px;"&ndash;&gt;-->
+  <!--&lt;!&ndash;        />&ndash;&gt;-->
+  <!--&lt;!&ndash;      </div>&ndash;&gt;-->
+  <!--&lt;!&ndash;      <div class="info">&ndash;&gt;-->
+  <!--&lt;!&ndash;        <a class="d-block text-xs" style="font-weight: bold; color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{entidad | titlecase}}">{{entidad | titlecase}}</a>&ndash;&gt;-->
+  <!--&lt;!&ndash;        <a class="d-block text-sm">{{nameUser | titlecase}}</a>&ndash;&gt;-->
+  <!--&lt;!&ndash;        <a class="d-block text-xs" style="color: var(&#45;&#45;companyColor);text-overflow:ellipsis;white-space: nowrap;cursor: pointer" matTooltip="{{rol == 1 ? 'Creador del Proceso y Contrato' :&ndash;&gt;-->
+  <!--&lt;!&ndash;          rol == 2 ? 'Secretaria Juridica' :&ndash;&gt;-->
+  <!--&lt;!&ndash;            rol == 3 ? 'Ordenador del gasto' :&ndash;&gt;-->
+  <!--&lt;!&ndash;              rol == 4 ? 'Secretaria Privada' :&ndash;&gt;-->
+  <!--&lt;!&ndash;                rol == 5 ? 'Comite de Contratacion' :&ndash;&gt;-->
+  <!--&lt;!&ndash;                  rol == 6 ? 'DADII' : 'Admin'}}">&ndash;&gt;-->
+  <!--&lt;!&ndash;          {{rol == 1 ? 'Creador del Proceso y Contrato' :&ndash;&gt;-->
+  <!--&lt;!&ndash;          rol == 2 ? 'Secretaria Juridica' :&ndash;&gt;-->
+  <!--&lt;!&ndash;            rol == 3 ? 'Ordenador del gasto' :&ndash;&gt;-->
+  <!--&lt;!&ndash;              rol == 4 ? 'Secretaria Privada' :&ndash;&gt;-->
+  <!--&lt;!&ndash;                rol == 5 ? 'Comite de Contratacion' :&ndash;&gt;-->
+  <!--&lt;!&ndash;                  rol == 6 ? 'DADII' : 'Admin'}}</a>&ndash;&gt;-->
+  <!--&lt;!&ndash;      </div>&ndash;&gt;-->
+  <!--&lt;!&ndash;    </div>&ndash;&gt;-->
 
-    <!-- Sidebar Menu -->
+  <!-- Sidebar Menu -->
 
-<!--    <div style="text-align: center;padding: 5% 5% 5% 5%;margin-top:200px">-->
-<!--      &lt;!&ndash;      <img&ndash;&gt;-->
-<!--      &lt;!&ndash;        [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;-->
-<!--      &lt;!&ndash;        [routerLink]="['dashboard']"&ndash;&gt;-->
-<!--      &lt;!&ndash;        src="../../../assets/img/bloque28.png"&ndash;&gt;-->
-<!--      &lt;!&ndash;        alt="..."&ndash;&gt;-->
-<!--      &lt;!&ndash;        width="100%"&ndash;&gt;-->
-<!--      &lt;!&ndash;      />&ndash;&gt;-->
-<!--      &lt;!&ndash;    [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;-->
-<!--      <img-->
-<!--        src="./assets/img/bloque28.png"-->
-<!--        alt="..."-->
-<!--        width="100%"-->
-<!--      />-->
-<!--      &lt;!&ndash; TODO: routerlink de pagina de pruebas   [routerLink]="['sample']"&ndash;&gt;-->
-<!--      &lt;!&ndash; <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8"> &ndash;&gt;-->
-<!--    </div>-->
-<!--    &lt;!&ndash; /.sidebar-menu &ndash;&gt;-->
-<!--  </div>-->
+  <!--    <div style="text-align: center;padding: 5% 5% 5% 5%;margin-top:200px">-->
+  <!--      &lt;!&ndash;      <img&ndash;&gt;-->
+  <!--      &lt;!&ndash;        [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;-->
+  <!--      &lt;!&ndash;        [routerLink]="['dashboard']"&ndash;&gt;-->
+  <!--      &lt;!&ndash;        src="../../../assets/img/bloque28.png"&ndash;&gt;-->
+  <!--      &lt;!&ndash;        alt="..."&ndash;&gt;-->
+  <!--      &lt;!&ndash;        width="100%"&ndash;&gt;-->
+  <!--      &lt;!&ndash;      />&ndash;&gt;-->
+  <!--      &lt;!&ndash;    [ngStyle]="{'cursor':'pointer'}"&ndash;&gt;-->
+  <!--      <img-->
+  <!--        src="./assets/img/bloque28.png"-->
+  <!--        alt="..."-->
+  <!--        width="100%"-->
+  <!--      />-->
+  <!--      &lt;!&ndash; TODO: routerlink de pagina de pruebas   [routerLink]="['sample']"&ndash;&gt;-->
+  <!--      &lt;!&ndash; <img src="../../../assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-4" style="opacity: .8"> &ndash;&gt;-->
+  <!--    </div>-->
+  <!--    &lt;!&ndash; /.sidebar-menu &ndash;&gt;-->
+  <!--  </div>-->
   <!-- /.sidebar -->
-
 
 
 </aside>

@@ -111,3 +111,8 @@ div.callout{
 /*  background-color: var(--companyColor);*/
 /*  border-color: var(--companyColor);*/
 /*}*/
+
+#background-home{
+  max-height: max-content;
+  /*height: 100vh;*/
+}
